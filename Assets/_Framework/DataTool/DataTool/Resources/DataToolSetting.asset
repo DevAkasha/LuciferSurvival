@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ddebb1976499174f95f11fe06ccd4ed, type: 3}
+  m_Name: DataToolSetting
+  m_EditorClassIdentifier: 
+  dataScriptableObjectPath: {fileID: 102900000, guid: c66a00f82a808d84598e2c861de56c31, type: 3}
+  thumbnailPath: {fileID: 102900000, guid: 4bb06ccb89f749d45b1d74468ab808aa, type: 3}
+  GSheetUrl: https://docs.google.com/spreadsheets/d/12TQyJtRAPXtV5qxRG0UaBFEZsqo5MUNkEwiTekkfn6s/
+  sheets:
+  - className: CharacterData
+    sheetId: 1346888900
+    key: cha
+    isUpdate: 1
+  - className: AreaData
+    sheetId: 1488374484
+    key: are
+    isUpdate: 1
+  - className: BuildData
+    sheetId: 1428030522
+    key: bui
+    isUpdate: 1
+  - className: WorldObjectData
+    sheetId: 1481081454
+    key: wob
+    isUpdate: 1
+  - className: SkillData
+    sheetId: 1855072383
+    key: ski
+    isUpdate: 1
+  - className: MonsterData
+    sheetId: 327634985
+    key: mon
+    isUpdate: 1
+  - className: EquipData
+    sheetId: 1249418767
+    key: eqi
+    isUpdate: 1
+  - className: OptionData
+    sheetId: 490290756
+    key: opt
+    isUpdate: 1
+  - className: ItemData
+    sheetId: 1415521107
+    key: ite
+    isUpdate: 1
+  - className: ShopData
+    sheetId: 509632577
+    key: sho
+    isUpdate: 1
+  - className: DungeonData
+    sheetId: 1382108749
+    key: dun
+    isUpdate: 1
+  - className: PassiveData
+    sheetId: 1498087312
+    key: pas
+    isUpdate: 1
+  - className: SoundData
+    sheetId: 633283615
+    key: sou
+    isUpdate: 1
+  - className: GodData
+    sheetId: 1824549258
+    key: god
+    isUpdate: 1
+  - className: BoxData
+    sheetId: 1999470534
+    key: box
+    isUpdate: 1
+  - className: RecipeData
+    sheetId: 1089804792
+    key: rec
+    isUpdate: 1

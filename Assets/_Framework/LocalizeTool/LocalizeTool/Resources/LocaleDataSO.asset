@@ -1,0 +1,2592 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a80c93eeaf1c3444f9c82a807a56f2e2, type: 3}
+  m_Name: LocaleDataSO
+  m_EditorClassIdentifier: 
+  localeData:
+  - Key: Confirm
+    Korean: "\uD655\uC778"
+    English: Confirm
+  - Key: Cancel
+    Korean: "\uCDE8\uC18C"
+    English: Cancel
+  - Key: GameStart
+    Korean: "\uAC8C\uC784 \uC2DC\uC791"
+    English: Game Start
+  - Key: Resume
+    Korean: "\uACC4\uC18D\uD558\uAE30"
+    English: Resume
+  - Key: EndGame
+    Korean: "\uB05D\uB0B4\uAE30"
+    English: End Game
+  - Key: knife
+    Korean: "\uB2E8\uAC80"
+    English: dagger
+  - Key: sword
+    Korean: "\uAC80"
+    English: sword
+  - Key: axe
+    Korean: "\uB3C4\uB07C"
+    English: axe
+  - Key: bow
+    Korean: "\uD65C"
+    English: bow
+  - Key: gun
+    Korean: "\uAD8C\uCD1D"
+    English: gun
+  - Key: shield
+    Korean: "\uBC29\uD328"
+    English: shield
+  - Key: wand
+    Korean: "\uC644\uB4DC"
+    English: wand
+  - Key: staff
+    Korean: "\uC9C0\uD321\uC774"
+    English: staff
+  - Key: orb
+    Korean: "\uB9C8\uBC95\uAD6C"
+    English: orb
+  - Key: armor
+    Korean: "\uAC11\uC637"
+    English: armor
+  - Key: helmet
+    Korean: "\uD22C\uAD6C"
+    English: hat
+  - Key: grove
+    Korean: "\uC7A5\uAC11"
+    English: grove
+  - Key: shoes
+    Korean: "\uC2E0\uBC1C"
+    English: shoes
+  - Key: accessary
+    Korean: "\uC545\uC138\uC0AC\uB9AC"
+    English: ring
+  - Key: name_cha00001
+    Korean: "\uAC80\uC0AC"
+    English: Swordman
+  - Key: name_cha00002
+    Korean: "\uB2CC\uC790"
+    English: Ninja
+  - Key: name_cha00003
+    Korean: "\uC131\uAE30\uC0AC"
+    English: Paladin
+  - Key: name_cha00004
+    Korean: "\uB3C4\uBC15\uC0AC"
+    English: Gambler
+  - Key: name_cha00005
+    Korean: "\uBCFC\uB9C8\uC2A4\uD130"
+    English: BallMaster
+  - Key: name_cha00006
+    Korean: "\uD574\uC801"
+    English: Pirate
+  - Key: name_cha00007
+    Korean: "\uC778\uD615\uC220\uC0AC"
+    English: Puppeteer
+  - Key: name_cha00008
+    Korean: "\uB9C8\uB3C4\uC0AC"
+    English: Magician
+  - Key: name_cha00009
+    Korean: "\uC57D\uC0AC"
+    English: Chemist
+  - Key: name_cha00010
+    Korean: "\uBC14\uB4DC"
+    English: Bard
+  - Key: name_cha00011
+    Korean: "\uACB0\uACC4\uC220\uC0AC"
+    English: Barrier Magician
+  - Key: name_cha00012
+    Korean: "\uD504\uB9AC\uC2A4\uD2B8"
+    English: Priest
+  - Key: name_cha00013
+    Korean: "\uC8FC\uC220\uC0AC"
+    English: Warlock
+  - Key: name_cha00014
+    Korean: "\uD751\uB9C8\uBC95\uC0AC"
+    English: Dark Wizard
+  - Key: name_cha00015
+    Korean: "\uC5BC\uC74C\uC220\uC0AC"
+    English: Ice Mage
+  - Key: name_cha00016
+    Korean: "\uBC88\uAC1C\uC220\uC0AC"
+    English: Lightning Wizard
+  - Key: name_cha00017
+    Korean: "\uD22C\uCC99\uC0AC"
+    English: Thrower
+  - Key: name_cha00018
+    Korean: "\uBABD\uD06C"
+    English: Monk
+  - Key: name_cha00019
+    Korean: "\uB124\uD06C\uB85C\uBA58\uC11C"
+    English: Necromancer
+  - Key: name_cha00020
+    Korean: "\uC0C1\uC778"
+    English: Merchant
+  - Key: speechBoss_cha00001
+    Korean: "\uB2E4\uC74C \uC0C1\uB300\uB294 \uB204\uAD6C\uB0D0!"
+    English: Who is the next partner?
+  - Key: speechBoss_cha00002
+    Korean: "\uC774\uAC78 \uC7A1\uC744 \uC218 \uC788\uB294 \uAC70\uB0D0\uACE0!?"
+    English: Can you catch this?
+  - Key: speechBoss_cha00003
+    Korean: "\uBD88\uC6B4\uC758 \uC8FC\uC778\uACF5\uC740 \uB204\uAD6C~?"
+    English: Who is the hero of bad luck?
+  - Key: speechBoss_cha00004
+    Korean: "\uC2DC\uAC04\uC774 \uC5C6\uB2E4... \uBE68\uB9AC \uB05D\uB0B4\uC790"
+    English: There is no time ... Let's finish quickly
+  - Key: speechBoss_cha00005
+    Korean: "\uB9C8\uBB34\uB9AC\uB294 \uB0B4\uAEBC\uB2E4!"
+    English: The finish is mine!
+  - Key: speechBoss_cha00006
+    Korean: "\uADF8\uCABD\uC740 \uC774 \uC57D\uC744 \uACAC\uB51C \uC218 \uC788\uC744\uAE4C\uC694?"
+    English: Can you endure this medicine?
+  - Key: speechBoss_cha00007
+    Korean: "\uC815\uC758\uB85C \uC2EC\uD310\uC744 \uB0B4\uB9AC\uACA0\uB2E4!"
+    English: I will judge with justice!
+  - Key: speechBoss_cha00008
+    Korean: "\uC67C\uC190\uC740 \uAC70\uB4E4 \uBFD0"
+    English: The left hand is just girder
+  - Key: speechBoss_cha00009
+    Korean: "\uC27F..."
+    English: Shh...
+  - Key: speechBoss_cha00010
+    Korean: "\uB09C\uC7A5\uD310\uC744 \uBC8C\uB824\uBCFC\uAE4C~?"
+    English: Shall we open the mess?
+  - Key: speechBoss_cha00011
+    Korean: "\uB2F9\uC2E0\uC744 \uB3C4\uC6B8 \uC218 \uC788\uC744\uAE4C\uC694?"
+    English: Can you help you?
+  - Key: speechBoss_cha00012
+    Korean: "\uD30C\uD2F0\uB97C \uC2DC\uC791\uD558\uC790\uACE0!"
+    English: Let's start the party!
+  - Key: speechBoss_cha00013
+    Korean: "\uAC00\uBB38\uC744 \uC704\uD558\uC5EC!"
+    English: For the family!
+  - Key: speechBoss_cha00014
+    Korean: "\uBCF5\uC218\uB97C \uC704\uD558\uC5EC..."
+    English: For revenge ...
+  - Key: speechBoss_cha00015
+    Korean: "\uAC00\uBB38\uC744 \uC704\uD558\uC5EC! \uAC00\uC871\uC744 \uC704\uD558\uC5EC!"
+    English: For the family! For family!
+  - Key: speechBoss_cha00016
+    Korean: "\uACF5\uACA9! \uBC29\uC5B4! \uC73C\uC545! \uD0C8\uCD9C!"
+    English: attack! defense! Ahh! escape!
+  - Key: speechBoss_cha00017
+    Korean: "\uB108\uB294 \uD53C\uD560 \uC218 \uC788\uC744\uAE4C?"
+    English: Can you avoid it?
+  - Key: speechBoss_cha00018
+    Korean: "\uC218\uB828\uC758 \uC81C\uBB3C\uC774 \uB418\uAC70\uB77C"
+    English: Be a sacrifice of training
+  - Key: speechBoss_cha00019
+    Korean: "......(\uC870\uC2EC)"
+    English: ......(careful)
+  - Key: speechBoss_cha00020
+    Korean: "\uD55C\uD0D5 \uBF51\uC544 \uBCFC\uAE4C?"
+    English: Shall we pull it out?
+  - Key: speechBuff_cha00001
+    Korean: "\uB290\uB08C\uC774 \uC88B\uC740 \uAC78?"
+    English: Do you feel good?
+  - Key: speechBuff_cha00002
+    Korean: "\uAD1C\uCC2E\uC740 \uAC70 \uB9DE\uC9C0?"
+    English: Is it okay?
+  - Key: speechBuff_cha00003
+    Korean: "\uC88B\uC740 \uD328\uAC00 \uB418\uACA0\uC5B4"
+    English: I will be a good hand
+  - Key: speechBuff_cha00004
+    Korean: "\uC778\uD615 \uB9CC\uB4DC\uB294\uB370 \uBCF4\uD0EC\uC774 \uB420\uB824\uB098"
+    English: Will it help to make a doll?
+  - Key: speechBuff_cha00005
+    Korean: "\uB9C8\uBC95\uC758 \uD750\uB984\uC774 \uC88B\uAD70..."
+    English: The magic flow is good ...
+  - Key: speechBuff_cha00006
+    Korean: "\uD6C4\uD6C4, \uC0C8\uB85C\uC6B4 \uC7AC\uB8CC\uAC00 \uAE30\uB300 \uB418\uB294
+      \uAD70\uC694?"
+    English: Huhhu, are you looking forward to new ingredients?
+  - Key: speechBuff_cha00007
+    Korean: "\uC624\uB298\uB3C4 \uC0C8\uB86D\uAC8C \uBE5B\uB09C\uB2E4!"
+    English: It shines at today!
+  - Key: speechBuff_cha00008
+    Korean: "\uC653? \uC774\uAC74 \uBB50\uC57C?"
+    English: What? What's this?
+  - Key: speechBuff_cha00009
+    Korean: "\uC7A0\uC2DC \uC228\uC744 \uACF3\uC778\uAC00?"
+    English: Is it a place to hide for a while?
+  - Key: speechBuff_cha00010
+    Korean: "\uC544\uC544, \uBCF4\uBB3C \uC0C1\uC790\uB77C\uB3C4 \uB098\uC62C \uC904
+      \uC54C\uC558\uB294\uB370"
+    English: Alas, I thought it would come out as a treasure ch...
+  - Key: speechBuff_cha00011
+    Korean: "\uAE30\uB3C4\uD558\uACE0 \uAC08\uAE4C\uC694?"
+    English: Shall we pray?
+  - Key: speechBuff_cha00012
+    Korean: "\uB2E4\uB4E4 \uD55C \uACE1 \uB4E3\uACE0 \uAC00\uC2ED\uC1FC~"
+    English: Everyone listens to a song and gossip show ~
+  - Key: speechBuff_cha00013
+    Korean: "\uC88B\uC544, \uD798\uCC28\uAC8C \uC815\uBE44\uD558\uACE0 \uAC00\uC790!"
+    English: Okay, let's repair it vigorously!
+  - Key: speechBuff_cha00014
+    Korean: "\uD558... \uADC0\uCC2E\uB124..."
+    English: Ha ... it's bothersome ...
+  - Key: speechBuff_cha00015
+    Korean: "\uC774 \uB2E4\uC74C\uC740 \uC870\uC2EC \uD574\uC57C\uACA0\uB294 \uAC78?"
+    English: Do you have to be careful after this?
+  - Key: speechBuff_cha00016
+    Korean: "\uD798 \uC384\uACE0 \uAC15\uD55C \uC544\uCE68!"
+    English: Strong and strong morning!
+  - Key: speechBuff_cha00017
+    Korean: "\uC774\uAC70 \uB4E4\uC5B4 \uC62C\uB9B4 \uC218 \uC788\uC744\uAE4C?"
+    English: Can you listen to this?
+  - Key: speechBuff_cha00018
+    Korean: "\uC624\uB298\uB3C4 \uD55C \uAC78\uC74C \uC815\uC9C4!"
+    English: I am also devoted to today!
+  - Key: speechBuff_cha00019
+    Korean: "......?(\uBB58\uAE4C?)"
+    English: ......? (What is it?)
+  - Key: speechBuff_cha00020
+    Korean: "\uC5B4\uB514 \uB3D9\uC804\uC774\uB77C\uB3C4 \uC548 \uB5A8\uC5B4\uC838
+      \uC788\uB098?"
+    English: Where is the coin away?
+  - Key: speechLake_cha00001
+    Korean: "\uBC30\uACE0\uD30C..."
+    English: hungry...
+  - Key: speechLake_cha00002
+    Korean: "\uC77C\uB2E8 \uC26C\uB294 \uAC8C \uC88B\uACA0\uC9C0?"
+    English: Wouldn't it be better to rest?
+  - Key: speechLake_cha00003
+    Korean: "\uC6B4\uC774 \uC88B\uAD70~"
+    English: Lucky ~
+  - Key: speechLake_cha00004
+    Korean: "\uD734, \uC7A0\uC2DC \uC26C\uC5C8\uB2E4 \uAC00\uC138"
+    English: Hugh, rest for a while
+  - Key: speechLake_cha00005
+    Korean: "\uC774\uBC88\uC5D4 \uB0B4\uAC00 \uC55E\uC11C\uACA0\uC5B4"
+    English: I will be ahead this time
+  - Key: speechLake_cha00006
+    Korean: "\uBB3C\uC774 \uB9D1\uB124\uC694, \uC57D\uCD08\uAC00 \uC798 \uC790\uB77C\uACA0\uC5B4\uC694~"
+    English: The water is clear, the herb will grow well ~
+  - Key: speechLake_cha00007
+    Korean: "\uD65C\uAE30\uCC28\uAC8C \uD798\uB0B4\uC790!"
+    English: Let's do our best!
+  - Key: speechLake_cha00008
+    Korean: "\uC74C~ \uD14C\uC774\uC2A4\uD2F0 \uAD7F~"
+    English: Um ~ Tasti Good ~
+  - Key: speechLake_cha00009
+    Korean: "\uC815\uBE44\uD558\uB294 \uC2DC\uAC04\uC774\uAD70"
+    English: It's time to maintain
+  - Key: speechLake_cha00010
+    Korean: "\uC544~ \uBC14\uB2E4\uAC00 \uADF8\uB9AC\uC6CC\uC9C0\uC796\uC544~"
+    English: Ah ~ I miss the sea ~
+  - Key: speechLake_cha00011
+    Korean: "\uC2E0\uC774 \uC6B0\uB9B4 \uB3D5\uB124\uC694!"
+    English: God helps us!
+  - Key: speechLake_cha00012
+    Korean: "\uB0B4 \uC18C\uC911\uD55C \uBAA9\uC5D0 \uD55C \uBAA8\uAE08\uC758 \uBB3C\uC744~"
+    English: A sip of water on my precious neck ~
+  - Key: speechLake_cha00013
+    Korean: "\uC774\uB807\uAC8C \uC26C\uACE0 \uC788\uC73C\uBA74 \uB204\uB098\uD55C\uD14C
+      \uD63C\uB0A0\uD150\uB370..."
+    English: If you're resting like this, you'll be scolded by ...
+  - Key: speechLake_cha00014
+    Korean: "\uB9C8\uCE68 \uBAA9\uC774 \uB9C8\uB974\uAE34 \uD588\uC5B4..."
+    English: I was thirsty ...
+  - Key: speechLake_cha00015
+    Korean: "\uC8FC\uC704\uC5D0 \uC704\uD5D8\uD574 \uBCF4\uC774\uB294 \uAC74 \uC5C6\uC9C0?"
+    English: Doesn't it look dangerous around you?
+  - Key: speechLake_cha00016
+    Korean: "\uB098\uB294 \uB9C8\uB974\uB2E4. \uBAA9"
+    English: I am dry. neck
+  - Key: speechLake_cha00017
+    Korean: "\uBB3C\uC218\uC81C\uBE44 \uD560\uC904 \uC54C\uC544? \uB098\uB791 \uB300\uACB0
+      \uD560\uB798?"
+    English: Do you know how to swallow? Do you want to confron...
+  - Key: speechLake_cha00018
+    Korean: "\uACE0\uB41C \uC218\uB828 \uB4A4\uC5D0 \uD55C\uC794\uC758 \uBB3C\uC740
+      \uCD5C\uACE0\uC9C0!"
+    English: After hard training, a cup of water is the best!
+  - Key: speechLake_cha00019
+    Korean: ".......(\uBC30\uACE0\uD30C)"
+    English: .......(hungry)
+  - Key: speechLake_cha00020
+    Korean: "\uBAA9\uC695 \uC880 \uD558\uACE0 \uC2F6\uC740\uB370 \uBB3C\uC774 \uC548\uB530\uB73B\uD55C\uAC00?"
+    English: I want to take a bath, but the water is not warm?
+  - Key: speechShop_cha000001
+    Korean: "\uC5BC\uB978 \uCC59\uAE30\uACE0 \uAC00\uC790"
+    English: Let's take care of it
+  - Key: speechShop_cha000002
+    Korean: "\uC774\uAC70? \uC544\uB2C8\uBA74 \uC800\uAC70? \uBB58 \uACE8\uB77C\uC57C\uD560\uC9C0
+      \uBAA8\uB974\uACA0\uC5B4"
+    English: this? Or that? I don't know what to choose
+  - Key: speechShop_cha000003
+    Korean: "\uB098\uB77C\uBA74 \uC774\uAC78 \uACE0\uB974\uACA0\uC5B4"
+    English: If you are a country, I will choose this
+  - Key: speechShop_cha000004
+    Korean: "\uC591\uC9C8\uC758 \uBB3C\uAC74\uC774 \uC5B4\uB5A4 \uAC78\uAE4C..."
+    English: What is quality things ...
+  - Key: speechShop_cha000005
+    Korean: "\uC774\uAC74 \uC880 \uAD1C\uCC2E\uC544 \uBCF4\uC774\uB294\uB370?"
+    English: This looks good?
+  - Key: speechShop_cha000006
+    Korean: "\uC57D\uCD08\uAC00 \uC544\uB2C8\uBA74 \uB531\uD788 \uAD00\uC2EC \uC5C6\uC5B4\uC694"
+    English: If it's not herbs, I'm not interested in it
+  - Key: speechShop_cha000007
+    Korean: "\uC5B4\uB5A4 \uBB34\uAE30\uB4E0 \uB0B4 \uC790\uC2E0\uC774 \uAC15\uD574\uC57C
+      \uD558\uB294 \uBC95"
+    English: Whatever a weapon, how to do it myself
+  - Key: speechShop_cha000008
+    Korean: "\uD479\uC2E0\uD55C \uC2E0\uBC1C\uC740 \uC5C6\uC5B4?"
+    English: Do you have any soft shoes?
+  - Key: speechShop_cha000009
+    Korean: "\uB0A0\uCE74\uB85C\uC6B4 \uAC8C \uD544\uC694\uD574"
+    English: I need a sharp
+  - Key: speechShop_cha000010
+    Korean: "\uBC30\uB97C \uC2F8\uAC8C \uD314\uB780 \uB9D0\uC774\uC57C~"
+    English: I sold my stomach cheaply ~
+  - Key: speechShop_cha000011
+    Korean: "\uC74C... \uC798 \uBAA8\uB974\uACA0\uC5B4\uC694"
+    English: Um ... I don't know
+  - Key: speechShop_cha000012
+    Korean: "\uC0C8\uB85C\uC6B4 \uC758\uC0C1! \uBCF4\uACE0 \uC2F6\uB2E4\uACE0!"
+    English: New costume! I miss you!
+  - Key: speechShop_cha000013
+    Korean: "\uB2E4 \uAD1C\uCC2E\uC740\uB370... \uB2E4 \uC0AC\uACE0 \uC2F6\uC740
+      \uAC78"
+    English: Everything is okay ... what I want to buy
+  - Key: speechShop_cha000014
+    Korean: "\uC774\uAC70 \uC0AC\uAE30 \uC544\uB2C8\uC57C...?"
+    English: Isn't this a scam ...?
+  - Key: speechShop_cha000015
+    Korean: "\uB3C4\uC6C0\uC774 \uB420\uB9CC \uD55C\uAC78 \uACE8\uB77C \uBCF4\uC790"
+    English: Let's choose something that will help you
+  - Key: speechShop_cha000016
+    Korean: "\uC0B0\uB2E4. \uC9C0\uD321\uC774"
+    English: live. cane
+  - Key: speechShop_cha000017
+    Korean: "\uB358\uC9C8 \uC218 \uC788\uB2E4\uBA74 \uBB50\uB4E0 \uC88B\uC544"
+    English: If you can throw anything, you like anything
+  - Key: speechShop_cha000018
+    Korean: "\uBB34\uAE30\uB294 \uC0AC\uCE58! \uC8FC\uBA39\uC73C\uB85C \uC2B9\uBD80\uD55C\uB2E4"
+    English: The weapon is luxury! Food with a fist
+  - Key: speechShop_cha000019
+    Korean: ".......(\uB0B4\uB194)"
+    English: ....... (Give me)
+  - Key: speechShop_cha000020
+    Korean: "\uC0AC\uB538\uB77C!"
+    English: Sawla!
+  - Key: speechDanger_cha00001
+    Korean: "\uC73C\uC545! \uC0B4\uB824\uC918!"
+    English: Ahh! help me!
+  - Key: speechDanger_cha00002
+    Korean: "\uC9C0\uAE08 \uAFC8\uC774\uC9C0?"
+    English: Is it a dream now?
+  - Key: speechDanger_cha00003
+    Korean: "\uC6B4\uC774 \uB098\uC058\uB124"
+    English: I'm lucky
+  - Key: speechDanger_cha00004
+    Korean: "\uC544\uC9C1 \uB2F9\uD560 \uC218 \uC5C6\uB2E4!"
+    English: I can't get it yet!
+  - Key: speechDanger_cha00005
+    Korean: "\uADF8 \uB140\uC11D\uC774\uB77C\uBA74 \uC774\uC815\uB3C8 \uC544\uBB34
+      \uAC83\uB3C4 \uC544\uB2C8\uACA0\uC9C0"
+    English: If that guy, Lee Jung -don would be nothing
+  - Key: speechDanger_cha00006
+    Korean: "\uBE68\uB9AC \uCE58\uB8CC\uC57D\uC744!"
+    English: Quickly treat it!
+  - Key: speechDanger_cha00007
+    Korean: "\uB098\uB294 \uACAC\uB51C \uC218 \uC788\uB2E4!"
+    English: I can endure!
+  - Key: speechDanger_cha00008
+    Korean: "\uB3C8 \uC29B!"
+    English: Money shot!
+  - Key: speechDanger_cha00009
+    Korean: "\uCE6B... \uADC0\uCC2E\uAC8C \uB410\uAD70"
+    English: Chi ... it became bothersome
+  - Key: speechDanger_cha00010
+    Korean: "\uC544\uC544, \uB9DD\uD588\uC796\uC544!"
+    English: Alas, you're ruined!
+  - Key: speechDanger_cha00011
+    Korean: "\uC2E0\uC758 \uAC00\uD638\uAC00 \uC788\uAE30\uB97C..."
+    English: I hope there is God's protection ...
+  - Key: speechDanger_cha00012
+    Korean: "\uD55C \uC18C\uC808\uC774\uB77C\uB3C4 \uB354 \uBD80\uB974\uAC8C \uD574\uC918~"
+    English: Let me call you one more ~
+  - Key: speechDanger_cha00013
+    Korean: "\uC774\uB300\uB860 \uC548\uB418\uACA0\uC5B4!"
+    English: I can't say this!
+  - Key: speechDanger_cha00014
+    Korean: "\uC73C... \uC9DC\uC99D\uB098..."
+    English: Uh ... it's annoying ...
+  - Key: speechDanger_cha00015
+    Korean: "\uC815\uC2E0\uC744 \uC9D1\uC911\uD574!"
+    English: Focus on your mind!
+  - Key: speechDanger_cha00016
+    Korean: "\uB3C4\uC6C0!"
+    English: help!
+  - Key: speechDanger_cha00017
+    Korean: "\uC704\uD5D8\uD574!"
+    English: Dangerous!
+  - Key: speechDanger_cha00018
+    Korean: "\uBC84\uD168!"
+    English: Stay!
+  - Key: speechDanger_cha00019
+    Korean: "......\uC73D!"
+    English: ...... Ugh!
+  - Key: speechDanger_cha00020
+    Korean: "\uC73C\uC545! \uB3C8 \uBC1B\uACE0 \uC0AC\uB77C\uC9C0\uC138\uC694!"
+    English: Ahh! Get money and disappear!
+  - Key: name_ski00001
+    Korean: "\uBD84\uB178\uC758 \uC77C\uACA9"
+    English: furystrike
+  - Key: name_ski00002
+    Korean: "\uB3C4\uBC1C\uC758 \uC678\uCE68"
+    English: tauntshout
+  - Key: name_ski00003
+    Korean: "\uBC29\uC5B4\uC758 \uC678\uCE68"
+    English: defenseshout
+  - Key: name_ski00004
+    Korean: "\uAC70\uB300\uD654"
+    English: gigantic
+  - Key: name_ski00005
+    Korean: "\uD30C\uC774\uC5B4\uBCFC"
+    English: fireball
+  - Key: name_ski00006
+    Korean: "\uD30C\uC774\uC5B4\uD544\uB4DC"
+    English: firefield
+  - Key: name_ski00007
+    Korean: "\uB3C4\uAE68\uBE44\uBD88"
+    English: firewisp
+  - Key: name_ski00008
+    Korean: "\uBA54\uD14C\uC624"
+    English: meteor
+  - Key: name_ski00009
+    Korean: "\uCE74\uB4DC\uB0A0\uB9AC\uAE30"
+    English: throwcard
+  - Key: name_ski00010
+    Korean: "\uCE74\uB4DC\uC154\uD50C"
+    English: shufflecard
+  - Key: name_ski00011
+    Korean: "\uCE74\uB4DC\uBF51\uAE30"
+    English: pickcard
+  - Key: name_ski00012
+    Korean: "\uC62C\uC778"
+    English: allin
+  - Key: name_ski00013
+    Korean: "\uC804\uD22C\uC778\uD615"
+    English: combatdoll
+  - Key: name_ski00014
+    Korean: "\uB3C4\uBC1C\uC778\uD615"
+    English: tauntdoll
+  - Key: name_ski00015
+    Korean: "\uCC3D\uC791\uC790\uC758 \uC601\uAC10"
+    English: creator'sinspiration
+  - Key: name_ski00016
+    Korean: "\uAE30\uC0DD\uC778\uD615"
+    English: parasiticdoll
+  - Key: name_ski00017
+    Korean: "\uB9E4\uC9C1\uC2A4\uD53C\uC5B4"
+    English: magicspear
+  - Key: name_ski00018
+    Korean: "\uC2E0\uCCB4\uAC15\uD654"
+    English: bodystrengthening
+  - Key: name_ski00019
+    Korean: "\uBC29\uC5B4\uBD80\uC801"
+    English: defenseshield
+  - Key: name_ski00020
+    Korean: "\uC5D0\uB108\uC9C0\uC11C\uD074"
+    English: energycircle
+  - Key: name_ski00021
+    Korean: "\uB3C5\uC57D\uBCD1\uD22C\uCC99"
+    English: throwtoxic
+  - Key: name_ski00022
+    Korean: "\uD68C\uBCF5\uC57D\uD22C\uC5EC"
+    English: drugposion
+  - Key: name_ski00023
+    Korean: "\uAC15\uD654\uD3EC\uC158"
+    English: growposion
+  - Key: name_ski00024
+    Korean: "\uC57D\uBFCC\uB9AC\uAE30"
+    English: posionspread
+  - Key: name_ski00025
+    Korean: "\uD640\uB9AC\uD504\uB808\uC2A4"
+    English: holypress
+  - Key: name_ski00026
+    Korean: "\uBC29\uC5B4\uD0DC\uC138"
+    English: defensiveposture
+  - Key: name_ski00027
+    Korean: "\uD640\uB9AC\uD574\uBA38"
+    English: holyhammer
+  - Key: name_ski00028
+    Korean: "\uAC00\uC2DC\uC624\uB77C"
+    English: thonesaura
+  - Key: name_ski00029
+    Korean: "\uB18D\uAD6C\uACF5"
+    English: basketball
+  - Key: name_ski00030
+    Korean: "\uC57C\uAD6C\uACF5"
+    English: baseball
+  - Key: name_ski00031
+    Korean: "\uACE8\uD504\uACF5"
+    English: golfball
+  - Key: name_ski00032
+    Korean: "\uC790\uC720\uC2DC\uAC04"
+    English: freetime
+  - Key: name_ski00033
+    Korean: "\uCFE0\uB098\uC774"
+    English: kunai
+  - Key: name_ski00034
+    Korean: "\uC0AC\uC2AC\uB0AB"
+    English: chainscythe
+  - Key: name_ski00035
+    Korean: "\uB9C8\uB984\uC1E0"
+    English: caltrop
+  - Key: name_ski00036
+    Korean: "\uBC14\uAFD4\uCE58\uAE30\uC220"
+    English: shadowstep
+  - Key: name_ski00037
+    Korean: "\uC6D0\uD615 \uBCA0\uAE30"
+    English: saber
+  - Key: name_ski00038
+    Korean: "\uBA38\uC2A4\uD0B7"
+    English: musket
+  - Key: name_ski00039
+    Korean: "\uB7FC\uC8FC"
+    English: rum
+  - Key: name_ski00040
+    Korean: "\uD568\uB300\uD3EC\uACA9"
+    English: fleetbombardment
+  - Key: name_ski00041
+    Korean: "\uD640\uB9AC\uB77C\uC774\uD2B8"
+    English: holylight
+  - Key: name_ski00042
+    Korean: "\uD790"
+    English: heal
+  - Key: name_ski00043
+    Korean: "\uBE14\uB808\uC2F1"
+    English: blessing
+  - Key: name_ski00044
+    Korean: "\uB9C8\uB2C8\uD53C\uCE87"
+    English: manificat
+  - Key: name_ski00045
+    Korean: "\uC0AC\uC6B4\uB4DC\uBC24"
+    English: soundbomb
+  - Key: name_ski00046
+    Korean: "\uD68C\uBCF5\uC758\uB178\uB798"
+    English: recoverysong
+  - Key: name_ski00047
+    Korean: "\uACE0\uC591\uC758\uC5F0\uC8FC"
+    English: upliftplay
+  - Key: name_ski00048
+    Korean: "\uC808\uB9DD\uC758 \uB178\uB798"
+    English: despairsong
+  - Key: name_ski00049
+    Korean: "\uAC00\uC2DC\uACB0\uACC4"
+    English: thonesbarrier
+  - Key: name_ski00050
+    Korean: "\uBC29\uC5B4\uC758 \uACB0\uACC4"
+    English: defensebarrier
+  - Key: name_ski00051
+    Korean: "\uC99D\uBC1C\uC758 \uACB0\uACC4"
+    English: evaporatebarrier
+  - Key: name_ski00052
+    Korean: "\uC624\uC5FC\uB41C \uACB0\uACC4"
+    English: pollutionbarrier
+  - Key: name_ski00053
+    Korean: "\uC800\uC8FC"
+    English: curse
+  - Key: name_ski00054
+    Korean: "\uC554\uD751\uD654\uC0B4"
+    English: darkarrow
+  - Key: name_ski00055
+    Korean: "\uC545\uB9C8\uC18C\uD658"
+    English: summondevil
+  - Key: name_ski00056
+    Korean: "\uC815\uC2E0\uD30C\uAD34"
+    English: mentalbreak
+  - Key: name_ski00057
+    Korean: "\uC544\uC774\uC2A4 \uC560\uB85C\uC6B0"
+    English: icearrow
+  - Key: name_ski00058
+    Korean: "\uB208\uB369\uC774"
+    English: snowball
+  - Key: name_ski00059
+    Korean: "\uC5BC\uC74C\uACB0\uACC4"
+    English: iceaura
+  - Key: name_ski00060
+    Korean: "\uBE14\uB9AC\uC790\uB4DC"
+    English: blizzard
+  - Key: name_ski00061
+    Korean: "\uCCB4\uC778\uB77C\uC774\uD2B8\uB2DD"
+    English: chainlighting
+  - Key: name_ski00062
+    Korean: "\uBCBC\uB77D"
+    English: thunderbolt
+  - Key: name_ski00063
+    Korean: "\uC2A4\uD0DC\uD2F1\uD544\uB4DC"
+    English: staticfield
+  - Key: name_ski00064
+    Korean: "\uC36C\uB354\uC2A4\uD1B0"
+    English: thunderstorm
+  - Key: name_ski00065
+    Korean: "\uB0AB"
+    English: sickle
+  - Key: name_ski00066
+    Korean: "\uC544\uB839"
+    English: dumbbell
+  - Key: name_ski00067
+    Korean: "\uC6D0\uBC18"
+    English: disk
+  - Key: name_ski00068
+    Korean: "\uD504\uB85C\uD2F4"
+    English: protain
+  - Key: name_ski00069
+    Korean: "\uC721\uD569\uAD8C"
+    English: trifectablow
+  - Key: name_ski00070
+    Korean: "\uAE30\uACF5\uAD8C"
+    English: soulfist
+  - Key: name_ski00071
+    Korean: "\uC0AC\uC790\uD6C4"
+    English: roar
+  - Key: name_ski00072
+    Korean: "\uD328\uD669\uAD8C"
+    English: emperor'sblow
+  - Key: name_ski00073
+    Korean: "\uD574\uACE8\uC18C\uD658"
+    English: summonskeleton
+  - Key: name_ski00074
+    Korean: "\uBC18\uC0AC\uC800\uC8FC"
+    English: reflectcurse
+  - Key: name_ski00075
+    Korean: "\uBE14\uB7EC\uB4DC\uACE8\uB818"
+    English: bloodgolem
+  - Key: name_ski00076
+    Korean: "\uBCF8\uC2A4\uD53C\uC5B4"
+    English: bonespear
+  - Key: name_ski00077
+    Korean: "\uC790\uBCF8\uC758\uD798"
+    English: powerofcapital
+  - Key: name_ski00078
+    Korean: "\uBB3C\uC9C8\uB9CC\uB2A5\uC8FC\uC758"
+    English: materialism
+  - Key: name_ski00079
+    Korean: "\uBA38\uB2C8\uAC74"
+    English: moneygun
+  - Key: name_ski00080
+    Korean: "\uC2DC\uAC04\uC740 \uAE08\uC774\uB2E4"
+    English: timeisgold
+  - Key: name_ski00081
+    Korean: "\uD560\uD034\uAE30"
+    English: scratch
+  - Key: name_ski00082
+    Korean: "\uBB3C\uAE30"
+    English: bite
+  - Key: name_ski00083
+    Korean: "\uBC15\uCE58\uAE30"
+    English: headbutt
+  - Key: name_ski00084
+    Korean: "\uCC0C\uB974\uAE30"
+    English: sting
+  - Key: name_ski00085
+    Korean: "\uBCA0\uAE30"
+    English: cut
+  - Key: name_ski00086
+    Korean: "\uB3CC \uD22C\uCC99"
+    English: throwstone
+  - Key: name_ski00087
+    Korean: "\uD65C \uBC1C\uC0AC"
+    English: bowfire
+  - Key: name_ski00088
+    Korean: "\uB9C8\uBC95 \uD0C4\uD658"
+    English: magicfire
+  - Key: name_ski00089
+    Korean: "\uC5BC\uC74C \uD0C4\uD658"
+    English: icebullet
+  - Key: name_ski00090
+    Korean: "\uD22C\uCC3D"
+    English: javelin
+  - Key: name_ski00091
+    Korean: "\uBC31\uB9CC\uBCFC\uD2B8"
+    English: millionvolts
+  - Key: name_ski00092
+    Korean: "\uCC9C\uBC8C"
+    English: punishment
+  - Key: name_ski00093
+    Korean: "\uB3CC\uC9C4"
+    English: rush
+  - Key: name_ski00094
+    Korean: "\uC810\uD504\uD504\uB808\uC2A4"
+    English: jumppress
+  - Key: name_ski00095
+    Korean: "\uB178\uC6C0 \uC18C\uD658"
+    English: callgnome
+  - Key: name_ski00096
+    Korean: "\uC77C\uB809\uD2B8\uB9AD\uC1FC\uD06C"
+    English: electricshock
+  - Key: name_ski00097
+    Korean: "\uD504\uB85C\uC98C\uC624\uBE0C"
+    English: frozenorb
+  - Key: name_ski00098
+    Korean: "\uC2AC\uB85C\uC6B0\uD544\uB4DC"
+    English: slowfield
+  - Key: name_ski00099
+    Korean: "\uD654\uC5FC\uD3ED\uD48D"
+    English: flamestorm
+  - Key: name_ski00100
+    Korean: "\uACF5\uD3EC\uC758 \uC6B8\uBD80\uC9D6\uC74C"
+    English: cryofterror
+  - Key: name_ski00101
+    Korean: "\uC9C0\uC6D0 \uC0AC\uACA9"
+    English: supporting
+  - Key: name_ski00102
+    Korean: "\uBA54\uD14C\uC624 \uC2A4\uD2B8\uB77C\uC774\uD06C"
+    English: meteostrike
+  - Key: name_ski00103
+    Korean: "\uD654\uC5FC\uC758 \uC77C\uACA9"
+    English: firestrike
+  - Key: name_ski00104
+    Korean: "\uBA54\uB4DC\uB85C\uC544"
+    English: medloa
+  - Key: name_ski00105
+    Korean: "\uC9C0\uD3D0\uB54C\uB824\uBC15\uAE30"
+    English: moneystrike
+  - Key: name_ski00106
+    Korean: "\uD3ED\uD0C4 \uC778\uD615"
+    English: bombdoll
+  - Key: name_ski00107
+    Korean: "\uBAA8\uCFE0\uC9C4"
+    English: mokujin
+  - Key: name_ski00108
+    Korean: "\uB9E4\uC9C1 \uB514\uC2A4\uD06C"
+    English: magicdisk
+  - Key: name_ski00109
+    Korean: "\uBC29\uC0AC\uB2A5"
+    English: radioactive
+  - Key: name_ski00110
+    Korean: "\uBB20\uB2C8\uB974"
+    English: "m\xF6llir"
+  - Key: name_ski00111
+    Korean: "\uD50C\uB808\uC784\uBCFC"
+    English: flameball
+  - Key: name_ski00112
+    Korean: "\uB098\uC120\uD658"
+    English: lasengan
+  - Key: name_ski00113
+    Korean: "\uB3C5\uCE68"
+    English: posionneedle
+  - Key: name_ski00114
+    Korean: "\uC5BC\uC74C\uBCA0\uAE30"
+    English: icesaber
+  - Key: name_ski00115
+    Korean: "\uD640\uB9AC\uCE74\uB4DC"
+    English: holycard
+  - Key: name_ski00116
+    Korean: "\uB0B4 \uB178\uB798\uB97C \uB4E4\uC5B4"
+    English: listen
+  - Key: name_ski00117
+    Korean: "\uB3C8\uC99D\uBC1C"
+    English: moneyeavporate
+  - Key: name_ski00118
+    Korean: "\uC5B8\uB354\uC544\uBA38"
+    English: underamour
+  - Key: name_ski00119
+    Korean: "\uC2DC\uCCB4\uB354\uBBF8"
+    English: deadbodies
+  - Key: name_ski00120
+    Korean: "\uD53C\uB8B0\uCE68"
+    English: lightningrod
+  - Key: name_ski00121
+    Korean: "\uC7A1\uB3D9\uC0AC\uB2C8\uC29B"
+    English: junkshoot
+  - Key: name_ski00122
+    Korean: "\uCDE8\uAD8C"
+    English: drunkenmaster
+  - Key: name_ski00123
+    Korean: "\uBC40\uD30C\uC774\uC5B4"
+    English: vampire
+  - Key: name_ski00124
+    Korean: "\uBA38\uB2C8\uBA38\uC2E0\uAC74"
+    English: moenymachinegun
+  - Key: name_ski00125
+    Korean: "\uBC29\uD328 \uB358\uC9C0\uAE30"
+    English: throwshield
+  - Key: name_pas00001
+    Korean: "\uAD11\uC804\uC0AC"
+    English: Berries
+  - Key: name_pas00002
+    Korean: "\uC9C0\uC625\uC758 \uD654\uC5FC"
+    English: Flame of hell
+  - Key: name_pas00003
+    Korean: "\uB3C4\uBC15\uAFBC\uC758 \uC9C1\uAC10"
+    English: Gambler's intuition
+  - Key: name_pas00004
+    Korean: "\uD0DC\uC5FD\uC7A5\uCE58"
+    English: Tributary
+  - Key: name_pas00005
+    Korean: "\uC815\uC2E0\uC774 \uC721\uCCB4\uB97C \uC9C0\uBC30\uD55C\uB2E4"
+    English: The spirit dominates the body
+  - Key: name_pas00006
+    Korean: "\uCCA0\uD1B5\uBC29\uC5B4"
+    English: Defense
+  - Key: name_pas00007
+    Korean: "\uB2EC\uCF64\uD55C\uC57D"
+    English: Sweet herbal medicine
+  - Key: name_pas00008
+    Korean: "\uC2A4\uD3EC\uCE20 \uC2A4\uD0C0"
+    English: Sports star
+  - Key: name_pas00009
+    Korean: "\uCCB4\uC220\uC758 \uB2EC\uC778"
+    English: Master
+  - Key: name_pas00010
+    Korean: "\uB300\uD574\uC801"
+    English: Enemy
+  - Key: name_pas00011
+    Korean: "\uC131\uB140"
+    English: Saint
+  - Key: name_pas00012
+    Korean: "\uCC9C\uC0C1\uC758 \uC18C\uB9AC"
+    English: Celestial sound
+  - Key: name_pas00013
+    Korean: "\uC131\uC7A5\uD558\uB294 \uACB0\uACC4"
+    English: Growing encounter
+  - Key: name_pas00014
+    Korean: "\uC5B4\uB460\uC758\uD798"
+    English: Darkness
+  - Key: name_pas00015
+    Korean: "\uADF9\uD55C\uC758 \uCD94\uC704"
+    English: Extreme cold
+  - Key: name_pas00016
+    Korean: "\uD37C\uC9C0\uB294 \uBC88\uAC1C"
+    English: Spreading lightning
+  - Key: name_pas00017
+    Korean: "\uC7AC\uD65C\uC6A9"
+    English: recycle
+  - Key: name_pas00018
+    Korean: "\uCCA0\uC0AC\uC7A5"
+    English: Wire
+  - Key: name_pas00019
+    Korean: "\uB9DD\uC790\uC758 \uB178\uB798"
+    English: Deceased song
+  - Key: name_pas00020
+    Korean: "\uC790\uBCF8\uC8FC\uC758"
+    English: capitalism
+  - Key: info_pas00001
+    Korean: "\uBC29\uC5B4\uB825\uC758 20%\uB9CC\uD07C \uACF5\uACA9\uB825 \uC0C1\uC2B9"
+    English: Increases attack power by 20%of the defense
+  - Key: info_pas00002
+    Korean: 
+    English: 
+  - Key: info_pas00003
+    Korean: "\uBAAC\uC2A4\uD130 \uCC98\uCE58 \uC2DC \uACE8\uB4DC \uB4DC\uB86D"
+    English: Gold drop when killing monsters
+  - Key: info_pas00004
+    Korean: "\uCFE8\uD0C0\uC784 10% \uC9C0\uC18D\uC2DC\uAC04 10% \uC0C1\uC2B9"
+    English: 10% duration of cooldown time rose 10%
+  - Key: info_pas00005
+    Korean: "matk\uC758 10%\uB9CC\uD07C \uBC29\uC5B4\uB825 \uC0C1\uC2B9"
+    English: Increased defense by 10%of MATK
+  - Key: info_pas00006
+    Korean: "\uACF5\uACA9\uB825\uC758 20%\uB9CC\uD07C \uBC29\uC5B4\uB825 \uC0C1\uC2B9"
+    English: Increased defense by 20%of the attack power
+  - Key: info_pas00007
+    Korean: "\uD68C\uBCF5\uB825 10% \uC0C1\uC2B9"
+    English: 10% increase in recovery
+  - Key: info_pas00008
+    Korean: "\uACF5 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 10% \uC0C1\uC2B9"
+    English: 10% increase in ball skill damage
+  - Key: info_pas00009
+    Korean: "\uD68C\uD53C\uC728 15% \uC0C1\uC2B9"
+    English: Evasion rate 15% increase
+  - Key: info_pas00010
+    Korean: "atk 20% \uC0C1\uC2B9"
+    English: ATK 20% increase
+  - Key: info_pas00011
+    Korean: "\uBC84\uD504 \uD6A8\uACFC 10% \uC99D\uAC00"
+    English: 10% increase in buff effect
+  - Key: info_pas00012
+    Korean: "\uBC84\uD504 \uBC94\uC704 20% \uC99D\uAC00"
+    English: Buff range 20% increase
+  - Key: info_pas00013
+    Korean: "\uACB0\uACC4\uB958 \uD06C\uAE30 \uB808\uBCA8\uB2F9 1%\uC529 \uC99D\uAC00"
+    English: Increase by 1%per level
+  - Key: info_pas00014
+    Korean: "\uC9C0\uC18D\uC2DC\uAC04 20% \uC0C1\uC2B9"
+    English: 20% increase in duration
+  - Key: info_pas00015
+    Korean: "\uC5BC\uC74C \uC2A4\uD0AC\uC5D0 \uB454\uD654 \uD6A8\uACFC 20% \uCD94\uAC00"
+    English: 20% slowing effect on ice skills
+  - Key: info_pas00016
+    Korean: "\uBC88\uAC1C \uC2A4\uD0AC \uD0C0\uACA9 \uC2DC \uAC00\uAE4C\uC6B4 \uC8FC\uBCC0
+      \uC801\uC5D0\uAC8C \uBC88\uAC1C \uC904\uAE30 \uCD94\uAC00 \uB370\uBBF8\uC9C0
+      matk 1\uBC30"
+    English: Lightning skills to hit the nearby enemies to the ...
+  - Key: info_pas00017
+    Korean: "\uB0B4 \uC2A4\uD0AC\uC5D0 \uB2FF\uC744 \uC2DC \uD574\uB2F9 \uC2A4\uD0AC
+      \uCFE8\uD0C0\uC784 \uCD08\uAE30\uD654"
+    English: Initialization of the skill cooldown when it touch...
+  - Key: info_pas00018
+    Korean: "\uBC29\uC5B4\uB825\uC758 30%\uB9CC\uD07C \uACF5\uACA9\uB825 \uC0C1\uC2B9"
+    English: Increased attack power by 30%of the defense
+  - Key: info_pas00019
+    Korean: "\uC18C\uD658\uC218 \uAC1C\uC218 \uB9CC\uD07C matk % \uC99D\uAC00"
+    English: MATK % increase by the number of summons
+  - Key: info_pas00020
+    Korean: "\uC8FC\uC6CC\uBA39\uC740 \uB3C8\uC758 \uC218 \uB9CC\uD07C \uC790\uBCF8\uC758
+      \uD798 \uB370\uBBF8\uC9C0 \uC99D\uAC00"
+    English: Increased power damage of capital as much as the n...
+  - Key: name_eqi00001
+    Korean: "\uB098\uC774\uD504"
+    English: knife
+  - Key: name_eqi00002
+    Korean: "\uB300\uAC70"
+    English: Large
+  - Key: name_eqi00003
+    Korean: "\uB9DD\uACE0\uC288"
+    English: Mango
+  - Key: name_eqi00004
+    Korean: "\uAD6C\uB8E8\uCE74"
+    English: Guruka
+  - Key: name_eqi00005
+    Korean: "\uC18C\uB4DC"
+    English: sword
+  - Key: name_eqi00006
+    Korean: "\uB871\uC18C\uB4DC"
+    English: Long sword
+  - Key: name_eqi00007
+    Korean: "\uCE74\uD0C0\uB098"
+    English: Katana
+  - Key: name_eqi00008
+    Korean: "\uC0AC\uBE0C\uB974"
+    English: Saber
+  - Key: name_eqi00009
+    Korean: "\uC561\uC2A4"
+    English: Ax
+  - Key: name_eqi00010
+    Korean: "\uC624\uD0A4\uC26C\uC561\uC2A4"
+    English: Okish Ax
+  - Key: name_eqi00011
+    Korean: "\uD22C\uD578\uB4DC\uC561\uC2A4"
+    English: Twohan Ax
+  - Key: name_eqi00012
+    Korean: "\uD57C\uBC84\uB4DC"
+    English: Halbird
+  - Key: name_eqi00013
+    Korean: "\uBCF4\uC6B0"
+    English: Bow
+  - Key: name_eqi00014
+    Korean: "\uB871\uBCF4\uC6B0"
+    English: Longbow
+  - Key: name_eqi00015
+    Korean: "\uCEF4\uD3EC\uC9C0\uD2B8\uBCF4\uC6B0"
+    English: Composite Bow
+  - Key: name_eqi00016
+    Korean: "\uAC01\uAD81"
+    English: Gut
+  - Key: name_eqi00017
+    Korean: "\uD578\uB4DC\uAC74"
+    English: Handgun
+  - Key: name_eqi00018
+    Korean: "\uB370\uB9B0\uC800"
+    English: Terrin
+  - Key: name_eqi00019
+    Korean: "\uD53C\uC2A4\uD1A8"
+    English: Pistol
+  - Key: name_eqi00020
+    Korean: "\uB9AC\uBCFC\uBC84"
+    English: revolver
+  - Key: name_eqi00021
+    Korean: "\uC6B0\uB4DC\uC274\uB4DC"
+    English: Wood Shield
+  - Key: name_eqi00022
+    Korean: "\uC544\uC774\uC5B8\uC274\uB4DC"
+    English: Iron Shield
+  - Key: name_eqi00023
+    Korean: "\uB098\uC774\uD2B8\uC274\uB4DC"
+    English: Night shield
+  - Key: name_eqi00024
+    Korean: "\uB9E4\uC9C1\uC274\uB4DC"
+    English: Magic Shield
+  - Key: name_eqi00025
+    Korean: "\uC644\uB4DC"
+    English: Wand
+  - Key: name_eqi00026
+    Korean: "\uB9E4\uC9C1\uC644\uB4DC"
+    English: Magic Wand
+  - Key: name_eqi00027
+    Korean: "\uB9C8\uBC95\uBD09"
+    English: Magic
+  - Key: name_eqi00028
+    Korean: "\uBD88\uC0AC\uC870 \uAE43\uD138 \uC644\uB4DC"
+    English: Phoenix feathers
+  - Key: name_eqi00029
+    Korean: "\uC2A4\uD0DC\uD504"
+    English: staff
+  - Key: name_eqi00030
+    Korean: "\uACE0\uBAA9\uB098\uBB34 \uC9C0\uD321\uC774"
+    English: Old tree
+  - Key: name_eqi00031
+    Korean: "\uC790\uC791\uB098\uBB34 \uC9C0\uD321\uC774"
+    English: Birch
+  - Key: name_eqi00032
+    Korean: "\uD3B8\uBC31\uB098\uBB34 \uC9C0\uD321\uC774"
+    English: Cypress
+  - Key: name_eqi00033
+    Korean: "\uC624\uBE0C"
+    English: Object
+  - Key: name_eqi00034
+    Korean: "\uB9E4\uC9C1 \uC624\uBE0C"
+    English: Magic of
+  - Key: name_eqi00035
+    Korean: "\uBE14\uB7EC\uB4DC \uC624\uBE0C"
+    English: Blood of
+  - Key: name_eqi00036
+    Korean: "\uBE5B\uC758 \uC624\uBE0C"
+    English: Light
+  - Key: name_eqi00037
+    Korean: "\uC6B0\uB4E0\uC544\uBA38"
+    English: Wooden Armor
+  - Key: name_eqi00038
+    Korean: "\uC0AC\uC2AC\uAC11\uC637"
+    English: Chain armor
+  - Key: name_eqi00039
+    Korean: "\uCCA0\uAC11\uC637"
+    English: Iron armor
+  - Key: name_eqi00040
+    Korean: "\uD2F0\uD0C0\uB284\uAC11\uC637"
+    English: Titanium
+  - Key: name_eqi00041
+    Korean: "\uB85C\uBE0C"
+    English: Robe
+  - Key: name_eqi00042
+    Korean: "\uBA54\uC774\uC9C0 \uB85C\uBE0C"
+    English: Meiji Robe
+  - Key: name_eqi00043
+    Korean: "\uD604\uC790\uC758 \uB85C\uBE0C"
+    English: Sage
+  - Key: name_eqi00044
+    Korean: "\uB300\uB9C8\uBC95\uC0AC\uC758 \uB85C\uBE0C"
+    English: Hemp
+  - Key: name_eqi00045
+    Korean: "\uAC00\uC8FD\uC7AC\uD0B7"
+    English: Leather jacket
+  - Key: name_eqi00046
+    Korean: "\uB77C\uC774\uB354 \uC7AC\uD0B7"
+    English: Rider jacket
+  - Key: name_eqi00047
+    Korean: "\uC804\uD22C\uBCF5"
+    English: battle dress
+  - Key: name_eqi00048
+    Korean: "\uC804\uD22C \uC288\uCE20"
+    English: Battle Stez
+  - Key: name_eqi00049
+    Korean: "\uAC00\uC8FD\uD22C\uAD6C"
+    English: Leather helmet
+  - Key: name_eqi00050
+    Korean: "\uC0AC\uC2AC\uD22C\uAD6C"
+    English: Chain
+  - Key: name_eqi00051
+    Korean: "\uCCA0\uD22C\uAD6C"
+    English: Struggling
+  - Key: name_eqi00052
+    Korean: "\uD2F0\uD0C0\uB284\uD22C\uAD6C"
+    English: Titanium
+  - Key: name_eqi00053
+    Korean: "\uD5E4\uC5B4\uBC34\uB4DC"
+    English: Hair band
+  - Key: name_eqi00054
+    Korean: "\uC11C\uD074\uB9BF"
+    English: Circle
+  - Key: name_eqi00055
+    Korean: "\uD2F0\uC544\uB77C"
+    English: tiara
+  - Key: name_eqi00056
+    Korean: "\uD06C\uB77C\uC6B4"
+    English: Crown
+  - Key: name_eqi00057
+    Korean: "\uCEA1"
+    English: cap
+  - Key: name_eqi00058
+    Korean: "\uC911\uC808\uBAA8"
+    English: soft hat
+  - Key: name_eqi00059
+    Korean: "\uACE0\uAE00"
+    English: goggles
+  - Key: name_eqi00060
+    Korean: "\uC2A4\uB0C5\uBC31"
+    English: Snapback
+  - Key: name_eqi00061
+    Korean: "\uAC00\uC8FD\uAC74\uD2C0\uB81B"
+    English: Leather
+  - Key: name_eqi00062
+    Korean: "\uC0AC\uC2AC\uAC74\uD2C0\uB81B"
+    English: Chain
+  - Key: name_eqi00063
+    Korean: "\uCCA0\uAC74\uD2C0\uB81B"
+    English: Steel
+  - Key: name_eqi00064
+    Korean: "\uD2F0\uD0C0\uB284\uAC74\uD2C0\uB81B"
+    English: Titanium
+  - Key: name_eqi00065
+    Korean: "\uB9AC\uB128\uC7A5\uAC11"
+    English: Linen gloves
+  - Key: name_eqi00066
+    Korean: "\uCC9C\uC7A5\uAC11"
+    English: Ceiling
+  - Key: name_eqi00067
+    Korean: "\uBE44\uB2E8\uC7A5\uAC11"
+    English: Silk gloves
+  - Key: name_eqi00068
+    Korean: "\uBAA8\uC9C1\uC7A5\uAC11"
+    English: Wound
+  - Key: name_eqi00069
+    Korean: "\uAC00\uC8FD\uC7A5\uAC11"
+    English: Leather gloves
+  - Key: name_eqi00070
+    Korean: "\uB77C\uC774\uB354\uC7A5\uAC11"
+    English: Rider gloves
+  - Key: name_eqi00071
+    Korean: "\uC804\uD22C\uC7A5\uAC11"
+    English: Combat gloves
+  - Key: name_eqi00072
+    Korean: "\uC9D5\uBC15\uD78C\uC7A5\uAC11"
+    English: Conscription
+  - Key: name_eqi00073
+    Korean: "\uAC00\uC8FD\uBD80\uCE20"
+    English: Leather boots
+  - Key: name_eqi00074
+    Korean: "\uC0AC\uC2AC\uBD80\uCE20"
+    English: Chain boots
+  - Key: name_eqi00075
+    Korean: "\uCCA0\uBD80\uCE20"
+    English: Ironbush
+  - Key: name_eqi00076
+    Korean: "\uD2F0\uD0C0\uB284\uBD80\uCE20"
+    English: Titanium boots
+  - Key: name_eqi00077
+    Korean: "\uB9AC\uB128\uC288\uC988"
+    English: Linen shoes
+  - Key: name_eqi00078
+    Korean: "\uCC9C\uC288\uC988"
+    English: Cheon Shoes
+  - Key: name_eqi00079
+    Korean: "\uBE44\uB2E8\uC288\uC988"
+    English: Silk shoes
+  - Key: name_eqi00080
+    Korean: "\uBAA8\uC9C1\uC288\uC988"
+    English: Wool
+  - Key: name_eqi00081
+    Korean: "\uAC00\uC8FD\uC288\uC988"
+    English: Leather shoes
+  - Key: name_eqi00082
+    Korean: "\uB77C\uC774\uB354\uC288\uC988"
+    English: Rider Shoes
+  - Key: name_eqi00083
+    Korean: "\uC804\uD22C\uC288\uC988"
+    English: Battle shoes
+  - Key: name_eqi00084
+    Korean: "\uB7EC\uB2DD\uD654"
+    English: Running shoes
+  - Key: name_eqi00085
+    Korean: "14k \uAE08\uBC18\uC9C0"
+    English: 14K gold ring
+  - Key: name_eqi00086
+    Korean: "24k \uAE08\uBC18\uC9C0"
+    English: 24K gold ring
+  - Key: name_eqi00087
+    Korean: "\uC21C\uAE08\uBC18\uC9C0"
+    English: Pure gold ring
+  - Key: name_eqi00088
+    Korean: "\uBC31\uAE08\uBC18\uC9C0"
+    English: Platinum ring
+  - Key: opt00001
+    Korean: "\uACF5\uACA9\uB825 {0}% \uC0C1\uC2B9"
+    English: Atk {0}%
+  - Key: opt00002
+    Korean: "\uB9C8\uBC95 \uACF5\uACA9\uB825 {0}% \uC0C1\uC2B9"
+    English: Matk {0}%
+  - Key: opt00003
+    Korean: "\uBC29\uC5B4\uB825 {0}% \uC0C1\uC2B9"
+    English: Def {0}%
+  - Key: opt00004
+    Korean: "\uB9C8\uBC95 \uBC29\uC5B4\uB825 {0}% \uC0C1\uC2B9"
+    English: Mdef {0}%
+  - Key: opt00005
+    Korean: "\uC774\uB3D9\uC18D\uB3C4 {0}% \uC0C1\uC2B9"
+    English: move speed {0}%
+  - Key: opt00006
+    Korean: "\uADFC\uAC70\uB9AC \uBB3C\uB9AC \uB370\uBBF8\uC9C0 {0}% \uC0C1\uC2B9"
+    English: melee damage {0}%
+  - Key: opt00007
+    Korean: "\uC6D0\uAC70\uB9AC \uBB3C\uB9AC \uB370\uBBF8\uC9C0 {0}% \uC0C1\uC2B9"
+    English: range damage {0}%
+  - Key: opt00008
+    Korean: "\uB9C8\uBC95 \uB370\uBBF8\uC9C0 {0}% \uC0C1\uC2B9"
+    English: magic damage {0}%
+  - Key: opt00009
+    Korean: "\uBCF4\uC2A4 \uCD94\uAC00 \uB370\uBBF8\uC9C0 {0}% \uC0C1\uC2B9"
+    English: boss damage {0}%
+  - Key: opt00010
+    Korean: "\uCFE8\uD0C0\uC784 {0}% \uAC10\uC18C"
+    English: cooltime {0}%
+  - Key: opt00011
+    Korean: "\uC9C0\uC18D\uC2DC\uAC04 {0}% \uC99D\uAC00"
+    English: duration {0}%
+  - Key: opt00012
+    Korean: "\uBC94\uC704 {0}% \uC99D\uAC00"
+    English: range {0}%
+  - Key: opt00013
+    Korean: "\uC0AC\uC815\uAC70\uB9AC {0} \uC99D\uAC00"
+    English: distance {0}%
+  - Key: opt00014
+    Korean: "\uD06C\uAE30 {0}% \uC99D\uAC00"
+    English: size {0}%
+  - Key: opt00015
+    Korean: "\uD22C\uC0AC\uCCB4 \uC18D\uB3C4 {0}% \uC99D\uAC00"
+    English: speed {0}%
+  - Key: opt00016
+    Korean: "\uC77C\uBC18 \uBAAC\uC2A4\uD130 \uCD94\uAC00 \uB370\uBBF8\uC9C0 {0}%
+      \uC0C1\uC2B9"
+    English: normal monster damage {0}%
+  - Key: opt00017
+    Korean: "\uD654\uC5FC\uC18D\uC131 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 {0}% \uC0C1\uC2B9"
+    English: fire skill damage {0}%
+  - Key: opt00018
+    Korean: "\uC5BC\uC74C\uC18D\uC131 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 {0}% \uC0C1\uC2B9"
+    English: ice skill damage {0}%
+  - Key: opt00019
+    Korean: "\uC804\uAE30\uC18D\uC131 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 {0}% \uC0C1\uC2B9"
+    English: lightning skill damage {0}%
+  - Key: opt00020
+    Korean: "\uC131\uC18D\uC131 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 {0}% \uC0C1\uC2B9"
+    English: holy skill damage {0}%
+  - Key: opt00021
+    Korean: "\uBB34\uC18D\uC131 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 {0}% \uC0C1\uC2B9"
+    English: none skill damage {0}%
+  - Key: opt00022
+    Korean: "\uC554\uD751\uC18D\uC131 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 {0}% \uC0C1\uC2B9"
+    English: dark skill damage {0}%
+  - Key: opt00023
+    Korean: "\uB3C5\uC18D\uC131 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 {0}% \uC0C1\uC2B9"
+    English: poison skill damage {0}%
+  - Key: opt00024
+    Korean: "\uBE5B\uC18D\uC131 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 {0}% \uC0C1\uC2B9"
+    English: light skill damage {0}%
+  - Key: name_ite00001
+    Korean: "\uD1B5\uAC00\uC8FD"
+    English: Leather
+  - Key: name_ite00002
+    Korean: "\uAC00\uC8FD"
+    English: leather
+  - Key: name_ite00003
+    Korean: "\uC9C8\uAE34\uAC00\uC8FD"
+    English: Tough leather
+  - Key: name_ite00004
+    Korean: "\uAC15\uD654\uAC00\uC8FD"
+    English: Reinforced leather
+  - Key: name_ite00005
+    Korean: "\uCCA0\uC8FC\uAD34"
+    English: Cheolju
+  - Key: name_ite00006
+    Korean: "\uAC15\uCCA0\uC8FC\uAD34"
+    English: Steel
+  - Key: name_ite00007
+    Korean: "\uBC31\uAE08\uC8FC\uAD34"
+    English: Platinum
+  - Key: name_ite00008
+    Korean: "\uD669\uAE08\uC8FC\uAD34"
+    English: Golden lord
+  - Key: name_ite00009
+    Korean: "\uD2F0\uD0C0\uB284\uC8FC\uAD34"
+    English: Titanium
+  - Key: name_ite00010
+    Korean: "\uB9C8\uBC95\uC815\uC218"
+    English: Magic
+  - Key: name_ite00011
+    Korean: "\uB9C8\uBC95\uC6D0\uC11D"
+    English: Wizard
+  - Key: name_ite00012
+    Korean: "\uB9C8\uBC95\uC11D"
+    English: Wizard
+  - Key: name_ite00013
+    Korean: "\uCC28\uC6D0\uC815\uC218"
+    English: Dimensional
+  - Key: name_ite00014
+    Korean: "\uCC28\uC6D0\uC11D"
+    English: Dimensional stone
+  - Key: name_ite00015
+    Korean: "\uB9AC\uB128"
+    English: linen
+  - Key: name_ite00016
+    Korean: "\uCC9C"
+    English: cloth
+  - Key: name_ite00017
+    Korean: "\uBE44\uB2E8"
+    English: silks
+  - Key: name_ite00018
+    Korean: "\uC9C4"
+    English: jin
+  - Key: name_ite00019
+    Korean: "\uBAA8\uC9C1"
+    English: Wool
+  - Key: name_ite00020
+    Korean: "\uB098\uBB34\uC870\uAC01"
+    English: Pieces
+  - Key: name_ite00021
+    Korean: "\uD1B5\uB098\uBB34"
+    English: log
+  - Key: name_ite00022
+    Korean: "\uBAA9\uC7AC"
+    English: wood
+  - Key: name_sho00001
+    Korean: "\uCD08\uD68C \uD55C\uC815 \uC138\uD2B8"
+    English: Initial limited set
+  - Key: name_sho00002
+    Korean: "30\uC77C \uD2B9\uBCC4 \uC138\uD2B8"
+    English: 30 -day special set
+  - Key: name_sho00003
+    Korean: "100 \uC82C"
+    English: 100 gems
+  - Key: name_sho00004
+    Korean: "200 \uC82C + 10"
+    English: 200 Gem + 10
+  - Key: name_sho00005
+    Korean: "500 \uC82C + 25"
+    English: 500 Gem + 25
+  - Key: name_sho00006
+    Korean: "1000 \uC82C + 100"
+    English: 1000 Gem + 100
+  - Key: name_sho00007
+    Korean: "5000 \uC82C + 750"
+    English: 5000 Gem + 750
+  - Key: name_sho00008
+    Korean: "100 \uACE8\uB4DC"
+    English: 100 gold
+  - Key: name_sho00009
+    Korean: "200 \uACE8\uB4DC + 20"
+    English: 200 gold + 20
+  - Key: name_sho00010
+    Korean: "500 \uACE8\uB4DC + 50"
+    English: 500 gold + 50
+  - Key: name_sho00011
+    Korean: "1000 \uACE8\uB4DC + 100"
+    English: 1000 gold + 100
+  - Key: name_sho00012
+    Korean: "5000 \uACE8\uB4DC + 1000"
+    English: 5000 gold + 1000
+  - Key: name_sho00013
+    Korean: "\uC81C\uD398\uD1A0"
+    English: Zepeto
+  - Key: name_sho00014
+    Korean: "\uC624\uC2A4\uD2F4"
+    English: Austin
+  - Key: name_sho00015
+    Korean: "\uBBF8\uC2A4 \uBE45\uD1A0\uB9AC\uC544"
+    English: Miss Victoria
+  - Key: name_sho00016
+    Korean: "\uC2A4\uD2F0\uBE0C"
+    English: Steve
+  - Key: name_sho00017
+    Korean: "\uC5D0\uC5B4\uB2C8\uC2A4"
+    English: Airlis
+  - Key: name_sho00018
+    Korean: "\uD56B\uD1A0\uB9AC"
+    English: Hotori
+  - Key: name_sho00019
+    Korean: "\uB808\uC774\uC2A4"
+    English: race
+  - Key: name_sho00020
+    Korean: "\uC5D0\uBC18"
+    English: Evan
+  - Key: name_sho00021
+    Korean: "\uC5D8\uB9AC\uC5C7"
+    English: Elliott
+  - Key: name_sho00022
+    Korean: "\uD06C\uB9AC\uC2A4\uD2F4"
+    English: Christine
+  - Key: name_sho00023
+    Korean: "\uC5D8\uB178\uC5B4"
+    English: Elo
+  - Key: name_sho00024
+    Korean: "\uB810\uB78C\uD30C\uACE0"
+    English: Relam Pagoda
+  - Key: name_sho00025
+    Korean: "\uB370\uB4DC\uC544\uC774"
+    English: Dead Eye
+  - Key: name_sho00026
+    Korean: "\uBE44\uC2A4\uD2B8"
+    English: beast
+  - Key: name_sho00027
+    Korean: "\uC635\uC2A4\uD050\uB9AC\uD2F0"
+    English: Obs Circle
+  - Key: name_sho00028
+    Korean: "\uC120\uB2EC"
+    English: Scandal
+  - Key: name_sho00029
+    Korean: "\uD504\uB9AC\uBBF8\uC5C4 \uD2F0\uCF13 1\uC7A5"
+    English: 1 premium ticket
+  - Key: name_sho00030
+    Korean: "\uD504\uB9AC\uBBF8\uC5C4 \uD2F0\uCF13 5\uC7A5"
+    English: 5 premium tickets
+  - Key: name_sho00031
+    Korean: "\uD504\uB9AC\uBBF8\uC5C4 \uD2F0\uCF13 9\uC7A5+1"
+    English: Premium Tickets 9 +1
+  - Key: name_sho00032
+    Korean: "1\uD2F0\uC5B4 \uC7AC\uB8CC \uC138\uD2B8"
+    English: 1 Tier Material Set
+  - Key: name_sho00033
+    Korean: "2\uD2F0\uC5B4 \uC7AC\uB8CC \uC138\uD2B8"
+    English: 2 Tier Material Set
+  - Key: name_sho00034
+    Korean: "3\uD2F0\uC5B4 \uC7AC\uB8CC \uC138\uD2B8"
+    English: 3 tier material set
+  - Key: name_sho00035
+    Korean: "\uC7A5\uBE44 \uC635\uC158 \uBCC0\uACBD\uAD8C \uD2F0\uCF13 1\uC7A5"
+    English: 1 equipment option change ticket 1
+  - Key: name_sho00036
+    Korean: "\uC7A5\uBE44 \uC635\uC158 \uBCC0\uACBD\uAD8C \uD2F0\uCF13 5\uC7A5"
+    English: Equipment option change ticket 5 tickets
+  - Key: name_sho00037
+    Korean: "\uC7A5\uBE44 \uC635\uC158 \uBCC0\uACBD\uAD8C \uD2F0\uCF13 9\uC7A5+1"
+    English: Equipment option change ticket 9 pieces +1
+  - Key: name_sho00038
+    Korean: "\uC7A5\uBE44 \uAC15\uD654 \uD2F0\uCF13 1\uC7A5"
+    English: 1 equipment strengthening ticket
+  - Key: name_sho00039
+    Korean: "\uC7A5\uBE44 \uAC15\uD654 \uD2F0\uCF13 5\uC7A5"
+    English: 5 equipment strengthening tickets
+  - Key: name_sho00040
+    Korean: "\uC7A5\uBE44 \uAC15\uD654 \uD2F0\uCF13 9\uC7A5+1"
+    English: Equipment Enhancement Ticket 9 Chapter +1
+  - Key: name_sho00041
+    Korean: "\uC7AD\uC2A8 OO \uC2A4\uD0A8"
+    English: Jackson OO Skin
+  - Key: name_sho00042
+    Korean: "\uC544\uBA5C\uB9AC\uC544 OO \uC2A4\uD0A8"
+    English: Amelia OO Skin
+  - Key: name_sho00043
+    Korean: "\uBBF8\uC2A4\uD130\uC2E0 OO \uC2A4\uD0A8"
+    English: Mr. Shin OO Skin
+  - Key: name_sho00044
+    Korean: "\uC5D8\uB9AC\uC790\uBCA0\uC2A4 OO \uC2A4\uD0A8"
+    English: Elizabeth OO Skin
+  - Key: name_mon00001
+    Korean: "\uD1A0\uB07C"
+    English: rabbit
+  - Key: name_mon00002
+    Korean: "\uC0AC\uC2B4"
+    English: deer
+  - Key: name_mon00003
+    Korean: "\uB3FC\uC9C0"
+    English: pig
+  - Key: name_mon00004
+    Korean: "\uB9F7\uB3FC\uC9C0"
+    English: Matt
+  - Key: name_mon00005
+    Korean: "\uC5EC\uC6B0"
+    English: fox
+  - Key: name_mon00006
+    Korean: "\uACF0"
+    English: bear
+  - Key: name_mon00007
+    Korean: "\uB291\uB300"
+    English: A wolf
+  - Key: name_mon00008
+    Korean: "\uD638\uB791\uC774"
+    English: tiger
+  - Key: name_mon00009
+    Korean: "\uB178\uC6C0"
+    English: Gate
+  - Key: name_mon00010
+    Korean: "\uC624\uC5FC\uB41C \uB178\uC6C0"
+    English: Contaminated
+  - Key: name_mon00011
+    Korean: "\uB178\uC6C0 \uAE30\uC220\uC790"
+    English: Gnomer
+  - Key: name_mon00012
+    Korean: "\uB178\uC6C0 \uACBD\uBE44\uBCD1"
+    English: Gnom
+  - Key: name_mon00013
+    Korean: "\uB178\uC6C0 \uB9C8\uBC95\uC0AC"
+    English: Gnoma
+  - Key: name_mon00014
+    Korean: "\uBA54\uCE74 \uB178\uC6C0"
+    English: Meccan
+  - Key: name_mon00015
+    Korean: "\uB178\uC6C0 \uC7A5\uAD70"
+    English: General
+  - Key: name_mon00016
+    Korean: "\uB178\uC6C0 \uD604\uC790"
+    English: Gnom
+  - Key: name_mon00017
+    Korean: "\uC544\uC774\uC2A4 \uC6B8\uD504"
+    English: Ice Wolf
+  - Key: name_mon00018
+    Korean: "\uC2DC\uBCA0\uB9AC\uC548 \uD5C8\uC2A4\uD0A4"
+    English: Siberian husky
+  - Key: name_mon00019
+    Korean: "\uBC31\uACF0"
+    English: White bear
+  - Key: name_mon00020
+    Korean: "\uC544\uC774\uC2A4 \uD2B8\uB864"
+    English: Ice troll
+  - Key: name_mon00021
+    Korean: "\uC544\uC774\uC2A4 \uD2B8\uB864 \uB808\uC778\uC800"
+    English: Ice Troll Ranger
+  - Key: name_mon00022
+    Korean: "\uC544\uC774\uC2A4 \uD2B8\uB864 \uB9C8\uBC95\uC0AC"
+    English: Ice Troll Wizard
+  - Key: name_mon00023
+    Korean: "\uC544\uC774\uC2A4 \uD2B8\uB864 \uC6CC\uB9AC\uC5B4"
+    English: Ice Troll Warrior
+  - Key: name_mon00024
+    Korean: "\uC544\uC774\uC2A4 \uD2B8\uB864 \uC8FC\uC220\uC0AC"
+    English: Ice trollist
+  - Key: name_mon00025
+    Korean: "\uC804\uAC08"
+    English: Message
+  - Key: name_mon00026
+    Korean: "\uBAA9\uB3C4\uB9AC \uB3C4\uB9C8\uBC40"
+    English: Shawl lizard
+  - Key: name_mon00027
+    Korean: "\uBBF8\uC5B4\uCEA3"
+    English: meerkat
+  - Key: name_mon00028
+    Korean: "\uC0AC\uB9C9\uC5EC\uC6B0"
+    English: Desert fox
+  - Key: name_mon00029
+    Korean: "\uB300\uBA38\uB9AC\uB3C5\uC218\uB9AC"
+    English: Bald
+  - Key: name_mon00030
+    Korean: "\uB370\uC800\uD2B8 \uC6B8\uD504"
+    English: Desert Wolf
+  - Key: name_mon00031
+    Korean: "\uD558\uC774\uC5D0\uB098"
+    English: hyena
+  - Key: name_mon00032
+    Korean: "\uCF54\uBE0C\uB77C"
+    English: cobra
+  - Key: name_mon00033
+    Korean: "\uC2AC\uB77C\uC784"
+    English: Slime
+  - Key: name_mon00034
+    Korean: "\uD22C\uAD6C\uBC8C\uB808"
+    English: Helmet
+  - Key: name_mon00035
+    Korean: "\uD638\uADF8"
+    English: Hog
+  - Key: name_mon00036
+    Korean: "\uB4E4\uC18C"
+    English: wild ox
+  - Key: name_mon00037
+    Korean: "\uD751\uC6B0"
+    English: Black cow
+  - Key: name_mon00038
+    Korean: "\uACE0\uBE14\uB9B0"
+    English: Goblin
+  - Key: name_mon00039
+    Korean: "\uD649\uACE0\uBE14\uB9B0"
+    English: Hop Goblin
+  - Key: name_mon00040
+    Korean: "\uACE0\uBE14\uB9B0 \uC8FC\uC220\uC0AC"
+    English: Goblin Shaman
+  - Key: name_mon00041
+    Korean: "\uD751\uACF0"
+    English: Black bear
+  - Key: name_mon00042
+    Korean: "\uB178\uC6C0 \uD0B9"
+    English: Gnome King
+  - Key: name_mon00043
+    Korean: "\uC544\uC774\uC2A4 \uD2B8\uB864 \uC871\uC7A5"
+    English: Ice troll patriarch
+  - Key: name_mon00044
+    Korean: "\uB450\uBAA9 \uB370\uC800\uD2B8 \uC6B8\uD504"
+    English: Boss Desert Wolf
+  - Key: name_mon00045
+    Korean: "\uACE0\uBE14\uB9B0 \uC871\uC7A5"
+    English: Goblin
+  - Key: name_tic00001
+    Korean: "\uD504\uB9AC\uBBF8\uC5C4 \uC785\uC7A5 \uD2F0\uCF13"
+    English: Premium entry ticket
+  - Key: name_tic00002
+    Korean: "\uC7A5\uBE44 \uC635\uC158 \uBCC0\uACBD \uD2F0\uCF13"
+    English: Equipment option change ticket
+  - Key: name_tic00003
+    Korean: "\uC7A5\uBE44 \uC2A4\uD0EF \uAC15\uD654 \uD2F0\uCF13"
+    English: Equipment stat reinforcement ticket
+  - Key: info_tic00001
+    Korean: "\uB358\uC804 \uBCF4\uC0C1\uC744 \uC99D\uAC00 \uC2DC\uD0A8\uB2E4."
+    English: Increase the dungeon reward.
+  - Key: info_tic00002
+    Korean: "\uC7A5\uBE44\uC758 \uD2B9\uC218 \uC635\uC158\uC744 \uB79C\uB364\uC73C\uB85C
+      \uBCC0\uACBD \uC2DC\uCF1C\uC900\uB2E4."
+    English: Change the special options of the equipment random...
+  - Key: info_tic00003
+    Korean: "\uC7A5\uBE44 \uC2A4\uD0EF\uC744 \uD55C \uB2E8\uACC4 \uAC15\uD654 \uC2DC\uCF1C\uC900\uB2E4."
+    English: Strengthen the equipment stat one step.
+  - Key: name_dun00001
+    Korean: "\uB3D9\uBB3C\uC758 \uC232"
+    English: animal Forest
+  - Key: name_dun00002
+    Korean: "\uAC70\uB8E9\uD55C \uC0B0\uB9E5 \uCD08\uC785"
+    English: Holy Mountain Range
+  - Key: name_dun00003
+    Korean: "\uC11C\uB9AC\uB291\uB300 \uBD80\uC871 \uC57C\uC601\uC9C0"
+    English: Frost Wolf Nap Camp
+  - Key: name_dun00004
+    Korean: "\uB05D\uC5C6\uB294 \uC0AC\uB9C9"
+    English: Endless desert
+  - Key: name_dun00005
+    Korean: "\uB3C4\uC2DC \uADFC\uBC29"
+    English: Near the city
+  - Key: info_dun00001
+    Korean: "\uC0AC\uB78C\uC744 \uACF5\uACA9\uD558\uB294 \uB3D9\uBB3C\uB4E4\uC774
+      \uB098\uD0C0\uB098\uACE0 \uC788\uB2E4\uB294 \uC232"
+    English: Forest that animals attacking people are appearing
+  - Key: info_dun00002
+    Korean: "\uAE08\uAD11\uC744 \uCE90\uB294 \uB178\uC6C0\uB4E4\uC774 \uBC00\uC9D1\uB41C
+      \uC0B0\uB9E5"
+    English: Mountains with dense gnomes of gold mine
+  - Key: info_dun00003
+    Korean: "\uC11C\uB9AC\uB291\uB300 \uBD80\uC871\uC774 \uC778\uAC04\uC758 \uC601\uC5ED\uC744
+      \uCE68\uC785\uD558\uAE30 \uC804\uC5D0 \uD574\uCE58\uC6B0\uC790!"
+    English: Let's get rid of the frost wolf before invading th...
+  - Key: info_dun00004
+    Korean: "\uB05D\uC5C6\uB294 \uC0AC\uB9C9\uC5D4 \uC5B4\uB5A4 \uBCF4\uBB3C\uC774
+      \uAE30\uB2E4\uB9B4\uAE4C?"
+    English: Which treasure is waiting for the endless desert?
+  - Key: info_dun00005
+    Korean: "\uB3C4\uC2DC \uADFC\uBC29\uC5D0 \uCD9C\uBAB0\uD55C \uBAAC\uC2A4\uD130\uB97C
+      \uD574\uCE58\uC6B0\uC790!"
+    English: Let's get rid of the monsters that have been aroun...
+  - Key: data_loading
+    Korean: "\uB370\uC774\uD130 \uB85C\uB4DC \uC911...{0}/{1}"
+    English: Data Loading...{0}/{1}
+  - Key: info_friend00001
+    Korean: "FIND\uB97C \uB20C\uB7EC \uC0C8\uB85C\uC6B4 \uCE5C\uAD6C\uB97C \uCC3E\uC544\uBCF4\uC138\uC694!"
+    English: Press Find to find a new friend!
+  - Key: info_friend00002
+    Korean: "\uBC1B\uC740 \uC694\uCCAD\uC774 \uC5C6\uC2B5\uB2C8\uB2E4"
+    English: There is no request
+  - Key: info_friend00003
+    Korean: "\uBCF4\uB0B8 \uC694\uCCAD\uC774 \uC5C6\uC2B5\uB2C8\uB2E4"
+    English: There is no request from the sent
+  - Key: info_friend00004
+    Korean: "\uCD94\uCC9C \uCE5C\uAD6C\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4"
+    English: I don't have a recommended friend
+  - Key: info_friend00005
+    Korean: "\uAC80\uC0C9 \uACB0\uACFC\uAC00 \uC5C6\uC2B5\uB2C8\uB2E4"
+    English: No results were found for your search
+  - Key: info_friend00005
+    Korean: "\uBC1B\uC740 \uC6B0\uD3B8\uC774 \uC5C6\uC2B5\uB2C8\uB2E4"
+    English: There is no mail received
+  - Key: name_bui00001
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_bui00002
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_bui00003
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_bui00004
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_bui00005
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_bui00006
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_bui00007
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_bui00008
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_bui00009
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_bui00010
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_bui00011
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_bui00012
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_bui00013
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_bui00014
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_bui00015
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_bui00016
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_bui00017
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_bui00018
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_bui00019
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_bui00020
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_bui00021
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_bui00022
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_bui00023
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_bui00024
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_bui00025
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_bui00026
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_bui00027
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_bui00028
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_bui00029
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_bui00030
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_bui00031
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_bui00032
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_bui00033
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_bui00034
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_bui00035
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_bui00036
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_bui00037
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_bui00038
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_bui00039
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_bui00040
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_bui00041
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_bui00042
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_bui00043
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_bui00044
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_bui00045
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_bui00046
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_bui00047
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_bui00048
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_bui00049
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_bui00050
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_bui00051
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_bui00052
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_bui00053
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_bui00054
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_bui00055
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_bui00056
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_bui00057
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_bui00058
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_bui00059
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_bui00060
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_bui00061
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_bui00062
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_bui00063
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_bui00064
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_bui00065
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_bui00066
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_bui00067
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_bui00068
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_bui00069
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_bui00070
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_bui00071
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_bui00072
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_bui00073
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_bui00074
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_bui00075
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_bui00076
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_bui00077
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_bui00078
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_bui00079
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_bui00080
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_bui00081
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_bui00082
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_bui00083
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_bui00084
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_bui00085
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_bui00086
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_bui00087
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_bui00088
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_bui00089
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_bui00090
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_bui00091
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_bui00092
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_bui00093
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_bui00094
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_bui00095
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_bui00096
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_bui00097
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_bui00098
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_bui00099
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_bui00100
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_bui00101
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_bui00102
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_bui00103
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_bui00104
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_bui00105
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_bui00106
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_bui00107
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_bui00108
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_bui00109
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_bui00110
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_are00001
+    Korean: "\uB098\uBB34 \uC9C0\uC5ED"
+    English: Tree Area
+  - Key: name_are00002
+    Korean: "\uBC14\uC704 \uC9C0\uC5ED"
+    English: Rock Area
+  - Key: name_are00003
+    Korean: "\uB2ED \uC9C0\uC5ED"
+    English: Chicken Area
+  - Key: name_are00004
+    Korean: "\uCC38\uB098\uBB34 \uC9C0\uC5ED"
+    English: Oak Area
+  - Key: name_are00005
+    Korean: "\uAD6C\uB9AC\uAD11\uB9E5 \uC9C0\uC5ED"
+    English: Cooper Area
+  - Key: name_are00006
+    Korean: "\uB3FC\uC9C0 \uC9C0\uC5ED"
+    English: Pig Area
+  - Key: name_are00007
+    Korean: "\uD3B8\uBC31\uB098\uBB34 \uC9C0\uC5ED"
+    English: Cypress Tree Area
+  - Key: name_are00008
+    Korean: "\uCCA0\uAD11\uB9E5 \uC9C0\uC5ED"
+    English: Iron Area
+  - Key: name_are00009
+    Korean: "\uC18C \uC9C0\uC5ED"
+    English: Cow Area
+  - Key: name_wob00001
+    Korean: "\uB098\uBB34"
+    English: Tree
+  - Key: name_wob00002
+    Korean: "\uBC14\uC704"
+    English: Rock
+  - Key: name_wob00003
+    Korean: "\uB2ED"
+    English: Chicken
+  - Key: name_wob00004
+    Korean: "\uCC38\uB098\uBB34"
+    English: Oak
+  - Key: name_wob00005
+    Korean: "\uAD6C\uB9AC\uAD11\uB9E5"
+    English: Cooper
+  - Key: name_wob00006
+    Korean: "\uB3FC\uC9C0"
+    English: Pig
+  - Key: name_wob00007
+    Korean: "\uD3B8\uBC31\uB098\uBB34"
+    English: Cypress Tree
+  - Key: name_wob00008
+    Korean: "\uCCA0\uAD11\uB9E5"
+    English: Iron
+  - Key: name_wob00009
+    Korean: "\uC18C"
+    English: Cow
+  - Key: name_opt00001
+    Korean: "\uACF5\uACA9\uB825 \uC0C1\uC2B9"
+    English: Increase Atk
+  - Key: name_opt00002
+    Korean: "\uB9C8\uBC95 \uACF5\uACA9\uB825 \uC0C1\uC2B9"
+    English: Increase Matk
+  - Key: name_opt00003
+    Korean: "\uBC29\uC5B4\uB825 \uC0C1\uC2B9"
+    English: Increase Def
+  - Key: name_opt00004
+    Korean: "\uB9C8\uBC95 \uBC29\uC5B4\uB825 \uC0C1\uC2B9"
+    English: Increase Mdef
+  - Key: name_opt00005
+    Korean: "\uC774\uB3D9\uC18D\uB3C4 \uC0C1\uC2B9"
+    English: move speed
+  - Key: name_opt00006
+    Korean: "\uADFC\uAC70\uB9AC \uBB3C\uB9AC \uB370\uBBF8\uC9C0 \uC0C1\uC2B9"
+    English: melee damage
+  - Key: name_opt00007
+    Korean: "\uC6D0\uAC70\uB9AC \uBB3C\uB9AC \uB370\uBBF8\uC9C0 \uC0C1\uC2B9"
+    English: range damage
+  - Key: name_opt00008
+    Korean: "\uB9C8\uBC95 \uB370\uBBF8\uC9C0 \uC0C1\uC2B9"
+    English: magic damage
+  - Key: name_opt00009
+    Korean: "\uBCF4\uC2A4 \uCD94\uAC00 \uB370\uBBF8\uC9C0 \uC0C1\uC2B9"
+    English: boss damage
+  - Key: name_opt00010
+    Korean: "\uCFE8\uD0C0\uC784 \uAC10\uC18C"
+    English: cooltime
+  - Key: name_opt00011
+    Korean: "\uC9C0\uC18D\uC2DC\uAC04 \uC99D\uAC00"
+    English: duration
+  - Key: name_opt00012
+    Korean: "\uBC94\uC704 \uC99D\uAC00"
+    English: range
+  - Key: name_opt00013
+    Korean: "\uC0AC\uC815\uAC70\uB9AC \uC99D\uAC00"
+    English: distance
+  - Key: name_opt00014
+    Korean: "\uD06C\uAE30 \uC99D\uAC00"
+    English: size
+  - Key: name_opt00015
+    Korean: "\uD22C\uC0AC\uCCB4 \uC18D\uB3C4 \uC99D\uAC00"
+    English: speed
+  - Key: name_opt00016
+    Korean: "\uC77C\uBC18 \uBAAC\uC2A4\uD130 \uCD94\uAC00 \uB370\uBBF8\uC9C0 \uC0C1\uC2B9"
+    English: normal monster damage
+  - Key: name_opt00017
+    Korean: "\uD654\uC5FC\uC18D\uC131 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 \uC0C1\uC2B9"
+    English: fire skill damage
+  - Key: name_opt00018
+    Korean: "\uC5BC\uC74C\uC18D\uC131 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 \uC0C1\uC2B9"
+    English: ice skill damage
+  - Key: name_opt00019
+    Korean: "\uC804\uAE30\uC18D\uC131 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 \uC0C1\uC2B9"
+    English: lightning skill damage
+  - Key: name_opt00020
+    Korean: "\uC131\uC18D\uC131 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 \uC0C1\uC2B9"
+    English: holy skill damage
+  - Key: name_opt00021
+    Korean: "\uBB34\uC18D\uC131 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 \uC0C1\uC2B9"
+    English: none skill damage
+  - Key: name_opt00022
+    Korean: "\uC554\uD751\uC18D\uC131 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 \uC0C1\uC2B9"
+    English: dark skill damage
+  - Key: name_opt00023
+    Korean: "\uB3C5\uC18D\uC131 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 \uC0C1\uC2B9"
+    English: poison skill damage
+  - Key: name_opt00024
+    Korean: "\uBE5B\uC18D\uC131 \uC2A4\uD0AC \uB370\uBBF8\uC9C0 \uC0C1\uC2B9"
+    English: light skill damage
+  - Key: name_sou00001
+    Korean: "\uC544\uC774\uC5B8\uCE74\uC6B0 \uB85C\uACE0"
+    English: Ironcow Logo
+  - Key: name_sou00002
+    Korean: "\uC811\uC18D \uD654\uBA74"
+    English: Login Scene
+  - Key: name_sou00003
+    Korean: "\uBA54\uC778 \uD654\uBA74"
+    English: Main Scene
+  - Key: name_sou00004
+    Korean: "\uBA54\uB274 \uD130\uCE58"
+    English: Menu Touch
+  - Key: name_sou00005
+    Korean: "\uB358\uC804 1 bgm"
+    English: Dungeon1 Bgm
+  - Key: name_sou00006
+    Korean: "\uB358\uC804 2 bgm"
+    English: Dungeon2 Bgm
+  - Key: name_sou00007
+    Korean: "\uB358\uC804 3 bgm"
+    English: Dungeon3 Bgm
+  - Key: name_sou00008
+    Korean: "\uB358\uC804 4 bgm"
+    English: Dungeon4 Bgm
+  - Key: name_sou00009
+    Korean: "\uBCF4\uC2A4 1 bgm"
+    English: Boss1 Bgm
+  - Key: name_sou00010
+    Korean: "\uBCF4\uC2A4 2 bgm"
+    English: Boss2 Bgm
+  - Key: name_sou00011
+    Korean: "\uBCF4\uC2A4 3 bgm"
+    English: Boss3 Bgm
+  - Key: name_sou00012
+    Korean: "\uBCF4\uC2A4 4 bgm"
+    English: Boss4 Bgm
+  - Key: name_sou00013
+    Korean: "\uAC8C\uC784\uC624\uBC84"
+    English: Game Over
+  - Key: name_sou00014
+    Korean: "\uB358\uC804 \uD074\uB9AC\uC5B4"
+    English: Dungeon Clear
+  - Key: name_sou00015
+    Korean: "\uC874 \uD074\uB9AC\uC5B4"
+    English: Zone Clear
+  - Key: name_sou00016
+    Korean: "\uB9C8\uC744"
+    English: Town
+  - Key: name_sou00017
+    Korean: "\uCE90\uB9AD\uD130 \uC2A4\uD0AC role 0"
+    English: Character Skill Role 0
+  - Key: name_sou00018
+    Korean: "\uCE90\uB9AD\uD130 \uC2A4\uD0AC role 1"
+    English: Character Skill Role 1
+  - Key: name_sou00019
+    Korean: "\uCE90\uB9AD\uD130 \uC2A4\uD0AC role 2"
+    English: Character Skill Role 2
+  - Key: name_sou00020
+    Korean: "\uCE90\uB9AD\uD130 \uC2A4\uD0AC role 3"
+    English: Character Skill Role 3
+  - Key: name_sou00021
+    Korean: "\uCE90\uB9AD\uD130 \uC2A4\uD0AC role 4"
+    English: Character Skill Role 4
+  - Key: name_sou00022
+    Korean: "\uCE90\uB9AD\uD130 \uC2A4\uD0AC role 5"
+    English: Character Skill Role 5
+  - Key: name_sou00023
+    Korean: "\uC0C1\uC810 \uAD6C\uB9E4 \uD6A8\uACFC\uC74C"
+    English: Shop Buy SFX
+  - Key: name_god00001
+    Korean: "\uBE5B\uC758 \uC2E0"
+    English: God of Light
+  - Key: name_god00002
+    Korean: "\uC815\uC758\uC758 \uC2E0"
+    English: God of Justice
+  - Key: name_god00003
+    Korean: "\uD63C\uB3C8\uC758 \uC2E0"
+    English: God of Chaos
+  - Key: name_god00004
+    Korean: "\uC804\uC7C1\uC758 \uC2E0"
+    English: God of War
+  - Key: name_god00005
+    Korean: "\uC5B4\uB460\uC758 \uC2E0"
+    English: God of Dark
+  - Key: name_god00006
+    Korean: "\uBD88\uC758 \uC2E0"
+    English: God of Fire
+  - Key: name_god00007
+    Korean: "\uC5BC\uC74C\uC758 \uC2E0"
+    English: God of Ice
+  - Key: name_god00008
+    Korean: "\uBC88\uAC1C\uC758 \uC2E0"
+    English: God of Lightning
+  - Key: name_god00009
+    Korean: "\uC6A9\uC758\uC2E0"
+    English: God of Dragon
+  - Key: name_god00010
+    Korean: "\uB300\uC7A5\uC7A5\uC774\uC758 \uC2E0"
+    English: God of Blacksmith
+  - Key: name_god00011
+    Korean: "\uAC01\uC778\uC758 \uC2E0"
+    English: God of Enchant
+  - Key: name_box00001
+    Korean: "\uC791\uC740 \uC0C1\uC790"
+    English: Small Box
+  - Key: name_box00002
+    Korean: "\uC911\uAC04 \uC0C1\uC790"
+    English: Middle Box
+  - Key: name_box00003
+    Korean: "\uD070 \uC0C1\uC790"
+    English: Big Box
+  - Key: name_box00004
+    Korean: "\uBCF4\uBB3C \uC0C1\uC790"
+    English: Treasure Box
+  - Key: name_box00005
+    Korean: "\uC791\uC740 \uD669\uAE08 \uC0C1\uC790"
+    English: Small Gold Box
+  - Key: name_box00006
+    Korean: "\uD070 \uD669\uAE08 \uC0C1\uC790"
+    English: Big Gold Box
+  - Key: name_rec00001
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_rec00002
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_rec00003
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_rec00004
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_rec00005
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_rec00006
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_rec00007
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_rec00008
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_rec00009
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_rec00010
+    Korean: "\uC219\uC18C"
+    English: INN
+  - Key: name_rec00011
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_rec00012
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_rec00013
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_rec00014
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_rec00015
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_rec00016
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_rec00017
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_rec00018
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_rec00019
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_rec00020
+    Korean: "\uD0F1\uCEE4 \uC778\uB825\uC18C"
+    English: Tanker Guild
+  - Key: name_rec00021
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_rec00022
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_rec00023
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_rec00024
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_rec00025
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_rec00026
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_rec00027
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_rec00028
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_rec00029
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_rec00030
+    Korean: "\uB9C8\uBC95\uC0AC \uC778\uB825\uC18C"
+    English: Mage Guild
+  - Key: name_rec00031
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_rec00032
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_rec00033
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_rec00034
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_rec00035
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_rec00036
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_rec00037
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_rec00038
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_rec00039
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_rec00040
+    Korean: "\uADFC\uB51C \uC778\uB825\uC18C"
+    English: Melee Guild
+  - Key: name_rec00041
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_rec00042
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_rec00043
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_rec00044
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_rec00045
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_rec00046
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_rec00047
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_rec00048
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_rec00049
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_rec00050
+    Korean: "\uC6D0\uB51C \uC778\uB825\uC18C"
+    English: Ranger Guild
+  - Key: name_rec00051
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_rec00052
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_rec00053
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_rec00054
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_rec00055
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_rec00056
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_rec00057
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_rec00058
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_rec00059
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_rec00060
+    Korean: "\uC77C\uAFBC \uC778\uB825\uC18C"
+    English: Worker Guild
+  - Key: name_rec00061
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_rec00062
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_rec00063
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_rec00064
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_rec00065
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_rec00066
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_rec00067
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_rec00068
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_rec00069
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_rec00070
+    Korean: "\uB9C8\uD0D1"
+    English: MagicTower
+  - Key: name_rec00071
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_rec00072
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_rec00073
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_rec00074
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_rec00075
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_rec00076
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_rec00077
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_rec00078
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_rec00079
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_rec00080
+    Korean: "\uC0C1\uC810"
+    English: Shop
+  - Key: name_rec00081
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_rec00082
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_rec00083
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_rec00084
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_rec00085
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_rec00086
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_rec00087
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_rec00088
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_rec00089
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_rec00090
+    Korean: "\uB300\uC7A5\uAC04"
+    English: BlackSmith
+  - Key: name_rec00091
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_rec00092
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_rec00093
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_rec00094
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_rec00095
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_rec00096
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_rec00097
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_rec00098
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_rec00099
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_rec00100
+    Korean: "\uAC01\uC778\uC18C"
+    English: Enchant
+  - Key: name_rec00101
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_rec00102
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_rec00103
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_rec00104
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_rec00105
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_rec00106
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_rec00107
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_rec00108
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_rec00109
+    Korean: "\uC2E0\uC804"
+    English: Temple
+  - Key: name_rec00110
+    Korean: "\uC2E0\uC804"
+    English: Temple
