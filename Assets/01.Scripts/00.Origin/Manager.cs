@@ -22,7 +22,7 @@ public abstract class Manager<T> : MonoBehaviour where T : Manager<T>
         }
     }
     public static bool IsInstance => instance != null;
-    protected virtual bool isPersistent => true;
+    protected virtual bool IsPersistent => true;
 
     protected virtual void Awake()
     {
@@ -30,7 +30,7 @@ public abstract class Manager<T> : MonoBehaviour where T : Manager<T>
         {
             instance = (T)this;
 
-            if (isPersistent)
+            if (IsPersistent)
             {
                 DontDestroyOnLoad(gameObject);
             }
