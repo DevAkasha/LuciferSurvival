@@ -7,7 +7,9 @@ public abstract class BaseEntity : MonoBehaviour
     protected virtual void Awake()
     {
         SetupModels();
+        OnInit();
     }
 
     protected abstract void SetupModels();
+    protected virtual void OnInit() { }
 }
