@@ -12,6 +12,11 @@ public class LuciferEntity : CharacterEntity
         get => model.Hp.Value; 
         set => model.Hp.SetValue(value);
     }
+    public override float MoveSpeed 
+    {
+        get => model.MoveSpeed.Value;
+        set => model.MoveSpeed.SetValue(value);
+    }
     #endregion
 
     protected override void SetupModels()
