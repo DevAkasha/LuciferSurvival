@@ -1,0 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Ironcow;
+using Ironcow.Data;
+
+[CreateAssetMenu(fileName = "#SCRIPTNAME#", menuName = "ScriptableObjects/#SCRIPTNAME#")]
+public class #SCRIPTNAME# : BaseDataSO
+{
+	
+}
