@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileManager : Manager<TileManager>
+public class TileManager : Singleton<TileManager>
 {
     protected override bool IsPersistent => false;
 }

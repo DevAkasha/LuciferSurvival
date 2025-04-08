@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CharacterEntity : MobileEntity
+public abstract class MobileController<E> : BaseController<E> where E : MobileEntity
 {
 
 }
