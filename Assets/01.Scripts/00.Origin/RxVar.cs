@@ -3,21 +3,21 @@ using System;
 
 public class RxVar<T>
 {
-    private T _value;
-    private readonly List<Action<T>> _listeners = new();
+    private T value;
+    private readonly List<Action<T>> listeners = new();
 
     public RxVar(T initialValue = default)
     {
-        _value = initialValue;
+        value = initialValue;
     }
 
-    public T Value => _value;
+    public T Value => value;
 
     public void SetValue(T newValue)
     {
-        if (!EqualityComparer<T>.Default.Equals(_value, newValue))
+        if (!EqualityComparer<T>.Default.Equals(value, newValue))
         {
-            _value = newValue;
+            value = newValue;
             NotifyAll();
         }
     }
@@ -26,19 +26,19 @@ public class RxVar<T>
     {
         if (listener != null)
         {
-            _listeners.Add(listener);
-            listener(_value); 
+            listeners.Add(listener);
+            listener(value); 
         }
     }
 
     public void RemoveListener(Action<T> listener)
     {
-        _listeners.Remove(listener);
+        listeners.Remove(listener);
     }
 
     private void NotifyAll()
     {
-        foreach (var listener in _listeners)
-            listener(_value);
+        foreach (var listener in listeners)
+            listener(value);
     }
 }
