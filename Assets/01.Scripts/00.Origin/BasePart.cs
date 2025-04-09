@@ -17,6 +17,6 @@ public abstract class BasePart<E,M> : BasePart where E: IBaseEntity<M> where M :
 
     protected override void SetupModels()
     {
-        Model = Entity.Model;
+        Model = Entity.GetModel();
     }
 }

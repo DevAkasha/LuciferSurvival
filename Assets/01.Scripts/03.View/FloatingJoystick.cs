@@ -66,6 +66,7 @@ public class FloatingJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         joystickBackground.gameObject.SetActive(false);
         joystickHandle.anchoredPosition = Vector2.zero;
         inputVector = Vector2.zero;
+        player.OnMoveByJoystick(Direction);
     }
 
     private void ProcessDrag(PointerEventData eventData)

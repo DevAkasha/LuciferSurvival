@@ -8,6 +8,7 @@ public abstract class BaseEntity : WorldObject { }
 public interface IBaseEntity<M> where M : BaseModel
 {
    public M Model { get; set; }
+   public M GetModel();
 }
 
 public abstract class BaseEntity<M> : BaseEntity, IBaseEntity<M> where M : BaseModel
