@@ -9,7 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60c7aa6d6e17c6b409c48719d5ad249c, type: 3}
-  m_Name: BTEditor
+  m_Script: {fileID: 11500000, guid: 67f10056fd11af24b8f234951993a59c, type: 3}
+  m_Name: UNIT0018
   m_EditorClassIdentifier: 
-  savePath: {fileID: 102900000, guid: efc4b8e0029dcf04989d5373e89c6072, type: 3}
+  thumbnail: {fileID: 0}
+  rcode: UNIT0018
+  displayName: "\uB300\uC7A5 \uC800\uACA9\uC218"
+  description: 
+  idx: 18
+  range: 4
+  atk: 5000
+  atkSpeed: 2
+  criticalDamage: 150
+  criticalChance: 5
