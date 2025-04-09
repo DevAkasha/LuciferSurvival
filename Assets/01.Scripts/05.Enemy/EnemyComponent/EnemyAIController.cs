@@ -29,14 +29,20 @@ public class EnemyAIController : MonoBehaviour
         while (true)
         {
             bt.Operate();
-            Debug.Log("루프 작동");
+            //Debug.Log("루프 작동");
             yield return new WaitForSeconds(0.1f);
         }
     }
     public void InMove(Vector3 dir)
     {
-        transform.LookAt(dir);
+        if (dir.sqrMagnitude > 0.01f)
+        {
+            Vector3 lookDir = new Vector3(dir.x, 0, dir.z); // y축 고정
+            Quaternion rot = Quaternion.LookRotation(lookDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10f);
+        }
         rigidbodys.velocity = dir * enemyStatus.moveSpeed;
+        Debug.Log("추적 중");
     }
     public void InDamage(int damage)
     {
@@ -99,8 +105,10 @@ public class EnemyAIController : MonoBehaviour
     }
     public eNodeState ToDetectPlayer()
     {
-        if (Physics.OverlapSphereNonAlloc(transform.position, enemyStatus.detectRange,
-            colliders, 1 << LayerMask.NameToLayer("Player")) > 0)
+        int count = Physics.OverlapSphereNonAlloc(transform.position, enemyStatus.detectRange,
+            colliders, 1 << LayerMask.NameToLayer("Player"));
+
+        if (count > 0)
         {
             var list = colliders.ToList();
             list.RemoveAll(obj => obj == null);

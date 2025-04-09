@@ -151,8 +151,8 @@ Transform:
   m_GameObject: {fileID: 622623871}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.49, z: 0}
-  m_LocalScale: {x: 1, y: 0.1, z: 0.33}
+  m_LocalPosition: {x: -0.02, y: 0.49, z: 0.28}
+  m_LocalScale: {x: 0.33, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1926497989}
@@ -198,7 +198,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: f71063cf6a8db394899c55e9eda45ab7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -464,7 +464,7 @@ Transform:
   m_GameObject: {fileID: 1214164688}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.32, y: 0.5, z: -9.28}
+  m_LocalPosition: {x: -8.05, y: 0.5, z: -9.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -531,7 +531,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: -876546973899608171, guid: 0e9d5a909a1f7e84882a534d0d11e49f, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -817,11 +817,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyStatus: {fileID: 11400000, guid: 7d2527708539078479b4e8e9a4626b4f, type: 2}
+  Hp: 100
   rigidbodys: {fileID: 1926497991}
   bt:
     root:
       rid: 2295249421192396803
-  Hp: 100
   references:
     version: 2
     RefIds:
@@ -836,66 +836,18 @@ MonoBehaviour:
       data:
         className: SelectorNode
         childs:
-        - rid: 2295249421192396817
-        - rid: 2295249421192396818
-        - rid: 2295249421192396819
-    - rid: 2295249421192396817
-      type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: SequenceNode
-        childs:
-        - rid: 2295249421192396825
-        - rid: 2295249421192396826
-    - rid: 2295249421192396818
-      type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: SequenceNode
-        childs:
-        - rid: 2295249421192396822
-        - rid: 2295249421192396823
-        - rid: 2295249421192396824
-    - rid: 2295249421192396819
-      type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: SequenceNode
-        childs:
-        - rid: 2295249421192396820
-        - rid: 2295249421192396821
-    - rid: 2295249421192396820
+        - rid: 2295249421192396851
+        - rid: 2295249421192396852
+    - rid: 2295249421192396851
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: ToDetectPlayer
-    - rid: 2295249421192396821
+    - rid: 2295249421192396852
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: ToTargetMove
-    - rid: 2295249421192396822
-      type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: ActionNode
-        funcName: DoCheakAttacking
-    - rid: 2295249421192396823
-      type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: ActionNode
-        funcName: DoCheckPlayerWithAttackRange
-    - rid: 2295249421192396824
-      type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: ActionNode
-        funcName: DoEnemyAttack
-    - rid: 2295249421192396825
-      type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: ActionNode
-        funcName: OnCheckDead
-    - rid: 2295249421192396826
-      type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: ActionNode
-        funcName: OnDead
 --- !u!54 &1926497991
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -921,7 +873,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
