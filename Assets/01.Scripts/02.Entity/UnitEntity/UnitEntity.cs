@@ -1,10 +1,10 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Ironcow;
 using Ironcow.BT;
 using UnityEngine;
 
-public class UnitEntity : BaseEntity
+public class UnitEntity : BaseEntity<UnitModel>
 {
     [SerializeField]
     private string rcode;
