@@ -17,12 +17,14 @@ public enum JobType
     None
 }
 
-[CreateAssetMenu(fileName = "EnemyInfo", menuName = "ScriptableObjects/EnemyInfo")]
-public class EnemyInfo : ScriptableObject
+[CreateAssetMenu(fileName = "EnemyStatus", menuName = "ScriptableObjects/EnemyStatus")]
+public class EnemyStatus : ScriptableObject
 {
     public string EnemyName = "전갱이";
     public EnemyType enemyType;
     public RaceType raceType;
     public JobType jobType;
     public float moveSpeed = 1f;
+    public float attackRange = 5f;
+    public float detectRange = 10f;
 }
