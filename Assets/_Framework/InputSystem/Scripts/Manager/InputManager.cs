@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ironcow;
@@ -35,7 +35,7 @@ public class InputManager : MonoSingleton<InputManager>
         {
             yield return down;
             inputSystem.OnKeyDown?.Invoke();
-            while(!inputSystem.isButtonUp)
+            while (!inputSystem.isButtonUp)
             {
                 inputSystem.OnKey?.Invoke();
                 yield return null;
@@ -68,9 +68,9 @@ public class InputManager : MonoSingleton<InputManager>
         if (joystick == null) yield break;
         else
         {
-            while(true)
+            while (true)
             {
-                if(joystick.inputVector != Vector2.zero)
+                if (joystick.inputVector != Vector2.zero)
                 {
                     axis = joystick.inputVector;
                 }

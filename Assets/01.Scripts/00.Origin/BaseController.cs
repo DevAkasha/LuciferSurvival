@@ -15,6 +15,7 @@ public abstract class BaseController<E> : BaseController where E : BaseEntity
     {
         if (entity == null) entity = GetComponent<E>();
         if (entity != null) OnEntityInjected();
+        OnInit();
     }
 
     public void InjectEntity(E entity)
@@ -22,7 +23,8 @@ public abstract class BaseController<E> : BaseController where E : BaseEntity
         this.entity = entity;
         OnEntityInjected();
     }
-    
+
+    protected virtual void OnInit() { }
     protected virtual void OnEntityInjected() { }
 }
 

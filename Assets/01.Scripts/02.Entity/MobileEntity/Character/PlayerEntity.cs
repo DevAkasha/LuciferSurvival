@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
-public abstract class CharacterEntity : MobileEntity
+public abstract class PlayerEntity : MobileEntity
 {
     public Vector2 moveInput;
     protected Vector3 moveDir;

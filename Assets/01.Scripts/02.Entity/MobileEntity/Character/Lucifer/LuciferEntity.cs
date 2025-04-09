@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LuciferEntity : CharacterEntity
+public class LuciferEntity : PlayerEntity
 {
-    public CharacterModel model;
-    
+    public PlayerModel model; 
+
     #region proxy property
     public override float Hp 
     { 
@@ -23,7 +23,5 @@ public class LuciferEntity : CharacterEntity
     {
         model = new();
     }
-
-
 
 }

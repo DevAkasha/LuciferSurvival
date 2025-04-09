@@ -1,6 +1,6 @@
 ﻿
 
-public class LuciferController : CharacterController<LuciferEntity>
+public class LuciferController : PlayerController
 {
 
 }
