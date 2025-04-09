@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem.Utilities;
 using Ironcow.BT;
 
 public class EnemyAIController : MonoBehaviour
 {
-    public EnemyStatus enemyInfo;
+    public EnemyStatus enemyStatus;
+    public int Hp;
     [SerializeField] private Rigidbody rigidbodys;
 
     [SerializeField] BTRunner bt;
-    Collider attackTarget;
+    Collider[] colliders = new Collider[10];
+    Collider TargetPlayer;
 
+    private void Start()
+    {
+        Init();
+    }
     public void Init()
     {
         bt = new BTRunner(name.Replace("(Clone)", "")).SetActions(this);
@@ -24,18 +29,113 @@ public class EnemyAIController : MonoBehaviour
         while (true)
         {
             bt.Operate();
+            Debug.Log("루프 작동");
             yield return new WaitForSeconds(0.1f);
         }
     }
-
-    public eNodeState DoEnemyAttack()
+    public void InMove(Vector3 dir)
     {
-        rigidbodys.velocity = Vector3.zero;
-        if (attackTarget != null)
+        transform.LookAt(dir);
+        rigidbodys.velocity = dir * enemyStatus.moveSpeed;
+    }
+    public void InDamage(int damage)
+    {
+        Hp -= damage;
+
+        if(Hp <= 0)
         {
-            transform.LookAt(attackTarget.transform);
+            InDead();
+        }
+    }
+    public void InDead()
+    {
+
+    }
+    public eNodeState OnCheckDead()
+    {
+        if (Hp <= 0)
+        {
             return eNodeState.success;
         }
         return eNodeState.failure;
+    }
+    public eNodeState OnDead()
+    {
+        return eNodeState.success;
+    }
+    public eNodeState DoCheakAttacking()
+    {
+        return eNodeState.running;
+    }
+    public eNodeState DoCheckPlayerWithAttackRange()
+    {
+        if (TargetPlayer == null)
+        {
+            return eNodeState.failure;
+        }
+
+        var dist = (transform.position - TargetPlayer.transform.position).sqrMagnitude;
+
+        if (dist < enemyStatus.attackRange)
+        {
+            rigidbodys.velocity = Vector3.zero;
+            return eNodeState.success;
+        }
+        else
+        {
+            return eNodeState.failure;
+        }
+    }
+    public eNodeState DoEnemyAttack()
+    {
+        rigidbodys.velocity = Vector3.zero;
+
+        if (TargetPlayer != null)
+        {
+            transform.LookAt(TargetPlayer.transform);
+            return eNodeState.success;
+        }
+        return eNodeState.failure;
+    }
+    public eNodeState ToDetectPlayer()
+    {
+        if (Physics.OverlapSphereNonAlloc(transform.position, enemyStatus.detectRange,
+            colliders, 1 << LayerMask.NameToLayer("Player")) > 0)
+        {
+            var list = colliders.ToList();
+            list.RemoveAll(obj => obj == null);
+            TargetPlayer = list.OrderBy(col => (transform.position - col.transform.position).sqrMagnitude).First();
+            return eNodeState.success;
+        }
+        else
+        {
+            TargetPlayer = null;
+        }
+
+        return eNodeState.failure;
+    }
+    public eNodeState ToTargetMove()
+    {
+        if (TargetPlayer == null)
+        {
+            return eNodeState.failure;
+        }
+        if ((TargetPlayer.transform.position - transform.position).sqrMagnitude < enemyStatus.attackRange)
+        {
+            rigidbodys.velocity = Vector3.zero;
+            return eNodeState.success;
+        }
+        var dir = (TargetPlayer.transform.position - transform.position).normalized;
+        InMove(dir);
+        return eNodeState.running;
+
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, enemyStatus.detectRange);
+        
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, enemyStatus.attackRange);
     }
 }

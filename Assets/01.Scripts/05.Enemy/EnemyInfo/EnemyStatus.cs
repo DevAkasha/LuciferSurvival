@@ -24,6 +24,7 @@ public class EnemyStatus : ScriptableObject
     public EnemyType enemyType;
     public RaceType raceType;
     public JobType jobType;
+    public int MaxHp = 100;
     public float moveSpeed = 1f;
     public float attackRange = 5f;
     public float detectRange = 10f;
