@@ -17,6 +17,7 @@ public class EnemyAIController : MonoBehaviour
 
     private void Start()
     {
+        Hp = enemyStatus.MaxHp;
         Init();
     }
     public void Init()
@@ -39,10 +40,9 @@ public class EnemyAIController : MonoBehaviour
         {
             Vector3 lookDir = new Vector3(dir.x, 0, dir.z); // y축 고정
             Quaternion rot = Quaternion.LookRotation(lookDir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 18f);
         }
         rigidbodys.velocity = dir * enemyStatus.moveSpeed;
-        Debug.Log("추적 중");
     }
     public void InDamage(int damage)
     {
@@ -107,6 +107,7 @@ public class EnemyAIController : MonoBehaviour
     {
         int count = Physics.OverlapSphereNonAlloc(transform.position, enemyStatus.detectRange,
             colliders, 1 << LayerMask.NameToLayer("Player"));
+        //Debug.Log($"{count}");
 
         if (count > 0)
         {
@@ -117,15 +118,17 @@ public class EnemyAIController : MonoBehaviour
         }
         else
         {
+            Debug.Log("타깃 널");
             TargetPlayer = null;
         }
-
+        //Debug.Log("추적 실패");
         return eNodeState.failure;
     }
     public eNodeState ToTargetMove()
     {
         if (TargetPlayer == null)
         {
+            Debug.Log("타깃이 없다");
             return eNodeState.failure;
         }
         if ((TargetPlayer.transform.position - transform.position).sqrMagnitude < enemyStatus.attackRange)
@@ -134,9 +137,16 @@ public class EnemyAIController : MonoBehaviour
             return eNodeState.success;
         }
         var dir = (TargetPlayer.transform.position - transform.position).normalized;
+        Debug.Log("추적 개시");
         InMove(dir);
         return eNodeState.running;
 
+    }
+    public eNodeState AboveStay()
+    {
+        Debug.Log("정지");
+        rigidbodys.velocity = Vector3.zero;
+        return eNodeState.running;
     }
     private void OnDrawGizmos()
     {
