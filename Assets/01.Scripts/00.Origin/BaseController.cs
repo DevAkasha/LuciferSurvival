@@ -5,7 +5,7 @@ using static UnityEngine.InputSystem.InputAction;
 using UnityEngine.InputSystem;
 
 public abstract class BaseController : MonoBehaviour { }
-public abstract class BaseController<E> : BaseController where E : BaseEntity
+public abstract class BaseController<E,M> : BaseController where E : BaseEntity<M> where M: BaseModel
 {
     [SerializeField] private E entity;
 
@@ -15,6 +15,7 @@ public abstract class BaseController<E> : BaseController where E : BaseEntity
     {
         if (entity == null) entity = GetComponent<E>();
         if (entity != null) OnEntityInjected();
+        OnInit();
     }
 
     public void InjectEntity(E entity)
@@ -22,7 +23,8 @@ public abstract class BaseController<E> : BaseController where E : BaseEntity
         this.entity = entity;
         OnEntityInjected();
     }
-    
+
+    protected virtual void OnInit() { }
     protected virtual void OnEntityInjected() { }
 }
 

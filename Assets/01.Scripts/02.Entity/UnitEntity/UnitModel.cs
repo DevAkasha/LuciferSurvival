@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,5 +24,10 @@ public class UnitModel : BaseModel
         atkSpeed = unitDataSO.atkSpeed;
         criticalDamage = unitDataSO.criticalDamage;
         criticalChance = unitDataSO.criticalChance;
+    }
+
+    public override IEnumerable<IModifiable> GetModifiables()
+    {
+        throw new NotImplementedException();
     }
 }

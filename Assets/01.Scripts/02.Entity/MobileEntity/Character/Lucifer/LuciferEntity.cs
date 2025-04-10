@@ -2,28 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LuciferEntity : CharacterEntity
+public class LuciferEntity : PlayerEntity
 {
-    public CharacterModel model;
-    
     #region proxy property
-    public override float Hp 
-    { 
-        get => model.Hp.Value; 
-        set => model.Hp.SetValue(value);
-    }
-    public override float MoveSpeed 
+    public override float Hp
     {
-        get => model.MoveSpeed.Value;
-        set => model.MoveSpeed.SetValue(value);
+        get => Model.Hp.Value;
+        set => Model.Hp.SetValue(value);
+    }
+    public override float MoveSpeed
+    {
+        get => Model.MoveSpeed.Value;
+        set => Model.MoveSpeed.SetValue(value);
     }
     #endregion
 
     protected override void SetupModels()
     {
-        model = new();
+        Model = new();
     }
-
-
 
 }
