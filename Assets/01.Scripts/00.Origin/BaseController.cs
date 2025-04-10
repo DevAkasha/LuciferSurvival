@@ -5,7 +5,7 @@ using static UnityEngine.InputSystem.InputAction;
 using UnityEngine.InputSystem;
 
 public abstract class BaseController : MonoBehaviour { }
-public abstract class BaseController<E> : BaseController where E : BaseEntity
+public abstract class BaseController<E,M> : BaseController where E : BaseEntity<M> where M: BaseModel
 {
     [SerializeField] private E entity;
 

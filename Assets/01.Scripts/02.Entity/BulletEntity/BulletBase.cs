@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestModel : BaseModel
+public class BulletBase : BaseModel
 {
-    public RxVar<float> Hp = new RxVar<float>(100);
+    public GameObject prefab;
+    public float speed;
+    public Vector3 direction;
 
     public override IEnumerable<IModifiable> GetModifiables()
     {

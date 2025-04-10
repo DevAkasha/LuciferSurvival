@@ -1,9 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class PlayerModel: BaseModel
 {
-   public RxVar<float> Hp = new(100);
-   public RxVar<float> MoveSpeed = new(4);
+    public RxModFloat Hp = new(100);
+    public RxModFloat MoveSpeed = new(4);
+
+    public override IEnumerable<IModifiable> GetModifiables()
+    {
+        yield return Hp;
+        yield return MoveSpeed;
+    }
 }

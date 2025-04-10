@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
-public abstract class PlayerEntity : MobileEntity
+public abstract class PlayerEntity : MobileEntity<PlayerModel>
 {
     public Vector2 moveInput;
     protected Vector3 moveDir;
@@ -20,7 +20,7 @@ public abstract class PlayerEntity : MobileEntity
     {
         rigid = GetComponent<Rigidbody>();
     }
-
+    
     protected virtual void FixedUpdate()
     {
         Move();
