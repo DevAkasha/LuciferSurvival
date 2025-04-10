@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public sealed class RxModFloat : IRxMod<float>, IModifiable, IUntypedRxMod
+public sealed class RxModFloat : RxBase, IRxMod<float>, IModifiable, IUntypedRxMod
 {
     private float origin;
     private float cachedValue;
@@ -14,13 +14,17 @@ public sealed class RxModFloat : IRxMod<float>, IModifiable, IUntypedRxMod
     private readonly Dictionary<ModifierKey, float> postMultiplicativeAdditives = new();
     private readonly HashSet<ModifierKey> signModifiers = new();
 
-    public event Action<float> OnChanged;
+    private readonly List<Action<float>> listeners = new();
 
-    public RxModFloat(float origin = 0f)
+    public RxModFloat(float origin = 0f, object owner = null)
     {
         this.origin = origin;
-        this.cachedValue = origin;
-        this.lastNotifiedValue = origin;
+        cachedValue = origin;
+        lastNotifiedValue = origin;
+        if (owner is ITrackableRxModel model)
+        {
+            model.RegisterRx(this);
+        }
     }
 
     public float Value
@@ -34,6 +38,19 @@ public sealed class RxModFloat : IRxMod<float>, IModifiable, IUntypedRxMod
         }
     }
 
+    public void AddListener(Action<float> listener)
+    {
+        if (listener != null)
+        {
+            listeners.Add(listener);
+            listener(Value);
+        }
+    }
+
+    public void RemoveListener(Action<float> listener)
+    {
+        listeners.Remove(listener);
+    }
     private void Recalculate()
     {
         float sum = origin;
@@ -64,12 +81,17 @@ public sealed class RxModFloat : IRxMod<float>, IModifiable, IUntypedRxMod
         cachedValue = total;
 
         if (!cachedValue.Equals(lastNotifiedValue))
-        {
+        {  
+            NotifyAll(cachedValue);
             lastNotifiedValue = cachedValue;
-            OnChanged?.Invoke(cachedValue);
         }
 
         dirty = false;
+    }
+    private void NotifyAll(float cachedValue)
+    {
+        foreach (var listener in listeners)
+            listener(cachedValue);
     }
 
     private void Invalidate() => dirty = true;
@@ -99,7 +121,6 @@ public sealed class RxModFloat : IRxMod<float>, IModifiable, IUntypedRxMod
         ClearAll();
         cachedValue = newValue;
         lastNotifiedValue = newValue;
-        OnChanged?.Invoke(newValue);
     }
 
     public void SetModifier(ModifierType type, ModifierKey key, float value)
@@ -150,6 +171,11 @@ public sealed class RxModFloat : IRxMod<float>, IModifiable, IUntypedRxMod
             Invalidate();
     }
 
+    public override void ClearRelation()
+    {
+        listeners.Clear();
+        ClearAll();
+    }
     public void ClearAll()
     {
         additives.Clear();
@@ -213,4 +239,5 @@ public sealed class RxModFloat : IRxMod<float>, IModifiable, IUntypedRxMod
         RemoveModifier(ModifierType.FinalAdd, key);
         RemoveModifier(ModifierType.SignFlip, key);
     }
+
 }

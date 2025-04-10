@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestEntity<M> : MobileEntity<M> where M:BaseModel
+public class TestEntity : MobileEntity<TestModel>
 {
     public TestModel model;
 
-    protected override void SetupModels()
+    protected override void SetupModel()
     {
         model = new TestModel();
     }
@@ -22,4 +22,6 @@ public class TestEntity<M> : MobileEntity<M> where M:BaseModel
         Damaged(30);
         Debug.Log($"플레이어 체력 : {Hp}");
     }
+
+
 }

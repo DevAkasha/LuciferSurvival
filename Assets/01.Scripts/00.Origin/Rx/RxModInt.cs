@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System;
 
-public sealed class RxModInt : IRxMod<int>, IModifiable, IUntypedRxMod
+public sealed class RxModInt : RxBase, IRxMod<int>, IModifiable, IUntypedRxMod
 {
     private int origin;
     private int cachedValue;
@@ -14,13 +14,17 @@ public sealed class RxModInt : IRxMod<int>, IModifiable, IUntypedRxMod
     private readonly Dictionary<ModifierKey, int> postMultiplicativeAdditives = new();
     private readonly HashSet<ModifierKey> signModifiers = new();
 
-    public event Action<int> OnChanged;
+    private readonly List<Action<int>> listeners = new();
 
-    public RxModInt(int origin = 0)
+    public RxModInt(int origin = 0, object owner = null)
     {
         this.origin = origin;
-        this.cachedValue = origin;
-        this.lastNotifiedValue = origin;
+        cachedValue = origin;
+        lastNotifiedValue = origin;
+        if (owner is ITrackableRxModel model)
+        {
+            model.RegisterRx(this);
+        }
     }
 
     public int Value
@@ -34,9 +38,23 @@ public sealed class RxModInt : IRxMod<int>, IModifiable, IUntypedRxMod
         }
     }
 
+    public void AddListener(Action<int> listener)
+    {
+        if (listener != null)
+        {
+            listeners.Add(listener);
+            listener(Value);
+        }
+    }
+
+    public void RemoveListener(Action<int> listener)
+    {
+        listeners.Remove(listener);
+    }
+
     private void Recalculate()
     {
-        int sum = origin;
+        float sum = origin;
         foreach (var v in additives.Values)
             sum += v;
 
@@ -52,24 +70,30 @@ public sealed class RxModInt : IRxMod<int>, IModifiable, IUntypedRxMod
 
         float withMul = scaled * mul;
 
-        int postAdd = 0;
+        float postAdd = 0f;
         foreach (var v in postMultiplicativeAdditives.Values)
             postAdd += v;
 
-        int total = (int)Math.Round(withMul + postAdd);
+        float total = withMul + postAdd;
 
         if (signModifiers.Count % 2 != 0)
             total = -total;
 
-        cachedValue = total;
+        cachedValue = (int)Math.Round(total);
 
         if (cachedValue != lastNotifiedValue)
         {
+            NotifyAll(cachedValue);
             lastNotifiedValue = cachedValue;
-            OnChanged?.Invoke(cachedValue);
         }
 
         dirty = false;
+    }
+
+    private void NotifyAll(int value)
+    {
+        foreach (var listener in listeners)
+            listener(value);
     }
 
     private void Invalidate() => dirty = true;
@@ -99,24 +123,23 @@ public sealed class RxModInt : IRxMod<int>, IModifiable, IUntypedRxMod
         ClearAll();
         cachedValue = newValue;
         lastNotifiedValue = newValue;
-        OnChanged?.Invoke(newValue);
     }
 
-    public void SetModifier(ModifierType type, ModifierKey key, int value)
+    public void SetModifier(ModifierType type, ModifierKey key, float value)
     {
         switch (type)
         {
             case ModifierType.OriginAdd:
-                additives[key] = value;
+                additives[key] = (int)value;
                 break;
             case ModifierType.AddMultiplier:
-                additiveMultipliers[key] = value / 100f; // 예: 10 -> 10%
+                additiveMultipliers[key] = value;
                 break;
             case ModifierType.Multiplier:
-                multipliers[key] = value / 100f;
+                multipliers[key] = value;
                 break;
             case ModifierType.FinalAdd:
-                postMultiplicativeAdditives[key] = value;
+                postMultiplicativeAdditives[key] = (int)value;
                 break;
             default:
                 throw new InvalidOperationException("Use AddModifier for SignFlip.");
@@ -148,6 +171,12 @@ public sealed class RxModInt : IRxMod<int>, IModifiable, IUntypedRxMod
 
         if (removed)
             Invalidate();
+    }
+
+    public override void ClearRelation()
+    {
+        listeners.Clear();
+        ClearAll();
     }
 
     public void ClearAll()
@@ -185,8 +214,8 @@ public sealed class RxModInt : IRxMod<int>, IModifiable, IUntypedRxMod
 
     void IUntypedRxMod.SetModifier(ModifierType type, ModifierKey key, object value)
     {
-        if (value is int i) SetModifier(type, key, i);
-        else throw new InvalidCastException("Expected int");
+        if (value is float f) SetModifier(type, key, f);
+        else throw new InvalidCastException("Expected float");
     }
 
     void IUntypedRxMod.AddModifier(ModifierType type, ModifierKey key) => AddModifier(type, key);
@@ -196,10 +225,10 @@ public sealed class RxModInt : IRxMod<int>, IModifiable, IUntypedRxMod
     // === IModifiable 구현 ===
     public void ApplyModifier(ModifierKey key, ModifierType type, object value)
     {
-        if (value is int i)
-            SetModifier(type, key, i);
+        if (value is float f)
+            SetModifier(type, key, f);
         else
-            throw new InvalidCastException("IModifiable requires value of type int");
+            throw new InvalidCastException("IModifiable requires value of type float");
     }
 
     public void ApplySignFlip(ModifierKey key)

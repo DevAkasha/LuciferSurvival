@@ -11,7 +11,7 @@ public abstract class BaseController<E,M> : BaseController where E : BaseEntity<
 
     public E Entity => entity;
 
-    protected virtual void Awake()
+    protected virtual void OnEnable()
     {
         if (entity == null) entity = GetComponent<E>();
         if (entity != null) OnEntityInjected();

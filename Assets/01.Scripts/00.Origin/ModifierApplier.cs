@@ -12,7 +12,7 @@ public interface IModifiable
     void ApplyModifier(ModifierKey key, ModifierType type, object value);
 }
 
-public interface IModifiableTarget
+public interface IModifiableTarget 
 {
     IEnumerable<IModifiable> GetModifiables();
 }

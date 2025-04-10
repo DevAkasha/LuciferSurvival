@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System;
 
-public sealed class RxModLong : IRxMod<long>, IModifiable, IUntypedRxMod
+public sealed class RxModLong : RxBase, IRxMod<long>, IModifiable, IUntypedRxMod
 {
     private long origin;
     private long cachedValue;
@@ -9,18 +9,22 @@ public sealed class RxModLong : IRxMod<long>, IModifiable, IUntypedRxMod
     private bool dirty = true;
 
     private readonly Dictionary<ModifierKey, long> additives = new();
-    private readonly Dictionary<ModifierKey, double> additiveMultipliers = new(); // long에는 double 비율 적용
+    private readonly Dictionary<ModifierKey, double> additiveMultipliers = new();
     private readonly Dictionary<ModifierKey, double> multipliers = new();
     private readonly Dictionary<ModifierKey, long> postMultiplicativeAdditives = new();
     private readonly HashSet<ModifierKey> signModifiers = new();
 
-    public event Action<long> OnChanged;
+    private readonly List<Action<long>> listeners = new();
 
-    public RxModLong(long origin = 0)
+    public RxModLong(long origin = 0L, object owner = null)
     {
         this.origin = origin;
-        this.cachedValue = origin;
-        this.lastNotifiedValue = origin;
+        cachedValue = origin;
+        lastNotifiedValue = origin;
+        if (owner is ITrackableRxModel model)
+        {
+            model.RegisterRx(this);
+        }
     }
 
     public long Value
@@ -34,42 +38,62 @@ public sealed class RxModLong : IRxMod<long>, IModifiable, IUntypedRxMod
         }
     }
 
+    public void AddListener(Action<long> listener)
+    {
+        if (listener != null)
+        {
+            listeners.Add(listener);
+            listener(Value);
+        }
+    }
+
+    public void RemoveListener(Action<long> listener)
+    {
+        listeners.Remove(listener);
+    }
+
     private void Recalculate()
     {
-        long sum = origin;
+        double sum = origin;
         foreach (var v in additives.Values)
             sum += v;
 
-        double additiveRate = 0;
+        double additiveRate = 0.0;
         foreach (var v in additiveMultipliers.Values)
             additiveRate += v;
 
-        double scaled = sum * (1 + additiveRate);
+        double scaled = sum * (1.0 + additiveRate);
 
-        double mul = 1;
+        double mul = 1.0;
         foreach (var v in multipliers.Values)
             mul *= v;
 
         double withMul = scaled * mul;
 
-        long postAdd = 0;
+        double postAdd = 0.0;
         foreach (var v in postMultiplicativeAdditives.Values)
             postAdd += v;
 
-        long total = (long)Math.Round(withMul + postAdd);
+        double total = withMul + postAdd;
 
         if (signModifiers.Count % 2 != 0)
             total = -total;
 
-        cachedValue = total;
+        cachedValue = (long)Math.Round(total);
 
         if (cachedValue != lastNotifiedValue)
         {
+            NotifyAll(cachedValue);
             lastNotifiedValue = cachedValue;
-            OnChanged?.Invoke(cachedValue);
         }
 
         dirty = false;
+    }
+
+    private void NotifyAll(long value)
+    {
+        foreach (var listener in listeners)
+            listener(value);
     }
 
     private void Invalidate() => dirty = true;
@@ -99,24 +123,23 @@ public sealed class RxModLong : IRxMod<long>, IModifiable, IUntypedRxMod
         ClearAll();
         cachedValue = newValue;
         lastNotifiedValue = newValue;
-        OnChanged?.Invoke(newValue);
     }
 
-    public void SetModifier(ModifierType type, ModifierKey key, long value)
+    public void SetModifier(ModifierType type, ModifierKey key, double value)
     {
         switch (type)
         {
             case ModifierType.OriginAdd:
-                additives[key] = value;
+                additives[key] = (long)value;
                 break;
             case ModifierType.AddMultiplier:
-                additiveMultipliers[key] = value / 100.0; // 퍼센트 개념
+                additiveMultipliers[key] = value;
                 break;
             case ModifierType.Multiplier:
-                multipliers[key] = value / 100.0;
+                multipliers[key] = value;
                 break;
             case ModifierType.FinalAdd:
-                postMultiplicativeAdditives[key] = value;
+                postMultiplicativeAdditives[key] = (long)value;
                 break;
             default:
                 throw new InvalidOperationException("Use AddModifier for SignFlip.");
@@ -148,6 +171,12 @@ public sealed class RxModLong : IRxMod<long>, IModifiable, IUntypedRxMod
 
         if (removed)
             Invalidate();
+    }
+
+    public override void ClearRelation()
+    {
+        listeners.Clear();
+        ClearAll();
     }
 
     public void ClearAll()
@@ -185,8 +214,9 @@ public sealed class RxModLong : IRxMod<long>, IModifiable, IUntypedRxMod
 
     void IUntypedRxMod.SetModifier(ModifierType type, ModifierKey key, object value)
     {
-        if (value is long l) SetModifier(type, key, l);
-        else throw new InvalidCastException("Expected long");
+        if (value is double d) SetModifier(type, key, d);
+        else if (value is float f) SetModifier(type, key, f);
+        else throw new InvalidCastException("Expected double or float");
     }
 
     void IUntypedRxMod.AddModifier(ModifierType type, ModifierKey key) => AddModifier(type, key);
@@ -196,10 +226,12 @@ public sealed class RxModLong : IRxMod<long>, IModifiable, IUntypedRxMod
     // === IModifiable 구현 ===
     public void ApplyModifier(ModifierKey key, ModifierType type, object value)
     {
-        if (value is long l)
-            SetModifier(type, key, l);
+        if (value is double d)
+            SetModifier(type, key, d);
+        else if (value is float f)
+            SetModifier(type, key, f);
         else
-            throw new InvalidCastException("IModifiable requires value of type long");
+            throw new InvalidCastException("IModifiable requires value of type double or float");
     }
 
     public void ApplySignFlip(ModifierKey key)

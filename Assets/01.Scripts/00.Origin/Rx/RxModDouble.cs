@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System;
 
-public sealed class RxModDouble : IRxMod<double>, IModifiable, IUntypedRxMod
+public sealed class RxModDouble : RxBase, IRxMod<double>, IModifiable, IUntypedRxMod
 {
     private double origin;
     private double cachedValue;
@@ -14,13 +14,17 @@ public sealed class RxModDouble : IRxMod<double>, IModifiable, IUntypedRxMod
     private readonly Dictionary<ModifierKey, double> postMultiplicativeAdditives = new();
     private readonly HashSet<ModifierKey> signModifiers = new();
 
-    public event Action<double> OnChanged;
+    private readonly List<Action<double>> listeners = new();
 
-    public RxModDouble(double origin = 0)
+    public RxModDouble(double origin = 0.0, object owner = null)
     {
         this.origin = origin;
-        this.cachedValue = origin;
-        this.lastNotifiedValue = origin;
+        cachedValue = origin;
+        lastNotifiedValue = origin;
+        if (owner is ITrackableRxModel model)
+        {
+            model.RegisterRx(this);
+        }
     }
 
     public double Value
@@ -34,25 +38,39 @@ public sealed class RxModDouble : IRxMod<double>, IModifiable, IUntypedRxMod
         }
     }
 
+    public void AddListener(Action<double> listener)
+    {
+        if (listener != null)
+        {
+            listeners.Add(listener);
+            listener(Value);
+        }
+    }
+
+    public void RemoveListener(Action<double> listener)
+    {
+        listeners.Remove(listener);
+    }
+
     private void Recalculate()
     {
         double sum = origin;
         foreach (var v in additives.Values)
             sum += v;
 
-        double additiveRate = 0;
+        double additiveRate = 0.0;
         foreach (var v in additiveMultipliers.Values)
             additiveRate += v;
 
-        double scaled = sum * (1 + additiveRate);
+        double scaled = sum * (1.0 + additiveRate);
 
-        double mul = 1;
+        double mul = 1.0;
         foreach (var v in multipliers.Values)
             mul *= v;
 
         double withMul = scaled * mul;
 
-        double postAdd = 0;
+        double postAdd = 0.0;
         foreach (var v in postMultiplicativeAdditives.Values)
             postAdd += v;
 
@@ -65,11 +83,17 @@ public sealed class RxModDouble : IRxMod<double>, IModifiable, IUntypedRxMod
 
         if (!cachedValue.Equals(lastNotifiedValue))
         {
+            NotifyAll(cachedValue);
             lastNotifiedValue = cachedValue;
-            OnChanged?.Invoke(cachedValue);
         }
 
         dirty = false;
+    }
+
+    private void NotifyAll(double value)
+    {
+        foreach (var listener in listeners)
+            listener(value);
     }
 
     private void Invalidate() => dirty = true;
@@ -99,7 +123,6 @@ public sealed class RxModDouble : IRxMod<double>, IModifiable, IUntypedRxMod
         ClearAll();
         cachedValue = newValue;
         lastNotifiedValue = newValue;
-        OnChanged?.Invoke(newValue);
     }
 
     public void SetModifier(ModifierType type, ModifierKey key, double value)
@@ -150,6 +173,12 @@ public sealed class RxModDouble : IRxMod<double>, IModifiable, IUntypedRxMod
             Invalidate();
     }
 
+    public override void ClearRelation()
+    {
+        listeners.Clear();
+        ClearAll();
+    }
+
     public void ClearAll()
     {
         additives.Clear();
@@ -186,7 +215,8 @@ public sealed class RxModDouble : IRxMod<double>, IModifiable, IUntypedRxMod
     void IUntypedRxMod.SetModifier(ModifierType type, ModifierKey key, object value)
     {
         if (value is double d) SetModifier(type, key, d);
-        else throw new InvalidCastException("Expected double");
+        else if (value is float f) SetModifier(type, key, f);
+        else throw new InvalidCastException("Expected double or float");
     }
 
     void IUntypedRxMod.AddModifier(ModifierType type, ModifierKey key) => AddModifier(type, key);
@@ -198,8 +228,10 @@ public sealed class RxModDouble : IRxMod<double>, IModifiable, IUntypedRxMod
     {
         if (value is double d)
             SetModifier(type, key, d);
+        else if (value is float f)
+            SetModifier(type, key, f);
         else
-            throw new InvalidCastException("IModifiable requires value of type double");
+            throw new InvalidCastException("IModifiable requires value of type double or float");
     }
 
     public void ApplySignFlip(ModifierKey key)
