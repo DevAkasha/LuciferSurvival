@@ -118,8 +118,8 @@ public class EnemyAIController : MonoBehaviour
         }
         else
         {
-            Debug.Log("타깃 널");
             TargetPlayer = null;
+            Debug.Log("타깃 널");
         }
         //Debug.Log("추적 실패");
         return eNodeState.failure;
