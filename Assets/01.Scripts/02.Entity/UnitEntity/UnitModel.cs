@@ -35,8 +35,4 @@ public class UnitModel : BaseModel
         throw new NotImplementedException();
     }
 
-    public override IEnumerable<IModifiable> GetModifiables()
-    {
-        throw new NotImplementedException();
-    }
 }
