@@ -4,12 +4,15 @@ using System;
 using System.Linq;
 using UnityEngine;
 using Ironcow.BT;
+using UnityEngine.AI;
 
 public class EnemyAIController : MonoBehaviour
 {
     public EnemyStatus enemyStatus;
     public int Hp;
     [SerializeField] private Rigidbody rigidbodys;
+    [SerializeField] private NavMeshAgent navMesh;
+    [SerializeField] private Animator animator;
 
     [SerializeField] BTRunner bt;
     Collider[] colliders = new Collider[10];
