@@ -13,6 +13,8 @@ public class UnitModel : BaseModel
     public float atkSpeed;
     public float criticalDamage;
     public float criticalChance;
+    public int cost;
+    public UnitGrade grade;
 
     public UnitModel(UnitDataSO unitDataSO)
     {
@@ -24,6 +26,8 @@ public class UnitModel : BaseModel
         atkSpeed = unitDataSO.atkSpeed;
         criticalDamage = unitDataSO.criticalDamage;
         criticalChance = unitDataSO.criticalChance;
+        cost = unitDataSO.cost;
+        grade = unitDataSO.grade;
     }
 
     public override IEnumerable<IModifiable> GetModifiables()

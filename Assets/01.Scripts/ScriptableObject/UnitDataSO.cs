@@ -4,6 +4,15 @@ using UnityEngine;
 using Ironcow;
 using Ironcow.Data;
 
+public enum UnitGrade
+{
+    One = 1,
+    Two,
+    Three,
+    Four,
+    Five,
+}
+
 [CreateAssetMenu(fileName = "UnitDataSO", menuName = "ScriptableObjects/UnitDataSO")]
 public class UnitDataSO : BaseDataSO
 {
@@ -13,4 +22,6 @@ public class UnitDataSO : BaseDataSO
     public float atkSpeed;
     public float criticalDamage;
     public float criticalChance;
+    public int cost;
+    public UnitGrade grade;
 }
