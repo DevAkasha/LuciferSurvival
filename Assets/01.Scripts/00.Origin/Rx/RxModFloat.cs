@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public sealed class RxModFloat : IRxMod<float>, IUntypedRxMod
+public sealed class RxModFloat : IRxMod<float>, IModifiable, IUntypedRxMod
 {
     private float origin;
     private float cachedValue;
@@ -106,7 +106,7 @@ public sealed class RxModFloat : IRxMod<float>, IUntypedRxMod
     {
         switch (type)
         {
-            case ModifierType.Additive:
+            case ModifierType.OriginAdditive:
                 additives[key] = value;
                 break;
             case ModifierType.AdditiveMultiplier:
@@ -115,7 +115,7 @@ public sealed class RxModFloat : IRxMod<float>, IUntypedRxMod
             case ModifierType.Multiplier:
                 multipliers[key] = value;
                 break;
-            case ModifierType.PostMultiplicativeAdditive:
+            case ModifierType.FinalAdditive:
                 postMultiplicativeAdditives[key] = value;
                 break;
             default:
@@ -138,10 +138,10 @@ public sealed class RxModFloat : IRxMod<float>, IUntypedRxMod
     {
         bool removed = type switch
         {
-            ModifierType.Additive => additives.Remove(key),
+            ModifierType.OriginAdditive => additives.Remove(key),
             ModifierType.AdditiveMultiplier => additiveMultipliers.Remove(key),
             ModifierType.Multiplier => multipliers.Remove(key),
-            ModifierType.PostMultiplicativeAdditive => postMultiplicativeAdditives.Remove(key),
+            ModifierType.FinalAdditive => postMultiplicativeAdditives.Remove(key),
             ModifierType.SignFlip => signModifiers.Remove(key),
             _ => false
         };
@@ -160,55 +160,57 @@ public sealed class RxModFloat : IRxMod<float>, IUntypedRxMod
         Invalidate();
     }
 
-
+    // === IRxMod<float> 명시적 구현 ===
     float IRxMod<float>.Value => Value;
-
     void IRxMod<float>.SetValue(float origin) => SetValue(origin);
-
     void IRxMod<float>.ResetValue(float origin) => ResetValue(origin);
-
-    void IRxMod<float>.SetModifier(ModifierType type, ModifierKey key, float value) =>
-        SetModifier(type, key, value);
-
-    void IRxMod<float>.AddModifier(ModifierType type, ModifierKey key) =>
-        AddModifier(type, key);
-
-    void IRxMod<float>.RemoveModifier(ModifierType type, ModifierKey key) =>
-        RemoveModifier(type, key);
-
+    void IRxMod<float>.SetModifier(ModifierType type, ModifierKey key, float value) => SetModifier(type, key, value);
+    void IRxMod<float>.AddModifier(ModifierType type, ModifierKey key) => AddModifier(type, key);
+    void IRxMod<float>.RemoveModifier(ModifierType type, ModifierKey key) => RemoveModifier(type, key);
     void IRxMod<float>.ClearAll() => ClearAll();
 
+    // === IUntypedRxMod 명시적 구현 ===
     object IUntypedRxMod.Value => Value;
-
     void IUntypedRxMod.SetValue(object origin)
     {
-        if (origin is float value)
-            SetValue(value);
-        else
-            throw new InvalidCastException("Expected float");
+        if (origin is float value) SetValue(value);
+        else throw new InvalidCastException("Expected float");
     }
 
     void IUntypedRxMod.ResetValue(object origin)
     {
-        if (origin is float value)
-            ResetValue(value);
-        else
-            throw new InvalidCastException("Expected float");
+        if (origin is float value) ResetValue(value);
+        else throw new InvalidCastException("Expected float");
     }
 
     void IUntypedRxMod.SetModifier(ModifierType type, ModifierKey key, object value)
     {
-        if (value is float v)
-            SetModifier(type, key, v);
-        else
-            throw new InvalidCastException("Expected float");
+        if (value is float f) SetModifier(type, key, f);
+        else throw new InvalidCastException("Expected float");
     }
 
-    void IUntypedRxMod.AddModifier(ModifierType type, ModifierKey key) =>
-        AddModifier(type, key);
-
-    void IUntypedRxMod.RemoveModifier(ModifierType type, ModifierKey key) =>
-        RemoveModifier(type, key);
-
+    void IUntypedRxMod.AddModifier(ModifierType type, ModifierKey key) => AddModifier(type, key);
+    void IUntypedRxMod.RemoveModifier(ModifierType type, ModifierKey key) => RemoveModifier(type, key);
     void IUntypedRxMod.ClearAll() => ClearAll();
+
+    // === IModifiable 구현 ===
+    public void ApplyModifier(ModifierKey key, ModifierType type, object value)
+    {
+        if (value is float f)
+            SetModifier(type, key, f);
+        else
+            throw new InvalidCastException("IModifiable requires value of type float");
+    }
+
+    public void ApplySignFlip(ModifierKey key)
+        => AddModifier(ModifierType.SignFlip, key);
+
+    public void RemoveModifier(ModifierKey key)
+    {
+        RemoveModifier(ModifierType.OriginAdditive, key);
+        RemoveModifier(ModifierType.AdditiveMultiplier, key);
+        RemoveModifier(ModifierType.Multiplier, key);
+        RemoveModifier(ModifierType.FinalAdditive, key);
+        RemoveModifier(ModifierType.SignFlip, key);
+    }
 }

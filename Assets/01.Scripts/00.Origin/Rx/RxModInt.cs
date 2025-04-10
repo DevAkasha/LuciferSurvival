@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public sealed class RxModInt : IRxMod<int>, IUntypedRxMod
+public sealed class RxModInt : IRxMod<int>, IModifiable, IUntypedRxMod
 {
     private int origin;
     private int cachedValue;
@@ -9,8 +9,8 @@ public sealed class RxModInt : IRxMod<int>, IUntypedRxMod
     private bool dirty = true;
 
     private readonly Dictionary<ModifierKey, int> additives = new();
-    private readonly Dictionary<ModifierKey, int> additiveMultipliers = new();
-    private readonly Dictionary<ModifierKey, int> multipliers = new();
+    private readonly Dictionary<ModifierKey, float> additiveMultipliers = new();
+    private readonly Dictionary<ModifierKey, float> multipliers = new();
     private readonly Dictionary<ModifierKey, int> postMultiplicativeAdditives = new();
     private readonly HashSet<ModifierKey> signModifiers = new();
 
@@ -29,6 +29,7 @@ public sealed class RxModInt : IRxMod<int>, IUntypedRxMod
         {
             if (dirty)
                 Recalculate();
+
             return cachedValue;
         }
     }
@@ -39,23 +40,23 @@ public sealed class RxModInt : IRxMod<int>, IUntypedRxMod
         foreach (var v in additives.Values)
             sum += v;
 
-        int additiveRate = 0;
+        float additiveRate = 0f;
         foreach (var v in additiveMultipliers.Values)
             additiveRate += v;
 
-        int scaled = sum * (1 + additiveRate);
+        float scaled = sum * (1f + additiveRate);
 
-        int mul = 1;
+        float mul = 1f;
         foreach (var v in multipliers.Values)
             mul *= v;
 
-        int withMul = scaled * mul;
+        float withMul = scaled * mul;
 
         int postAdd = 0;
         foreach (var v in postMultiplicativeAdditives.Values)
             postAdd += v;
 
-        int total = withMul + postAdd;
+        int total = (int)Math.Round(withMul + postAdd);
 
         if (signModifiers.Count % 2 != 0)
             total = -total;
@@ -105,16 +106,16 @@ public sealed class RxModInt : IRxMod<int>, IUntypedRxMod
     {
         switch (type)
         {
-            case ModifierType.Additive:
+            case ModifierType.OriginAdditive:
                 additives[key] = value;
                 break;
             case ModifierType.AdditiveMultiplier:
-                additiveMultipliers[key] = value;
+                additiveMultipliers[key] = value / 100f; // 예: 10 -> 10%
                 break;
             case ModifierType.Multiplier:
-                multipliers[key] = value;
+                multipliers[key] = value / 100f;
                 break;
-            case ModifierType.PostMultiplicativeAdditive:
+            case ModifierType.FinalAdditive:
                 postMultiplicativeAdditives[key] = value;
                 break;
             default:
@@ -127,7 +128,7 @@ public sealed class RxModInt : IRxMod<int>, IUntypedRxMod
     public void AddModifier(ModifierType type, ModifierKey key)
     {
         if (type != ModifierType.SignFlip)
-            throw new InvalidOperationException("Only SignFlip can be added without value.");
+            throw new InvalidOperationException("Only SignFlip can be added without a value.");
 
         signModifiers.Add(key);
         Invalidate();
@@ -137,10 +138,10 @@ public sealed class RxModInt : IRxMod<int>, IUntypedRxMod
     {
         bool removed = type switch
         {
-            ModifierType.Additive => additives.Remove(key),
+            ModifierType.OriginAdditive => additives.Remove(key),
             ModifierType.AdditiveMultiplier => additiveMultipliers.Remove(key),
             ModifierType.Multiplier => multipliers.Remove(key),
-            ModifierType.PostMultiplicativeAdditive => postMultiplicativeAdditives.Remove(key),
+            ModifierType.FinalAdditive => postMultiplicativeAdditives.Remove(key),
             ModifierType.SignFlip => signModifiers.Remove(key),
             _ => false
         };
@@ -159,37 +160,57 @@ public sealed class RxModInt : IRxMod<int>, IUntypedRxMod
         Invalidate();
     }
 
-    object IUntypedRxMod.Value => Value;
+    // === IRxMod<int> 명시적 구현 ===
+    int IRxMod<int>.Value => Value;
+    void IRxMod<int>.SetValue(int origin) => SetValue(origin);
+    void IRxMod<int>.ResetValue(int origin) => ResetValue(origin);
+    void IRxMod<int>.SetModifier(ModifierType type, ModifierKey key, int value) => SetModifier(type, key, value);
+    void IRxMod<int>.AddModifier(ModifierType type, ModifierKey key) => AddModifier(type, key);
+    void IRxMod<int>.RemoveModifier(ModifierType type, ModifierKey key) => RemoveModifier(type, key);
+    void IRxMod<int>.ClearAll() => ClearAll();
 
+    // === IUntypedRxMod 명시적 구현 ===
+    object IUntypedRxMod.Value => Value;
     void IUntypedRxMod.SetValue(object origin)
     {
-        if (origin is int value)
-            SetValue(value);
-        else
-            throw new InvalidCastException("Expected int");
+        if (origin is int value) SetValue(value);
+        else throw new InvalidCastException("Expected int");
     }
 
     void IUntypedRxMod.ResetValue(object origin)
     {
-        if (origin is int value)
-            ResetValue(value);
-        else
-            throw new InvalidCastException("Expected int");
+        if (origin is int value) ResetValue(value);
+        else throw new InvalidCastException("Expected int");
     }
 
     void IUntypedRxMod.SetModifier(ModifierType type, ModifierKey key, object value)
     {
-        if (value is int v)
-            SetModifier(type, key, v);
-        else
-            throw new InvalidCastException("Expected int");
+        if (value is int i) SetModifier(type, key, i);
+        else throw new InvalidCastException("Expected int");
     }
 
-    void IUntypedRxMod.AddModifier(ModifierType type, ModifierKey key)
-        => AddModifier(type, key);
-
-    void IUntypedRxMod.RemoveModifier(ModifierType type, ModifierKey key)
-        => RemoveModifier(type, key);
-
+    void IUntypedRxMod.AddModifier(ModifierType type, ModifierKey key) => AddModifier(type, key);
+    void IUntypedRxMod.RemoveModifier(ModifierType type, ModifierKey key) => RemoveModifier(type, key);
     void IUntypedRxMod.ClearAll() => ClearAll();
+
+    // === IModifiable 구현 ===
+    public void ApplyModifier(ModifierKey key, ModifierType type, object value)
+    {
+        if (value is int i)
+            SetModifier(type, key, i);
+        else
+            throw new InvalidCastException("IModifiable requires value of type int");
+    }
+
+    public void ApplySignFlip(ModifierKey key)
+        => AddModifier(ModifierType.SignFlip, key);
+
+    public void RemoveModifier(ModifierKey key)
+    {
+        RemoveModifier(ModifierType.OriginAdditive, key);
+        RemoveModifier(ModifierType.AdditiveMultiplier, key);
+        RemoveModifier(ModifierType.Multiplier, key);
+        RemoveModifier(ModifierType.FinalAdditive, key);
+        RemoveModifier(ModifierType.SignFlip, key);
+    }
 }

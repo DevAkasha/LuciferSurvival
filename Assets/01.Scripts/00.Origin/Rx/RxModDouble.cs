@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public sealed class RxModDouble : IRxMod<double>, IUntypedRxMod
+public sealed class RxModDouble : IRxMod<double>, IModifiable, IUntypedRxMod
 {
     private double origin;
     private double cachedValue;
@@ -16,7 +16,7 @@ public sealed class RxModDouble : IRxMod<double>, IUntypedRxMod
 
     public event Action<double> OnChanged;
 
-    public RxModDouble(double origin = 0.0)
+    public RxModDouble(double origin = 0)
     {
         this.origin = origin;
         this.cachedValue = origin;
@@ -40,19 +40,19 @@ public sealed class RxModDouble : IRxMod<double>, IUntypedRxMod
         foreach (var v in additives.Values)
             sum += v;
 
-        double additiveRate = 0.0;
+        double additiveRate = 0;
         foreach (var v in additiveMultipliers.Values)
             additiveRate += v;
 
-        double scaled = sum * (1.0 + additiveRate);
+        double scaled = sum * (1 + additiveRate);
 
-        double mul = 1.0;
+        double mul = 1;
         foreach (var v in multipliers.Values)
             mul *= v;
 
         double withMul = scaled * mul;
 
-        double postAdd = 0.0;
+        double postAdd = 0;
         foreach (var v in postMultiplicativeAdditives.Values)
             postAdd += v;
 
@@ -106,7 +106,7 @@ public sealed class RxModDouble : IRxMod<double>, IUntypedRxMod
     {
         switch (type)
         {
-            case ModifierType.Additive:
+            case ModifierType.OriginAdditive:
                 additives[key] = value;
                 break;
             case ModifierType.AdditiveMultiplier:
@@ -115,7 +115,7 @@ public sealed class RxModDouble : IRxMod<double>, IUntypedRxMod
             case ModifierType.Multiplier:
                 multipliers[key] = value;
                 break;
-            case ModifierType.PostMultiplicativeAdditive:
+            case ModifierType.FinalAdditive:
                 postMultiplicativeAdditives[key] = value;
                 break;
             default:
@@ -138,10 +138,10 @@ public sealed class RxModDouble : IRxMod<double>, IUntypedRxMod
     {
         bool removed = type switch
         {
-            ModifierType.Additive => additives.Remove(key),
+            ModifierType.OriginAdditive => additives.Remove(key),
             ModifierType.AdditiveMultiplier => additiveMultipliers.Remove(key),
             ModifierType.Multiplier => multipliers.Remove(key),
-            ModifierType.PostMultiplicativeAdditive => postMultiplicativeAdditives.Remove(key),
+            ModifierType.FinalAdditive => postMultiplicativeAdditives.Remove(key),
             ModifierType.SignFlip => signModifiers.Remove(key),
             _ => false
         };
@@ -160,54 +160,57 @@ public sealed class RxModDouble : IRxMod<double>, IUntypedRxMod
         Invalidate();
     }
 
+    // === IRxMod<double> 명시적 구현 ===
     double IRxMod<double>.Value => Value;
-
     void IRxMod<double>.SetValue(double origin) => SetValue(origin);
-
     void IRxMod<double>.ResetValue(double origin) => ResetValue(origin);
-
-    void IRxMod<double>.SetModifier(ModifierType type, ModifierKey key, double value) =>
-        SetModifier(type, key, value);
-
-    void IRxMod<double>.AddModifier(ModifierType type, ModifierKey key) =>
-        AddModifier(type, key);
-
-    void IRxMod<double>.RemoveModifier(ModifierType type, ModifierKey key) =>
-        RemoveModifier(type, key);
-
+    void IRxMod<double>.SetModifier(ModifierType type, ModifierKey key, double value) => SetModifier(type, key, value);
+    void IRxMod<double>.AddModifier(ModifierType type, ModifierKey key) => AddModifier(type, key);
+    void IRxMod<double>.RemoveModifier(ModifierType type, ModifierKey key) => RemoveModifier(type, key);
     void IRxMod<double>.ClearAll() => ClearAll();
 
+    // === IUntypedRxMod 명시적 구현 ===
     object IUntypedRxMod.Value => Value;
-
     void IUntypedRxMod.SetValue(object origin)
     {
-        if (origin is double value)
-            SetValue(value);
-        else
-            throw new InvalidCastException("Expected double");
+        if (origin is double value) SetValue(value);
+        else throw new InvalidCastException("Expected double");
     }
 
     void IUntypedRxMod.ResetValue(object origin)
     {
-        if (origin is double value)
-            ResetValue(value);
-        else
-            throw new InvalidCastException("Expected double");
+        if (origin is double value) ResetValue(value);
+        else throw new InvalidCastException("Expected double");
     }
 
     void IUntypedRxMod.SetModifier(ModifierType type, ModifierKey key, object value)
     {
-        if (value is double v)
-            SetModifier(type, key, v);
-        else
-            throw new InvalidCastException("Expected double");
+        if (value is double d) SetModifier(type, key, d);
+        else throw new InvalidCastException("Expected double");
     }
 
-    void IUntypedRxMod.AddModifier(ModifierType type, ModifierKey key) =>
-        AddModifier(type, key);
-
-    void IUntypedRxMod.RemoveModifier(ModifierType type, ModifierKey key) =>
-        RemoveModifier(type, key);
-
+    void IUntypedRxMod.AddModifier(ModifierType type, ModifierKey key) => AddModifier(type, key);
+    void IUntypedRxMod.RemoveModifier(ModifierType type, ModifierKey key) => RemoveModifier(type, key);
     void IUntypedRxMod.ClearAll() => ClearAll();
+
+    // === IModifiable 구현 ===
+    public void ApplyModifier(ModifierKey key, ModifierType type, object value)
+    {
+        if (value is double d)
+            SetModifier(type, key, d);
+        else
+            throw new InvalidCastException("IModifiable requires value of type double");
+    }
+
+    public void ApplySignFlip(ModifierKey key)
+        => AddModifier(ModifierType.SignFlip, key);
+
+    public void RemoveModifier(ModifierKey key)
+    {
+        RemoveModifier(ModifierType.OriginAdditive, key);
+        RemoveModifier(ModifierType.AdditiveMultiplier, key);
+        RemoveModifier(ModifierType.Multiplier, key);
+        RemoveModifier(ModifierType.FinalAdditive, key);
+        RemoveModifier(ModifierType.SignFlip, key);
+    }
 }
