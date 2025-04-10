@@ -22,9 +22,27 @@ public class SummonUnitInfo : MonoBehaviour
     {
         //유닛 이미지 선택
         //unitImage.sprite = 
-        gradeText.text = unit.displayName;
-        unitNameText.text = unit.displayName;
 
+        switch (unit.grade)
+        {
+            case UnitGrade.One :
+                SetGradeText("일반");
+                break;
+            case UnitGrade.Two :
+                SetGradeText("간부");
+                break;
+            case UnitGrade.Three :
+                SetGradeText("고위간부");
+                break;
+            case UnitGrade.Four:
+                SetGradeText("대장");
+                break;
+            default :
+                break;
+        }
+
+        unitNameText.text = unit.displayName;
+        unitCostText.text = unit.cost.ToString();
     }
 
     public void SetUnitImage(Sprite sprite)
@@ -37,4 +55,13 @@ public class SummonUnitInfo : MonoBehaviour
         gradeText.text = grade;
     }
 
+    public void SetUnitNameText(string unitName)
+    {
+        unitNameText.text = unitName;
+    }
+
+    public void SetUnitCost(int cost)
+    {
+        unitCostText.text = cost.ToString();
+    }
 }
