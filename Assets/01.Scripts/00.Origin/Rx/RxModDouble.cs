@@ -106,16 +106,16 @@ public sealed class RxModDouble : IRxMod<double>, IModifiable, IUntypedRxMod
     {
         switch (type)
         {
-            case ModifierType.OriginAdditive:
+            case ModifierType.OriginAdd:
                 additives[key] = value;
                 break;
-            case ModifierType.AdditiveMultiplier:
+            case ModifierType.AddMultiplier:
                 additiveMultipliers[key] = value;
                 break;
             case ModifierType.Multiplier:
                 multipliers[key] = value;
                 break;
-            case ModifierType.FinalAdditive:
+            case ModifierType.FinalAdd:
                 postMultiplicativeAdditives[key] = value;
                 break;
             default:
@@ -138,10 +138,10 @@ public sealed class RxModDouble : IRxMod<double>, IModifiable, IUntypedRxMod
     {
         bool removed = type switch
         {
-            ModifierType.OriginAdditive => additives.Remove(key),
-            ModifierType.AdditiveMultiplier => additiveMultipliers.Remove(key),
+            ModifierType.OriginAdd => additives.Remove(key),
+            ModifierType.AddMultiplier => additiveMultipliers.Remove(key),
             ModifierType.Multiplier => multipliers.Remove(key),
-            ModifierType.FinalAdditive => postMultiplicativeAdditives.Remove(key),
+            ModifierType.FinalAdd => postMultiplicativeAdditives.Remove(key),
             ModifierType.SignFlip => signModifiers.Remove(key),
             _ => false
         };
@@ -207,10 +207,10 @@ public sealed class RxModDouble : IRxMod<double>, IModifiable, IUntypedRxMod
 
     public void RemoveModifier(ModifierKey key)
     {
-        RemoveModifier(ModifierType.OriginAdditive, key);
-        RemoveModifier(ModifierType.AdditiveMultiplier, key);
+        RemoveModifier(ModifierType.OriginAdd, key);
+        RemoveModifier(ModifierType.AddMultiplier, key);
         RemoveModifier(ModifierType.Multiplier, key);
-        RemoveModifier(ModifierType.FinalAdditive, key);
+        RemoveModifier(ModifierType.FinalAdd, key);
         RemoveModifier(ModifierType.SignFlip, key);
     }
 }

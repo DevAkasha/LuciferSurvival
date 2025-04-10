@@ -8,15 +8,16 @@ public abstract class BasePart<E,M> : BasePart where E: IBaseEntity<M> where M :
 {
     protected E Entity { get; set; }
     protected M Model { get; set; }
-
-    private void Start()
+    protected virtual void Start()
     {
-        Entity = (E)GetComponent<IBaseEntity<M>>();
-        SetupModels();
+        Model ??= Entity.GetModel();
+        OnStart();
     }
-
     protected override void SetupModels()
     {
+        Entity = (E)GetComponent<IBaseEntity<M>>();
         Model = Entity.GetModel();
     }
+
+    protected virtual void OnStart() { }
 }

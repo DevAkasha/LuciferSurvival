@@ -22,20 +22,20 @@ public class EffectManager: Singleton<EffectManager>
             throw new KeyNotFoundException($"Effect not found: {key}");
         return effect;
     }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        //스킬 등록
+        var ghostEffect = new ModifierEffect(EffectId.Ghost, EffectApplyMode.Timed, 10f)
+            .Add(ModifierType.Multiplier, 1.8f); // 80% 증가 → ×1.8
+
+        Register(ghostEffect);
+    }
+
+
 }
-public class EffectRunner : MonoBehaviour
+public enum EffectId
 {
-    public void ApplyTimedEffect(ModifierEffect effect, ModifierApplier applier)
-    {
-        applier.Apply();
-
-        if (effect.Mode == EffectApplyMode.Timed)
-            StartCoroutine(RemoveAfter(effect.Duration, applier));
-    }
-
-    private IEnumerator RemoveAfter(float seconds, ModifierApplier applier)
-    {
-        yield return new WaitForSeconds(seconds);
-        applier.Remove();
-    }
+    Ghost
 }

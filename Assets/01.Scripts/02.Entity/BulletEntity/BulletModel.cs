@@ -1,18 +1,11 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletModel : MonoBehaviour
+public class BulletModel : BaseModel
 {
-    // Start is called before the first frame update
-    void Start()
+    public override IEnumerable<IModifiable> GetModifiables()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        throw new System.NotImplementedException();
     }
 }

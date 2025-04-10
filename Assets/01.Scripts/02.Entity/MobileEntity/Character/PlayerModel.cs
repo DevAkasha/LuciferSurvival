@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerModel: BaseModel
 {
     public RxModFloat Hp = new(100);
-    public RxModFloat MoveSpeed = new(4);
+    public RxModFloat MoveSpeed = new(4f);
 
     public override IEnumerable<IModifiable> GetModifiables()
     {

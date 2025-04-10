@@ -23,10 +23,10 @@ public readonly struct ModifierKey : IEquatable<ModifierKey>
 
 public enum ModifierType
 {
-    OriginAdditive,
-    AdditiveMultiplier,
+    OriginAdd,
+    AddMultiplier,
     Multiplier,
-    FinalAdditive,
+    FinalAdd,
     SignFlip
 }
 public interface IRxMod<T>

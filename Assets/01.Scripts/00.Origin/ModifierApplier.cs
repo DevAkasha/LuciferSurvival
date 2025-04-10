@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public enum EffectApplyMode { Passive, Manual, Timed }
 
@@ -102,17 +103,35 @@ public class ModifierApplier
 
     public void Remove()
     {
+        if (targets.Count == 0)
+        {
+            Debug.LogWarning("[ModifierApplier] No targets to remove effect from.");
+            return;
+        }
+
         foreach (var model in targets)
         {
+            if (model == null)
+            {
+                Debug.LogError("[ModifierApplier] Found null model during Remove.");
+                continue;
+            }
+
             foreach (var target in model.GetModifiables())
             {
+                if (target == null)
+                {
+                    Debug.LogError("[ModifierApplier] Found null IModifiable during Remove.");
+                    continue;
+                }
+
                 try
                 {
                     target.RemoveModifier(effect.Key);
                 }
                 catch (Exception e)
                 {
-                    UnityEngine.Debug.LogError($"[ModifierApplier] Failed to remove modifier from {target.GetType().Name}: {e.Message}");
+                    Debug.LogError($"[ModifierApplier] Failed to remove modifier: {e.Message}");
                 }
             }
         }

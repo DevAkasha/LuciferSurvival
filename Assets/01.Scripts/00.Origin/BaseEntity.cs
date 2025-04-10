@@ -17,8 +17,6 @@ public abstract class BaseEntity<M> : BaseEntity, IBaseEntity<M> where M : BaseM
 
     public virtual M GetModel()
     {
-        if (Model == null)
-            SetupModels();
         return Model;
     }
 

@@ -13,4 +13,5 @@ public abstract class WorldObject : MonoBehaviour
     protected abstract void SetupModels();
 
     protected virtual void OnInit() { }
+
 }

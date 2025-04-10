@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletEntity : BaseEntity
+public class BulletEntity : BaseEntity<BulletModel>
 {
     private BulletModel bulletModel;
 
