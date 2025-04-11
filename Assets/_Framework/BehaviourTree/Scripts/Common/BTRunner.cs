@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -26,7 +26,8 @@ public class BTRunner
 
     public BTRunner(string parentName)
     {
-        data = ResourceManager.instance.LoadAsset<BTSaveData>($"{parentName}Data", ResourceType.Datas);
+        //data = ResourceManager.instance.LoadAsset<BTSaveData>($"{parentName}Data", ResourceType.Datas);
+        data = ResourceManager.instance.LoadAsset<BTSaveData>($"BTSaveData/{parentName}Data", ResourceType.Datas);
         root = JsonUtility.FromJson<RootNode>(data.data);
     }
 
