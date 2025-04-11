@@ -7,7 +7,9 @@ using UnityEngine;
 
 namespace Ironcow
 {
+#if UNITY_EDITOR
     [InitializeOnLoad]
+#endif
     public class FrameworkController : SOSingleton<FrameworkController>
     {
         public bool isLocale;

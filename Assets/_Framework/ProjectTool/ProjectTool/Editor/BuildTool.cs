@@ -38,7 +38,7 @@ namespace Ironcow.ProjectTool
 
         private void OnEnable()
         {
-            this.applicationSettings = ApplicationSettings.Instance;
+            this.applicationSettings = ApplicationSettings.instance;
         }
 
         private async void Draw()

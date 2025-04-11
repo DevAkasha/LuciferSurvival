@@ -15,7 +15,7 @@ namespace Ironcow.LocalizeTool
             AssetDatabase.Refresh();
             outPath = outPath.Replace(Application.dataPath, "Assets");
             var filePath = outPath + "LocalizeToolSetting.asset";
-            if (!AssetDatabase.LoadAssetAtPath(filePath, typeof(Object)))
+            if (AssetDatabase.LoadAssetAtPath(filePath, typeof(Object)))
             {
                 var instance = CreateInstance<LocalePathSetting>();
                 //PrefabUtility.SaveAsPrefabAsset(instance.controller, filePath);
