@@ -4,19 +4,26 @@ using System;
 using System.Linq;
 using UnityEngine;
 using Ironcow.BT;
+using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
+using UnityEditor;
 
 public class EnemyAIController : MonoBehaviour
 {
     public EnemyStatus enemyStatus;
     public int Hp;
     [SerializeField] private Rigidbody rigidbodys;
+    [SerializeField] private NavMeshAgent navMesh;
+    [SerializeField] private Animator animator;
 
     [SerializeField] BTRunner bt;
     Collider[] colliders = new Collider[10];
     Collider TargetPlayer;
+    Transform target;
 
     private void Start()
     {
+        target = PlayerManager.Instance.Player.transform;
         Hp = enemyStatus.MaxHp;
         Init();
     }
@@ -124,19 +131,25 @@ public class EnemyAIController : MonoBehaviour
         //Debug.Log("추적 실패");
         return eNodeState.failure;
     }
+    
     public eNodeState ToTargetMove()
     {
-        if (TargetPlayer == null)
+        //if (TargetPlayer == null)
+        //{
+        //    Debug.Log("타깃이 없다");
+        //    return eNodeState.failure;
+        //}
+        if (target == null)
         {
             Debug.Log("타깃이 없다");
             return eNodeState.failure;
         }
-        if ((TargetPlayer.transform.position - transform.position).sqrMagnitude < enemyStatus.attackRange)
+        if ((target.transform.position - transform.position).sqrMagnitude < enemyStatus.attackRange)
         {
             rigidbodys.velocity = Vector3.zero;
             return eNodeState.success;
         }
-        var dir = (TargetPlayer.transform.position - transform.position).normalized;
+        var dir = (target.transform.position - transform.position).normalized;
         Debug.Log("추적 개시");
         InMove(dir);
         return eNodeState.running;
@@ -150,10 +163,23 @@ public class EnemyAIController : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, enemyStatus.detectRange);
-        
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, enemyStatus.attackRange);
+    }
+}
+[CustomEditor(typeof(EnemyAIController))]
+public class EnemyControl : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        if (EditorApplication.isPlaying)
+        {
+            if (GUILayout.Button("한 방에 주님 곁에"))
+            {
+                ((EnemyAIController)target).InDamage(10000);
+            }
+        }
     }
 }

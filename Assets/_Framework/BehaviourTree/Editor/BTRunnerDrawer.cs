@@ -61,7 +61,8 @@ public class BTRunnerDrawer : PropertyDrawer
         if (Application.isPlaying) return;
         if (instance.root != null)
             data.SaveData(instance.root);
-        EditorUtility.SetDirty(data);
+        //EditorUtility.SetDirty(data);
+        data.SetDirty();
     }
 
     public void LoadData()
