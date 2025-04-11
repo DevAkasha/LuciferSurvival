@@ -17,9 +17,11 @@ public class EnemyAIController : MonoBehaviour
     [SerializeField] BTRunner bt;
     Collider[] colliders = new Collider[10];
     Collider TargetPlayer;
+    Transform target;
 
     private void Start()
     {
+        target = PlayerManager.Instance.Player.transform;
         Hp = enemyStatus.MaxHp;
         Init();
     }
@@ -127,19 +129,25 @@ public class EnemyAIController : MonoBehaviour
         //Debug.Log("추적 실패");
         return eNodeState.failure;
     }
+    
     public eNodeState ToTargetMove()
     {
-        if (TargetPlayer == null)
+        //if (TargetPlayer == null)
+        //{
+        //    Debug.Log("타깃이 없다");
+        //    return eNodeState.failure;
+        //}
+        if (target == null)
         {
             Debug.Log("타깃이 없다");
             return eNodeState.failure;
         }
-        if ((TargetPlayer.transform.position - transform.position).sqrMagnitude < enemyStatus.attackRange)
+        if ((target.transform.position - transform.position).sqrMagnitude < enemyStatus.attackRange)
         {
             rigidbodys.velocity = Vector3.zero;
             return eNodeState.success;
         }
-        var dir = (TargetPlayer.transform.position - transform.position).normalized;
+        var dir = (target.transform.position - transform.position).normalized;
         Debug.Log("추적 개시");
         InMove(dir);
         return eNodeState.running;
