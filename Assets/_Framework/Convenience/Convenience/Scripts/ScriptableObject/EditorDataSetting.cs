@@ -1,7 +1,4 @@
-using Ironcow;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -31,36 +28,36 @@ namespace Ironcow.Convenience
 
         [Header("Scene Path")]
         public Object scenePath;
-        public static string ScenePath { get => AssetDatabase.GetAssetPath(Instance.scenePath); }
+        public static string ScenePath { get => AssetDatabase.GetAssetPath(instance.scenePath); }
 
         public Object editorScenePath;
-        public static string EditorScenePath { get => AssetDatabase.GetAssetPath(Instance.editorScenePath); }
+        public static string EditorScenePath { get => AssetDatabase.GetAssetPath(instance.editorScenePath); }
 
         public Object introScene;
-        public static string IntroScenePath { get => AssetDatabase.GetAssetPath(Instance.introScene); }
+        public static string IntroScenePath { get => AssetDatabase.GetAssetPath(instance.introScene); }
 
         public Object dontDestroyScene;
-        public static string DontDestroyScenePath { get => AssetDatabase.GetAssetPath(Instance.dontDestroyScene); }
+        public static string DontDestroyScenePath { get => AssetDatabase.GetAssetPath(instance.dontDestroyScene); }
 
         [Header("Script Templete Path")]
         public Object templetePath;
-        public static string TempletePath { get => AssetDatabase.GetAssetPath(Instance.templetePath); }
+        public static string TempletePath { get => AssetDatabase.GetAssetPath(instance.templetePath); }
 
         [Header("Create Prefab Path")]
         public Object createPrefabPath;
-        public static string CreatePrefabPath { get => AssetDatabase.GetAssetPath(Instance.createPrefabPath); }
+        public static string CreatePrefabPath { get => AssetDatabase.GetAssetPath(instance.createPrefabPath); }
 
         [Header("Create SettingSO Path")]
         public Object settingSOPath;
-        public static string SettingSOPath { get => AssetDatabase.GetAssetPath(Instance.settingSOPath); }
+        public static string SettingSOPath { get => AssetDatabase.GetAssetPath(instance.settingSOPath); }
 
         [Header("Create Script Path")]
         public Object scriptPath;
-        public static string ScriptPath { get => AssetDatabase.GetAssetPath(Instance.scriptPath); }
+        public static string ScriptPath { get => AssetDatabase.GetAssetPath(instance.scriptPath); }
 
         [Header("Create Asset Prefab Path")]
         public Object createAssetPrefabPath;
-        public static string CreateAssetPrefabPath { get => AssetDatabase.GetAssetPath(Instance.createAssetPrefabPath); }
+        public static string CreateAssetPrefabPath { get => AssetDatabase.GetAssetPath(instance.createAssetPrefabPath); }
 #endif
     }
 }

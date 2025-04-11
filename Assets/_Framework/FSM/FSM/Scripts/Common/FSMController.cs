@@ -12,7 +12,7 @@ namespace Ironcow.FSM
         public Dictionary<string, S> states = new Dictionary<string, S>();
         public S currentState { get => fsm.currentState; }
 
-        protected virtual bool ChangeState<T>(out S state) where T : S
+        protected virtual bool ChangeState<T>(out T state) where T : S
         {
             if (states.ContainsKey(typeof(T).ToString()))
             {

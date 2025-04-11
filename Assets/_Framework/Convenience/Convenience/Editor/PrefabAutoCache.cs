@@ -38,7 +38,7 @@ namespace Ironcow.Convenience
 #endif
         public static void AutoCacheAll()
         {
-            var folders = EditorDataSetting.Instance.prefabFolders;
+            var folders = EditorDataSetting.instance.prefabFolders;
             foreach (var folder in folders)
             {
                 var path = AssetDatabase.GetAssetPath(folder);

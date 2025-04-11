@@ -18,15 +18,9 @@ namespace Ironcow.Network
             public int midx;
             public int iap;
         }
-        //public string error;
-#if NEXON_API
-        public NexonErrorCheck error;
         public T data;
-#else
-        public List<T> data = new List<T>();
-        public T Data { get => data[0]; }
         public string error;
-#endif
+
         public bool isDone;
         public string callApi;
         public int code;

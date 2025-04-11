@@ -16,12 +16,17 @@ public enum eUIPosition
 
 namespace Ironcow.UI
 {
-    public class UIManager : MonoSingleton<UIManager>
+    public class UIManager : ManagerBase<UIManager>
     {
         [SerializeField] private List<Transform> parents;
         [SerializeField] private Transform worldParent;
 
         private List<UIBase> uiList = new List<UIBase>();
+
+        public override void Init(UnityAction<string> progressTextCallback = null, UnityAction<float> progressValueCallback = null)
+        {
+            isInit = true;
+        }
 
         public static void SetWorldCanvas(Transform worldCanvas)
         {

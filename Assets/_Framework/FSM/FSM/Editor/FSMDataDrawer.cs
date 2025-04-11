@@ -47,7 +47,7 @@ public class FSMDataDrawer : Editor
         if(GUILayout.Button("Create States"))
         {
             var path = $"{FSMData.OutPath}/{target.fsmName}FSM";
-            if(!AssetDatabase.LoadAssetAtPath(path, typeof(Object)))
+            if(AssetDatabase.LoadAssetAtPath(path, typeof(Object)))
             {
                 path = AssetDatabase.CreateFolder(FSMData.OutPath, $"{target.fsmName}FSM");
             }
@@ -56,25 +56,25 @@ public class FSMDataDrawer : Editor
             {
                 CreateState(path, target.states[i]);
             }
-            AssetDatabase.Refresh();
         }
+        AssetDatabase.Refresh();
         GUILayout.EndHorizontal();
         EditorUtility.SetDirty(target);
     }
 
     public void CreateBaseState(string path)
     {
-        var newPath = Path.Combine(path, $"{FSMData.Instance.fsmName}BaseState.cs");
+        var newPath = Path.Combine(path, $"{FSMData.instance.fsmName}BaseState.cs");
         var data = File.ReadAllText(Path.Combine(FSMData.TempleteFolder, "BaseStateTemplate.cs.txt").Replace("Assets", Application.dataPath));
-        data = data.Replace("#SCRIPTNAME#", FSMData.Instance.fsmName);
+        data = data.Replace("#SCRIPTNAME#", FSMData.instance.fsmName);
         File.WriteAllText(newPath, data);
     }
 
     public void CreateState(string path, string state)
     {
-        var newPath = Path.Combine(path, $"{FSMData.Instance.fsmName}{state}State.cs");
+        var newPath = Path.Combine(path, $"{FSMData.instance.fsmName}{state}State.cs");
         var data = File.ReadAllText(Path.Combine(FSMData.TempleteFolder, "StateTemplate.cs.txt").Replace("Assets", Application.dataPath));
-        data = data.Replace("#SCRIPTNAME#", $"{FSMData.Instance.fsmName}{state}").Replace("#PARENT#", $"{FSMData.Instance.fsmName}BaseState");
+        data = data.Replace("#SCRIPTNAME#", $"{FSMData.instance.fsmName}{state}").Replace("#PARENT#", $"{FSMData.instance.fsmName}BaseState");
         File.WriteAllText(newPath, data);
     }
 }

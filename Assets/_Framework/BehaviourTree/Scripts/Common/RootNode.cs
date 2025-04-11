@@ -15,20 +15,20 @@ namespace Ironcow.BT
 
         public override BTNode AddAction(Func<eNodeState> func)
         {
-            node.AddAction(func);
+            node = new ActionNode(func, this);
             return this;
         }
 
         public override BTNode AddSelector()
         {
-            node.AddSelector();
-            return this;
+            node = new SelectorNode(this);
+            return node;
         }
 
         public override BTNode AddSequence()
         {
-            node.AddSequence();
-            return this;
+            node = new SequenceNode(this);
+            return node;
         }
 
         public override eNodeState Evaluate()

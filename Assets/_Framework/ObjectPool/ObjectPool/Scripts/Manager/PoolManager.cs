@@ -10,7 +10,7 @@ namespace Ironcow.ObjectPool
 
         public void Init()
         {
-            foreach (var data in ObjectPoolDataSO.Instance.objectPoolDatas)
+            foreach (var data in ObjectPoolDataSO.instance.objectPoolDatas)
             {
                 data.prefab = ResourceManager.instance.LoadAsset<ObjectPoolBase>(data.prefabName, ResourceType.Prefabs);
                 data.parent = new GameObject(data.prefabName + "parent").transform;
@@ -32,7 +32,7 @@ namespace Ironcow.ObjectPool
         {
             if (pools[rcode].Count == 0)
             {
-                var data = ObjectPoolDataSO.Instance.objectPoolDatas.Find(obj => obj.prefabName == rcode);
+                var data = ObjectPoolDataSO.instance.objectPoolDatas.Find(obj => obj.prefabName == rcode);
                 for (int i = 0; i < data.count; i++)
                 {
                     var obj = Instantiate(data.prefab, data.parent);
@@ -98,7 +98,7 @@ namespace Ironcow.ObjectPool
         {
             if (pools["AudioSource"].Count == 0)
             {
-                var data = ObjectPoolDataSO.Instance.objectPoolDatas.Find(obj => obj.prefabName == "AudioSource");
+                var data = ObjectPoolDataSO.instance.objectPoolDatas.Find(obj => obj.prefabName == "AudioSource");
                 for (int i = 0; i < data.count; i++)
                 {
                     var obj = Instantiate(data.prefab, data.parent);
@@ -114,7 +114,7 @@ namespace Ironcow.ObjectPool
         public void Release(ObjectPoolBase item)
         {
             item.SetActive(false);
-            var data = ObjectPoolDataSO.Instance.objectPoolDatas.Find(obj => obj.prefabName == item.name);
+            var data = ObjectPoolDataSO.instance.objectPoolDatas.Find(obj => obj.prefabName == item.name);
             item.transform.parent = data.parent;
             pools[item.name].Enqueue(item);
         }

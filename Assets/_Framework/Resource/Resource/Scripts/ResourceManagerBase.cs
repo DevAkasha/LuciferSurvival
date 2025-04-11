@@ -2,25 +2,24 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Ironcow;
+using UnityEngine.Events;
 using UnityEngine;
+using Ironcow.Addressable;
 #if USE_SO_DATA
 using Ironcow.Data;
 #endif
 #if USE_ADDRESSABLE
-using Ironcow.Addressable;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 using UnityEngine.Experimental.AI;
-using UnityEngine;
 #endif
 
 namespace Ironcow.Resource
 {
-    public class ResourceManagerBase<T> : MonoSingleton<T> where T : ResourceManagerBase<T>
+    public class ResourceManagerBase<T> : ManagerBase<T> where T : ResourceManagerBase<T>
     {
         public bool isAutoLoading = false;
-        [NonSerialized] public bool isInit = false;
 
 #if !USE_ADDRESSABLE
         private ResourcesHandler handler = new ResourcesHandler();
@@ -28,13 +27,20 @@ namespace Ironcow.Resource
         private AddressableHandler handler = new AddressableHandler();
 #endif
 
-        public void Init()
+        public async override void Init(UnityAction<string> progressTextCallback = null, UnityAction<float> progressValueCallback = null)
         {
 #if USE_ADDRESSABLE
-            handler.LoadAddressable();
+            await handler.LoadAddressable(progressTextCallback, progressValueCallback);
 #endif
             isInit = true;
         }
+
+#if USE_ADDRESSABLE
+        public void InitAddressableMap()
+        {
+            handler.InitAddressableMap();
+        }
+#endif
 
         public V LoadAsset<V>(string key, string type) where V : UnityEngine.Object
         {
@@ -68,13 +74,8 @@ namespace Ironcow.Resource
 #else
         public List<V> LoadDataAssets<V>()
         {
-            List<V> retList = new List<V>();
             var datas = handler.LoadAssets<TextAsset>("Datas", ResourceType.Datas);
-            foreach (var data in datas)
-            {
-                retList.Add(JsonUtility.FromJson<V>(data.text));
-            }
-            return retList;
+            return null;
         }
 #endif
 

@@ -483,10 +483,26 @@ namespace Ironcow
             return Vector3.zero;
         }
 
-        /*
-        public static int GetMinimumBit(this eEquipPosition val)
+        public static string ToBigint(this long number)
         {
-            return (int)val & -(int)val;
-        }*/
+            long retLong = 0;
+            while (number > 99)
+            {
+                retLong = number % 100;
+                number /= 100;
+            }
+            retLong += number * 100;
+            return $"{retLong:#,##0}";
+        }
+
+        public static int Next(this int idx, int max, bool isEqual = true, int min = 0)
+        {
+            return Util.Next(idx, min, max, isEqual);
+        }
+
+        public static int Prev(this int idx, int max, bool isEqual = true, int min = 0)
+        {
+            return Util.Prev(idx, min, max, isEqual);
+        }
     }
 }

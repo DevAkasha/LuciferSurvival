@@ -19,7 +19,7 @@ namespace Ironcow
             {
                 this.value = value;
                 CheckActions();
-                action.Invoke(this.value);
+                action?.Invoke(this.value);
             }
         }
         Action<T> action;

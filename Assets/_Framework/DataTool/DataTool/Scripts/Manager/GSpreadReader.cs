@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 using Ironcow;
+using UnityEngine.Events;
 
 
 namespace Ironcow.Data
@@ -34,7 +35,7 @@ namespace Ironcow.Data
         public List<Dictionary<string, string>> datas;
     }
 
-    public abstract class GSpreadReader<V> : MonoSingleton<V> where V : GSpreadReader<V>
+    public abstract class GSpreadReader<V> : ManagerBase<V> where V : GSpreadReader<V>
     {
         [Serializable]
         public class GameData<T> where T : BaseDataSO
@@ -52,7 +53,6 @@ namespace Ironcow.Data
         [SerializeField] private bool isAutoLoading = false;
         [SerializeField] private string url;
         [SerializeField] private List<SheetInfo> sheets;
-        [NonSerialized] public bool isInit = false;
 
         protected override void Awake()
         {
@@ -61,7 +61,7 @@ namespace Ironcow.Data
             if (isAutoLoading) Init();
         }
 
-        public async virtual void Init()
+        public async override void Init(UnityAction<string> progressTextCallback = null, UnityAction<float> progressValueCallback = null)
         {
             foreach (var sheet in sheets)
             {

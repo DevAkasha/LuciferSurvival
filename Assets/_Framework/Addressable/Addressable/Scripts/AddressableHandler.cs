@@ -1,17 +1,15 @@
-﻿using Ironcow;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 #if USE_ADDRESSABLE
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 #endif
 using UnityEngine.SceneManagement;
-using System.Collections;
-using Ironcow.Resource;
 using Ironcow.UI;
+using UnityEngine.Events;
+using System.Threading.Tasks;
+using System.Collections;
 
 namespace Ironcow.Addressable
 {
@@ -19,7 +17,7 @@ namespace Ironcow.Addressable
     {
         private Dictionary<string, Dictionary<string, AddressableMap>> addressableMap = new Dictionary<string, Dictionary<string, AddressableMap>>();
 
-        private void InitAddressableMap()
+        public void InitAddressableMap()
         {
 #if USE_ADDRESSABLE
             Addressables.LoadAssetsAsync<TextAsset>("AddressableMap", (text) =>
@@ -44,15 +42,26 @@ namespace Ironcow.Addressable
             LoadAssets<UIBase>("", ResourceType.UI);
         }
 
-        public void LoadAddressable()
+        public async Task LoadAddressable(UnityAction<string> progressTextCallback = null, UnityAction<float> progressValueCallback = null)
         {
 #if USE_ADDRESSABLE
-            var init = Addressables.InitializeAsync().WaitForCompletion();
-            Addressables.DownloadDependenciesAsync("InitDownload").WaitForCompletion();
-#endif
+            var async = Addressables.InitializeAsync();
+            while (!async.IsDone)
+            {
+                progressTextCallback.Invoke("파일 탐색중...");
+                progressValueCallback.Invoke(async.PercentComplete);
+                await UniTask.WaitForEndOfFrame();
+            }
             InitAddressableMap();
-            
 
+            var oper = Addressables.DownloadDependenciesAsync("InitDownload", true);
+            while (!oper.IsDone)
+            {
+                progressTextCallback?.Invoke("파일 다운로드 중");
+                progressValueCallback?.Invoke(oper.PercentComplete);
+                await UniTask.WaitForEndOfFrame();
+            }
+#endif
         }
 
 #if USE_ADDRESSABLE

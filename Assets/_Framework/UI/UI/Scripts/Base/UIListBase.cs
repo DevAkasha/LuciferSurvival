@@ -25,6 +25,7 @@ namespace Ironcow.UI
                 Destroy(obj.gameObject);
             });
             items.Clear();
+            
         }
 
         public abstract void SetList();

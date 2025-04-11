@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditorInternal;
@@ -58,8 +58,9 @@ public class BTRunnerDrawer : PropertyDrawer
 
     public void SaveData()
     {
+        if (Application.isPlaying) return;
         if (instance.root != null)
-            data.SaveData((RootNode)instance.root);
+            data.SaveData(instance.root);
         EditorUtility.SetDirty(data);
     }
 
@@ -81,7 +82,6 @@ public class BTRunnerDrawer : PropertyDrawer
             data = AssetDatabase.LoadAssetAtPath<BTSaveData>(path);
         }
 
-        //if (instance.root != null) return;
         if (!Application.isPlaying)
             instance.root = JsonUtility.FromJson<RootNode>(data.data);
         if (instance.root == null)
@@ -124,9 +124,9 @@ public class BTRunnerDrawer : PropertyDrawer
         int width = 60;
         EditorGUI.LabelField(new Rect(position.x, position.y, width, position.height), label.Replace("Node", ""));
         var content = new GUIContent(node.onUpdate == null ? "<none>" : node.onUpdate.Method.Name);
-        if(node.onUpdate == null && !string.IsNullOrEmpty(node.funcName))
+        if (node.onUpdate == null && !string.IsNullOrEmpty(node.funcName))
         {
-            var method = methods.Find(obj => obj.Name == node.funcName); 
+            var method = methods.Find(obj => obj.Name == node.funcName);
             node.SetFunc(Expression.Lambda<Func<eNodeState>>(
                 Expression.Call(Expression.Constant(property.serializedObject.targetObject), method), method.Name, true, null).Compile());
         }
