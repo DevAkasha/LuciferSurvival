@@ -14,7 +14,7 @@ namespace Ironcow.ObjectPool
     {
 #if UNITY_EDITOR
         public Object objectPoolPath;
-        public static string ObjectPoolPath { get => AssetDatabase.GetAssetPath(Instance.objectPoolPath); }
+        public static string ObjectPoolPath { get => AssetDatabase.GetAssetPath(instance.objectPoolPath); }
 #endif
     }
 }

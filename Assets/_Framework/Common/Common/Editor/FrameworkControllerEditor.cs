@@ -58,13 +58,12 @@ namespace Ironcow
 			if (this.controller == null)
 				return;
 
-            GUILayoutOption option = GUILayout.Width(400);
 			if (Type.GetType("Ironcow.LocalizeTool.LocalizeTool") != null)
 			{
 				EditorGUILayout.LabelField("Locale", EditorStyles.boldLabel);
 				EditorGUI.indentLevel++;
 				{
-					this.controller.isLocale = EditorGUILayout.ToggleLeft("Use Locale", this.controller.isLocale, option);
+					this.controller.isLocale = EditorGUILayout.Toggle("Use Locale", this.controller.isLocale);
 					if (this.controller.isLocale)
 					{
 						AddDefineSymbol("USE_LOCALE");
@@ -83,7 +82,7 @@ namespace Ironcow
                 EditorGUILayout.LabelField("Auto Caching", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 {
-                    this.controller.isAutoCaching = EditorGUILayout.ToggleLeft("Use Auto Caching", this.controller.isAutoCaching);
+                    this.controller.isAutoCaching = EditorGUILayout.Toggle("Use Auto Caching", this.controller.isAutoCaching);
                     if (this.controller.isAutoCaching)
                     {
                         AddDefineSymbol("USE_AUTO_CACHING");
@@ -102,7 +101,7 @@ namespace Ironcow
                 EditorGUILayout.LabelField("SO Data", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 {
-                    this.controller.isScriptableObjectData = EditorGUILayout.ToggleLeft("Use ScriptableObject Data", this.controller.isScriptableObjectData);
+                    this.controller.isScriptableObjectData = EditorGUILayout.Toggle("Use ScriptableObject Data", this.controller.isScriptableObjectData);
                     if (this.controller.isScriptableObjectData)
                     {
                         AddDefineSymbol("USE_SO_DATA");
@@ -121,7 +120,7 @@ namespace Ironcow
                 EditorGUILayout.LabelField("Object Pool", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 {
-                    this.controller.isObjectPool = EditorGUILayout.ToggleLeft("Use Object Pool", this.controller.isObjectPool);
+                    this.controller.isObjectPool = EditorGUILayout.Toggle("Use Object Pool", this.controller.isObjectPool);
                     if (this.controller.isObjectPool)
                     {
                         AddDefineSymbol("USE_OBJECT_POOL");
@@ -140,7 +139,7 @@ namespace Ironcow
                 EditorGUILayout.LabelField("FSM", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 {
-                    this.controller.isFSM = EditorGUILayout.ToggleLeft("Use FSM", this.controller.isFSM);
+                    this.controller.isFSM = EditorGUILayout.Toggle("Use FSM", this.controller.isFSM);
                     if (this.controller.isFSM)
                     {
                         AddDefineSymbol("USE_FSM");
@@ -161,7 +160,7 @@ namespace Ironcow
                 EditorGUILayout.LabelField("Addressable", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 {
-                    this.controller.isAddressableAsync = EditorGUILayout.ToggleLeft("Use Addressable", this.controller.isAddressableAsync);
+                    this.controller.isAddressableAsync = EditorGUILayout.Toggle("Use Addressable", this.controller.isAddressableAsync);
                     if (this.controller.isAddressableAsync)
                     {
                         AddDefineSymbol("USE_ADDRESSABLE");
@@ -182,7 +181,7 @@ namespace Ironcow
                 EditorGUILayout.LabelField("CloudCode", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 {
-                    this.controller.isCloudCode = EditorGUILayout.ToggleLeft("Use CloudCode", this.controller.isCloudCode);
+                    this.controller.isCloudCode = EditorGUILayout.Toggle("Use CloudCode", this.controller.isCloudCode);
                     if (this.controller.isCloudCode)
                     {
                         AddDefineSymbol("USE_CLOUD_CODE");
@@ -194,6 +193,13 @@ namespace Ironcow
                 }
                 EditorGUI.indentLevel--;
                 GUILayout.Space(10f);
+            }
+            else
+            {
+                if(GUILayout.Button("UGS 설치"))
+                {
+
+                }
             }
 #endif
         }

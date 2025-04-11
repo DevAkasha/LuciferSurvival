@@ -1,12 +1,18 @@
 using System.IO;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
-    [InitializeOnLoad]
+#if UNITY_EDITOR
+[InitializeOnLoad]
+#endif
 public class InputSystemSetting : SOSingleton<InputSystemSetting>
 {
     [Header("Create Key Bind Path")]
     public Object createKeyBindPath;
-    public static string CreateKeyBindPath { get => $"{AssetDatabase.GetAssetPath(Instance.createKeyBindPath)}/KeyBindDatas/"; }
+#if UNITY_EDITOR
+    public static string CreateKeyBindPath { get => $"{AssetDatabase.GetAssetPath(instance.createKeyBindPath)}/"; }
+#endif
 
 }

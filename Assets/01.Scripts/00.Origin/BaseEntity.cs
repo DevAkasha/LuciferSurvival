@@ -2,14 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseEntity : MonoBehaviour
+
+public abstract class BaseEntity : WorldObject { }
+
+public interface IBaseEntity<M> where M : BaseModel
 {
-    protected virtual void Awake()
+   public M Model { get; set; }
+   public M GetModel();
+}
+
+public abstract class BaseEntity<M> : BaseEntity, IBaseEntity<M> where M : BaseModel
+{
+    public M Model { get ; set; }
+
+    public virtual M GetModel()
     {
-        SetupModels();
-        OnInit();
+        return Model;
     }
 
-    protected abstract void SetupModels();
-    protected virtual void OnInit() { }
 }

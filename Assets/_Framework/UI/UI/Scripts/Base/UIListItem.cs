@@ -30,7 +30,7 @@ namespace Ironcow.UI
         {
             foreach (var text in texts)
             {
-                text.text.text = LocaleDataSO.Instance.LocaleDic[text.key];
+                text.text.text = LocaleDataSO.instance.LocaleDic[text.key];
             }
         }
         public void SetLocaleTexts()
@@ -39,7 +39,7 @@ namespace Ironcow.UI
             var tmpTexts = GetComponentsInChildren<TMPro.TMP_Text>(true).ToList();
             tmpTexts.ForEach(text =>
             {
-                var localeData = LocaleDataSO.Instance.localeData.Find(obj => obj.Korean == text.text);
+                var localeData = LocaleDataSO.instance.localeData.Find(obj => obj.Korean == text.text);
                 if (localeData != null)
                 {
                     texts.Add(new LocaleText(localeData.Key, text));

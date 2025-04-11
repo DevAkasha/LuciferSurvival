@@ -9,15 +9,15 @@ using System;
 namespace Ironcow.UI
 {
 #if USE_AUTO_CACHING
-    public class CanvasBase<T> : MonoSingleton<T> where T : CanvasBase<T>
+    public class CanvasBase<T> : MonoSingleton<T>, CanvasOption where T : CanvasBase<T>
 #else
-    public class CanvasBase : MonoBehaviour
+    public class CanvasBase : MonoBehaviour, CanvasOption
 #endif
     {
         [SerializeField] protected List<Transform> parents;
         [SerializeField] private bool isCreateSafeArea;
         private CanvasScaler scaler;
-        
+
 #if USE_AUTO_CACHING
         protected override void Awake()
         {
@@ -48,7 +48,7 @@ namespace Ironcow.UI
             }
         }
 
-#if USE_AUTO_CACHING
+#if USE_AUTO_CACHING && UNITY_EDITOR
         protected override void OnValidate()
         {
             base.OnValidate();
@@ -56,22 +56,33 @@ namespace Ironcow.UI
         void OnValidate()
         {
 #endif
+            SetScaler();
+            SetParent();
+        }
+
+        private void SetScaler()
+        {
             if (scaler == null)
             {
                 scaler = GetComponent<CanvasScaler>();
-                scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-                scaler.referenceResolution = new Vector2(1080, 1920);
-                scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
             }
-            if(parents.Count == 0)
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1080, 1920);
+            scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
+        }
+
+        public void SetParent()
+        {
+            if (parents.Count == 0)
             {
-                foreach(var name in Enum.GetNames(typeof(eUIPosition)))
+                foreach (var name in Enum.GetNames(typeof(eUIPosition)))
                 {
                     var parent = transform.Find(name);
-                    if(parent != null && !parents.Contains(parent)) parents.Add(parent);
+                    if (parent != null && !parents.Contains(parent)) parents.Add(parent);
                 }
             }
         }
+
     }
 
 

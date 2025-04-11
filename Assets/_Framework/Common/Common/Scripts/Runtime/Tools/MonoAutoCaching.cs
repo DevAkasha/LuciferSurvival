@@ -27,7 +27,7 @@ namespace Ironcow
                     var isNull = value == null;
                     if (!isNull) isNull = value.Equals(null);
                     if (!isNull) continue;
-                    var components = GetComponentsInChildren(typeof(Transform), true);
+                    var components = GetComponentsInChildren(typeof(Transform), false);
                     foreach (var component in components)
                     {
                         if (component.name == field.Name) field.SetValue(this, component.gameObject);

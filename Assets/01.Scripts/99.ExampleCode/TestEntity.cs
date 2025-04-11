@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestEntity : MobileEntity
+public class TestEntity<M> : MobileEntity<M> where M:BaseModel
 {
     public TestModel model;
 

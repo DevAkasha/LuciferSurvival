@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitController<E> : BaseController<E> where E : BaseEntity
+public class UnitController: BaseController<UnitEntity, UnitModel>
 {
     [SerializeField]
     private BTRunner unitBTRunner;

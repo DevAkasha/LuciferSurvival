@@ -24,11 +24,9 @@ namespace Ironcow.Data
         {
             if (instance == null)
             {
-#if USE_SO_DATA
                 var window = GetWindow<DataTool>();
                 window.minSize = new Vector2(512f, 728f);
                 instance = window;
-#endif
             }
         }
 
@@ -103,7 +101,7 @@ namespace Ironcow.Data
 
         List<string> datas = new List<string>();
         string selectRCode;
-        public BaseDataSO currentAsset;
+        public BaseDataSO currentAsset = null;
         Dictionary<string, bool> isOpened = new Dictionary<string, bool>();
         private void Draw()
         {
@@ -425,7 +423,7 @@ namespace Ironcow.Data
         {
             foreach (var sheet in sheets)
             {
-                var url = $"{DataToolSetting.Instance.GSheetUrl}export?format=tsv&gid={sheet.sheetId}";
+                var url = $"{DataToolSetting.instance.GSheetUrl}export?format=tsv&gid={sheet.sheetId}";
                 var req = UnityWebRequest.Get(url);
                 var op = req.SendWebRequest();
                 Debug.Log($"{sheet.className}");
@@ -496,7 +494,7 @@ namespace Ironcow.Data
 #endif
         }
 
-        private List<SheetInfoSO> sheets { get => DataToolSetting.Instance.sheets; }
+        private List<SheetInfoSO> sheets { get => DataToolSetting.instance.sheets; }
 
 #if USE_SO_DATA
         public ScriptableObject DicToClass(Type type, Dictionary<string, string> data)
