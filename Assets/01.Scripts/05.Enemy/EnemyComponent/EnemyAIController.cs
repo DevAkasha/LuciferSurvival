@@ -5,6 +5,8 @@ using System.Linq;
 using UnityEngine;
 using Ironcow.BT;
 using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
+using UnityEditor;
 
 public class EnemyAIController : MonoBehaviour
 {
@@ -161,10 +163,23 @@ public class EnemyAIController : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, enemyStatus.detectRange);
-        
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, enemyStatus.attackRange);
+    }
+}
+[CustomEditor(typeof(EnemyAIController))]
+public class EnemyControl : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        if (EditorApplication.isPlaying)
+        {
+            if (GUILayout.Button("한 방에 주님 곁에"))
+            {
+                ((EnemyAIController)target).InDamage(10000);
+            }
+        }
     }
 }

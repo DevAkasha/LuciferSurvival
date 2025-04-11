@@ -123,6 +123,53 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &234169016
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 234169017}
+  - component: {fileID: 234169018}
+  m_Layer: 0
+  m_Name: Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &234169017
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234169016}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 141.55354, y: -127.075096, z: 18.009218}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &234169018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234169016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ecef14447616794ea25c33da5d2e7d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyList:
+  - {fileID: 1926497985}
+  Wave: 1
 --- !u!1 &622623871
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,7 +619,7 @@ Transform:
   m_GameObject: {fileID: 1214164688}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.05, y: 0.5, z: -9.31}
+  m_LocalPosition: {x: -10.21, y: 0.54, z: -10.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -984,29 +1031,29 @@ MonoBehaviour:
   animator: {fileID: 0}
   bt:
     root:
-      rid: 2295249421192396803
+      rid: 2295249466175782912
   references:
     version: 2
     RefIds:
-    - rid: 2295249421192396803
+    - rid: 2295249466175782912
       type: {class: RootNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: RootNode
         node:
-          rid: 2295249421192396814
-    - rid: 2295249421192396814
+          rid: 2295249466175782913
+    - rid: 2295249466175782913
       type: {class: SelectorNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SelectorNode
         childs:
-        - rid: 2295249421192396851
-        - rid: 2295249421192396852
-    - rid: 2295249421192396851
-      type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
+        - rid: 2295249466175782914
+    - rid: 2295249466175782914
+      type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
-        className: ActionNode
-        funcName: ToDetectPlayer
-    - rid: 2295249421192396852
+        className: SequenceNode
+        childs:
+        - rid: 2295249466175782915
+    - rid: 2295249466175782915
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
@@ -1048,3 +1095,4 @@ SceneRoots:
   - {fileID: 1926497989}
   - {fileID: 1214164692}
   - {fileID: 700816140}
+  - {fileID: 234169017}
