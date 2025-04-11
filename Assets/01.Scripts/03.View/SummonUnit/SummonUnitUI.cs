@@ -10,9 +10,12 @@ public class SummonUnitUI : MonoBehaviour
 
     private List<UnitDataSO> unitDatas;
 
+    [SerializeField]
+    private List<Sprite> gradeSprites;
+
     private void Start()
     {
-        unitDatas = DataManager.instance.GetDatas<UnitDataSO>();
+        //unitDatas = DataManager.instance.GetDatas<UnitDataSO>();
     }
 
     public void OnclickShopLevelUp()
@@ -25,5 +28,8 @@ public class SummonUnitUI : MonoBehaviour
         
     }
 
+    public void OnclickRerollUnit()
+    {
 
+    }
 }

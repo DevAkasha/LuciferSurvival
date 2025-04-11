@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitModel : BaseModel
 {
     public string rcode;
     public string displayName;
+    public string description;
     public int idx;
     public float range;
     public float atk;
@@ -20,6 +22,7 @@ public class UnitModel : BaseModel
     {
         rcode = unitDataSO.rcode;
         displayName = unitDataSO.displayName;
+        description = unitDataSO.description;
         idx = unitDataSO.idx;
         range = unitDataSO.range;
         atk = unitDataSO.atk;
