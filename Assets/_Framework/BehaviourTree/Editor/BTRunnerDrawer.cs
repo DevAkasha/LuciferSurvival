@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditorInternal;
@@ -35,7 +35,7 @@ public class BTRunnerDrawer : PropertyDrawer
             else
             {
                 var fieldInfo = instance.GetType().GetField("data", BindingFlags.NonPublic | BindingFlags.Instance);
-                data = (BTSaveData)fieldInfo.GetValue(instance);
+                //data = (BTSaveData)fieldInfo.GetValue(instance);
             }
         }
         if (methods == null)
@@ -81,8 +81,8 @@ public class BTRunnerDrawer : PropertyDrawer
             data = AssetDatabase.LoadAssetAtPath<BTSaveData>(path);
         }
 
-        if (instance.root != null) return;
-        if (instance.root == null)
+        //if (instance.root != null) return;
+        if (!Application.isPlaying)
             instance.root = JsonUtility.FromJson<RootNode>(data.data);
         if (instance.root == null)
             instance.root = new RootNode();
