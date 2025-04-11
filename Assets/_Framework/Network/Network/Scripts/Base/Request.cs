@@ -17,7 +17,6 @@ namespace Ironcow.Network
             foreach (var field in fields)
             {
                 if (param.Length <= idx) break;
-                //Debug.Log("Name : " + field.Name + ", type : " + field.FieldType + ", value : " + field.GetValue(this));
                 if (field.FieldType == typeof(int))
                 {
                     field.SetValue(this, (int)param[idx]);
@@ -141,41 +140,7 @@ namespace Ironcow.Network
             return retParam;
         }
 
-        /// <summary>GET/POST/DELETE(타입은 T(보낼 모델)에 API 속성을 달아 사용) 같은 요청 보내기</summary>
-        /// <param name="rawLink">기존 호스트 주소 사용 안하고 https://23tqd8hnq1.execute-api.ap-northeast-2.amazonaws.com/default/personalityClassify 같은 외부 주소 쓸 때 사용, 빈 값으로 두면 사용 안함
-        /// (it can put the raw link to sending request like this case link: 'https://23tqd8hnq1.execute-api.ap-northeast-2.amazonaws.com/default/personalityClassify)</param>
-        public void SendRequest<T>(UnityAction<Response<T>> callback, UnityAction<string> errorCallback = null, string rawLink = "")
-        {
-            string API = "";
-            eRequestType requestType = eRequestType.GET;
-            (API, requestType) = GetAttribute();
-            bool useFormat = false;
-            if (API.Contains("{0}"))
-            {
-                API = string.Format(API, GetValues());
-                useFormat = true;
-            }
-
-            if (requestType == eRequestType.POST)
-            {
-                NetworkManager.instance.requestAPI<T>(string.IsNullOrEmpty(rawLink) ? API : rawLink, ToWWWForm(), (response) =>
-                {
-                    callback.Invoke(response);
-                }, errorCallback, string.IsNullOrEmpty(rawLink) ? false : true);
-            }
-            else
-            {
-                NetworkManager.instance.requestAPI<T>(API, useFormat ? string.Empty : ToParam(), requestType, (response) =>
-                {
-                    callback.Invoke(response);
-                }, errorCallback);
-            }
-        }
-
-        /// <summary>GET/POST/DELETE(타입은 T(보낼 모델)에 API 속성을 달아 사용) 같은 요청 보내기</summary>
-        /// <param name="rawLink">기존 호스트 주소 사용 안하고 https://23tqd8hnq1.execute-api.ap-northeast-2.amazonaws.com/default/personalityClassify 같은 외부 주소 쓸 때 사용, 빈 값으로 두면 사용 안함
-        /// (it can put the raw link to sending request like this case link: 'https://23tqd8hnq1.execute-api.ap-northeast-2.amazonaws.com/default/personalityClassify)</param>
-        public async Task<Response<T>> SendRequestAsync<T>()
+        public async Task<Response<T>> SendRequest<T>()
         {
             string API = "";
             eRequestType requestType = eRequestType.GET;
@@ -185,29 +150,20 @@ namespace Ironcow.Network
                 API = string.Format(API, GetValues());
             }
 
-            if (requestType == eRequestType.POST)
+            switch (requestType)
             {
-                return await NetworkManager.instance.requestAPIAsync<T>(API, ToWWWForm(), requestType);
+                case eRequestType.POST:
+                case eRequestType.PUT:
+                    {
+                        return await NetworkManager.instance.Request<T>(API, ToWWWForm(), requestType);
+                    }
+                case eRequestType.GET:
+                case eRequestType.DELETE:
+                    {
+                        return await NetworkManager.instance.Request<T>(API, ToParam(), requestType);
+                    }
             }
-            else
-            {
-                return await NetworkManager.instance.requestAPIAsync<T>(API, ToParam(), requestType);
-            }
-        }
-
-        /// <summary>
-        /// 비동기 요청 보내기
-        /// </summary>
-        public async Task<Response<T>> SendRequestAsync<T>(string API, eRequestType type)
-        {
-            if (type == eRequestType.POST)
-            {
-                return await NetworkManager.instance.requestAPIAsync<T>(API, ToWWWForm(), type);
-            }
-            else
-            {
-                return await NetworkManager.instance.requestAPIAsync<T>(API, ToParam(), type);
-            }
+            return null;
         }
 
         public (string, eRequestType) GetAttribute()

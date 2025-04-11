@@ -92,7 +92,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7720146562245481562
 RectTransform:
   m_ObjectHideFlags: 0
@@ -203,8 +203,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDontDestroy: 0
-  hide: 1
-  isTouchPosition: 1
+  hide: 0
+  isTouchPosition: 0
   size: {x: 200, y: 200}
   handle: {fileID: 3319469615152019606}
   rt: {fileID: 7720146562245481562}

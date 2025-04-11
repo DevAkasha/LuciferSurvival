@@ -17,7 +17,7 @@ namespace Ironcow.Convenience
             AssetDatabase.Refresh();
             outPath = outPath.Replace(Application.dataPath, "Assets");
             var filePath = outPath + "EditorSetting.asset";
-            if (!AssetDatabase.LoadAssetAtPath(filePath, typeof(Object)))
+            if (AssetDatabase.LoadAssetAtPath(filePath, typeof(Object)))
             {
                 var instance = CreateInstance<EditorDataSetting>();
                 //PrefabUtility.SaveAsPrefabAsset(instance.controller, filePath);

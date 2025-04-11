@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Ironcow.Data
 {
@@ -10,13 +11,13 @@ namespace Ironcow.Data
 
         private Dictionary<string, BaseDataSO> dataDics = new Dictionary<string, BaseDataSO>();
 
-        public override void Init()
+        public override void Init(UnityAction<string> progressTextCallback = null, UnityAction<float> progressValueCallback = null)
         {
 #if USE_ADDRESSABLE
             AddDataDics(ResourceManager.instance.LoadDataAssets<BaseDataSO>());
 #else
 #if USE_SO_DATA
-            AddDataDics(Resources.LoadAll<BaseDataSO>("GameDatas").ToList());
+            AddDataDics(Resources.LoadAll<BaseDataSO>("Datas").ToList());
 #endif
 #endif
             isInit = true;

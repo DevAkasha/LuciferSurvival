@@ -28,12 +28,12 @@ namespace Ironcow.Data
         }
         [Header("Scriptable Object Data Path")]
         public Object dataScriptableObjectPath;
-        public static string DataScriptableObjectPath { get => AssetDatabase.GetAssetPath(Instance.dataScriptableObjectPath); }
-        public static string DataScriptableObjectFullPath { get => Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(Instance.dataScriptableObjectPath); }
+        public static string DataScriptableObjectPath { get => AssetDatabase.GetAssetPath(instance.dataScriptableObjectPath); }
+        public static string DataScriptableObjectFullPath { get => Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.dataScriptableObjectPath); }
 
         [Header("Thumbnail Path")]
         public Object thumbnailPath;
-        public static string ThumbnailPath { get => AssetDatabase.GetAssetPath(Instance.thumbnailPath); }
+        public static string ThumbnailPath { get => AssetDatabase.GetAssetPath(instance.thumbnailPath); }
 
         [Header("Google Sheet Data")]
         public string GSheetUrl;

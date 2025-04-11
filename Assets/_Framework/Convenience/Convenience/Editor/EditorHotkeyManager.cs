@@ -55,7 +55,7 @@ namespace Ironcow.Convenience
         }
         private static MethodInfo createScriptMethod = typeof(ProjectWindowUtil).GetMethod("CreateScriptAsset", BindingFlags.Static | BindingFlags.NonPublic);
 
-        [MenuItem("Assets/Create/IroncowScript/UIBase Script", false, 1)]
+        [MenuItem("Assets/Create/IroncowScript/UIBase Script", false, -500)]
         static void CreateUIBaseScript()
         {
             string templetePath = Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.templeteFolder) + "/";
@@ -64,7 +64,7 @@ namespace Ironcow.Convenience
             ProjectWindowUtil.CreateScriptAssetFromTemplateFile(template, dest);
         }
 
-        [MenuItem("Assets/Create/IroncowScript/UIListBase Script", false, 1)]
+        [MenuItem("Assets/Create/IroncowScript/UIListBase Script", false, -500)]
         static void CreateUIListBaseScript()
         {
             string templetePath = Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.templeteFolder) + "/";
@@ -73,7 +73,7 @@ namespace Ironcow.Convenience
             ProjectWindowUtil.CreateScriptAssetFromTemplateFile(template, dest);
         }
 
-        [MenuItem("Assets/Create/IroncowScript/UIPopupScript", false, 1)]
+        [MenuItem("Assets/Create/IroncowScript/UIPopupScript", false, -500)]
         static void CreateUIPopupScript()
         {
             string templetePath = Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.templeteFolder) + "/";
@@ -82,16 +82,16 @@ namespace Ironcow.Convenience
             ProjectWindowUtil.CreateScriptAssetFromTemplateFile(template, dest);
         }
 
-        [MenuItem("Assets/Create/IroncowScript/UICanvasScript", false, 1)]
+        [MenuItem("Assets/Create/IroncowScript/UICanvasScript", false, -500)]
         static void CreateUICanvasScript()
         {
             string templetePath = Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.templeteFolder) + "/";
             var template = templetePath + "UICanvasTemplete.cs.txt";
-            var dest = "UI.cs";
+            var dest = "Canvas.cs";
             ProjectWindowUtil.CreateScriptAssetFromTemplateFile(template, dest);
         }
 
-        [MenuItem("Assets/Create/IroncowScript/UIListItemScript", false, 1)]
+        [MenuItem("Assets/Create/IroncowScript/UIListItemScript", false, -500)]
         static void CreateUIListItemScript()
         {
             string templetePath = Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.templeteFolder) + "/";
@@ -101,7 +101,7 @@ namespace Ironcow.Convenience
         }
 
 
-        [MenuItem("Assets/Create/IroncowScript/NetworkScript", false, 1)]
+        [MenuItem("Assets/Create/IroncowScript/NetworkScript", false, -500)]
         static void CreateRequestScript()
         {
             string templetePath = Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.templeteFolder) + "/";
@@ -111,7 +111,7 @@ namespace Ironcow.Convenience
         }
 
 
-        [MenuItem("Assets/Create/IroncowScript/WorldBaseScript", false, 1)]
+        [MenuItem("Assets/Create/IroncowScript/WorldBaseScript", false, -500)]
         static void CreateWorldBaseScript()
         {
             string templetePath = Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.templeteFolder) + "/";
@@ -120,7 +120,7 @@ namespace Ironcow.Convenience
             ProjectWindowUtil.CreateScriptAssetFromTemplateFile(template, dest);
         }
 
-        [MenuItem("Assets/Create/IroncowScript/ManagerScript", false, 1)]
+        [MenuItem("Assets/Create/IroncowScript/ManagerScript", false, -500)]
         static void CreateManagerScript()
         {
             string templetePath = Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.templeteFolder) + "/";
@@ -130,7 +130,7 @@ namespace Ironcow.Convenience
         }
 
 
-        [MenuItem("Assets/Create/IroncowScript/MonoBehaviourScript", false, 1)]
+        [MenuItem("Assets/Create/IroncowScript/MonoBehaviourScript", false, -500)]
         static void CreateMonoBehaviourScript()
         {
             string templetePath = Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.templeteFolder) + "/";
@@ -139,7 +139,7 @@ namespace Ironcow.Convenience
             ProjectWindowUtil.CreateScriptAssetFromTemplateFile(template, dest);
         }
 
-        [MenuItem("Assets/Create/IroncowScript/UnitScript", false, 1)]
+        [MenuItem("Assets/Create/IroncowScript/UnitScript", false, -500)]
         static void CreateUnitScript()
         {
             string templetePath = Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.templeteFolder) + "/";
@@ -148,7 +148,7 @@ namespace Ironcow.Convenience
             ProjectWindowUtil.CreateScriptAssetFromTemplateFile(template, dest);
         }
 
-        [MenuItem("Assets/Create/IroncowScript/BaseData", false, 1)]
+        [MenuItem("Assets/Create/IroncowScript/BaseData", false, -500)]
         static void CreateBaseDataScript()
         {
             string templetePath = Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.templeteFolder) + "/";
@@ -157,7 +157,7 @@ namespace Ironcow.Convenience
             ProjectWindowUtil.CreateScriptAssetFromTemplateFile(template, dest);
         }
 
-        [MenuItem("Assets/Create/IroncowScript/OriginClass", false, 1)]
+        [MenuItem("Assets/Create/IroncowScript/OriginClass", false, -500)]
         static void CreateOriginClassScript()
         {
             string templetePath = Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.templeteFolder) + "/";
@@ -166,12 +166,30 @@ namespace Ironcow.Convenience
             ProjectWindowUtil.CreateScriptAssetFromTemplateFile(template, dest);
         }
 
-        [MenuItem("Assets/Create/IroncowScript/BlankClass", false, 1)]
+        [MenuItem("Assets/Create/IroncowScript/BlankClass", false, -500)]
         static void CreateBlankClassScript()
         {
             string templetePath = Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.templeteFolder) + "/";
             var template = templetePath + "BlankTemplete.cs.txt";
             var dest = "NewScript.cs";
+            ProjectWindowUtil.CreateScriptAssetFromTemplateFile(template, dest);
+        }
+
+        [MenuItem("Assets/Create/IroncowScript/MonoSingletonClass", false, -500)]
+        static void CreateMonoSingletonClassScript()
+        {
+            string templetePath = Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.templeteFolder) + "/";
+            var template = templetePath + "MonoSingletonTemplete.cs.txt";
+            var dest = "Singleton.cs";
+            ProjectWindowUtil.CreateScriptAssetFromTemplateFile(template, dest);
+        }
+
+        [MenuItem("Assets/Create/IroncowScript/SoSingletonClass", false, -500)]
+        static void CreateSoSingletonClassScript()
+        {
+            string templetePath = Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.templeteFolder) + "/";
+            var template = templetePath + "SoSingletonTemplete.cs.txt";
+            var dest = "Singleton.cs";
             ProjectWindowUtil.CreateScriptAssetFromTemplateFile(template, dest);
         }
     }

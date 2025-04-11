@@ -51,13 +51,13 @@ namespace Ironcow.LocalizeTool
 
         public static string GetString(string key, params object[] param)
         {
-            if (Instance.localeDic.Count == 0) Instance.InitLocaleDic();
-            if (Instance.localeDic.ContainsKey(key))
+            if (instance.localeDic.Count == 0) instance.InitLocaleDic();
+            if (instance.localeDic.ContainsKey(key))
             {
                 if (param.Length > 0)
-                    return string.Format(Instance.localeDic[key], param);
+                    return string.Format(instance.localeDic[key], param);
                 else
-                    return Instance.localeDic[key];
+                    return instance.localeDic[key];
             }
             else
                 return key;

@@ -14,7 +14,6 @@ using Ironcow.Sound;
 using Ironcow.JoyStick;
 using Ironcow.ProjectTool;
 using Ironcow.UI;
-using System.Reflection;
 
 namespace Ironcow.Common
 {
@@ -68,16 +67,15 @@ namespace Ironcow.Common
                     isSelected = GUILayout.Toggle(isSelected == 2, new GUIContent("Editor Setting"), style, GUILayout.Width(180)) ? 2 : isSelected;
                     isSelected = GUILayout.Toggle(isSelected == 3, new GUIContent("Thumbnail Maker Setting"), style, GUILayout.Width(180)) ? 3 : isSelected;
                     isSelected = GUILayout.Toggle(isSelected == 4, new GUIContent("Input System Setting"), style, GUILayout.Width(180)) ? 4 : isSelected;
-#if USE_SO_DATA
                     isSelected = GUILayout.Toggle(isSelected == 5, new GUIContent("Name Changer"), style, GUILayout.Width(180)) ? 5 : isSelected;
-#endif
-                    if (FrameworkController.Instance.isScriptableObjectData)
+                    isSelected = GUILayout.Toggle(isSelected == 6, new GUIContent("Behaviour Tree"), style, GUILayout.Width(180)) ? 6 : isSelected;
+                    if (FrameworkController.instance.isScriptableObjectData)
                         isSelected = GUILayout.Toggle(isSelected == 101, new GUIContent("Data Tool Setting"), style, GUILayout.Width(180)) ? 101 : isSelected;
-                    if (FrameworkController.Instance.isLocale)
+                    if (FrameworkController.instance.isLocale)
                         isSelected = GUILayout.Toggle(isSelected == 102, new GUIContent("Localize Path Setting"), style, GUILayout.Width(180)) ? 102 : isSelected;
-                    if (FrameworkController.Instance.isObjectPool)
+                    if (FrameworkController.instance.isObjectPool)
                         isSelected = GUILayout.Toggle(isSelected == 103, new GUIContent("ObjectPool Tool Setting"), style, GUILayout.Width(180)) ? 103 : isSelected;
-                    if (FrameworkController.Instance.isFSM)
+                    if (FrameworkController.instance.isFSM)
                         isSelected = GUILayout.Toggle(isSelected == 104, new GUIContent("FSM Create Tool"), style, GUILayout.Width(180)) ? 104 : isSelected;
                 }
                 EditorGUILayout.EndScrollView();
@@ -103,23 +101,23 @@ namespace Ironcow.Common
             {
                 case 0:
                     {
-                        scriptableObject = FrameworkController.Instance;
+                        scriptableObject = FrameworkController.instance;
                     }
                     break;
                 case 1:
                     {
-                        scriptableObject = ApplicationSettings.Instance;
+                        scriptableObject = ApplicationSettings.instance;
                     }
                     break;
                 case 2:
                     {
-                        scriptableObject = EditorDataSetting.Instance;
+                        scriptableObject = EditorDataSetting.instance;
                         DrawEditorButtons();
                     }
                     break;
                 case 3:
                     {
-                        scriptableObject = ThumbnailPathSetting.Instance;
+                        scriptableObject = ThumbnailPathSetting.instance;
                     }
                     break;
                 case 4:
@@ -128,21 +126,26 @@ namespace Ironcow.Common
                         {
                             InputSettingTool.Open();
                         }
-                        var obj = EditorGUILayout.ObjectField("", InputSystemSetting.Instance, InputSystemSetting.Instance.GetType().DeclaringType, true) as ScriptableObject;
-                        var editor2 = Editor.CreateEditor(InputSystemSetting.Instance);
+                        var obj = EditorGUILayout.ObjectField("", InputSystemSetting.instance, InputSystemSetting.instance.GetType().DeclaringType, true) as ScriptableObject;
+                        var editor2 = Editor.CreateEditor(InputSystemSetting.instance);
                         editor2.OnInspectorGUI();
                         GUILayout.Space(30);
-                        scriptableObject = KeyBindListData.Instance;
+                        scriptableObject = KeyBindListData.instance;
                     }
                     break;
                 case 5:
                     {
-                        scriptableObject = NameChanger.Instance;
+                        scriptableObject = NameChanger.instance;
+                    }
+                    break;
+                case 6:
+                    {
+                        scriptableObject = BTEditor.instance;
                     }
                     break;
                 case 101:
                     {
-                        scriptableObject = DataToolSetting.Instance;
+                        scriptableObject = DataToolSetting.instance;
                         if (GUILayout.Button("Open Data Tool"))
                         {
                             DataTool.Open();
@@ -151,7 +154,7 @@ namespace Ironcow.Common
                     break;
                 case 102:
                     {
-                        scriptableObject = LocalePathSetting.Instance;
+                        scriptableObject = LocalePathSetting.instance;
                         if (GUILayout.Button("Open Localize Tool"))
                         {
                             LocalizeTool.LocalizeTool.Open();
@@ -160,7 +163,7 @@ namespace Ironcow.Common
                     break;
                 case 103:
                     {
-                        scriptableObject = ObjectPoolPathSetting.Instance;
+                        scriptableObject = ObjectPoolPathSetting.instance;
                         if (GUILayout.Button("Open ObjectPool Tool"))
                         {
                             ObjectPoolTool.Open();
@@ -169,11 +172,11 @@ namespace Ironcow.Common
                     break;
                 case 104:
                     {
-                        scriptableObject = FSMData.Instance;
+                        scriptableObject = FSMData.instance;
                     }
                     break;
                 default:
-                    scriptableObject = FrameworkController.Instance;
+                    scriptableObject = FrameworkController.instance;
                     break;
             }
 
@@ -210,10 +213,6 @@ namespace Ironcow.Common
                 if (Type.GetType("Ironcow.Data.DataEditor") != null)
                 {
                     ObjectPoolEditor.CreateSettingSO();
-                }
-                if (Type.GetType("Ironcow.Input.KeyBindDrawer") != null)
-                {
-                    //InputManagerEditor.CreateSettingSO();
                 }
             }
             if (GUILayout.Button("Create Manager Instances"))

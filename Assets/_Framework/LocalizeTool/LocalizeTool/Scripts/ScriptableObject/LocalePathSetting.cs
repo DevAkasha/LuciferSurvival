@@ -34,7 +34,7 @@ namespace Ironcow.LocalizeTool
         public string GSheetUrl;
         public string localeSheetId;
         public Object localeDataPath;
-        public static string LocaleDataPath { get => AssetDatabase.GetAssetPath(Instance.localeDataPath); }
+        public static string LocaleDataPath { get => AssetDatabase.GetAssetPath(instance.localeDataPath); }
 #endif
     }
 }
