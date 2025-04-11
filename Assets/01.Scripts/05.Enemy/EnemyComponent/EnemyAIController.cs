@@ -17,8 +17,8 @@ public class EnemyAIController : MonoBehaviour
     [SerializeField] private Animator animator;
 
     [SerializeField] BTRunner bt;
-    Collider[] colliders = new Collider[10];
-    Collider TargetPlayer;
+    //Collider[] colliders = new Collider[10];
+    //Collider TargetPlayer;
     Transform target;
 
     private void Start()
@@ -55,7 +55,7 @@ public class EnemyAIController : MonoBehaviour
     {
         Hp -= damage;
 
-        if(Hp <= 0)
+        if (Hp <= 0)
         {
             InDead();
         }
@@ -74,20 +74,22 @@ public class EnemyAIController : MonoBehaviour
     }
     public eNodeState OnDead()
     {
+        rigidbodys.velocity = Vector3.zero;
         return eNodeState.success;
     }
     public eNodeState DoCheakAttacking()
     {
-        return eNodeState.running;
+        return eNodeState.success;
+        //return eNodeState.running;
     }
     public eNodeState DoCheckPlayerWithAttackRange()
     {
-        if (TargetPlayer == null)
+        if (target == null)
         {
             return eNodeState.failure;
         }
 
-        var dist = (transform.position - TargetPlayer.transform.position).sqrMagnitude;
+        var dist = (transform.position - target.transform.position).sqrMagnitude;
 
         if (dist < enemyStatus.attackRange)
         {
@@ -103,35 +105,35 @@ public class EnemyAIController : MonoBehaviour
     {
         rigidbodys.velocity = Vector3.zero;
 
-        if (TargetPlayer != null)
+        if (target != null)
         {
-            transform.LookAt(TargetPlayer.transform);
+            transform.LookAt(target.transform);
             return eNodeState.success;
         }
         return eNodeState.failure;
     }
-    public eNodeState ToDetectPlayer()
-    {
-        int count = Physics.OverlapSphereNonAlloc(transform.position, enemyStatus.detectRange,
-            colliders, 1 << LayerMask.NameToLayer("Player"));
-        //Debug.Log($"{count}");
+    //public eNodeState ToDetectPlayer()
+    //{
+    //    int count = Physics.OverlapSphereNonAlloc(transform.position, enemyStatus.detectRange,
+    //        colliders, 1 << LayerMask.NameToLayer("Player"));
+    //    //Debug.Log($"{count}");
 
-        if (count > 0)
-        {
-            var list = colliders.ToList();
-            list.RemoveAll(obj => obj == null);
-            TargetPlayer = list.OrderBy(col => (transform.position - col.transform.position).sqrMagnitude).First();
-            return eNodeState.success;
-        }
-        else
-        {
-            TargetPlayer = null;
-            Debug.Log("타깃 널");
-        }
-        //Debug.Log("추적 실패");
-        return eNodeState.failure;
-    }
-    
+    //    if (count > 0)
+    //    {
+    //        var list = colliders.ToList();
+    //        list.RemoveAll(obj => obj == null);
+    //        TargetPlayer = list.OrderBy(col => (transform.position - col.transform.position).sqrMagnitude).First();
+    //        return eNodeState.success;
+    //    }
+    //    else
+    //    {
+    //        TargetPlayer = null;
+    //        Debug.Log("타깃 널");
+    //    }
+    //    //Debug.Log("추적 실패");
+    //    return eNodeState.failure;
+    //}
+
     public eNodeState ToTargetMove()
     {
         //if (TargetPlayer == null)
@@ -150,7 +152,7 @@ public class EnemyAIController : MonoBehaviour
             return eNodeState.success;
         }
         var dir = (target.transform.position - transform.position).normalized;
-        Debug.Log("추적 개시");
+        //Debug.Log("추적 개시");
         InMove(dir);
         return eNodeState.running;
 

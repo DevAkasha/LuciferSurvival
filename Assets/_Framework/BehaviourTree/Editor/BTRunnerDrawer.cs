@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditorInternal;
@@ -62,7 +62,7 @@ public class BTRunnerDrawer : PropertyDrawer
         if (instance.root != null)
             data.SaveData(instance.root);
         //EditorUtility.SetDirty(data);
-        data.SetDirty();
+        //data.SetDirty();
     }
 
     public void LoadData()

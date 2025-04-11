@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class EnemyGenerate : MonoBehaviour
 {
-    [SerializeField] List<GameObject> enemyList;
+    [SerializeField] EnemyListSO enemyList;
+    [SerializeField] Camera mainCamera;
 
     public int Wave = 1;
 
@@ -13,9 +15,9 @@ public class EnemyGenerate : MonoBehaviour
     {
         int listLimit;
 
-        if(Wave > enemyList.Count)
+        if(Wave > enemyList.SpawnEnemyList.Count)
         {
-            listLimit = enemyList.Count;
+            listLimit = enemyList.SpawnEnemyList.Count;
         }
         else
         {
@@ -23,6 +25,22 @@ public class EnemyGenerate : MonoBehaviour
         }
 
         int randomEnemy = Random.Range(0, listLimit);
-        Instantiate(enemyList[randomEnemy]);
+        Instantiate(enemyList.SpawnEnemyList[randomEnemy]);
+    }
+}
+[CustomEditor(typeof(EnemyGenerate))]
+public class EnemySpawn : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        if (EditorApplication.isPlaying)
+        {
+            if (GUILayout.Button("적 생성"))
+            {
+                ((EnemyGenerate)target).EnemySet();
+            }
+        }
     }
 }
