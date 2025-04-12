@@ -12,9 +12,6 @@ public class UnitEntity : BaseEntity<UnitModel>
     [SerializeField]
     private GameObject bullet;
 
-    [SerializeField]
-    private BTRunner unitBTRunner;
-
     private UnitModel unitModel;
 
     protected override void Awake()
@@ -35,20 +32,5 @@ public class UnitEntity : BaseEntity<UnitModel>
         }
 
         //unitModel = new UnitModel(DataManager.instance.GetData<UnitDataSO>(rcode));
-    }
-
-    public void Fire(Transform target)
-    { 
-        Instantiate(bullet, target);
-    }
-
-    public void Attack(Transform target)
-    {
-
-    }
-
-    public eNodeState FindEnemy()
-    {
-        return eNodeState.failure;
     }
 }
