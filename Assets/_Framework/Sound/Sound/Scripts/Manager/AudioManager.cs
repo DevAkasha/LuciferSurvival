@@ -13,21 +13,25 @@ namespace Ironcow.Sound
 #if !USE_OBJECT_POOL
     [RequireComponent(typeof(AudioSource))]
 #endif
-    public class AudioManager : MonoSingleton<AudioManager>
+    public class AudioManager : ManagerBase<AudioManager>
     {
         [SerializeField] private AudioSource source;
         [SerializeField] private AudioSource effect;
         [SerializeField] private Dictionary<string, AudioClip> audioPool = new Dictionary<string, AudioClip>();
 
-        [HideInInspector] public bool isInit;
-
-        private void OnValidate()
+#if USE_AUTO_CACHING && UNITY_EDITOR
+        protected override void OnValidate()
         {
+            base.OnValidate();
+#else
+        void OnValidate()
+        {
+#endif
 #if !USE_OBJECT_POOL
 #if !USE_AUTO_CACHING
             source = GetComponent<AudioSource>();
 #endif
-            if(effect == null)
+            if (effect == null)
             {
                 effect = gameObject.AddComponent<AudioSource>();
             }
@@ -40,8 +44,10 @@ namespace Ironcow.Sound
 #endif
         }
 
-        public void Init()
+        public override void Init(UnityAction<string> progressTextCallback = null, UnityAction<float> progressValueCallback = null)
         {
+            progressTextCallback?.Invoke("오디오 세팅 중");
+            progressValueCallback?.Invoke(1);
             isInit = true;
         }
 

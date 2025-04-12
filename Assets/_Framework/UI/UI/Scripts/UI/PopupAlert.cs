@@ -38,12 +38,6 @@ public class PopupAlert : UIBase
     [SerializeField]
     private Image image;
 
-    [SerializeField]
-    private RectTransform overlay;
-
-    [SerializeField]
-    private RectTransform sizePanel;
-
     private string text { set => descText.text = value; }
     private string title { set => titleText.text = value; }
     private string oktext { set => okButtonText.text = value; }
@@ -88,8 +82,6 @@ public class PopupAlert : UIBase
         this.oktext = string.IsNullOrEmpty(oktext) ? LocaleDataSO.GetString("popupButtonOk") : oktext;
         this.canceltext = string.IsNullOrEmpty(canceltext) ? LocaleDataSO.GetString("popupButtonCancel") : canceltext;
 #endif
-        overlay.sizeDelta = new Vector2(Screen.width, Screen.height);
-
         text = desc.Replace("/n", "\n");
 #if USE_LOCALE
         this.title = string.IsNullOrEmpty(title) ? LocaleDataSO.GetString("popupTitle0") : title.Replace("/n", "\n");
@@ -140,58 +132,7 @@ public class PopupAlert : UIBase
             print("크기최대치");
             height = 1300;
         }
-
-        //rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, sizePanel.sizeDelta.y);
         #endregion
-
-        #region UI위치 조절
-        float uiDown = 0;
-        if (title != "" && title != null)
-        {
-            uiDown += Mathf.Max(100, titleText.preferredHeight / 2);
-            //titleText.rectTransform.anchoredPosition = new Vector2(titleText.rectTransform.anchoredPosition.x, titleText.rectTransform.anchoredPosition.y - uiDown);
-            uiDown += titleText.preferredHeight + btnHeight / 2;
-        }
-
-        if (param.Length > 6 && param[6] != null)
-        {
-            if (desc == "" || desc == null)
-            {
-                if (title != "" && title != null)
-                {
-                    uiDown += (150 - titleText.preferredHeight / 2);
-                }
-            }
-            image.rectTransform.anchoredPosition = new Vector2(image.rectTransform.anchoredPosition.x, -uiDown);
-            uiDown += image.rectTransform.sizeDelta.y;
-            uiDown += btnHeight / 3;
-        }
-
-        if (desc != "" && desc != null)
-        {
-            uiDown += Mathf.Min(50, descText.preferredHeight / 2);
-            //descText.rectTransform.anchoredPosition = new Vector2(descText.rectTransform.anchoredPosition.x, -uiDown);
-        }
-        #endregion
-
-        #region UI순서 변경
-        //if (param.Length > 7)
-        //{
-        //    if ((int)param[7] == 1)
-        //    {
-        //        var temp = titleText.rectTransform.anchoredPosition;
-        //        titleText.rectTransform.anchoredPosition = image.rectTransform.anchoredPosition;
-        //        image.rectTransform.anchoredPosition = temp;
-        //    }
-        //    else if ((int)param[7] == 2)
-        //    {
-        //        var temp = descText.rectTransform.anchoredPosition;
-        //        descText.rectTransform.anchoredPosition = image.rectTransform.anchoredPosition;
-        //        image.rectTransform.anchoredPosition = temp;
-        //    }
-        //}
-        #endregion
-
     }
 
     public void OnClickOk()

@@ -1,4 +1,5 @@
 using Ironcow;
+using Ironcow.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,9 +53,9 @@ public class NameChangerEditor : Editor
             files.RemoveAll(obj => obj.Contains(".meta"));
             foreach (var dt in instance.datas)
             {
-                var data = dt;
+                var data = dt as BaseDataSO;
                 var key = data.rcode;
-                var oldName = "";
+                var oldName = "";// data.effectName;
                 var selectedList = files.FindAll(obj => obj.Contains(oldName));
                 foreach(var file in selectedList)
                 {

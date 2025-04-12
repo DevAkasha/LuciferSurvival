@@ -1,7 +1,9 @@
 using Ironcow;
 using System.Collections.Generic;
 using System.IO;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 public class KeyBindListData : SOSingleton<KeyBindListData>
@@ -9,6 +11,7 @@ public class KeyBindListData : SOSingleton<KeyBindListData>
     public List<string> keys = new List<string>();
     public List<KeyBindData> datas = new List<KeyBindData>();
 
+#if UNITY_EDITOR
     public void Refresh()
     {
         this.datas.Clear();
@@ -22,8 +25,7 @@ public class KeyBindListData : SOSingleton<KeyBindListData>
             var newPath = path.Replace(Application.dataPath, "Assets");
             this.datas.Add(AssetDatabase.LoadAssetAtPath<KeyBindData>(newPath));
         }
-#if UNITY_EDITOR
         EditorUtility.SetDirty(this);
-#endif
     }
+#endif
 }

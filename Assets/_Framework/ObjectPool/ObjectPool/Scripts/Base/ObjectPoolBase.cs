@@ -19,11 +19,10 @@ namespace Ironcow.ObjectPool
             gameObject.SetActive(active);
         }
 
-#if USE_AUTO_CACHING
-        public override void Release()
-#else
-        public void Release()
+#if USE_AUTO_CACHING && UNITY_EDITOR
+        public override 
 #endif
+        void Release()
         {
             PoolManager.instance.Release(this);
         }

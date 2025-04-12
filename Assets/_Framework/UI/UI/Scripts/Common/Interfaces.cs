@@ -8,4 +8,8 @@ namespace Ironcow.UI
         public void ClearList();
     }
 
+    public interface CanvasOption
+    {
+        public void SetParent();
+    }
 }

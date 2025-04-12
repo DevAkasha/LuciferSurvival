@@ -1,6 +1,8 @@
 using Ironcow.Data;
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 public class ChangeForm
@@ -17,5 +19,7 @@ public class NameChanger : SOSingleton<NameChanger>
 
     [Header("Prefab Path")]
     public Object prefabPath;
-    public static string PrefabPath { get => AssetDatabase.GetAssetPath(Instance.prefabPath); }
+#if UNITY_EDITOR
+    public static string PrefabPath { get => AssetDatabase.GetAssetPath(instance.prefabPath); }
+#endif
 }
