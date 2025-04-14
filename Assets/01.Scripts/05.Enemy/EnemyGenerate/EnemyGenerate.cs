@@ -9,13 +9,14 @@ public class EnemyGenerate : MonoBehaviour
     [SerializeField] EnemyListSO enemyList;
     [SerializeField] Camera mainCamera;
 
+    public float SpawnRange = 1f;
     public int Wave = 1;
 
     public void EnemySet()
     {
         int listLimit;
 
-        if(Wave > enemyList.SpawnEnemyList.Count)
+        if (Wave > enemyList.SpawnEnemyList.Count)
         {
             listLimit = enemyList.SpawnEnemyList.Count;
         }
@@ -27,6 +28,14 @@ public class EnemyGenerate : MonoBehaviour
         int randomEnemy = Random.Range(0, listLimit);
         Instantiate(enemyList.SpawnEnemyList[randomEnemy]);
     }
+
+    //Vector3 SpawnArea()
+    //{
+    //    if (mainCamera == null) return Vector3.zero;
+
+    //    Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(mainCamera);
+    //}
+    
 }
 [CustomEditor(typeof(EnemyGenerate))]
 public class EnemySpawn : Editor
