@@ -12,7 +12,6 @@ public class EnemyAIController : MonoBehaviour
 {
     public EnemyStatus enemyStatus;
     public int Hp;
-    [SerializeField] private Rigidbody rigidbodys;
     [SerializeField] private NavMeshAgent navMesh;
     [SerializeField] private Animator animator;
 
@@ -24,7 +23,9 @@ public class EnemyAIController : MonoBehaviour
     private void Start()
     {
         target = PlayerManager.Instance.Player.transform;
+        navMesh = GetComponent<NavMeshAgent>();
         Hp = enemyStatus.MaxHp;
+
         Init();
     }
     public void Init()
@@ -43,13 +44,9 @@ public class EnemyAIController : MonoBehaviour
     }
     public void InMove(Vector3 dir)
     {
-        if (dir.sqrMagnitude > 0.01f)
-        {
-            Vector3 lookDir = new Vector3(dir.x, 0, dir.z); // y축 고정
-            Quaternion rot = Quaternion.LookRotation(lookDir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 18f);
-        }
-        rigidbodys.velocity = dir * enemyStatus.moveSpeed;
+        //Debug.Log("이동 중");
+        navMesh.speed = enemyStatus.moveSpeed;
+        navMesh.SetDestination(dir);
     }
     public void InDamage(int damage)
     {
@@ -74,7 +71,7 @@ public class EnemyAIController : MonoBehaviour
     }
     public eNodeState OnDead()
     {
-        rigidbodys.velocity = Vector3.zero;
+        navMesh.speed = 0;
         return eNodeState.success;
     }
     public eNodeState DoCheakAttacking()
@@ -93,7 +90,7 @@ public class EnemyAIController : MonoBehaviour
 
         if (dist < enemyStatus.attackRange)
         {
-            rigidbodys.velocity = Vector3.zero;
+            navMesh.speed = 0;
             return eNodeState.success;
         }
         else
@@ -103,7 +100,7 @@ public class EnemyAIController : MonoBehaviour
     }
     public eNodeState DoEnemyAttack()
     {
-        rigidbodys.velocity = Vector3.zero;
+        navMesh.speed = 0;
 
         if (target != null)
         {
@@ -148,11 +145,12 @@ public class EnemyAIController : MonoBehaviour
         }
         if ((target.transform.position - transform.position).sqrMagnitude < enemyStatus.attackRange)
         {
-            rigidbodys.velocity = Vector3.zero;
+            navMesh.speed = 0;
             return eNodeState.success;
         }
-        var dir = (target.transform.position - transform.position).normalized;
+        //var dir = (target.transform.position - transform.position).normalized;
         //Debug.Log("추적 개시");
+        var dir = target.position;
         InMove(dir);
         return eNodeState.running;
 
@@ -160,7 +158,7 @@ public class EnemyAIController : MonoBehaviour
     public eNodeState AboveStay()
     {
         Debug.Log("정지");
-        rigidbodys.velocity = Vector3.zero;
+        navMesh.speed = 0;
         return eNodeState.running;
     }
     private void OnDrawGizmos()
