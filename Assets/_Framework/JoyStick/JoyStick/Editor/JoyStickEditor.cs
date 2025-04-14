@@ -42,7 +42,7 @@ namespace Ironcow.JoyStick
                 AssetDatabase.Refresh();
                 outPath = outPath.Replace(Application.dataPath, "Assets");
                 var filePath = outPath + "/" + stick.name + ".prefab";
-                if (!AssetDatabase.LoadAssetAtPath(filePath, typeof(Object)))
+                if (AssetDatabase.LoadAssetAtPath(filePath, typeof(Object)))
                 {
                     PrefabUtility.SaveAsPrefabAsset(stick, filePath);
                 }

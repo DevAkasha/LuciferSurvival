@@ -3,10 +3,11 @@ using Ironcow.ObjectPool;
 using Ironcow.WorldObjectBase;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Ironcow.Tool3D
 {
-    public class SpawnManager : MonoSingleton<SpawnManager>
+    public class SpawnManager : ManagerBase<SpawnManager>
     {
         [SerializeField] private bool is2D = false;
         [SerializeField] private Transform objectPool;
@@ -17,6 +18,11 @@ namespace Ironcow.Tool3D
                 if (objectPool == null) objectPool = new GameObject("ObjectPool").transform;
                 return objectPool;
             }
+        }
+
+        public override void Init(UnityAction<string> progressTextCallback = null, UnityAction<float> progressValueCallback = null)
+        {
+            isInit = true;
         }
 
         public bool OnRay(ref Vector3 position)
@@ -51,7 +57,7 @@ namespace Ironcow.Tool3D
 #if USE_OBJECT_POOL
                 worldObject = PoolManager.instance.Spawn<T>(data.rcode, position, ObjectPool);
 #else
-                worldObject = Instantiate(ResourceManager.instance.LoadAsset<T>(data.rcode, ResourceType.Prefabs), position, Quaternion.identity) as T;
+                worldObject = (T)Instantiate(ResourceManager.instance.LoadAsset<WorldBase<D>>(data.rcode, ResourceType.Prefabs), position, Quaternion.identity, ObjectPool);
 #endif
                 worldObject.name = worldObject.name.Replace("(Clone)", "");
                 worldObject.Init(data);

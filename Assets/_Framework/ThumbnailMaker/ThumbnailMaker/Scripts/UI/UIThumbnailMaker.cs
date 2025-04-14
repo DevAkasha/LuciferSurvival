@@ -27,7 +27,7 @@ namespace Ironcow.ThumbnailMaker
         {
             yield return null;
 #if UNITY_EDITOR
-            foreach (var folder in ThumbnailPathSetting.Instance.prefabFolders)
+            foreach (var folder in ThumbnailPathSetting.instance.prefabFolders)
             {
                 var path = AssetDatabase.GetAssetPath(folder) + "/";
                 var fullPath = UnityEngine.Application.dataPath.Replace("/Assets", "/") + path;

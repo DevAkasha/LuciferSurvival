@@ -30,8 +30,8 @@ namespace Ironcow.ThumbnailMaker
 
         [Header("Created thumbnail target path")]
         public Object thumbnailPath;
-        public static string ThumbnailPath { get => AssetDatabase.GetAssetPath(Instance.thumbnailPath); }
-        public static string ThumbnailFullPath { get => AssetDatabase.GetAssetPath(Instance.thumbnailPath).Replace("Asset", Application.dataPath); }
+        public static string ThumbnailPath { get => AssetDatabase.GetAssetPath(instance.thumbnailPath); }
+        public static string ThumbnailFullPath { get => AssetDatabase.GetAssetPath(instance.thumbnailPath).Replace("Asset", Application.dataPath); }
 #endif
     }
 

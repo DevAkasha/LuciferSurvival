@@ -8,7 +8,9 @@ namespace Ironcow.Common
     public class InputSettingTool : EditorWindow
     {
         public static InputSettingTool instance;
+#if USE_SO_DATA
         [MenuItem("Ironcow/Tool/Input Setting #&i")]
+#endif
         public static void Open()
         {
             var window = GetWindow<InputSettingTool>();
@@ -29,7 +31,7 @@ namespace Ironcow.Common
         {
             try
             {
-                KeyBindListData.Instance.Refresh();
+                KeyBindListData.instance.Refresh();
             }
             catch (Exception ex)
             {
@@ -37,7 +39,7 @@ namespace Ironcow.Common
             }
         }
 
-        List<KeyBindData> datas => KeyBindListData.Instance.datas;
+        List<KeyBindData> datas => KeyBindListData.instance.datas;
         int selectedIdx = 0;
         private void Draw()
         {
@@ -53,7 +55,7 @@ namespace Ironcow.Common
                         var path = $"{InputSystemSetting.CreateKeyBindPath}KeyBinding{datas.Count + 1}.asset";
                         var data = CreateInstance<KeyBindData>();
                         AssetDatabase.CreateAsset(data, path);
-                        KeyBindListData.Instance.Refresh();
+                        KeyBindListData.instance.Refresh();
                     }
                     var style = new GUIStyle(UnityEngine.GUI.skin.button);
                     style.alignment = TextAnchor.MiddleLeft;
@@ -101,10 +103,10 @@ namespace Ironcow.Common
             scriptableObject = EditorGUILayout.ObjectField("", scriptableObject, scriptableObject.GetType().DeclaringType, true) as ScriptableObject;
             var editor = Editor.CreateEditor(scriptableObject);
             editor.OnInspectorGUI();
-            if (KeyBindListData.Instance.keys.Find(obj => obj == datas[selectedIdx].key) == null)
+            if (KeyBindListData.instance.keys.Find(obj => obj == datas[selectedIdx].key) == null)
             {
-                KeyBindListData.Instance.keys.Add(datas[selectedIdx].key);
-                KeyBindListData.Instance.SaveData();
+                KeyBindListData.instance.keys.Add(datas[selectedIdx].key);
+                KeyBindListData.instance.SaveData();
             }
         }
 

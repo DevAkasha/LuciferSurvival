@@ -16,7 +16,7 @@ namespace Ironcow.ProjectTool
 		[MenuItem("Ironcow/Data/Application Settings")]
 		private static void Edit()
 		{
-			Selection.activeObject = Instance;
+			Selection.activeObject = instance;
 		}
 #endif
 

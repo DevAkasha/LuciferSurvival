@@ -15,7 +15,7 @@ namespace Ironcow.ObjectPool
             AssetDatabase.Refresh();
             outPath = outPath.Replace(Application.dataPath, "Assets");
             var filePath = outPath + "/ObjectPoolSetting.asset";
-            if (!AssetDatabase.LoadAssetAtPath(filePath, typeof(Object)))
+            if (AssetDatabase.LoadAssetAtPath(filePath, typeof(Object)))
             {
                 var instance = CreateInstance<ObjectPoolDataSO>();
                 AssetDatabase.CreateAsset(instance, filePath);
@@ -36,7 +36,7 @@ namespace Ironcow.ObjectPool
             AssetDatabase.Refresh();
             outPath = outPath.Replace(Application.dataPath, "Assets");
             var filePath = outPath + "/AudioSource.Prefab";
-            if (!AssetDatabase.LoadAssetAtPath(filePath, typeof(Object)))
+            if (AssetDatabase.LoadAssetAtPath(filePath, typeof(UnityEngine.Object)))
             {
                 var obj = new GameObject();
                 var data = obj.AddComponent<AudioSourcePoolData>();

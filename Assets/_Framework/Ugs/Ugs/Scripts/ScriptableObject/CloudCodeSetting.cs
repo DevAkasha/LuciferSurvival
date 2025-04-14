@@ -28,17 +28,17 @@ namespace Ironcow.Ugs
         }
         [Header("Java Script Templete Path")]
         public Object jsTempletePath;
-        public static string JSTempletePath { get => AssetDatabase.GetAssetPath(Instance.jsTempletePath); }
-        public static string JSTempleteFullPath { get => Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(Instance.jsTempletePath); }
+        public static string JSTempletePath { get => AssetDatabase.GetAssetPath(instance.jsTempletePath); }
+        public static string JSTempleteFullPath { get => Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.jsTempletePath); }
 
         [Header("Java Scripts Path")]
         public Object jsPath;
-        public static string JSPath { get => AssetDatabase.GetAssetPath(Instance.jsPath); }
-        public static string JSFullPath { get => Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(Instance.jsPath); }
+        public static string JSPath { get => AssetDatabase.GetAssetPath(instance.jsPath); }
+        public static string JSFullPath { get => Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.jsPath); }
 
         [Header("C# Network Code Path")]
         public Object networkPath;
-        public static string NetworkPath { get => AssetDatabase.GetAssetPath(Instance.networkPath); }
+        public static string NetworkPath { get => AssetDatabase.GetAssetPath(instance.networkPath); }
 
 #endif
     }

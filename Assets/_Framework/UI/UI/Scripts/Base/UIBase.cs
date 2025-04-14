@@ -60,7 +60,7 @@ public abstract class UIBase : MonoBehaviour
         { 
             foreach(var text in texts)
             {
-                text.text.text = LocaleDataSO.Instance.LocaleDic[text.key];
+                text.text.text = LocaleDataSO.instance.LocaleDic[text.key];
             }
         }
     
@@ -71,7 +71,7 @@ public abstract class UIBase : MonoBehaviour
             var tmpTexts = GetComponentsInChildren<TMPro.TMP_Text>(true).ToList();
             tmpTexts.ForEach(text =>
             {
-                var localeData = LocaleDataSO.Instance.localeData.Find(obj => obj.Korean == text.text);
+                var localeData = LocaleDataSO.instance.localeData.Find(obj => obj.Korean == text.text);
                 if(localeData != null)
                 {
                     texts.Add(new LocaleText(localeData.Key, text));
@@ -90,5 +90,36 @@ public abstract class UIBase : MonoBehaviour
         public abstract void Opened(object[] param);
 
         public virtual void Closed(object[] param) { }
+
+#if USE_AUTO_CACHING && UNITY_EDITOR
+        protected override void OnValidate()
+        { 
+            base.OnValidate();
+#else
+        void OnValidate()
+        {
+#endif
+            SetUIType();
+        }
+
+        public void SetUIType()
+        {
+            if (name.Contains("Gnb"))
+            {
+                uiPosition = eUIPosition.GNB;
+            }
+            else if (name.Contains("Top"))
+            {
+                uiPosition = eUIPosition.Top;
+            }
+            else if (name.Contains("Popup"))
+            {
+                uiPosition = eUIPosition.Popup;
+            }
+            else if (name.Contains("UI"))
+            {
+                uiPosition = eUIPosition.UI;
+            }
+        }
     }
 }
