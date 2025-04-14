@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1374167852781710984}
   - component: {fileID: 90225998821714178}
   - component: {fileID: 1849629208727702701}
+  - component: {fileID: 8048041031809773127}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -105,59 +106,59 @@ MonoBehaviour:
   animator: {fileID: 0}
   bt:
     root:
-      rid: 2295249534585143469
+      rid: 2295249541520687131
   references:
     version: 2
     RefIds:
-    - rid: 2295249534585143469
+    - rid: 2295249541520687131
       type: {class: RootNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: RootNode
         node:
-          rid: 2295249534585143470
-    - rid: 2295249534585143470
+          rid: 2295249541520687132
+    - rid: 2295249541520687132
       type: {class: SelectorNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SelectorNode
         childs:
-        - rid: 2295249534585143471
-        - rid: 2295249534585143472
-        - rid: 2295249534585143473
-        - rid: 2295249534585143474
-    - rid: 2295249534585143471
+        - rid: 2295249541520687133
+        - rid: 2295249541520687134
+        - rid: 2295249541520687135
+        - rid: 2295249541520687136
+    - rid: 2295249541520687133
       type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SequenceNode
         childs:
-        - rid: 2295249534585143475
-        - rid: 2295249534585143476
-    - rid: 2295249534585143472
+        - rid: 2295249541520687137
+        - rid: 2295249541520687138
+    - rid: 2295249541520687134
       type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SequenceNode
         childs: []
-    - rid: 2295249534585143473
+    - rid: 2295249541520687135
       type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SequenceNode
         childs:
-        - rid: 2295249534585143477
-    - rid: 2295249534585143474
+        - rid: 2295249541520687139
+    - rid: 2295249541520687136
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: AboveStay
-    - rid: 2295249534585143475
+    - rid: 2295249541520687137
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: OnCheckDead
-    - rid: 2295249534585143476
+    - rid: 2295249541520687138
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: OnDead
-    - rid: 2295249534585143477
+    - rid: 2295249541520687139
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
@@ -207,6 +208,33 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!54 &8048041031809773127
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2524162312750879575}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
 --- !u!1 &4955543187675831333
 GameObject:
   m_ObjectHideFlags: 0

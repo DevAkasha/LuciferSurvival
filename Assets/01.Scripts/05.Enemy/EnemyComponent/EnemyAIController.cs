@@ -11,7 +11,7 @@ using UnityEditor;
 public class EnemyAIController : MonoBehaviour
 {
     public EnemyStatus enemyStatus;
-    public int Hp;
+    public float Hp;
     [SerializeField] private NavMeshAgent navMesh;
     [SerializeField] private Animator animator;
 
@@ -72,6 +72,7 @@ public class EnemyAIController : MonoBehaviour
     public eNodeState OnDead()
     {
         navMesh.speed = 0;
+        //InDead();
         return eNodeState.success;
     }
     public eNodeState DoCheakAttacking()
