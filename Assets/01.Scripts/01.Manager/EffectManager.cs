@@ -26,16 +26,20 @@ public class EffectManager: Singleton<EffectManager>
     protected override void Awake()
     {
         base.Awake();
-        //스킬 등록
-        var ghostEffect = new ModifierEffect(EffectId.Ghost, EffectApplyMode.Timed, 10f)
-            .Add(ModifierType.Multiplier, 1.8f); // 80% 증가 → ×1.8
 
+        // 스킬 등록 - MoveSpeed에 곱연산 적용
+        var exhaustEffect = new ModifierEffect(EffectId.Exhaust, EffectApplyMode.Timed, 2f)
+            .Add("MoveSpeed", ModifierType.Multiplier, 0.7f); // 30% 감소
+        Register(exhaustEffect);
+
+        var ghostEffect = new ModifierEffect(EffectId.Ghost, EffectApplyMode.Timed, 10f)
+            .Add("MoveSpeed", ModifierType.Multiplier, 1.8f); // 80% 증가
         Register(ghostEffect);
     }
-
 
 }
 public enum EffectId
 {
-    Ghost
+    Ghost,
+    Exhaust
 }

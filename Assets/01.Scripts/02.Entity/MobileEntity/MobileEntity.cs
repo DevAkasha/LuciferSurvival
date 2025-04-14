@@ -5,9 +5,9 @@ using UnityEngine;
 public abstract class MobileEntity<M> : BaseEntity<M> where M: BaseModel
 {
     public abstract float Hp { get; set; }
-
-    public virtual void Damaged(float damage)
-    {
+    
+    public virtual void TakeDamaged(float damage)
+    {   
         Hp -= damage;
     }
 }

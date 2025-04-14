@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
-public class RxVar<T> : RxBase
+public sealed class RxVar<T> : RxBase, IRxReadable<T>
 {
     private T value;
     private readonly List<Action<T>> listeners = new();
@@ -14,7 +14,6 @@ public class RxVar<T> : RxBase
             model.RegisterRx(this);
         }
     }
-
 
     public T Value => value;
 
@@ -32,7 +31,7 @@ public class RxVar<T> : RxBase
         if (listener != null)
         {
             listeners.Add(listener);
-            listener(value); 
+            listener(value);
         }
     }
 

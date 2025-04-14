@@ -19,7 +19,7 @@ public class TestEntity : MobileEntity<TestModel>
 
     private void Start()
     {
-        Damaged(30);
+        TakeDamaged(30);
         Debug.Log($"플레이어 체력 : {Hp}");
     }
 
