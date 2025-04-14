@@ -14,17 +14,13 @@ public class UnitEntity : BaseEntity<UnitModel>
 
     private UnitModel unitModel;
 
-    protected override void Awake()
-    {
-        base.Awake();
-    }
 
     private void Start()
     {
         
     }
 
-    protected override void SetupModels()
+    protected override void SetupModel()
     {
         if(rcode.Equals(string.Empty))
         {

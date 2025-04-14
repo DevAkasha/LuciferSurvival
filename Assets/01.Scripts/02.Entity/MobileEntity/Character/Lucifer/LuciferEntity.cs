@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class LuciferEntity : PlayerEntity
 {
+    protected override void SetupModel()
+    {
+        Model = new();
+    }
+
     #region proxy property
     public override float Hp
     {
@@ -17,10 +22,7 @@ public class LuciferEntity : PlayerEntity
     }
     #endregion
 
-    protected override void SetupModels()
-    {
-        Model = new();
-    }
+
 
 }
 
