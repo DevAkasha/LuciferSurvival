@@ -13,7 +13,7 @@ public abstract class BasePart<E,M> : BasePart where E: IBaseEntity<M> where M :
         Model ??= Entity.GetModel();
         OnStart();
     }
-    protected override void SetupModels()
+    protected override void SetupModel()
     {
         Entity = (E)GetComponent<IBaseEntity<M>>();
         Model = Entity.GetModel();

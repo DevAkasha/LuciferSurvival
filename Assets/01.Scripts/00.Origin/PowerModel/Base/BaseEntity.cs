@@ -15,9 +15,16 @@ public abstract class BaseEntity<M> : BaseEntity, IBaseEntity<M> where M : BaseM
 {
     public M Model { get ; set; }
 
+    protected virtual void OnDisable()
+    {
+        Model.Unload();
+    }
+    protected virtual void OnDestroy()
+    {
+        Model.Unload();
+    }
     public virtual M GetModel()
     {
         return Model;
     }
-
 }
