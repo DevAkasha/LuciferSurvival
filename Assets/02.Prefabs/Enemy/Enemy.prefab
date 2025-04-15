@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: 90225998821714178}
   - component: {fileID: 1849629208727702701}
   - component: {fileID: 8048041031809773127}
-  m_Layer: 0
+  - component: {fileID: 7699129930796010816}
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,83 +109,59 @@ MonoBehaviour:
   AttackRate: 0
   bt:
     root:
-      rid: 2295249554932498894
+      rid: 2295249554932498991
   references:
     version: 2
     RefIds:
-    - rid: 2295249554932498894
+    - rid: 2295249554932498991
       type: {class: RootNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: RootNode
         node:
-          rid: 2295249554932498895
-    - rid: 2295249554932498895
+          rid: 2295249554932498992
+    - rid: 2295249554932498992
       type: {class: SelectorNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SelectorNode
         childs:
-        - rid: 2295249554932498896
-        - rid: 2295249554932498897
-        - rid: 2295249554932498898
-        - rid: 2295249554932498899
-        - rid: 2295249554932498900
-    - rid: 2295249554932498896
+        - rid: 2295249554932498993
+        - rid: 2295249554932498994
+        - rid: 2295249554932498995
+        - rid: 2295249554932498996
+    - rid: 2295249554932498993
       type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SequenceNode
         childs:
-        - rid: 2295249554932498901
-        - rid: 2295249554932498902
-    - rid: 2295249554932498897
+        - rid: 2295249554932498997
+        - rid: 2295249554932498998
+    - rid: 2295249554932498994
+      type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
+      data:
+        className: SequenceNode
+        childs: []
+    - rid: 2295249554932498995
       type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SequenceNode
         childs:
-        - rid: 2295249554932498903
-    - rid: 2295249554932498898
-      type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: SequenceNode
-        childs:
-        - rid: 2295249554932498904
-        - rid: 2295249554932498905
-    - rid: 2295249554932498899
-      type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: SequenceNode
-        childs:
-        - rid: 2295249554932498906
-    - rid: 2295249554932498900
+        - rid: 2295249554932498999
+    - rid: 2295249554932498996
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: AboveStay
-    - rid: 2295249554932498901
+    - rid: 2295249554932498997
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: OnCheckDead
-    - rid: 2295249554932498902
+    - rid: 2295249554932498998
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: OnDead
-    - rid: 2295249554932498903
-      type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: ActionNode
-        funcName: AboveStay
-    - rid: 2295249554932498904
-      type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: ActionNode
-        funcName: 
-    - rid: 2295249554932498905
-      type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: ActionNode
-        funcName: 
-    - rid: 2295249554932498906
+    - rid: 2295249554932498999
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
@@ -261,6 +238,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!95 &7699129930796010816
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2524162312750879575}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4955543187675831333
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,7 +271,7 @@ GameObject:
   - component: {fileID: 8829203883992071718}
   - component: {fileID: 7515124271212059263}
   - component: {fileID: 8310214792144845200}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Nose
   m_TagString: Untagged
   m_Icon: {fileID: 0}

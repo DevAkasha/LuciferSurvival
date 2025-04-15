@@ -7,6 +7,7 @@ using Ironcow.BT;
 using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
 using UnityEditor;
+using System.Security.Cryptography.X509Certificates;
 
 public class EnemyAIController : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class EnemyAIController : MonoBehaviour
         target = PlayerManager.Instance.Player.transform;
         rigidbodys = GetComponent<Rigidbody>();
         navMesh = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
         Hp = enemyStatus.health;
 
         Init();
@@ -73,18 +75,29 @@ public class EnemyAIController : MonoBehaviour
     {
 
     }
-    public void InAirborne()
+    public void InFalling()
     {
         navMesh.enabled = false;
 
-        rigidbodys.AddForce(Vector2.up * 100, ForceMode.Impulse);
-        StartCoroutine(OffNavMash());
     }
-    IEnumerator OffNavMash()
+    public void InSetNavMash()
     {
-        yield return new WaitForSeconds(1f);
         navMesh.enabled = true;
     }
+
+    bool IsAnimationRunning(string stateName)
+    {
+        if (animator != null)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+            {
+                var normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                return normalizedTime != 0 && normalizedTime < 1f;
+            }
+        }
+        return false;
+    }
+
     public eNodeState OnCheckDead()
     {
         if (Hp <= 0)
@@ -99,11 +112,11 @@ public class EnemyAIController : MonoBehaviour
         //InDead();
         return eNodeState.success;
     }
-    public eNodeState UnNavMash()
+    public eNodeState IsFalling()
     {
-       if(navMesh.enabled == false)
+        if (IsAnimationRunning("Falling"))
         {
-            return eNodeState.success;
+            return eNodeState.running;
         }
 
         return eNodeState.failure;
@@ -218,7 +231,7 @@ public class EnemyControl : Editor
 
             if (GUILayout.Button("에어본"))
             {
-                ((EnemyAIController)target).InAirborne();
+                ((EnemyAIController)target).InFalling();
             }
         }
     }
