@@ -8,6 +8,7 @@ using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
 using UnityEditor;
 using System.Security.Cryptography.X509Certificates;
+using DG.Tweening;
 
 public class EnemyAIController : MonoBehaviour
 {
@@ -79,12 +80,17 @@ public class EnemyAIController : MonoBehaviour
     {
         navMesh.enabled = false;
 
+        transform.DOMoveY(transform.position.y + 3f, 0.5f)
+            .SetEase(Ease.OutQuad)
+            .OnComplete(() =>
+            {
+                transform.DOMoveY(1f, 0.4f).SetEase(Ease.InQuad)
+                .OnComplete(() =>
+                    {
+                        navMesh.enabled = true;
+                    });
+            });
     }
-    public void InSetNavMash()
-    {
-        navMesh.enabled = true;
-    }
-
     bool IsAnimationRunning(string stateName)
     {
         if (animator != null)
@@ -114,7 +120,7 @@ public class EnemyAIController : MonoBehaviour
     }
     public eNodeState IsFalling()
     {
-        if (IsAnimationRunning("Falling"))
+        if (navMesh.enabled == false)
         {
             return eNodeState.success;
         }
