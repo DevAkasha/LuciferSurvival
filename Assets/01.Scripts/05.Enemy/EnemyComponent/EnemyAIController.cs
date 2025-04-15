@@ -10,21 +10,27 @@ using UnityEditor;
 
 public class EnemyAIController : MonoBehaviour
 {
-    public EnemyStatus enemyStatus;
-    public float Hp;
+    public EnemyDataSO enemyStatus;
     [SerializeField] private NavMeshAgent navMesh;
+    [SerializeField] private Rigidbody rigidbodys;
     [SerializeField] private Animator animator;
+    Transform target;
 
-    [SerializeField] BTRunner bt;
     //Collider[] colliders = new Collider[10];
     //Collider TargetPlayer;
-    Transform target;
+
+    [Header("Enemy 정보")]
+    public float Hp;
+
+    [Header("BT러너")]
+    [SerializeField] BTRunner bt;
 
     private void Start()
     {
         target = PlayerManager.Instance.Player.transform;
+        rigidbodys = GetComponent<Rigidbody>();
         navMesh = GetComponent<NavMeshAgent>();
-        Hp = enemyStatus.MaxHp;
+        Hp = enemyStatus.health;
 
         Init();
     }
@@ -89,7 +95,7 @@ public class EnemyAIController : MonoBehaviour
 
         var dist = (transform.position - target.transform.position).sqrMagnitude;
 
-        if (dist < enemyStatus.attackRange)
+        if (dist < enemyStatus.range)
         {
             navMesh.speed = 0;
             return eNodeState.success;
@@ -144,13 +150,15 @@ public class EnemyAIController : MonoBehaviour
             Debug.Log("타깃이 없다");
             return eNodeState.failure;
         }
-        if ((target.transform.position - transform.position).sqrMagnitude < enemyStatus.attackRange)
+        if ((target.transform.position - transform.position).sqrMagnitude < enemyStatus.range)
         {
             navMesh.speed = 0;
             return eNodeState.success;
         }
         //var dir = (target.transform.position - transform.position).normalized;
         //Debug.Log("추적 개시");
+
+        rigidbodys.velocity = Vector3.zero;
         var dir = target.position;
         InMove(dir);
         return eNodeState.running;
@@ -165,7 +173,7 @@ public class EnemyAIController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, enemyStatus.attackRange);
+        Gizmos.DrawWireSphere(transform.position, enemyStatus.range);
     }
 }
 [CustomEditor(typeof(EnemyAIController))]
