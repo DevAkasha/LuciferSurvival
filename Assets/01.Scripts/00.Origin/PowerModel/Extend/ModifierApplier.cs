@@ -5,22 +5,24 @@ using UnityEngine;
 
 public class ModifierApplier
 {
-    private readonly ModifierEffect effect;
+    private readonly ModifierEffect effect; // 적용할 modifier 효과 정의
     private readonly List<IModifiableTarget> targets = new();
+
+    public IReadOnlyList<IModifiableTarget> Targets => targets;
 
     public ModifierApplier(ModifierEffect effect)
     {
         this.effect = effect;
     }
 
-    public ModifierApplier AddTarget(IModifiableTarget target)
+    public ModifierApplier AddTarget(IModifiableTarget target) // modifier를 적용할 대상 추가
     {
         if (target != null)
             targets.Add(target);
         return this;
     }
 
-    public void Apply()
+    public void Apply() // modifier를 대상에게 적용
     {
         foreach (var target in targets)
         {
@@ -39,18 +41,10 @@ public class ModifierApplier
 
                 foreach (var modifier in effect.Modifiers)
                 {
-                    if (modifiable is IRxField<object> field &&
-                        field.FieldName.Equals(modifier.FieldName, StringComparison.OrdinalIgnoreCase))
+                    if (modifiable is IRxField field && field.FieldName.Equals(modifier.FieldName, StringComparison.OrdinalIgnoreCase))
                     {
-                        try
-                        {
-                            modifiable.ApplyModifier(effect.Key, modifier.FieldName, modifier.Type, modifier.Value);
-                            anyApplied = true;
-                        }
-                        catch (Exception e)
-                        {
-                            Debug.LogError($"[ModifierApplier] Failed to apply {modifier.Type} on {modifier.FieldName}: {e.Message}");
-                        }
+                        modifiable.ApplyModifier(effect.Key, modifier.FieldName, modifier.Type, modifier.Value);
+                        anyApplied = true;
                     }
                 }
 
@@ -73,7 +67,7 @@ public class ModifierApplier
         }
     }
 
-    public void Remove()
+    public void Remove() // modifier를 대상에게서 제거
     {
         foreach (var target in targets)
         {

@@ -9,15 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c65ebf23990c869429edfd111cef4c88, type: 3}
-  m_Name: ENE0010
+  m_Script: {fileID: 11500000, guid: eedb771082fe7df4abbe2aae90190729, type: 3}
+  m_Name: Turorial
   m_EditorClassIdentifier: 
-  thumbnail: {fileID: 0}
-  rcode: ENE0010
-  displayName: "\uB3C5\uC218\uB9AC"
-  description: 
-  idx: 10
-  atk: 15
-  moveSpeed: 1
-  health: 5000
-  range: 1
+  SpawnEnemyList:
+  - {fileID: 2524162312750879575, guid: e3752dffa5db42243a67a8b264d68249, type: 3}

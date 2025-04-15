@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public abstract class RxBehaviorNode
+public abstract class RxBehaviorNode // 행동 트리의 기본 노드 클래스
 {
     public abstract bool Check();
     public abstract void Run();
 }
 
-public class DoIf : RxBehaviorNode
+public class DoIf : RxBehaviorNode // 조건이 true일 때 액션 실행
 {
     private readonly Func<bool> condition;
     private readonly Action action;
@@ -24,7 +24,7 @@ public class DoIf : RxBehaviorNode
     public static DoIf Create(Func<bool> condition, Action action) => new(condition, action);
 }
 
-public class FirstTrue : RxBehaviorNode
+public class FirstTrue : RxBehaviorNode // 여러 노드 중 조건을 만족하는 첫 번째 노드 실행
 {
     private readonly List<RxBehaviorNode> children;
 
@@ -48,11 +48,11 @@ public class FirstTrue : RxBehaviorNode
     }
 }
 
-public class RunAllIfTrue : RxBehaviorNode
+public class RunAllIfTrue : RxBehaviorNode // 모든 노드가 조건을 만족하면 모두 실행
 {
     private readonly List<RxBehaviorNode> children;
 
-    public RunAllIfTrue(IEnumerable<RxBehaviorNode> nodes)
+    public RunAllIfTrue(IEnumerable<RxBehaviorNode> nodes) // 모든 노드가 조건을 만족하면 모두 실행
     {
         children = new List<RxBehaviorNode>(nodes);
     }
@@ -69,11 +69,11 @@ public class RunAllIfTrue : RxBehaviorNode
     }
 }
 
-public class InvertCondition : RxBehaviorNode
+public class InvertCondition : RxBehaviorNode // 조건을 반전시켜 평가
 {
     private readonly RxBehaviorNode node;
 
-    public InvertCondition(RxBehaviorNode node)
+    public InvertCondition(RxBehaviorNode node) // 조건을 반전시켜 평가
     {
         this.node = node;
     }
@@ -82,11 +82,11 @@ public class InvertCondition : RxBehaviorNode
     public override void Run() => node.Run();
 }
 
-public class RunAllAlways : RxBehaviorNode
+public class RunAllAlways : RxBehaviorNode // 조건과 관계없이 항상 실행
 {
     private readonly List<RxBehaviorNode> children;
 
-    public RunAllAlways(IEnumerable<RxBehaviorNode> nodes)
+    public RunAllAlways(IEnumerable<RxBehaviorNode> nodes) // 조건과 관계없이 항상 실행
     {
         children = new List<RxBehaviorNode>(nodes);
     }
@@ -122,7 +122,7 @@ public static class FSMBehaviorExtensions
 }
 
 // 유니티 타이머 유틸 (MonoBehaviour 없이 처리 가능하도록 별도 구현 필요)
-public static class UnityTimer
+public static class UnityTimer // MonoBehaviour 없이 타이머 구현
 {
     private static readonly List<TimerTask> tasks = new();
 

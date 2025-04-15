@@ -10,21 +10,29 @@ using UnityEditor;
 
 public class EnemyAIController : MonoBehaviour
 {
-    public EnemyStatus enemyStatus;
-    public int Hp;
-    [SerializeField] private Rigidbody rigidbodys;
+    public EnemyDataSO enemyStatus;
     [SerializeField] private NavMeshAgent navMesh;
+    [SerializeField] private Rigidbody rigidbodys;
     [SerializeField] private Animator animator;
-
-    [SerializeField] BTRunner bt;
-    Collider[] colliders = new Collider[10];
-    Collider TargetPlayer;
     Transform target;
+
+    //Collider[] colliders = new Collider[10];
+    //Collider TargetPlayer;
+
+    [Header("Enemy 정보")]
+    public float Hp;
+    public float AttackRate;
+
+    [Header("BT러너")]
+    [SerializeField] BTRunner bt;
 
     private void Start()
     {
         target = PlayerManager.Instance.Player.transform;
-        Hp = enemyStatus.MaxHp;
+        rigidbodys = GetComponent<Rigidbody>();
+        navMesh = GetComponent<NavMeshAgent>();
+        Hp = enemyStatus.health;
+
         Init();
     }
     public void Init()
@@ -43,19 +51,16 @@ public class EnemyAIController : MonoBehaviour
     }
     public void InMove(Vector3 dir)
     {
-        if (dir.sqrMagnitude > 0.01f)
-        {
-            Vector3 lookDir = new Vector3(dir.x, 0, dir.z); // y축 고정
-            Quaternion rot = Quaternion.LookRotation(lookDir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 18f);
-        }
-        rigidbodys.velocity = dir * enemyStatus.moveSpeed;
+        rigidbodys.velocity = Vector3.zero;
+        //Debug.Log("이동 중");
+        navMesh.speed = enemyStatus.moveSpeed;
+        navMesh.SetDestination(dir);
     }
     public void InDamage(int damage)
     {
         Hp -= damage;
 
-        if(Hp <= 0)
+        if (Hp <= 0)
         {
             InDead();
         }
@@ -63,6 +68,22 @@ public class EnemyAIController : MonoBehaviour
     public void InDead()
     {
 
+    }
+    public void InKnockBack()
+    {
+
+    }
+    public void InAirborne()
+    {
+        navMesh.enabled = false;
+
+        rigidbodys.AddForce(Vector2.up * 100, ForceMode.Impulse);
+        StartCoroutine(OffNavMash());
+    }
+    IEnumerator OffNavMash()
+    {
+        yield return new WaitForSeconds(1f);
+        navMesh.enabled = true;
     }
     public eNodeState OnCheckDead()
     {
@@ -74,24 +95,36 @@ public class EnemyAIController : MonoBehaviour
     }
     public eNodeState OnDead()
     {
+        navMesh.speed = 0;
+        //InDead();
         return eNodeState.success;
+    }
+    public eNodeState UnNavMash()
+    {
+       if(navMesh.enabled == false)
+        {
+            return eNodeState.success;
+        }
+
+        return eNodeState.failure;
     }
     public eNodeState DoCheakAttacking()
     {
-        return eNodeState.running;
+        return eNodeState.success;
+        //return eNodeState.running;
     }
     public eNodeState DoCheckPlayerWithAttackRange()
     {
-        if (TargetPlayer == null)
+        if (target == null)
         {
             return eNodeState.failure;
         }
 
-        var dist = (transform.position - TargetPlayer.transform.position).sqrMagnitude;
+        var dist = (transform.position - target.transform.position).sqrMagnitude;
 
-        if (dist < enemyStatus.attackRange)
+        if (dist < enemyStatus.range)
         {
-            rigidbodys.velocity = Vector3.zero;
+            navMesh.speed = 0;
             return eNodeState.success;
         }
         else
@@ -101,37 +134,37 @@ public class EnemyAIController : MonoBehaviour
     }
     public eNodeState DoEnemyAttack()
     {
-        rigidbodys.velocity = Vector3.zero;
+        navMesh.speed = 0;
 
-        if (TargetPlayer != null)
+        if (target != null)
         {
-            transform.LookAt(TargetPlayer.transform);
+            transform.LookAt(target.transform);
             return eNodeState.success;
         }
         return eNodeState.failure;
     }
-    public eNodeState ToDetectPlayer()
-    {
-        int count = Physics.OverlapSphereNonAlloc(transform.position, enemyStatus.detectRange,
-            colliders, 1 << LayerMask.NameToLayer("Player"));
-        //Debug.Log($"{count}");
+    //public eNodeState ToDetectPlayer()
+    //{
+    //    int count = Physics.OverlapSphereNonAlloc(transform.position, enemyStatus.detectRange,
+    //        colliders, 1 << LayerMask.NameToLayer("Player"));
+    //    //Debug.Log($"{count}");
 
-        if (count > 0)
-        {
-            var list = colliders.ToList();
-            list.RemoveAll(obj => obj == null);
-            TargetPlayer = list.OrderBy(col => (transform.position - col.transform.position).sqrMagnitude).First();
-            return eNodeState.success;
-        }
-        else
-        {
-            TargetPlayer = null;
-            Debug.Log("타깃 널");
-        }
-        //Debug.Log("추적 실패");
-        return eNodeState.failure;
-    }
-    
+    //    if (count > 0)
+    //    {
+    //        var list = colliders.ToList();
+    //        list.RemoveAll(obj => obj == null);
+    //        TargetPlayer = list.OrderBy(col => (transform.position - col.transform.position).sqrMagnitude).First();
+    //        return eNodeState.success;
+    //    }
+    //    else
+    //    {
+    //        TargetPlayer = null;
+    //        Debug.Log("타깃 널");
+    //    }
+    //    //Debug.Log("추적 실패");
+    //    return eNodeState.failure;
+    //}
+
     public eNodeState ToTargetMove()
     {
         //if (TargetPlayer == null)
@@ -144,13 +177,15 @@ public class EnemyAIController : MonoBehaviour
             Debug.Log("타깃이 없다");
             return eNodeState.failure;
         }
-        if ((target.transform.position - transform.position).sqrMagnitude < enemyStatus.attackRange)
+        if ((target.transform.position - transform.position).sqrMagnitude < enemyStatus.range)
         {
-            rigidbodys.velocity = Vector3.zero;
+            navMesh.speed = 0;
             return eNodeState.success;
         }
-        var dir = (target.transform.position - transform.position).normalized;
-        Debug.Log("추적 개시");
+        //var dir = (target.transform.position - transform.position).normalized;
+        //Debug.Log("추적 개시");
+
+        var dir = target.position;
         InMove(dir);
         return eNodeState.running;
 
@@ -158,13 +193,13 @@ public class EnemyAIController : MonoBehaviour
     public eNodeState AboveStay()
     {
         Debug.Log("정지");
-        rigidbodys.velocity = Vector3.zero;
+        navMesh.speed = 0;
         return eNodeState.running;
     }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, enemyStatus.attackRange);
+        Gizmos.DrawWireSphere(transform.position, enemyStatus.range);
     }
 }
 [CustomEditor(typeof(EnemyAIController))]
@@ -179,6 +214,11 @@ public class EnemyControl : Editor
             if (GUILayout.Button("한 방에 주님 곁에"))
             {
                 ((EnemyAIController)target).InDamage(10000);
+            }
+
+            if (GUILayout.Button("에어본"))
+            {
+                ((EnemyAIController)target).InAirborne();
             }
         }
     }

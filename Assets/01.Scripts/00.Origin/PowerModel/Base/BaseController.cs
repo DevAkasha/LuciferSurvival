@@ -1,11 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.InputSystem.InputAction;
-using UnityEngine.InputSystem;
 
-public abstract class BaseController : MonoBehaviour { }
-public abstract class BaseController<E,M> : BaseController where E : BaseEntity<M> where M: BaseModel
+public abstract class BaseController : MonoBehaviour { } // 모든 컨트롤러의 기본 클래스 (MonoBehaviour 상속)
+public abstract class BaseController<E, M> : BaseController where E : BaseEntity<M> where M : BaseModel // Entity와 Model을 연결하는 제네릭 컨트롤러
 {
     [SerializeField] private E entity;
 
@@ -14,18 +12,16 @@ public abstract class BaseController<E,M> : BaseController where E : BaseEntity<
     protected virtual void OnEnable()
     {
         if (entity == null) entity = GetComponent<E>();
-        if (entity != null) OnEntityInjected();
+        if (entity != null) OnEntityInjected(); // Entity가 주입된 이후의 초기화 처리
         OnInit();
     }
 
-    public void InjectEntity(E entity)
+    public void InjectEntity(E entity) // 외부에서 Entity를 주입
     {
         this.entity = entity;
-        OnEntityInjected();
+        OnEntityInjected(); // Entity가 주입된 이후의 초기화 처리
     }
 
     protected virtual void OnInit() { }
-    protected virtual void OnEntityInjected() { }
+    protected virtual void OnEntityInjected() { } // Entity가 주입된 이후의 초기화 처리
 }
-
-

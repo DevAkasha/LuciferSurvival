@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class EffectManager : Singleton<EffectManager>
 {
@@ -26,9 +27,8 @@ public class EffectManager : Singleton<EffectManager>
         base.Awake();
 
         Register(SkillEffectBuilder.Define(EffectId.Exhaust, EffectApplyMode.Timed)
-            .Add("MoveSpeed", ModifierType.Multiplier, 0.7f)
-            .Duration(2f)
-            .ToEffect());
+           .Interpolated(2f, t => Mathf.Lerp(0.7f, 1.0f, t))
+           .ToEffect());
 
         Register(SkillEffectBuilder.Define(EffectId.Ghost, EffectApplyMode.Timed)
             .Add("MoveSpeed", ModifierType.Multiplier, 1.8f)
