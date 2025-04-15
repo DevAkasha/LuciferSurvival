@@ -1,15 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
-using Unity.VisualScripting;
+﻿using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
 public abstract class PlayerEntity : MobileEntity<PlayerModel>
 {
+    public int BarrierCount;
+    
+    public bool isStopMove;
     public Vector2 moveInput;
+    
     protected Vector3 moveDir;
     protected Vector3 moveVel;
     protected Rigidbody rigid;
@@ -23,7 +23,19 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
     
     protected virtual void FixedUpdate()
     {
-        Move();
+        if (!isStopMove && Math.Abs(moveInput.x) + Math.Abs(moveInput.y) > 0.001)
+            Move();
+    }
+
+    public override void TakeDamaged(float damage)
+    {
+        if (BarrierCount > 0)
+        {
+            BarrierCount--;
+            return;
+        }
+
+        base.TakeDamaged(damage);
     }
 
     public virtual void Move()
@@ -31,6 +43,7 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
         moveDir.x = moveInput.x;
         moveDir.y = 0f;
         moveDir.z = moveInput.y;
+        transform.LookAt(transform.position + moveDir);
         moveVel = moveDir * MoveSpeed;
         rigid.MovePosition(transform.position + moveVel * Time.fixedDeltaTime);
     }

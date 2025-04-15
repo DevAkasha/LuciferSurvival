@@ -4,13 +4,13 @@ using UnityEngine;
 
 public abstract class WorldObject : MonoBehaviour
 {
-    protected virtual void Awake()
+    protected virtual void OnEnable()
     {
-        SetupModels();
+        SetupModel();
         OnInit();
     }
 
-    protected abstract void SetupModels();
+    protected abstract void SetupModel();
 
     protected virtual void OnInit() { }
 

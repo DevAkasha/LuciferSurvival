@@ -1,14 +1,18 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
-public class RxVar<T>
+public sealed class RxVar<T> : RxBase, IRxReadable<T>
 {
     private T value;
     private readonly List<Action<T>> listeners = new();
 
-    public RxVar(T initialValue = default)
+    public RxVar(T initialValue = default, object owner = null)
     {
         value = initialValue;
+        if (owner is ITrackableRxModel model)
+        {
+            model.RegisterRx(this);
+        }
     }
 
     public T Value => value;
@@ -27,13 +31,18 @@ public class RxVar<T>
         if (listener != null)
         {
             listeners.Add(listener);
-            listener(value); 
+            listener(value);
         }
     }
 
     public void RemoveListener(Action<T> listener)
     {
         listeners.Remove(listener);
+    }
+
+    public override void ClearRelation()
+    {
+        listeners.Clear();
     }
 
     private void NotifyAll()
