@@ -7,8 +7,7 @@ public class UnitController: BaseController<UnitEntity,UnitModel>
 {
     [SerializeField]
     private BTRunner unitBTRunner;
-
-    private Collider[] colliders = new Collider[10];        //10은 적을수도 있음
+    
     private float attackDelay = 0f;
     private bool isAttack = false;
 
