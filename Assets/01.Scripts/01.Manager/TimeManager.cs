@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TimeManager : Singleton<TimeManager>
@@ -11,10 +8,10 @@ public class TimeManager : Singleton<TimeManager>
     public enum TimeState { Day, Night } // 시간상태
     public TimeState CurrentState { get; set; } = TimeState.Night; // 초기값은 밤
 
-    [SerializeField] public float nightDuration = 30f;
-    public float nightTimer;
+    public float nightDuration = 30f; // 밤의 시간
+    public float nightTimer; // 밤의 시간을 흐르게 위한 타이머
 
-    // 다른곳에서 낮인지 밤인지 알게해줄 용도
+    // 다른곳에서 낮인지 밤인지 알게해줄 용도의 액션
     public event Action OnDay;
     public event Action OnNight;
 
@@ -29,6 +26,7 @@ public class TimeManager : Singleton<TimeManager>
         // 밤일때 시간이 다 되면 낮으로 변경
         if (CurrentState == TimeState.Night)
         {
+            // 밤 - 시간 = 0이될때 낮으로 전환
             nightTimer -= Time.deltaTime;
             if (nightTimer <= 0)
                 SetTimeState(TimeState.Day);
