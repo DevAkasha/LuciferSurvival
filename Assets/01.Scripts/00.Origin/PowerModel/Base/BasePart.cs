@@ -4,20 +4,20 @@ using UnityEngine;
 
 public abstract class BasePart : WorldObject { }
 
-public abstract class BasePart<E,M> : BasePart where E: IBaseEntity<M> where M : BaseModel
+public abstract class BasePart<E, M> : BasePart where E : IBaseEntity<M> where M : BaseModel
 {
     protected E Entity { get; set; }
     protected M Model { get; set; }
-    protected virtual void Start()
+    protected virtual void Start() // Unity Start 함수
     {
         Model ??= Entity.GetModel();
-        OnStart();
+        OnStart(); // Unity Start 함수 후크
     }
-    protected override void SetupModel()
+    protected override void SetupModel() // 모델 초기화
     {
         Entity = (E)GetComponent<IBaseEntity<M>>();
         Model = Entity.GetModel();
     }
 
-    protected virtual void OnStart() { }
+    protected virtual void OnStart() { } // Unity Start 함수 후크
 }

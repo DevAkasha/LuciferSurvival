@@ -1,8 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
-using Unity.VisualScripting;
 
 
 public class PlayerSkillModule : PlayerPart
@@ -12,12 +11,20 @@ public class PlayerSkillModule : PlayerPart
     public Action Barrier => ActivateBarrier;
     public Action Exhaust => ActivateExhaust;
 
-    public List<(float, Action)> PlayerSkillList = new();
+    public readonly List<(float cooldown, Action skill)> PlayerSkillList = new();
+
     [SerializeField] private float rollSpeed = 8f;
     [SerializeField] private float rollDuration = 0.6f;
     [SerializeField] private AnimationCurve rollSpeedCurve;
 
+    private bool isRolling = false;
+
     private void Awake()
+    {
+        RegisterSkills();
+    }
+
+    private void RegisterSkills()
     {
         PlayerSkillList.Add((16f, Roll));
         PlayerSkillList.Add((60f, Ghost));
@@ -27,11 +34,12 @@ public class PlayerSkillModule : PlayerPart
 
     public void ActivateRoll()
     {
-        StartCoroutine(RollCoroutine());
-        Debug.Log($"[Roll] Rolling Start");
+        if (!isRolling)
+        {
+            StartCoroutine(RollCoroutine());
+            Debug.Log($"[Roll] Rolling Start");
+        }
     }
-
-    private bool isRolling = false;
 
     private IEnumerator RollCoroutine()
     {
@@ -71,17 +79,35 @@ public class PlayerSkillModule : PlayerPart
         Entity.BarrierCount = 5;
         Debug.Log($"[Barrier] Barrier Start");
     }
+
     public void ActivateExhaust()
     {
-        var effect = EffectManager.Instance.GetEffect(EffectId.Exhaust);  //쓸 스킬
-        var applier = new ModifierApplier(effect).AddTarget(Model);     //적용할 애 설정
-        EffectRunner.Instance.ApplyTimedEffect(effect, applier);        //적용
-        Debug.Log($"[Exhaust] Exhaust Start");
+        var enemies = FindEnemiesInRange(5f);
+        var effect = EffectManager.Instance.GetEffect(EffectId.Exhaust);
+
+        foreach (var enemy in enemies)
+        {
+            var applier = new ModifierApplier(effect).AddTarget(enemy.GetModel());
+            EffectRunner.Instance.ApplyInterpolatedEffect(effect, applier);
+        }
+
+        Debug.Log("[Exhaust] Interpolated Slow Applied");
     }
 
-    protected override void Start()
+    private List<IBaseEntity<BaseModel>> FindEnemiesInRange(float range)
     {
-        base.Start();
-        ActivateGhost();
+        var results = new List<IBaseEntity<BaseModel>>();
+        var colliders = Physics.OverlapSphere(transform.position, range, LayerMask.GetMask("Enemy"));
+
+        foreach (var collider in colliders)
+        {
+            var entity = collider.GetComponent<IBaseEntity<BaseModel>>();
+            if (entity != null)
+            {
+                results.Add(entity);
+            }
+        }
+
+        return results;
     }
 }

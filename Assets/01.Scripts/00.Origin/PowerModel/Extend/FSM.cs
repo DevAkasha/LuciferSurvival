@@ -16,16 +16,16 @@ public class FSM<TState> where TState : Enum
     }
 
     // 상태 진입 시 콜백
-    public FSM<TState> OnEnter(TState state, Action callback)
+    public FSM<TState> OnEnter(TState state, Action callback) // 상태 진입 시 콜백
     {
-        stateMachine.OnEnter(state, callback);
+        stateMachine.OnEnter(state, callback); // 상태 진입 시 콜백
         return this;
     }
 
     // 상태 이탈 시 콜백
-    public FSM<TState> OnExit(TState state, Action callback)
+    public FSM<TState> OnExit(TState state, Action callback) // 상태 이탈 시 콜백
     {
-        stateMachine.OnExit(state, callback);
+        stateMachine.OnExit(state, callback); // 상태 이탈 시 콜백
         return this;
     }
 
@@ -42,33 +42,33 @@ public class FSM<TState> where TState : Enum
         Func<RxStateFlagSet<TFlag>, TState> evaluator)
         where TFlag : Enum
     {
-        EvaluateFlags(flags, evaluator);
+        EvaluateFlags(flags, evaluator); // 조건 평가 및 적용
 
-        foreach (var (flag, _) in flags.Snapshot())
+        foreach (var (flag, _) in flags.Snapshot()) // 현재 상태 스냅샷
         {
-            flags.AddListener(flag, _ => EvaluateFlags(flags, evaluator));
+            flags.AddListener(flag, _ => EvaluateFlags(flags, evaluator)); // 값 변경을 구독할 수 있음
         }
 
         return this;
     }
 
-    private void EvaluateFlags<TFlag>(
+    private void EvaluateFlags<TFlag>( // 조건 평가 및 적용
         RxStateFlagSet<TFlag> flags,
         Func<RxStateFlagSet<TFlag>, TState> evaluator)
         where TFlag : Enum
     {
         var next = evaluator(flags);
-        RequestByPriority(next);
+        RequestByPriority(next); // 상태 전이 요청
     }
 
     // 상태 전이 직접 요청
-    public void Request(TState next)
+    public void Request(TState next) // 상태 전이 요청
     {
-        stateMachine.Request(next);
+        stateMachine.Request(next); // 상태 전이 요청
     }
 
     // 다중 후보 중 가장 높은 우선순위 요청
-    public void RequestByPriority(params TState[] candidates)
+    public void RequestByPriority(params TState[] candidates) // 상태 전이 요청
     {
         TState? best = default;
         int bestPriority = int.MinValue;
@@ -77,7 +77,7 @@ public class FSM<TState> where TState : Enum
         {
             if (!stateMachine.CanTransitTo(state)) continue;
 
-            int p = priorities.GetValueOrDefault(state, 0);
+            int p = priorities.GetValueOrDefault(state, 0); // 현재 값 반환
             if (best == null || p > bestPriority || (p == bestPriority && Equals(state, Value)))
             {
                 best = state;
@@ -86,19 +86,19 @@ public class FSM<TState> where TState : Enum
         }
 
         if (best != null && !Equals(best, Value))
-            Request(best);
+            Request(best); // 상태 전이 요청
     }
 
     // 단일 후보 상태에 대한 조건부 전이
-    public void RequestByPriority(TState single)
+    public void RequestByPriority(TState single) // 상태 전이 요청
     {
-        RequestByPriority(new[] { single });
+        RequestByPriority(new[] { single }); // 상태 전이 요청
     }
 
     // 상태 전이 로그 출력
     public FSM<TState> LogTransitions(string tag = "[FSM]")
     {
-        State.AddListener(state => Debug.Log($"{tag} State → {state}"));
+        State.AddListener(state => Debug.Log($"{tag} State → {state}")); // 값 변경을 구독할 수 있음
         return this;
     }
 }

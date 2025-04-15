@@ -78,4 +78,45 @@ public class EffectRunner : Singleton<EffectRunner>
             yield return new WaitForSeconds(0.2f);
         }
     }
+
+    public void ApplyInterpolatedEffect(ModifierEffect effect, ModifierApplier applier)
+    {
+        foreach (var target in applier.Targets)
+        {
+            Instance.StartCoroutine(RunInterpolatedModifier(effect, target));
+        }
+    }
+
+    private IEnumerator RunInterpolatedModifier(ModifierEffect effect, IModifiableTarget target)
+    {
+        float duration = effect.Duration;
+        float time = 0f;
+        ModifierKey key = effect.Key;
+
+        while (time < duration)
+        {
+            float t = time / duration;
+            object value = effect.Interpolator.Invoke(t);
+
+            Debug.Log($"[InterpolatedEffect] t={t:F2}, value={value}");
+
+            foreach (var modifiable in target.GetModifiables())
+            {
+                if (modifiable is IRxModBase mod)
+                {
+                    mod.SetModifier(ModifierType.Multiplier, key, value);
+                }
+            }
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        foreach (var modifiable in target.GetModifiables())
+        {
+            modifiable.RemoveModifier(key);
+        }
+
+        Debug.Log("[InterpolatedEffect] Modifier removed.");
+    }
 }

@@ -9,22 +9,22 @@ public sealed class RxModDouble : RxModBase<double>
     private readonly Dictionary<ModifierKey, double> postMultiplicativeAdditives = new();
     private readonly HashSet<ModifierKey> signModifiers = new();
 
-    public RxModDouble(double origin = 0D, string fieldName = null, object owner = null)
+    public RxModDouble(double origin = 0D, string fieldName = null, object owner = null) // 초기 원본 값
     {
-        this.origin = origin;
-        cachedValue = origin;
-        lastNotifiedValue = origin;
+        this.origin = origin; // 초기 원본 값
+        cachedValue = origin; // 초기 원본 값
+        lastNotifiedValue = origin; // 초기 원본 값
 
         if (!string.IsNullOrEmpty(fieldName))
             FieldName = fieldName;
 
         if (owner is ITrackableRxModel model)
-            model.RegisterRx(this);
+            model.RegisterRx(this); // Rx 필드를 모델에 등록
     }
 
-    protected override void Recalculate()
+    protected override void Recalculate() // 최종 값 다시 계산
     {
-        double sum = origin;
+        double sum = origin; // 초기 원본 값
         foreach (var v in additives.Values) sum += v;
 
         double additiveRate = 0.0;
@@ -45,25 +45,25 @@ public sealed class RxModDouble : RxModBase<double>
         if (signModifiers.Count % 2 != 0)
             total = -total;
 
-        cachedValue = total;
+        cachedValue = total; // 계산된 값 캐싱
 
-        if (!cachedValue.Equals(lastNotifiedValue))
+        if (!cachedValue.Equals(lastNotifiedValue)) // 계산된 값 캐싱
         {
-            NotifyAll(cachedValue);
-            lastNotifiedValue = cachedValue;
+            NotifyAll(cachedValue); // 계산된 값 캐싱
+            lastNotifiedValue = cachedValue; // 계산된 값 캐싱
         }
 
         dirty = false;
     }
 
-    public override void ClearAll()
+    public override void ClearAll() // 모든 Modifier 초기화
     {
         additives.Clear();
         additiveMultipliers.Clear();
         multipliers.Clear();
         postMultiplicativeAdditives.Clear();
         signModifiers.Clear();
-        Invalidate();
+        Invalidate(); // 재계산 요청 (dirty 플래그 설정)
     }
 
     public override void SetModifier(ModifierType type, ModifierKey key, double value)
@@ -76,7 +76,7 @@ public sealed class RxModDouble : RxModBase<double>
             case ModifierType.FinalAdd: postMultiplicativeAdditives[key] = value; break;
             default: throw new InvalidOperationException("Use AddModifier for SignFlip.");
         }
-        Invalidate();
+        Invalidate(); // 재계산 요청 (dirty 플래그 설정)
     }
 
     public override void AddModifier(ModifierType type, ModifierKey key)
@@ -84,7 +84,7 @@ public sealed class RxModDouble : RxModBase<double>
         if (type != ModifierType.SignFlip)
             throw new InvalidOperationException("Only SignFlip can be added without a value.");
         signModifiers.Add(key);
-        Invalidate();
+        Invalidate(); // 재계산 요청 (dirty 플래그 설정)
     }
 
     public override void RemoveModifier(ModifierType type, ModifierKey key)
@@ -98,6 +98,6 @@ public sealed class RxModDouble : RxModBase<double>
             ModifierType.SignFlip => signModifiers.Remove(key),
             _ => false
         };
-        if (removed) Invalidate();
+        if (removed) Invalidate(); // 재계산 요청 (dirty 플래그 설정)
     }
 }
