@@ -102,63 +102,89 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyStatus: {fileID: 11400000, guid: 15bf3c7c72e8ea44da3276712f401d4d, type: 2}
   navMesh: {fileID: 0}
+  rigidbodys: {fileID: 0}
   animator: {fileID: 0}
+  Hp: 100
+  AttackRate: 0
   bt:
     root:
-      rid: 2295249554932498503
-  Hp: 100
+      rid: 2295249554932498894
   references:
     version: 2
     RefIds:
-    - rid: 2295249554932498503
+    - rid: 2295249554932498894
       type: {class: RootNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: RootNode
         node:
-          rid: 2295249554932498504
-    - rid: 2295249554932498504
+          rid: 2295249554932498895
+    - rid: 2295249554932498895
       type: {class: SelectorNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SelectorNode
         childs:
-        - rid: 2295249554932498505
-        - rid: 2295249554932498506
-        - rid: 2295249554932498507
-        - rid: 2295249554932498508
-    - rid: 2295249554932498505
+        - rid: 2295249554932498896
+        - rid: 2295249554932498897
+        - rid: 2295249554932498898
+        - rid: 2295249554932498899
+        - rid: 2295249554932498900
+    - rid: 2295249554932498896
       type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SequenceNode
         childs:
-        - rid: 2295249554932498509
-        - rid: 2295249554932498510
-    - rid: 2295249554932498506
-      type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: SequenceNode
-        childs: []
-    - rid: 2295249554932498507
+        - rid: 2295249554932498901
+        - rid: 2295249554932498902
+    - rid: 2295249554932498897
       type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SequenceNode
         childs:
-        - rid: 2295249554932498511
-    - rid: 2295249554932498508
+        - rid: 2295249554932498903
+    - rid: 2295249554932498898
+      type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
+      data:
+        className: SequenceNode
+        childs:
+        - rid: 2295249554932498904
+        - rid: 2295249554932498905
+    - rid: 2295249554932498899
+      type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
+      data:
+        className: SequenceNode
+        childs:
+        - rid: 2295249554932498906
+    - rid: 2295249554932498900
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: AboveStay
-    - rid: 2295249554932498509
+    - rid: 2295249554932498901
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: OnCheckDead
-    - rid: 2295249554932498510
+    - rid: 2295249554932498902
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: OnDead
-    - rid: 2295249554932498511
+    - rid: 2295249554932498903
+      type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
+      data:
+        className: ActionNode
+        funcName: AboveStay
+    - rid: 2295249554932498904
+      type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
+      data:
+        className: ActionNode
+        funcName: 
+    - rid: 2295249554932498905
+      type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
+      data:
+        className: ActionNode
+        funcName: 
+    - rid: 2295249554932498906
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode

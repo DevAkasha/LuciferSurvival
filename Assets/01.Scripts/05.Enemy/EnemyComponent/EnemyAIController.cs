@@ -21,6 +21,7 @@ public class EnemyAIController : MonoBehaviour
 
     [Header("Enemy 정보")]
     public float Hp;
+    public float AttackRate;
 
     [Header("BT러너")]
     [SerializeField] BTRunner bt;
@@ -50,6 +51,7 @@ public class EnemyAIController : MonoBehaviour
     }
     public void InMove(Vector3 dir)
     {
+        rigidbodys.velocity = Vector3.zero;
         //Debug.Log("이동 중");
         navMesh.speed = enemyStatus.moveSpeed;
         navMesh.SetDestination(dir);
@@ -67,6 +69,22 @@ public class EnemyAIController : MonoBehaviour
     {
 
     }
+    public void InKnockBack()
+    {
+
+    }
+    public void InAirborne()
+    {
+        navMesh.enabled = false;
+
+        rigidbodys.AddForce(Vector2.up * 100, ForceMode.Impulse);
+        StartCoroutine(OffNavMash());
+    }
+    IEnumerator OffNavMash()
+    {
+        yield return new WaitForSeconds(1f);
+        navMesh.enabled = true;
+    }
     public eNodeState OnCheckDead()
     {
         if (Hp <= 0)
@@ -80,6 +98,15 @@ public class EnemyAIController : MonoBehaviour
         navMesh.speed = 0;
         //InDead();
         return eNodeState.success;
+    }
+    public eNodeState UnNavMash()
+    {
+       if(navMesh.enabled == false)
+        {
+            return eNodeState.success;
+        }
+
+        return eNodeState.failure;
     }
     public eNodeState DoCheakAttacking()
     {
@@ -158,7 +185,6 @@ public class EnemyAIController : MonoBehaviour
         //var dir = (target.transform.position - transform.position).normalized;
         //Debug.Log("추적 개시");
 
-        rigidbodys.velocity = Vector3.zero;
         var dir = target.position;
         InMove(dir);
         return eNodeState.running;
@@ -188,6 +214,11 @@ public class EnemyControl : Editor
             if (GUILayout.Button("한 방에 주님 곁에"))
             {
                 ((EnemyAIController)target).InDamage(10000);
+            }
+
+            if (GUILayout.Button("에어본"))
+            {
+                ((EnemyAIController)target).InAirborne();
             }
         }
     }
