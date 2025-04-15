@@ -30,17 +30,9 @@ public class ModifierEffect
 
     private readonly List<FieldModifier> modifiers = new();
     private bool hasSignFlip = false;
-
     private readonly List<Func<bool>> conditions = new();
 
-    public Func<bool> Condition => () =>
-    {
-        foreach (var cond in conditions)
-        {
-            if (!cond()) return false;
-        }
-        return true;
-    };
+    public Func<bool> Condition => () => conditions.TrueForAll(cond => cond());
 
     public ModifierEffect(Enum id, EffectApplyMode mode = EffectApplyMode.Manual, float duration = 0f)
     {
@@ -100,56 +92,56 @@ public class ModifierEffect
 
 public static class SkillEffectBuilder
 {
-    public static SkillEffectDefinition Define(Enum effectId)
-        => new(effectId);
+    public static EffectBuilder Define(Enum effectId, EffectApplyMode mode = EffectApplyMode.Manual, float duration = 0f)
+        => new(effectId, mode, duration);
 }
 
-public class SkillEffectDefinition
+public class EffectBuilder
 {
     private readonly ModifierEffect effect;
 
-    public SkillEffectDefinition(Enum effectId)
+    public EffectBuilder(Enum effectId, EffectApplyMode mode, float duration)
     {
-        effect = new ModifierEffect(effectId);
+        effect = new ModifierEffect(effectId, mode, duration);
     }
 
-    public SkillEffectDefinition Duration(float seconds)
+    public EffectBuilder Add<T>(string field, ModifierType type, T value)
     {
-        effect.SetDuration(seconds);
+        effect.Add(field, type, value);
         return this;
     }
 
-    public SkillEffectDefinition Add<T>(string fieldName, ModifierType type, T value)
-    {
-        effect.Add(fieldName, type, value);
-        return this;
-    }
-
-    public SkillEffectDefinition AddSignFlip()
+    public EffectBuilder AddSignFlip()
     {
         effect.AddSignFlip();
         return this;
     }
 
-    public SkillEffectDefinition When(Func<bool> condition)
+    public EffectBuilder When(Func<bool> condition)
     {
         effect.When(condition);
         return this;
     }
 
-    public SkillEffectDefinition Until(Func<bool> trigger)
+    public EffectBuilder Until(Func<bool> trigger)
     {
         effect.Until(trigger);
         return this;
     }
 
-    public SkillEffectDefinition Stackable(bool value = true)
+    public EffectBuilder Duration(float seconds)
+    {
+        effect.SetDuration(seconds);
+        return this;
+    }
+
+    public EffectBuilder Stackable(bool value = true)
     {
         effect.AllowStacking(value);
         return this;
     }
 
-    public SkillEffectDefinition RefreshOnDuplicate(bool value = true)
+    public EffectBuilder RefreshOnDuplicate(bool value = true)
     {
         effect.RefreshOnRepeat(value);
         return this;
