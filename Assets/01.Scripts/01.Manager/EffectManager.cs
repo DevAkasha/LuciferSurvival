@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectManager: Singleton<EffectManager>
+public class EffectManager : Singleton<EffectManager>
 {
     private readonly Dictionary<ModifierKey, ModifierEffect> effects = new();
 
@@ -27,17 +26,17 @@ public class EffectManager: Singleton<EffectManager>
     {
         base.Awake();
 
-        // 스킬 등록 - MoveSpeed에 곱연산 적용
-        var exhaustEffect = new ModifierEffect(EffectId.Exhaust, EffectApplyMode.Timed, 2f)
-            .Add("MoveSpeed", ModifierType.Multiplier, 0.7f); // 30% 감소
-        Register(exhaustEffect);
+        Register(SkillEffectBuilder.Define(EffectId.Exhaust, EffectApplyMode.Timed)
+           .Interpolated(2f, t => Mathf.Lerp(0.7f, 1.0f, t))
+           .ToEffect());
 
-        var ghostEffect = new ModifierEffect(EffectId.Ghost, EffectApplyMode.Timed, 10f)
-            .Add("MoveSpeed", ModifierType.Multiplier, 1.8f); // 80% 증가
-        Register(ghostEffect);
+        Register(SkillEffectBuilder.Define(EffectId.Ghost, EffectApplyMode.Timed)
+            .Add("MoveSpeed", ModifierType.Multiplier, 1.8f)
+            .Duration(10f)
+            .ToEffect());
     }
-
 }
+
 public enum EffectId
 {
     Ghost,

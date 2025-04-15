@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public abstract class BaseEntity : WorldObject { }
+public abstract class BaseEntity : WorldObject { } // 모든 게임 오브젝트의 기본 엔티티
 
-public interface IBaseEntity<M> where M : BaseModel
+public interface IBaseEntity<M> where M : BaseModel // 모델을 소유하는 엔티티 인터페이스
 {
-   public M Model { get; set; }
-   public M GetModel();
+    public M Model { get; set; }
+    public M GetModel(); // 현재 모델 반환
 }
 
 public abstract class BaseEntity<M> : BaseEntity, IBaseEntity<M> where M : BaseModel
 {
-    public M Model { get ; set; }
+    public M Model { get; set; }
 
     protected virtual void OnDisable()
     {
-        Model.Unload();
+        Model.Unload(); // 모델의 모든 리액티브 연결 해제
     }
     protected virtual void OnDestroy()
     {
-        Model.Unload();
+        Model.Unload(); // 모델의 모든 리액티브 연결 해제
     }
-    public virtual M GetModel()
+    public virtual M GetModel() // 현재 모델 반환
     {
         return Model;
     }

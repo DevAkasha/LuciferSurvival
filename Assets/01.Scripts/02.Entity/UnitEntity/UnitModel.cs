@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum eUnitState
+{
+    Stay,               //(기본) 가만히 있을때
+    Attack              //공격할때
+}
+
 public class UnitModel : BaseModel
 {
     public string rcode;
@@ -17,6 +23,7 @@ public class UnitModel : BaseModel
     public float criticalChance;
     public int cost;
     public UnitGrade grade;
+    public eUnitState unitState = eUnitState.Stay;
 
     public UnitModel(UnitDataSO unitDataSO)
     {
