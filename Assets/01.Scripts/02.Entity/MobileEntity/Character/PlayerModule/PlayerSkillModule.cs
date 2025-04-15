@@ -85,23 +85,24 @@ public class PlayerSkillModule : PlayerPart
         var enemies = FindEnemiesInRange(5f);
         var effect = EffectManager.Instance.GetEffect(EffectId.Exhaust);
 
-        foreach (var enemy in enemies)
+        foreach (var entity in FindEnemiesInRange(5f))
         {
-            var applier = new ModifierApplier(effect).AddTarget(enemy.GetModel());
+            var model = entity.GetBaseModel();
+            var applier = new ModifierApplier(effect).AddTarget(model);
             EffectRunner.Instance.ApplyInterpolatedEffect(effect, applier);
         }
 
         Debug.Log("[Exhaust] Interpolated Slow Applied");
     }
 
-    private List<IBaseEntity<BaseModel>> FindEnemiesInRange(float range)
+    private List<IBaseEntity> FindEnemiesInRange(float range)
     {
-        var results = new List<IBaseEntity<BaseModel>>();
+        var results = new List<IBaseEntity>();
         var colliders = Physics.OverlapSphere(transform.position, range, LayerMask.GetMask("Enemy"));
 
         foreach (var collider in colliders)
         {
-            var entity = collider.GetComponent<IBaseEntity<BaseModel>>();
+            var entity = collider.GetComponent<IBaseEntity>();
             if (entity != null)
             {
                 results.Add(entity);
