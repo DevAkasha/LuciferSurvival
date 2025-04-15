@@ -17,7 +17,7 @@ namespace Ironcow.Data
             AddDataDics(ResourceManager.instance.LoadDataAssets<BaseDataSO>());
 #else
 #if USE_SO_DATA
-            AddDataDics(Resources.LoadAll<BaseDataSO>("Datas").ToList());
+            AddDataDics(Resources.LoadAll<BaseDataSO>("GameDatas").ToList());
 #endif
 #endif
             isInit = true;

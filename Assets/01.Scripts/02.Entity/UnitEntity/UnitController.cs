@@ -9,37 +9,61 @@ public class UnitController: BaseController<UnitEntity,UnitModel>
     private BTRunner unitBTRunner;
 
     private Collider[] colliders = new Collider[10];        //10은 적을수도 있음
+    private float attackDelay = 0f;
+    private bool isAttack = false;
 
     private void Start()
     {
-        //Init();
+        Init();
     }
 
     public void Init()
     {
-        unitBTRunner = new BTRunner(name.Replace("(Clone)", "")).SetActions(this);
-        StartCoroutine(BTLoop());
+        //unitBTRunner = new BTRunner(name.Replace("(Clone)", "")).SetActions(this);
+        StartCoroutine(StateLoop());
     }
-    IEnumerator BTLoop()
+
+    IEnumerator StateLoop()
     {
         while (true)
         {
-            unitBTRunner.Operate();
+            if (isAttack)
+            {
+                attackDelay += 0.1f;
+            }
+            UnitStateAction(Entity.Model.unitState);
+            Debug.Log(attackDelay);
             yield return new WaitForSeconds(0.1f);
         }
     }
 
-    public eNodeState CheckEnemy()
+    public void UnitStateAction(eUnitState state)
     {
-        //유닛 Model에 대한 사거리 적용 필요
-        if (Physics.OverlapSphereNonAlloc(transform.position, 100, colliders, 1 << LayerMask.NameToLayer("Food")) > 0)
+        if (state == eUnitState.Stay)
         {
-            if (colliders.Length > 0)
+            if (attackDelay >= Entity.Model.atkSpeed)
             {
-                return eNodeState.success;
+                isAttack = false;
+                attackDelay = 0f;
             }
+            Entity.FindEnemy();
         }
-        return eNodeState.failure;
+        else if(state == eUnitState.Attack && !isAttack)
+        {
+            Debug.Log("공격 시작");
+            Entity.AttackEnemy();
+            attackDelay = 0f;
+            isAttack = true;
+        }
+        else
+        {
+            Entity.Model.unitState = eUnitState.Stay;
+        }
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, Entity.Model.range);
+    }
 }
