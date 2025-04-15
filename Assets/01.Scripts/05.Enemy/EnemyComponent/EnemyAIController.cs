@@ -116,7 +116,7 @@ public class EnemyAIController : MonoBehaviour
     {
         if (IsAnimationRunning("Falling"))
         {
-            return eNodeState.running;
+            return eNodeState.success;
         }
 
         return eNodeState.failure;
