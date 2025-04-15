@@ -18,7 +18,8 @@ public class TileManager : Singleton<TileManager>
 
     private void Start()
     {
-        InitializeTiles();
+        StartCoroutine(ResetTilesCoroutine());
+
     }
 
     // 타일 초기화
@@ -71,23 +72,29 @@ public class TileManager : Singleton<TileManager>
         }
     }
 
-    public void ResetTiles()
+    public IEnumerator ResetTilesCoroutine()
     {
-        // 기존 타일 삭제
+        // 딕셔너리에 있는 기존 타일들을 전부 파괴
         foreach (var tile in tiles.Values)
         {
             if (tile != null)
                 Destroy(tile);
         }
+        // 다음 프레임까지 좀 기다려줘야함, 삭제중에 생성이 시작되면 문제가 있을 수 있기 때문
+        yield return null;
 
+        // 딕셔너리 정리
         tiles.Clear();
 
-        // 초기 위치 기반으로 새로 생성
+        // 한 프레임씩 쉬면서 타일 재생성
         foreach (Vector3 pos in OriginalTiles)
         {
-            GameObject newTile = Instantiate(lockBlockTile, pos, Quaternion.identity, lockBlockTile.transform);
+            GameObject newTile = Instantiate(lockBlockTile, pos, Quaternion.identity, transform);
             Vector3Int gridPos = GridPosition(pos);
             tiles[gridPos] = newTile;
+            yield return null; // 타일 하나 만들고 한 프레임 쉼
         }
+
+        InitializeTiles();
     }
 }

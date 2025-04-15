@@ -35,7 +35,7 @@ public class TimeManager : Singleton<TimeManager>
         }
     }
 
-    // 모든 적이 죽었을때 - 이건 추후 확인 필요, 밤이 될수있게
+    // 모든 적이 죽었을때 - 밤이 될수있게 - 적 관리하는 스크립트쪽에 모든 적이 없을때 호출
     public void AllUnitDie()
     {
         if (CurrentState == TimeState.Day)
