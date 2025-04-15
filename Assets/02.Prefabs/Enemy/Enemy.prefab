@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 90225998821714178}
   - component: {fileID: 1849629208727702701}
   - component: {fileID: 8048041031809773127}
+  - component: {fileID: 7699129930796010816}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -100,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69a7027d75b087b4c8540bbe9f30801b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyStatus: {fileID: 11400000, guid: 15bf3c7c72e8ea44da3276712f401d4d, type: 2}
+  enemyStatus: {fileID: 11400000, guid: d23c8d0316f0b3d49a1eb9b474e6b239, type: 2}
   navMesh: {fileID: 0}
   rigidbodys: {fileID: 0}
   animator: {fileID: 0}
@@ -108,59 +109,59 @@ MonoBehaviour:
   AttackRate: 0
   bt:
     root:
-      rid: 5834756711072399390
+      rid: 2295249554932499357
   references:
     version: 2
     RefIds:
-    - rid: 5834756711072399390
+    - rid: 2295249554932499357
       type: {class: RootNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: RootNode
         node:
-          rid: 5834756711072399391
-    - rid: 5834756711072399391
+          rid: 2295249554932499358
+    - rid: 2295249554932499358
       type: {class: SelectorNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SelectorNode
         childs:
-        - rid: 5834756711072399392
-        - rid: 5834756711072399393
-        - rid: 5834756711072399394
-        - rid: 5834756711072399395
-    - rid: 5834756711072399392
+        - rid: 2295249554932499359
+        - rid: 2295249554932499360
+        - rid: 2295249554932499361
+        - rid: 2295249554932499362
+    - rid: 2295249554932499359
       type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SequenceNode
         childs:
-        - rid: 5834756711072399396
-        - rid: 5834756711072399397
-    - rid: 5834756711072399393
+        - rid: 2295249554932499363
+        - rid: 2295249554932499364
+    - rid: 2295249554932499360
       type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SequenceNode
         childs: []
-    - rid: 5834756711072399394
+    - rid: 2295249554932499361
       type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SequenceNode
         childs:
-        - rid: 5834756711072399398
-    - rid: 5834756711072399395
+        - rid: 2295249554932499365
+    - rid: 2295249554932499362
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: AboveStay
-    - rid: 5834756711072399396
-      type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: ActionNode
-        funcName: OnCheckDead
-    - rid: 5834756711072399397
+    - rid: 2295249554932499363
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: OnDead
-    - rid: 5834756711072399398
+    - rid: 2295249554932499364
+      type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
+      data:
+        className: ActionNode
+        funcName: DoCheakAttacking
+    - rid: 2295249554932499365
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
@@ -237,6 +238,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!95 &7699129930796010816
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2524162312750879575}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 38c229f5591db5b4580e7b0dbfa4f3e0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4955543187675831333
 GameObject:
   m_ObjectHideFlags: 0
