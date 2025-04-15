@@ -39,14 +39,18 @@ public class ModifierApplier
 
                 foreach (var modifier in effect.Modifiers)
                 {
-                    try
+                    if (modifiable is IRxField<object> field &&
+                        field.FieldName.Equals(modifier.FieldName, StringComparison.OrdinalIgnoreCase))
                     {
-                        modifiable.ApplyModifier(effect.Key, modifier.FieldName, modifier.Type, modifier.Value);
-                        anyApplied = true;
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogError($"[ModifierApplier] Failed to apply {modifier.Type} on {modifier.FieldName}: {e.Message}");
+                        try
+                        {
+                            modifiable.ApplyModifier(effect.Key, modifier.FieldName, modifier.Type, modifier.Value);
+                            anyApplied = true;
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.LogError($"[ModifierApplier] Failed to apply {modifier.Type} on {modifier.FieldName}: {e.Message}");
+                        }
                     }
                 }
 

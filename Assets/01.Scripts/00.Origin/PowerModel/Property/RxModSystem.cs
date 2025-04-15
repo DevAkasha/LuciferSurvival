@@ -23,7 +23,10 @@ public interface IRxReadable<T>
     void AddListener(Action<T> listener);
     void RemoveListener(Action<T> listener);
 }
-
+public interface IRxField<T> : IRxReadable<T>
+{
+    string FieldName { get; }
+}
 public interface IRxModBase
 {
     object Value { get; }
@@ -54,7 +57,7 @@ public abstract class RxBase : IConditionCheckable
     public virtual bool Satisfies(Func<object, bool> predicate) => false;
 }
 
-public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable
+public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
 {
     protected T origin;
     protected T cachedValue;

@@ -77,22 +77,13 @@ public class RxStateFlagSet<TEnum> where TEnum : Enum
 
     public RxStateFlag this[TEnum state] => flags[indexMap[state]];
 
-    public void Set(TEnum state, bool value)
-    {
-        this[state].Set(value);
-    }
+    public void Set(TEnum state, bool value) => this[state].Set(value);
 
     public bool GetValue(TEnum state) => this[state].Value;
 
-    public void SetCondition(TEnum state, Func<bool> condition)
-    {
-        this[state].SetCondition(condition);
-    }
+    public void SetCondition(TEnum state, Func<bool> condition) => this[state].SetCondition(condition);
 
-    public void Evaluate(TEnum state)
-    {
-        this[state].Evaluate();
-    }
+    public void Evaluate(TEnum state) => this[state].Evaluate();
 
     public void EvaluateAll()
     {
@@ -100,15 +91,9 @@ public class RxStateFlagSet<TEnum> where TEnum : Enum
             flag.Evaluate();
     }
 
-    public void AddListener(TEnum state, Action<bool> listener)
-    {
-        this[state].AddListener(listener);
-    }
+    public void AddListener(TEnum state, Action<bool> listener) => this[state].AddListener(listener);
 
-    public void RemoveListener(TEnum state, Action<bool> listener)
-    {
-        this[state].RemoveListener(listener);
-    }
+    public void RemoveListener(TEnum state, Action<bool> listener) => this[state].RemoveListener(listener);
 
     public bool AnyActive() => flags.Exists(f => f.Value);
     public bool AllSatisfied() => flags.TrueForAll(f => f.Value);
@@ -122,9 +107,16 @@ public class RxStateFlagSet<TEnum> where TEnum : Enum
         }
     }
 
+    public IEnumerable<TEnum> ActiveFlags()
+    {
+        foreach (var (key, value) in Snapshot())
+        {
+            if (value) yield return key;
+        }
+    }
+
     public override string ToString()
     {
-        return $"RxStateFlagSet<{typeof(TEnum).Name}>: " +
-               string.Join(", ", Snapshot());
+        return $"RxStateFlagSet<{typeof(TEnum).Name}>: " + string.Join(", ", Snapshot());
     }
 }
