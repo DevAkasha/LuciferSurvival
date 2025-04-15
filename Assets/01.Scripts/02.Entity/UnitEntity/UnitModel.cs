@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+
+public enum eUnitState
+{
+    Stay,               //(기본) 가만히 있을때
+    Attack              //공격할때
+}
 
 public class UnitModel : BaseModel
 {
     public string rcode;
     public string displayName;
+    public string description;
     public int idx;
     public float range;
     public float atk;
@@ -15,11 +23,13 @@ public class UnitModel : BaseModel
     public float criticalChance;
     public int cost;
     public UnitGrade grade;
+    public eUnitState unitState = eUnitState.Stay;
 
     public UnitModel(UnitDataSO unitDataSO)
     {
         rcode = unitDataSO.rcode;
         displayName = unitDataSO.displayName;
+        description = unitDataSO.description;
         idx = unitDataSO.idx;
         range = unitDataSO.range;
         atk = unitDataSO.atk;
