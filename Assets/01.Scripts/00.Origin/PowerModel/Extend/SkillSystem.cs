@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public enum EffectApplyMode { Passive, Manual, Timed }
+public enum EffectApplyMode { Passive, Manual, Timed } // modifier 적용 방식 (수동, 자동, 시간제한)
 
-public readonly struct FieldModifier
+public readonly struct FieldModifier // 필드에 적용할 modifier 정보를 담는 구조체
 {
     public readonly string FieldName;
     public readonly ModifierType Type;
@@ -17,7 +17,7 @@ public readonly struct FieldModifier
     }
 }
 
-public class ModifierEffect
+public class ModifierEffect // 하나의 modifier 효과 단위 (여러 필드에 적용 가능)
 {
     public ModifierKey Key { get; }
     public EffectApplyMode Mode { get; private set; }
@@ -31,6 +31,10 @@ public class ModifierEffect
     private readonly List<FieldModifier> modifiers = new();
     private bool hasSignFlip = false;
     private readonly List<Func<bool>> conditions = new();
+
+
+    public Func<float, object> Interpolator { get; private set; }
+    public bool IsInterpolated { get; private set; } = false;
 
     public Func<bool> Condition => () => conditions.TrueForAll(cond => cond());
 
@@ -50,7 +54,7 @@ public class ModifierEffect
         return this;
     }
 
-    public ModifierEffect AddSignFlip()
+    public ModifierEffect AddSignFlip() // 부호 반전 modifier 추가
     {
         hasSignFlip = true;
         return this;
@@ -69,10 +73,10 @@ public class ModifierEffect
         return this;
     }
 
-    public ModifierEffect SetDuration(float seconds)
+    public ModifierEffect SetDuration(float seconds) // 지속 시간 설정 (Timed 모드 전용)
     {
         if (Mode != EffectApplyMode.Timed)
-            throw new InvalidOperationException("SetDuration is only valid for Timed effects.");
+            throw new InvalidOperationException("SetDuration is only valid for Timed effects."); // 지속 시간 설정 (Timed 모드 전용)
         Duration = seconds;
         return this;
     }
@@ -88,17 +92,26 @@ public class ModifierEffect
         RefreshOnDuplicate = value;
         return this;
     }
+
+    public ModifierEffect SetInterpolated(float duration, Func<float, object> interpolator)
+    {
+        this.Duration = duration;
+        this.Interpolator = interpolator;
+        this.IsInterpolated = true;
+        return this;
+    }
+
 }
 
-public static class SkillEffectBuilder
+public static class SkillEffectBuilder // ModifierEffect를 빌드하기 위한 헬퍼 클래스
 {
     public static EffectBuilder Define(Enum effectId, EffectApplyMode mode = EffectApplyMode.Manual, float duration = 0f)
         => new(effectId, mode, duration);
 }
 
-public class EffectBuilder
+public class EffectBuilder // ModifierEffect를 빌드하기 위한 헬퍼 클래스
 {
-    private readonly ModifierEffect effect;
+    private readonly ModifierEffect effect; // 적용할 modifier 효과 정의
 
     public EffectBuilder(Enum effectId, EffectApplyMode mode, float duration)
     {
@@ -111,9 +124,9 @@ public class EffectBuilder
         return this;
     }
 
-    public EffectBuilder AddSignFlip()
+    public EffectBuilder AddSignFlip() // 부호 반전 modifier 추가
     {
-        effect.AddSignFlip();
+        effect.AddSignFlip(); // 부호 반전 modifier 추가
         return this;
     }
 
@@ -131,7 +144,7 @@ public class EffectBuilder
 
     public EffectBuilder Duration(float seconds)
     {
-        effect.SetDuration(seconds);
+        effect.SetDuration(seconds); // 지속 시간 설정 (Timed 모드 전용)
         return this;
     }
 
@@ -144,6 +157,12 @@ public class EffectBuilder
     public EffectBuilder RefreshOnDuplicate(bool value = true)
     {
         effect.RefreshOnRepeat(value);
+        return this;
+    }
+
+    public EffectBuilder Interpolated(float duration, Func<float, object> interpolator)
+    {
+        effect.SetInterpolated(duration, interpolator);
         return this;
     }
 
