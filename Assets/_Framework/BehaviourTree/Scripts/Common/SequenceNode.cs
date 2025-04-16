@@ -6,10 +6,8 @@ using UnityEngine;
 namespace Ironcow.BT
 {
     [Serializable]
-    public sealed class SequenceNode : BTNode
+    public sealed class SequenceNode : CompositeNode
     {
-
-        [SerializeReference] public List<BTNode> childs = new List<BTNode>();
 
         public SequenceNode(BTNode parent)
         {
