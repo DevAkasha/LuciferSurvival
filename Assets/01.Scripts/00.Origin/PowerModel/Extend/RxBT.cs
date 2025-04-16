@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class RxBehaviorNode // 행동 트리의 기본 노드 클래스
 {
@@ -133,6 +134,7 @@ public static class UnityTimer // MonoBehaviour 없이 타이머 구현
 
     public static void Tick(float deltaTime)
     {
+        Debug.Log("run Tick");
         foreach (var task in tasks)
             task.Update(deltaTime);
     }

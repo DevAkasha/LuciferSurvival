@@ -26,7 +26,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
 
     protected virtual void Awake()
     {
-        if (instance == null)
+        if (instance == null || instance == this)
         {
             instance = (T)this;
 
