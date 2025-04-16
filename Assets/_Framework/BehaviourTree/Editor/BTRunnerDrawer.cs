@@ -72,7 +72,7 @@ public class BTRunnerDrawer : PropertyDrawer
         if (BTEditor.instance.savePath == null)
         {
             Selection.activeObject = BTEditor.instance;
-            isDialog = EditorUtility.DisplayDialog("°æ°í", "BTEditorÀÇ SavePath¸¦ µî·ÏÇØÁÖ¼¼¿ä", "ok");
+            isDialog = EditorUtility.DisplayDialog("ï¿½ï¿½ï¿½", "BTEditorï¿½ï¿½ SavePathï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½", "ok");
             return;
         }
         var name = $"{property.serializedObject.targetObject.name.Replace("(Clone)", "")}Data.asset";
@@ -128,7 +128,7 @@ public class BTRunnerDrawer : PropertyDrawer
         {
             DragAndDrop.PrepareStartDrag();
             DragAndDrop.SetGenericData("DraggedNode", node);
-            DragAndDrop.objectReferences = new UnityEngine.Object[] { }; // ²À ÇÊ¿ä
+            DragAndDrop.objectReferences = new UnityEngine.Object[] { }; // ï¿½ï¿½ ï¿½Ê¿ï¿½
             DragAndDrop.StartDrag("Dragging BTNode");
             Event.current.Use();
         }
@@ -148,9 +148,9 @@ public class BTRunnerDrawer : PropertyDrawer
             var dragged = DragAndDrop.GetGenericData("DraggedNode") as BTNode;
             if (dragged != null && dragged != node && node is CompositeNode compNode)
             {
-                // 1. ±âÁ¸ ºÎ¸ð¿¡¼­ Á¦°Å
+                // 1. ï¿½ï¿½ï¿½ï¿½ ï¿½Î¸ð¿¡¼ï¿½ ï¿½ï¿½ï¿½ï¿½
                 RemoveFromParent(dragged);
-                // 2. »õ ºÎ¸ð¿¡ Ãß°¡
+                // 2. ï¿½ï¿½ ï¿½Î¸ï¿½ ï¿½ß°ï¿½
                 compNode.childs.Add(dragged);
                 SaveData();
                 UnityEngine.GUI.changed = true;
