@@ -18,7 +18,7 @@ public class TimeManager : Singleton<TimeManager>
     private void Start()
     {
         nightTimer = nightDuration; // 밤으로 시작하므로 타이머도 초기화
-        OnNight?.Invoke();
+        NightSet();
     }
 
     private void Update()
@@ -26,18 +26,21 @@ public class TimeManager : Singleton<TimeManager>
         // 밤일때 시간이 다 되면 낮으로 변경
         if (CurrentState == TimeState.Night)
         {
-            // 밤 - 시간 = 0이될때 낮으로 전환
-            nightTimer -= Time.deltaTime;
-            if (nightTimer <= 0)
-                SetTimeState(TimeState.Day);
+            nightTimer -= Time.deltaTime; // 밤 시간의 흐름
+            if (nightTimer <= 0) DaySet(); // 밤이 끝나면 낮으로 전환
         }
     }
 
-    // 모든 적이 죽었을때 - 밤이 될수있게 - 적 관리하는 스크립트쪽에 모든 적이 없을때 호출
-    public void AllUnitDie()
+    private void NightSet()
     {
-        if (CurrentState == TimeState.Day)
-            SetTimeState(TimeState.Night);
+        SetTimeState(TimeState.Night);
+        // 밤일때 추가되는 조건들 (조명, 활성화 오브젝트 등)
+    }
+
+    private void DaySet()
+    {
+        SetTimeState(TimeState.Day);
+        // 낮일때 추가되는 조건들 (조명, 활성화 오브젝트 등)
     }
 
     // 낮 - 밤 전환
@@ -58,6 +61,15 @@ public class TimeManager : Singleton<TimeManager>
         }
     }
 
+    // 모든 적이 죽었을때 - 밤이 될수있게 - 적 관리하는 스크립트쪽에 모든 적이 없을때 호출
+    public void AllUnitDie()
+    {
+        if (CurrentState == TimeState.Day)
+            SetTimeState(TimeState.Night);
+        DaySet();
+    }
+
     // 밤에 보통 자원파밍 및 다른것들이 가능해지기 때문에
     public bool IsNight() => CurrentState == TimeState.Night;
+    public float NightTimeLeft => nightTimer; // 밤 시간 반환
 }
