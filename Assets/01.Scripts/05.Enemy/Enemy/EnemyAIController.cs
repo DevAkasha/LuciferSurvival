@@ -96,7 +96,7 @@ public class EnemyAIController : MonoBehaviour
         Vector3 toTarget = transform.position - target.position;
         Vector3 ReverseTarget = transform.position + toTarget.normalized * KnockBackDistance;
 
-        transform.position += ReverseTarget;
+        transform.position = ReverseTarget;
     }
     public void InFalling()
     {
@@ -267,9 +267,9 @@ public class EnemyControl : Editor
             {
                 ((EnemyAIController)target).InConfused();
             }
-            if (GUILayout.Button("넉백(거리 0.5)"))
+            if (GUILayout.Button("넉백(거리 1)"))
             {
-                ((EnemyAIController)target).InKnockBack(0.5f);
+                ((EnemyAIController)target).InKnockBack(1f);
             }
             if (GUILayout.Button("에어본"))
             {
