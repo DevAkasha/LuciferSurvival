@@ -73,4 +73,12 @@ public static class SummonTableUtil
         int index = Random.Range(0, pool.Count);
         return pool[index];
     }
+
+    public static void ClearAllChildren(Transform tableTransform)
+    {
+        foreach (Transform child in tableTransform)
+        {
+            Object.Destroy(child.gameObject);
+        }
+    }
 }

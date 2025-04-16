@@ -6,18 +6,19 @@ using UnityEngine.UI;
 public class SummonUnitUI : MonoBehaviour
 {
     [SerializeField]
-    private Transform SummonSlotLayout;
+    private Transform summonSlotLayout;
 
-    private List<UnitDataSO> unitDatas;
+    [SerializeField]
+    private SummonSlot summonSlotPrefab;
 
     [SerializeField]
     private List<Sprite> gradeSprites;
 
-    
+    private int shopLevel = 1;
 
     private void Start()
     {
-        //unitDatas = DataManager.instance.GetDatas<UnitDataSO>();
+        SetRandomUnit();
     }
 
     public void OnclickShopLevelUp()
@@ -25,13 +26,20 @@ public class SummonUnitUI : MonoBehaviour
         //현재 상점 레벨 체크 후 레벨업이 가능한 재화이면 레벨업
     }
 
-    public void SetUnitTable(List<UnitDataSO> unitDatas)
-    {
-        
-    }
-
     public void OnclickRerollUnit()
     {
+        SummonTableUtil.ClearAllChildren(summonSlotLayout);
+        SetRandomUnit();
+    }
 
+    private void SetRandomUnit()
+    {
+        List<UnitDataSO> units = SummonTableUtil.RerollShop(shopLevel);
+
+        foreach (UnitDataSO unitData in units)
+        {
+            SummonSlot slot = Instantiate(summonSlotPrefab, summonSlotLayout);
+            slot.SetSlot(unitData);
+        }
     }
 }
