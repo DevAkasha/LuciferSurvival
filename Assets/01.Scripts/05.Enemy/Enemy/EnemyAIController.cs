@@ -24,6 +24,7 @@ public class EnemyAIController : MonoBehaviour
     [Header("Enemy 정보")]
     public float Hp;
     public float AttackRate;
+    public bool statusEffect;
 
     [Header("BT러너")]
     [SerializeField] BTRunner bt;
@@ -54,10 +55,13 @@ public class EnemyAIController : MonoBehaviour
     }
     public void InMove(Vector3 dir)
     {
+        if (navMesh.enabled == false)
+            return;
+
         rigidbodys.velocity = Vector3.zero;
-        //Debug.Log("이동 중");
         navMesh.speed = enemyStatus.moveSpeed;
         navMesh.SetDestination(dir);
+        //Debug.Log("이동 중");
     }
     public void InDamage(int damage)
     {
@@ -72,12 +76,31 @@ public class EnemyAIController : MonoBehaviour
     {
 
     }
-    public void InKnockBack()
+    public void InStunned(float delayTime)
     {
+        statusEffect = true;
+        rigidbodys.velocity = Vector3.zero;
+        
+    }
+    public void InConfused()
+    {
+        statusEffect = true;
+        Vector3 toTarget = transform.position - target.position;
+        Vector3 ReverseTarget = transform.position + -toTarget.normalized * 5f;
 
+        InMove(ReverseTarget);//1번 밖에 불러오지 않아 현재는 멈춰 있는 것처럼 보임, InMove 안에서 처리 하는 것으로 변경해야 할 듯
+    }
+    public void InKnockBack(float KnockBackDistance)
+    {
+        //statusEffect = true;
+        Vector3 toTarget = transform.position - target.position;
+        Vector3 ReverseTarget = transform.position + toTarget.normalized * KnockBackDistance;
+
+        transform.position += ReverseTarget;
     }
     public void InFalling()
     {
+        statusEffect = true;
         navMesh.enabled = false;
 
         transform.DOMoveY(transform.position.y + 3f, 0.5f)
@@ -88,10 +111,12 @@ public class EnemyAIController : MonoBehaviour
                 .OnComplete(() =>
                     {
                         navMesh.enabled = true;
+                        statusEffect = false;
                     });
-            });
+            });//에어본이 중첩되는 문제있음. 추후 Ray나 다른 방법으로 막아야 함
     }
-    bool IsAnimationRunning(string stateName)
+    
+    bool IsAnimationRunning(string stateName)//애니메이션 작동 판별
     {
         if (animator != null)
         {
@@ -118,9 +143,9 @@ public class EnemyAIController : MonoBehaviour
         //InDead();
         return eNodeState.success;
     }
-    public eNodeState IsFalling()
+    public eNodeState IsStatusEffect()
     {
-        if (navMesh.enabled == false)
+        if (statusEffect)
         {
             return eNodeState.success;
         }
@@ -234,7 +259,18 @@ public class EnemyControl : Editor
             {
                 ((EnemyAIController)target).InDamage(10000);
             }
-
+            if (GUILayout.Button("3초 스턴(개선 중)"))
+            {
+                ((EnemyAIController)target).InStunned(3f);
+            }
+            if (GUILayout.Button("혼란"))
+            {
+                ((EnemyAIController)target).InConfused();
+            }
+            if (GUILayout.Button("넉백(거리 0.5)"))
+            {
+                ((EnemyAIController)target).InKnockBack(0.5f);
+            }
             if (GUILayout.Button("에어본"))
             {
                 ((EnemyAIController)target).InFalling();
