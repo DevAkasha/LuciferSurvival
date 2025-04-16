@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 435280418428255686}
   - component: {fileID: 5745767675945343035}
   - component: {fileID: 1374167852781710984}
+  - component: {fileID: 782113307443736477}
   - component: {fileID: 90225998821714178}
   - component: {fileID: 1849629208727702701}
   - component: {fileID: 8048041031809773127}
@@ -101,71 +102,92 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69a7027d75b087b4c8540bbe9f30801b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entity: {fileID: 782113307443736477}
   enemyStatus: {fileID: 11400000, guid: d23c8d0316f0b3d49a1eb9b474e6b239, type: 2}
   navMesh: {fileID: 0}
   rigidbodys: {fileID: 0}
   animator: {fileID: 0}
   Hp: 100
   AttackRate: 0
+  statusEffect: 0
   bt:
     root:
-      rid: 2295249577651470425
+      rid: 2295249584512565497
   references:
     version: 2
     RefIds:
-    - rid: 2295249577651470425
+    - rid: 2295249584512565497
       type: {class: RootNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: RootNode
         node:
-          rid: 2295249577651470426
-    - rid: 2295249577651470426
+          rid: 2295249584512565498
+    - rid: 2295249584512565498
       type: {class: SelectorNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SelectorNode
         childs:
-        - rid: 2295249577651470427
-        - rid: 2295249577651470428
-        - rid: 2295249577651470429
-        - rid: 2295249577651470430
-    - rid: 2295249577651470427
+        - rid: 2295249584512565499
+        - rid: 2295249584512565500
+        - rid: 2295249584512565501
+        - rid: 2295249584512565502
+    - rid: 2295249584512565499
       type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SequenceNode
         childs:
-        - rid: 2295249577651470431
-        - rid: 2295249577651470432
-    - rid: 2295249577651470428
-      type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: SequenceNode
-        childs: []
-    - rid: 2295249577651470429
+        - rid: 2295249584512565503
+        - rid: 2295249584512565504
+    - rid: 2295249584512565500
       type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SequenceNode
         childs:
-        - rid: 2295249577651470433
-    - rid: 2295249577651470430
+        - rid: 2295249584512565505
+    - rid: 2295249584512565501
+      type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
+      data:
+        className: SequenceNode
+        childs:
+        - rid: 2295249584512565506
+    - rid: 2295249584512565502
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: AboveStay
-    - rid: 2295249577651470431
+    - rid: 2295249584512565503
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: OnDead
-    - rid: 2295249577651470432
+    - rid: 2295249584512565504
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: OnCheckDead
-    - rid: 2295249577651470433
+    - rid: 2295249584512565505
+      type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
+      data:
+        className: ActionNode
+        funcName: IsStatusEffect
+    - rid: 2295249584512565506
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: ToTargetMove
+--- !u!114 &782113307443736477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2524162312750879575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d68b572d302d6ca41a6dc451717cb8f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rcode: 
 --- !u!136 &90225998821714178
 CapsuleCollider:
   m_ObjectHideFlags: 0

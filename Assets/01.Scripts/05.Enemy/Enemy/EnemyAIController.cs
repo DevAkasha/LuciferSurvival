@@ -1,7 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System;
-using System.Linq;
 using UnityEngine;
 using Ironcow.BT;
 using UnityEngine.AI;
@@ -10,7 +7,7 @@ using UnityEditor;
 using System.Security.Cryptography.X509Certificates;
 using DG.Tweening;
 
-public class EnemyAIController : MonoBehaviour
+public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
 {
     public EnemyDataSO enemyStatus;
     [SerializeField] private NavMeshAgent navMesh;
@@ -78,7 +75,7 @@ public class EnemyAIController : MonoBehaviour
     }
     public void InStunned(float delayTime)
     {
-        statusEffect = true;
+        //statusEffect = true;
         rigidbodys.velocity = Vector3.zero;
         
     }
@@ -100,7 +97,6 @@ public class EnemyAIController : MonoBehaviour
     }
     public void InFalling()
     {
-        statusEffect = true;
         navMesh.enabled = false;
 
         transform.DOMoveY(transform.position.y + 3f, 0.5f)
@@ -111,7 +107,6 @@ public class EnemyAIController : MonoBehaviour
                 .OnComplete(() =>
                     {
                         navMesh.enabled = true;
-                        statusEffect = false;
                     });
             });//에어본이 중첩되는 문제있음. 추후 Ray나 다른 방법으로 막아야 함
     }
