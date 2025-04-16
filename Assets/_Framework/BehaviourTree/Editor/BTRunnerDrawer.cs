@@ -65,11 +65,18 @@ public class BTRunnerDrawer : PropertyDrawer
         //data.SetDirty();
     }
 
+    bool isDialog = false;
     public void LoadData()
     {
+        if (isDialog) return;
+        if (BTEditor.instance.savePath == null)
+        {
+            Selection.activeObject = BTEditor.instance;
+            isDialog = EditorUtility.DisplayDialog("경고", "BTEditor의 SavePath를 등록해주세요", "ok");
+            return;
+        }
         var name = $"{property.serializedObject.targetObject.name.Replace("(Clone)", "")}Data.asset";
         var path = Path.Combine(BTEditor.SavePath, name);
-        Debug.Log(path);
         data = AssetDatabase.LoadAssetAtPath<BTSaveData>(path);
         if (data == null)
         {
@@ -117,7 +124,59 @@ public class BTRunnerDrawer : PropertyDrawer
             DrawAction(type.Name.ToString(), (ActionNode)node, position);
         }
         EditorGUI.indentLevel--;
+        if (Event.current.type == EventType.MouseDown && position.Contains(Event.current.mousePosition))
+        {
+            DragAndDrop.PrepareStartDrag();
+            DragAndDrop.SetGenericData("DraggedNode", node);
+            DragAndDrop.objectReferences = new UnityEngine.Object[] { }; // 꼭 필요
+            DragAndDrop.StartDrag("Dragging BTNode");
+            Event.current.Use();
+        }
+
+        if (Event.current.type == EventType.DragUpdated && position.Contains(Event.current.mousePosition))
+        {
+            var dragged = DragAndDrop.GetGenericData("DraggedNode") as BTNode;
+            if (dragged != null && dragged != node && node is CompositeNode)
+            {
+                DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+                Event.current.Use();
+            }
+        }
+
+        if (Event.current.type == EventType.DragPerform && position.Contains(Event.current.mousePosition))
+        {
+            var dragged = DragAndDrop.GetGenericData("DraggedNode") as BTNode;
+            if (dragged != null && dragged != node && node is CompositeNode compNode)
+            {
+                // 1. 기존 부모에서 제거
+                RemoveFromParent(dragged);
+                // 2. 새 부모에 추가
+                compNode.childs.Add(dragged);
+                SaveData();
+                UnityEngine.GUI.changed = true;
+                DragAndDrop.AcceptDrag();
+                Event.current.Use();
+            }
+        }
         return rl;
+    }
+
+    void RemoveFromParent(BTNode node)
+    {
+        void Search(BTNode parent)
+        {
+            if (parent is CompositeNode comp)
+            {
+                if (comp.childs.Contains(node))
+                {
+                    comp.childs.Remove(node);
+                    return;
+                }
+                foreach (var child in comp.childs)
+                    Search(child);
+            }
+        }
+        Search(instance.root.node);
     }
 
     public float DrawAction(string label, ActionNode node, Rect position)

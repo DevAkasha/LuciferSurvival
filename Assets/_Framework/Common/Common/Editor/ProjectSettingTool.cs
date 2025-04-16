@@ -140,7 +140,7 @@ namespace Ironcow.Common
                     break;
                 case 6:
                     {
-                        scriptableObject = BTEditor.instance;
+                        scriptableObject = BT.BTEditor.instance;
                     }
                     break;
                 case 101:
