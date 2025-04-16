@@ -1,9 +1,9 @@
-using Ironcow;
+﻿using Ironcow;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
-using Ironcow;
+//using Ironcow;
 using Ironcow.Resource;
 
 public enum eUIPosition

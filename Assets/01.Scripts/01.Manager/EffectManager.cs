@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectManager: Singleton<EffectManager>
+public class EffectManager : Singleton<EffectManager>
 {
     private readonly Dictionary<ModifierKey, ModifierEffect> effects = new();
 
@@ -26,16 +25,20 @@ public class EffectManager: Singleton<EffectManager>
     protected override void Awake()
     {
         base.Awake();
-        //스킬 등록
-        var ghostEffect = new ModifierEffect(EffectId.Ghost, EffectApplyMode.Timed, 10f)
-            .Add(ModifierType.Multiplier, 1.8f); // 80% 증가 → ×1.8
 
-        Register(ghostEffect);
+        Register(SkillEffectBuilder.Define(EffectId.Exhaust, EffectApplyMode.Timed)
+           .Interpolated(2f, t => Mathf.Lerp(0.7f, 1.0f, t))
+           .ToEffect());
+
+        Register(SkillEffectBuilder.Define(EffectId.Ghost, EffectApplyMode.Timed)
+            .Add("MoveSpeed", ModifierType.Multiplier, 1.8f)
+            .Duration(10f)
+            .ToEffect());
     }
-
-
 }
+
 public enum EffectId
 {
-    Ghost
+    Ghost,
+    Exhaust
 }

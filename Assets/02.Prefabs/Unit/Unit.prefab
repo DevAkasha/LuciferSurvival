@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 963260770437781237}
-  - component: {fileID: 436033111722799158}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
@@ -33,33 +32,6 @@ Transform:
   - {fileID: 6952893001486300508}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &436033111722799158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 214996522932382032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dedd3c9a2a532e4d9547505d8abda39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rcode: UNIT0001
-  unitBTRunner:
-    root:
-      rid: 2132454615380131840
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 2132454615380131840
-      type: {class: RootNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: RootNode
-        node:
-          rid: -2
 --- !u!1 &7797270842963641082
 GameObject:
   m_ObjectHideFlags: 0

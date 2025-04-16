@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestEntity<M> : MobileEntity<M> where M:BaseModel
+public class TestEntity : MobileEntity<TestModel>
 {
     public TestModel model;
 
-    protected override void SetupModels()
+    protected override void SetupModel()
     {
         model = new TestModel();
     }
 
-    public override float Hp
+    public override float Health
     {
         get => model.Hp.Value;
         set => model.Hp.SetValue(value);
@@ -19,7 +19,9 @@ public class TestEntity<M> : MobileEntity<M> where M:BaseModel
 
     private void Start()
     {
-        Damaged(30);
-        Debug.Log($"플레이어 체력 : {Hp}");
+        TakeDamaged(30);
+        Debug.Log($"플레이어 체력 : {Health}");
     }
+
+
 }
