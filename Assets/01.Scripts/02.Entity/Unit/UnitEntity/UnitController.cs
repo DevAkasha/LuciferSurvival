@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class UnitController: BaseController<UnitEntity,UnitModel>
 {
-    [SerializeField]
-    private BTRunner unitBTRunner;
-    
     private float attackDelay = 0f;
     private bool isAttack = false;
 
@@ -18,7 +15,6 @@ public class UnitController: BaseController<UnitEntity,UnitModel>
 
     public void Init()
     {
-        //unitBTRunner = new BTRunner(name.Replace("(Clone)", "")).SetActions(this);
         StartCoroutine(StateLoop());
     }
 
@@ -31,7 +27,6 @@ public class UnitController: BaseController<UnitEntity,UnitModel>
                 attackDelay += 0.1f;
             }
             UnitStateAction(Entity.Model.unitState);
-            Debug.Log(attackDelay);
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -58,11 +53,5 @@ public class UnitController: BaseController<UnitEntity,UnitModel>
         {
             Entity.Model.unitState = eUnitState.Stay;
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, Entity.Model.range);
     }
 }
