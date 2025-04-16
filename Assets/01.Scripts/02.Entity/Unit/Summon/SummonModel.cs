@@ -7,7 +7,7 @@ public class SummonModel : BaseModel
     public string rcode;
     public int level;
     public int cost;
-    public float[] summonRate;
+    public int[] summonRate;
 
     public SummonModel(SummonTableSO summonTableSO)
     {
