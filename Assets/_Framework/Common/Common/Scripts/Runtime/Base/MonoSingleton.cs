@@ -1,5 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Ironcow
@@ -18,9 +19,10 @@ namespace Ironcow
                 if (_instance == null)
                 {
                     _instance = FindObjectOfType<T>();
-                    if (_instance != null)
+                    if (_instance == null)
                     {
-                        _instance = new GameObject(typeof(T).Name).AddComponent<T>();
+                        Debug.Log($"못찾음 : {typeof(T).Name}");
+                       // _instance = new GameObject(typeof(T).Name).AddComponent<T>();
                     }
                 }
                 return _instance;

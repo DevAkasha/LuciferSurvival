@@ -8,6 +8,7 @@ public abstract class PlayerController : MobileController<PlayerEntity, PlayerMo
     {
         PlayerManager.Instance.ResistPlayer(this);
     }
+
     public virtual void OnMove(CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
@@ -15,6 +16,7 @@ public abstract class PlayerController : MobileController<PlayerEntity, PlayerMo
         if (context.phase == InputActionPhase.Canceled)
             Entity.moveInput = Vector2.zero;
     }
+
     public virtual void OnMoveByJoystick(Vector2 JoysticInput)
     {
         Entity.moveInput = JoysticInput;

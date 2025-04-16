@@ -10,10 +10,10 @@ public class LuciferEntity : PlayerEntity
     }
 
     #region proxy property
-    public override float Hp
+    public override float Health
     {
-        get => Model.Hp.Value;
-        set => Model.Hp.SetValue(value);
+        get => Model.Health.Value;
+        set => Model.Health.SetValue(value);
     }
     public override float MoveSpeed
     {
@@ -21,7 +21,6 @@ public class LuciferEntity : PlayerEntity
         set => Model.MoveSpeed.SetValue(value);
     }
     #endregion
-
 
 
 }
