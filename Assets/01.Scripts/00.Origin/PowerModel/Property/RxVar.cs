@@ -11,13 +11,13 @@ public sealed class RxVar<T> : RxBase, IRxReadable<T>
         value = initialValue;
         if (owner is ITrackableRxModel model)
         {
-            model.RegisterRx(this);
+            model.RegisterRx(this); // Rx 필드를 모델에 등록
         }
     }
 
     public T Value => value;
 
-    public void SetValue(T newValue)
+    public void SetValue(T newValue) // 값 설정
     {
         if (!EqualityComparer<T>.Default.Equals(value, newValue))
         {
@@ -26,7 +26,7 @@ public sealed class RxVar<T> : RxBase, IRxReadable<T>
         }
     }
 
-    public void AddListener(Action<T> listener)
+    public void AddListener(Action<T> listener) // 값 변경을 구독할 수 있음
     {
         if (listener != null)
         {
@@ -35,7 +35,7 @@ public sealed class RxVar<T> : RxBase, IRxReadable<T>
         }
     }
 
-    public void RemoveListener(Action<T> listener)
+    public void RemoveListener(Action<T> listener) // 구독 해제
     {
         listeners.Remove(listener);
     }

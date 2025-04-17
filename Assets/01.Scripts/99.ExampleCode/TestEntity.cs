@@ -11,7 +11,7 @@ public class TestEntity : MobileEntity<TestModel>
         model = new TestModel();
     }
 
-    public override float Hp
+    public override float Health
     {
         get => model.Hp.Value;
         set => model.Hp.SetValue(value);
@@ -20,7 +20,7 @@ public class TestEntity : MobileEntity<TestModel>
     private void Start()
     {
         TakeDamaged(30);
-        Debug.Log($"플레이어 체력 : {Hp}");
+        Debug.Log($"플레이어 체력 : {Health}");
     }
 
 

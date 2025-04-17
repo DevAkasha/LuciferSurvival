@@ -1,15 +1,12 @@
-using Ironcow;
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Ironcow.BT
 {
     [Serializable]
-    public sealed class SelectorNode : BTNode
+    public sealed class SelectorNode : CompositeNode
     {
-        [SerializeReference] public List<BTNode> childs = new List<BTNode>();
 
         public SelectorNode(BTNode parent)
         {

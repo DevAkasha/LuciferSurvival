@@ -7,4 +7,5 @@ public partial class ResourceType
     public const string Thumbnail = "Thumbnail";
     public const string Scene = "Scene";
     public const string UI = "UI";
+    public const string GameDatas = "GameDatas";
 }

@@ -1,13 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 using Ironcow.BT;
 using System.Reflection;
 using System.Linq.Expressions;
-using Ironcow;
+using System;
+using System.Linq;
 
 [Serializable]
 public class BTRunner
@@ -26,7 +22,8 @@ public class BTRunner
 
     public BTRunner(string parentName)
     {
-        data = ResourceManager.instance.LoadAsset<BTSaveData>($"{parentName}Data", ResourceType.Datas);
+        //data = ResourceManager.instance.LoadAsset<BTSaveData>($"{parentName}Data", ResourceType.Datas);
+        data = ResourceManager.instance.LoadAsset<BTSaveData>($"BTSaveData/{parentName}Data", ResourceType.GameDatas);
         root = JsonUtility.FromJson<RootNode>(data.data);
     }
 

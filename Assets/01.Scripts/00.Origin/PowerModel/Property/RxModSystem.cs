@@ -12,7 +12,7 @@ public enum ModifierType
 
 public interface IModifiable
 {
-    void ApplyModifier(ModifierKey key, string fieldName, ModifierType type, object value);
+    void ApplyModifier(ModifierKey key, string fieldName, ModifierType type, object value); // Modifier를 적용
     void ApplySignFlip(ModifierKey key);
     void RemoveModifier(ModifierKey key);
 }
@@ -20,26 +20,32 @@ public interface IModifiable
 public interface IRxReadable<T>
 {
     T Value { get; }
-    void AddListener(Action<T> listener);
-    void RemoveListener(Action<T> listener);
+    void AddListener(Action<T> listener); // 값 변경을 구독할 수 있음
+    void RemoveListener(Action<T> listener); // 구독 해제
 }
+public interface IRxField
+{
+    string FieldName { get; }
+}
+
+public interface IRxField<T> : IRxField, IRxReadable<T> { }
 
 public interface IRxModBase
 {
     object Value { get; }
-    void SetValue(object origin);
-    void ResetValue(object origin);
+    void SetValue(object origin); // 값 설정
+    void ResetValue(object origin); // 초기 원본 값
     void SetModifier(ModifierType type, ModifierKey key, object value);
     void AddModifier(ModifierType type, ModifierKey key);
     void RemoveModifier(ModifierType type, ModifierKey key);
-    void ClearAll();
+    void ClearAll(); // 모든 Modifier 초기화
 }
 
-public interface IRxMod<T> : IRxModBase, IRxReadable<T>
+public interface IRxMod<T> : IRxModBase, IRxField<T>
 {
     new T Value { get; }
-    void SetValue(T origin);
-    void ResetValue(T origin);
+    void SetValue(T origin); // 값 설정
+    void ResetValue(T origin); // 초기 원본 값
     void SetModifier(ModifierType type, ModifierKey key, T value);
 }
 
@@ -54,10 +60,10 @@ public abstract class RxBase : IConditionCheckable
     public virtual bool Satisfies(Func<object, bool> predicate) => false;
 }
 
-public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable
+public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
 {
-    protected T origin;
-    protected T cachedValue;
+    protected T origin; // 초기 원본 값
+    protected T cachedValue; // 계산된 값 캐싱
     protected T lastNotifiedValue;
     protected bool dirty = true;
 
@@ -69,14 +75,14 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable
         get
         {
             if (dirty)
-                Recalculate();
-            return cachedValue;
+                Recalculate(); // 최종 값 다시 계산
+            return cachedValue; // 계산된 값 캐싱
         }
     }
 
     object IRxModBase.Value => Value;
 
-    public void AddListener(Action<T> listener)
+    public void AddListener(Action<T> listener) // 값 변경을 구독할 수 있음
     {
         if (listener != null)
         {
@@ -85,36 +91,36 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable
         }
     }
 
-    public void RemoveListener(Action<T> listener) => listeners.Remove(listener);
+    public void RemoveListener(Action<T> listener) => listeners.Remove(listener); // 구독 해제
 
-    public void ForceUpdate() { Invalidate(); _ = Value; }
+    public void ForceUpdate() { Invalidate(); _ = Value; } // 재계산 요청 (dirty 플래그 설정)
 
-    public void SetOrigin(T value) { origin = value; Invalidate(); }
+    public void SetOrigin(T value) { origin = value; Invalidate(); } // 초기 원본 값
 
-    public void SetValue(T value)
+    public void SetValue(T value) // 값 설정
     {
-        origin = value;
-        Invalidate();
+        origin = value; // 초기 원본 값
+        Invalidate(); // 재계산 요청 (dirty 플래그 설정)
         ForceUpdate();
     }
 
-    void IRxModBase.SetValue(object origin)
+    void IRxModBase.SetValue(object origin) // 값 설정
     {
-        if (origin is T val) SetValue(val);
+        if (origin is T val) SetValue(val); // 값 설정
         else throw new InvalidCastException($"Expected {typeof(T).Name}");
     }
 
     public void ResetValue(T newValue)
     {
-        origin = newValue;
-        ClearAll();
-        cachedValue = newValue;
+        origin = newValue; // 초기 원본 값
+        ClearAll(); // 모든 Modifier 초기화
+        cachedValue = newValue; // 계산된 값 캐싱
         lastNotifiedValue = newValue;
     }
 
-    void IRxModBase.ResetValue(object origin)
+    void IRxModBase.ResetValue(object origin) // 초기 원본 값
     {
-        if (origin is T val) ResetValue(val);
+        if (origin is T val) ResetValue(val); // 초기 원본 값
         else throw new InvalidCastException($"Expected {typeof(T).Name}");
     }
 
@@ -124,7 +130,7 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable
     public override void ClearRelation()
     {
         listeners.Clear();
-        ClearAll();
+        ClearAll(); // 모든 Modifier 초기화
     }
 
     protected void NotifyAll(T value)
@@ -133,10 +139,10 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable
             l(value);
     }
 
-    protected void Invalidate() => dirty = true;
+    protected void Invalidate() => dirty = true; // 재계산 요청 (dirty 플래그 설정)
 
-    protected abstract void Recalculate();
-    public abstract void ClearAll();
+    protected abstract void Recalculate(); // 최종 값 다시 계산
+    public abstract void ClearAll(); // 모든 Modifier 초기화
     public abstract void SetModifier(ModifierType type, ModifierKey key, T value);
 
     void IRxModBase.SetModifier(ModifierType type, ModifierKey key, object value)
@@ -150,9 +156,9 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable
 
     void IRxModBase.AddModifier(ModifierType type, ModifierKey key) => AddModifier(type, key);
     void IRxModBase.RemoveModifier(ModifierType type, ModifierKey key) => RemoveModifier(type, key);
-    void IRxModBase.ClearAll() => ClearAll();
+    void IRxModBase.ClearAll() => ClearAll(); // 모든 Modifier 초기화
 
-    public void ApplyModifier(ModifierKey key, string fieldName, ModifierType type, object value)
+    public void ApplyModifier(ModifierKey key, string fieldName, ModifierType type, object value) // Modifier를 적용
     {
         if (!string.Equals(FieldName, fieldName, StringComparison.OrdinalIgnoreCase)) return;
         ((IRxModBase)this).SetModifier(type, key, value);
@@ -179,7 +185,7 @@ public readonly struct ModifierKey : IEquatable<ModifierKey>
         Id = id ?? throw new ArgumentNullException(nameof(id));
     }
 
-    public override string ToString() => $"{Id.GetType().Name}:{Id}";
+    public override string ToString() => $"{Id.GetType().Name}:{Id}"; // 문자열로 요약
 
     public bool Equals(ModifierKey other) => Equals(Id, other.Id);
 
