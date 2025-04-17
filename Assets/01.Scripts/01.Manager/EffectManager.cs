@@ -27,8 +27,9 @@ public class EffectManager : Singleton<EffectManager>
         base.Awake();
 
         Register(SkillEffectBuilder.Define(EffectId.Exhaust, EffectApplyMode.Timed)
-           .Interpolated(2f, t => Mathf.Lerp(0.7f, 1.0f, t))
-           .ToEffect());
+            .Add("MoveSpeed", ModifierType.Multiplier, 1.0f)
+            .Interpolated(2f, t => Mathf.Lerp(0.7f, 1.0f, t))
+            .ToEffect());
 
         Register(SkillEffectBuilder.Define(EffectId.Ghost, EffectApplyMode.Timed)
             .Add("MoveSpeed", ModifierType.Multiplier, 1.8f)
