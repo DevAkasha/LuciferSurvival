@@ -4,7 +4,7 @@ using UnityEngine;
 using Ironcow;
 using Ironcow.Data;
 
-public enum UnitGrade
+public enum eUnitGrade
 {
     One = 1,
     Two,
@@ -23,5 +23,5 @@ public class UnitDataSO : BaseDataSO
     public float criticalDamage;
     public float criticalChance;
     public int cost;
-    public UnitGrade grade;
+    public eUnitGrade grade;
 }

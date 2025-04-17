@@ -1,17 +1,15 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System;
-using System.Linq;
 using UnityEngine;
 using Ironcow.BT;
 using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
 using UnityEditor;
 using System.Security.Cryptography.X509Certificates;
+using DG.Tweening;
 
-public class EnemyAIController : MonoBehaviour
+public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
 {
-    public EnemyDataSO enemyStatus;
+    //public EnemyDataSO enemyStatus;
     [SerializeField] private NavMeshAgent navMesh;
     [SerializeField] private Rigidbody rigidbodys;
     [SerializeField] private Animator animator;
@@ -21,8 +19,9 @@ public class EnemyAIController : MonoBehaviour
     //Collider TargetPlayer;
 
     [Header("Enemy 정보")]
-    public float Hp;
     public float AttackRate;
+    public bool StatusEffect;
+    public bool Confused;
 
     [Header("BT러너")]
     [SerializeField] BTRunner bt;
@@ -33,7 +32,6 @@ public class EnemyAIController : MonoBehaviour
         rigidbodys = GetComponent<Rigidbody>();
         navMesh = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        Hp = enemyStatus.health;
 
         Init();
     }
@@ -53,54 +51,75 @@ public class EnemyAIController : MonoBehaviour
     }
     public void InMove(Vector3 dir)
     {
-        rigidbodys.velocity = Vector3.zero;
-        //Debug.Log("이동 중");
-        navMesh.speed = enemyStatus.moveSpeed;
-        navMesh.SetDestination(dir);
-    }
-    public void InDamage(int damage)
-    {
-        Hp -= damage;
+        if (navMesh.enabled == false)
+            return;
 
-        if (Hp <= 0)
-        {
-            InDead();
-        }
+        rigidbodys.velocity = Vector3.zero;
+        navMesh.speed = Entity.Model.MoveSpeed.Value;
+        navMesh.SetDestination(dir);
+        //Debug.Log("이동 중");
+    }
+    public void InDamage(float damage)
+    {
+        Entity.TakeDamaged(damage);
     }
     public void InDead()
     {
 
     }
-    public void InKnockBack()
+    public void InStunned(float delayTime)
     {
+        StatusEffect = true;
+        rigidbodys.velocity = Vector3.zero;
+        DOVirtual.DelayedCall(delayTime, () => { InOffStatusEffect(); });
 
+    }
+    public void InConfused(float delayTime)
+    {
+        Confused = true;
+        DOVirtual.DelayedCall(delayTime, () => { InOffStatusEffect(); });
+    }
+    public void InKnockBack(float KnockBackDistance)
+    {
+        if (StatusEffect)
+            return;
+
+        StatusEffect = true;
+        Vector3 toTarget = transform.position - target.position;
+        Vector3 ReverseTarget = transform.position + toTarget.normalized * KnockBackDistance;
+
+        transform.DOMove(ReverseTarget, 0.3f).SetEase(Ease.OutQuad).OnComplete(() =>
+        {
+            StatusEffect = false;
+        }); ;
     }
     public void InFalling()
     {
+        if (navMesh.enabled == false)
+            return;//에어본 중첩 방지
+
         navMesh.enabled = false;
 
-    }
-    public void InSetNavMash()
-    {
-        navMesh.enabled = true;
-    }
-
-    bool IsAnimationRunning(string stateName)
-    {
-        if (animator != null)
-        {
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+        transform.DOMoveY(transform.position.y + 3f, 0.5f)
+            .SetEase(Ease.OutQuad)
+            .OnComplete(() =>
             {
-                var normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-                return normalizedTime != 0 && normalizedTime < 1f;
-            }
-        }
-        return false;
+                transform.DOMoveY(1f, 0.4f).SetEase(Ease.InQuad)
+                .OnComplete(() =>
+                    {
+                        navMesh.enabled = true;
+                    });
+            });
     }
+    public void InOffStatusEffect()
+    {
+        StatusEffect = false;
+        Confused = false;
+    }    
 
     public eNodeState OnCheckDead()
     {
-        if (Hp <= 0)
+        if (Entity.Model.Health.Value <= 0)
         {
             return eNodeState.success;
         }
@@ -112,10 +131,11 @@ public class EnemyAIController : MonoBehaviour
         //InDead();
         return eNodeState.success;
     }
-    public eNodeState IsFalling()
+    public eNodeState IsStatusEffect()
     {
-        if (IsAnimationRunning("Falling"))
+        if (StatusEffect)
         {
+            navMesh.speed = 0;
             return eNodeState.success;
         }
 
@@ -135,7 +155,7 @@ public class EnemyAIController : MonoBehaviour
 
         var dist = (transform.position - target.transform.position).sqrMagnitude;
 
-        if (dist < enemyStatus.range)
+        if (dist < Entity.Model.Range.Value)
         {
             navMesh.speed = 0;
             return eNodeState.success;
@@ -190,7 +210,7 @@ public class EnemyAIController : MonoBehaviour
             Debug.Log("타깃이 없다");
             return eNodeState.failure;
         }
-        if ((target.transform.position - transform.position).sqrMagnitude < enemyStatus.range)
+        if ((target.transform.position - transform.position).sqrMagnitude < Entity.Model.Range.Value)
         {
             navMesh.speed = 0;
             return eNodeState.success;
@@ -198,8 +218,7 @@ public class EnemyAIController : MonoBehaviour
         //var dir = (target.transform.position - transform.position).normalized;
         //Debug.Log("추적 개시");
 
-        var dir = target.position;
-        InMove(dir);
+        InMove(IsTargetPosition());
         return eNodeState.running;
 
     }
@@ -209,10 +228,33 @@ public class EnemyAIController : MonoBehaviour
         navMesh.speed = 0;
         return eNodeState.running;
     }
-    private void OnDrawGizmos()
+    bool IsAnimationRunning(string stateName)//애니메이션 작동 판별
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, enemyStatus.range);
+        if (animator != null)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+            {
+                var normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                return normalizedTime != 0 && normalizedTime < 1f;
+            }
+        }
+        return false;
+    }
+    Vector3 IsTargetPosition()
+    {
+        if(Confused)
+        {
+            Vector3 toTarget = transform.position - target.position;
+            Vector3 ReverseTarget = transform.position + toTarget.normalized * 10f;
+
+            return ReverseTarget;
+        }
+        else
+        {
+            var dir = target.position;
+
+            return dir;
+        }
     }
 }
 [CustomEditor(typeof(EnemyAIController))]
@@ -228,7 +270,18 @@ public class EnemyControl : Editor
             {
                 ((EnemyAIController)target).InDamage(10000);
             }
-
+            if (GUILayout.Button("스턴(3초)"))
+            {
+                ((EnemyAIController)target).InStunned(3f);
+            }
+            if (GUILayout.Button("혼란(3초)"))
+            {
+                ((EnemyAIController)target).InConfused(3);
+            }
+            if (GUILayout.Button("넉백(거리 1.5)"))
+            {
+                ((EnemyAIController)target).InKnockBack(1.5f);
+            }
             if (GUILayout.Button("에어본"))
             {
                 ((EnemyAIController)target).InFalling();

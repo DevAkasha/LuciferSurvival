@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 435280418428255686}
   - component: {fileID: 5745767675945343035}
   - component: {fileID: 1374167852781710984}
+  - component: {fileID: 782113307443736477}
   - component: {fileID: 90225998821714178}
   - component: {fileID: 1849629208727702701}
   - component: {fileID: 8048041031809773127}
@@ -101,71 +102,91 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69a7027d75b087b4c8540bbe9f30801b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyStatus: {fileID: 11400000, guid: d23c8d0316f0b3d49a1eb9b474e6b239, type: 2}
+  entity: {fileID: 782113307443736477}
   navMesh: {fileID: 0}
   rigidbodys: {fileID: 0}
   animator: {fileID: 0}
-  Hp: 100
-  AttackRate: 0
+  AttackRate: 2
+  StatusEffect: 0
+  Confused: 0
   bt:
     root:
-      rid: 2295249554932499357
+      rid: 2295249601623752949
   references:
     version: 2
     RefIds:
-    - rid: 2295249554932499357
+    - rid: 2295249601623752949
       type: {class: RootNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: RootNode
         node:
-          rid: 2295249554932499358
-    - rid: 2295249554932499358
+          rid: 2295249601623752950
+    - rid: 2295249601623752950
       type: {class: SelectorNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SelectorNode
         childs:
-        - rid: 2295249554932499359
-        - rid: 2295249554932499360
-        - rid: 2295249554932499361
-        - rid: 2295249554932499362
-    - rid: 2295249554932499359
+        - rid: 2295249601623752951
+        - rid: 2295249601623752952
+        - rid: 2295249601623752953
+        - rid: 2295249601623752954
+    - rid: 2295249601623752951
       type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SequenceNode
         childs:
-        - rid: 2295249554932499363
-        - rid: 2295249554932499364
-    - rid: 2295249554932499360
-      type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
-      data:
-        className: SequenceNode
-        childs: []
-    - rid: 2295249554932499361
+        - rid: 2295249601623752955
+        - rid: 2295249601623752956
+    - rid: 2295249601623752952
       type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: SequenceNode
         childs:
-        - rid: 2295249554932499365
-    - rid: 2295249554932499362
+        - rid: 2295249601623752957
+    - rid: 2295249601623752953
+      type: {class: SequenceNode, ns: Ironcow.BT, asm: Assembly-CSharp}
+      data:
+        className: SequenceNode
+        childs:
+        - rid: 2295249601623752958
+    - rid: 2295249601623752954
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: AboveStay
-    - rid: 2295249554932499363
+    - rid: 2295249601623752955
+      type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
+      data:
+        className: ActionNode
+        funcName: OnCheckDead
+    - rid: 2295249601623752956
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: OnDead
-    - rid: 2295249554932499364
+    - rid: 2295249601623752957
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
-        funcName: DoCheakAttacking
-    - rid: 2295249554932499365
+        funcName: IsStatusEffect
+    - rid: 2295249601623752958
       type: {class: ActionNode, ns: Ironcow.BT, asm: Assembly-CSharp}
       data:
         className: ActionNode
         funcName: ToTargetMove
+--- !u!114 &782113307443736477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2524162312750879575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d68b572d302d6ca41a6dc451717cb8f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rcode: ENE0002
 --- !u!136 &90225998821714178
 CapsuleCollider:
   m_ObjectHideFlags: 0

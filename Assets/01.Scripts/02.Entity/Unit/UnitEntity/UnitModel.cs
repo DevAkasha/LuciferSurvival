@@ -22,7 +22,7 @@ public class UnitModel : BaseModel
     public float criticalDamage;
     public float criticalChance;
     public int cost;
-    public UnitGrade grade;
+    public eUnitGrade grade;
     public eUnitState unitState = eUnitState.Stay;
 
     public UnitModel(UnitDataSO unitDataSO)
