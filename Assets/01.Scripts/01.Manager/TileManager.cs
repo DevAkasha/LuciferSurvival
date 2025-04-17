@@ -17,15 +17,13 @@ public class TileManager : Singleton<TileManager>
         return Vector3Int.RoundToInt(worldPos);
     }
 
-    public void RemoveTile()
+    // 플레이어 상호작용 용도, 플레이어가 본인의 위치를 알 때
+    public void RemoveTile(GameObject tile)
     {
-        // 두 메서드가 매니저에선 가능한데 플레이어에선 어려울듯함, 타일을 플레이어가 이미 알고있기때문에 호출을해줄거라 아무런 매개변수를 받지않는 리무브타일을 만들면된다.
-        // 이거는 오버로드로 하면 된다, 리무브타일()이 오버로드하는거
-        // 플레이어가 파괴해야하는 것에 대해 넣기,
-
+        Destroy(tile);
     }
 
-    // 상호작용한 위치의 타일 제거
+    // 상호작용한 위치의 타일 제거, 플레이어가 위치를 모를 때
     public void RemoveTile(Vector3 worldPos)
     {
         Vector3Int gridPos = GridPosition(worldPos);

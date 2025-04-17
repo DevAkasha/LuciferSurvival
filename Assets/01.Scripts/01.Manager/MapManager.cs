@@ -13,7 +13,6 @@ public class MapManager : Singleton<MapManager>
     {
         if (TimeManager.Instance.IsNight()) // π„¿œ ∂ß
         {
-            
             MapDay();
         }
         else // ≥∑¿œ ∂ß
