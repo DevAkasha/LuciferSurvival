@@ -9,7 +9,7 @@ using DG.Tweening;
 
 public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
 {
-    public EnemyDataSO enemyStatus;
+    //public EnemyDataSO enemyStatus;
     [SerializeField] private NavMeshAgent navMesh;
     [SerializeField] private Rigidbody rigidbodys;
     [SerializeField] private Animator animator;
@@ -19,7 +19,6 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     //Collider TargetPlayer;
 
     [Header("Enemy 정보")]
-    public float Hp;
     public float AttackRate;
     public bool statusEffect;
 
@@ -32,7 +31,6 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
         rigidbodys = GetComponent<Rigidbody>();
         navMesh = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        Hp = enemyStatus.health;
 
         Init();
     }
@@ -56,18 +54,13 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
             return;
 
         rigidbodys.velocity = Vector3.zero;
-        navMesh.speed = enemyStatus.moveSpeed;
+        navMesh.speed = Entity.Model.MoveSpeed.Value;
         navMesh.SetDestination(dir);
         //Debug.Log("이동 중");
     }
-    public void InDamage(int damage)
+    public void InDamage(float damage)
     {
-        Hp -= damage;
-
-        if (Hp <= 0)
-        {
-            InDead();
-        }
+        Entity.TakeDamaged(damage);
     }
     public void InDead()
     {
@@ -77,7 +70,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     {
         //statusEffect = true;
         rigidbodys.velocity = Vector3.zero;
-        
+
     }
     public void InConfused()
     {
@@ -89,14 +82,20 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     }
     public void InKnockBack(float KnockBackDistance)
     {
-        //statusEffect = true;
+ 
+
+        statusEffect = true;
         Vector3 toTarget = transform.position - target.position;
         Vector3 ReverseTarget = transform.position + toTarget.normalized * KnockBackDistance;
 
-        transform.position = ReverseTarget;
+        transform.DOMove(ReverseTarget, 0.2f).SetEase(Ease.OutQuad);
+        statusEffect = false;
     }
     public void InFalling()
     {
+        if (navMesh.enabled == false)
+            return;
+
         navMesh.enabled = false;
 
         transform.DOMoveY(transform.position.y + 3f, 0.5f)
@@ -110,7 +109,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
                     });
             });//에어본이 중첩되는 문제있음. 추후 Ray나 다른 방법으로 막아야 함
     }
-    
+
     bool IsAnimationRunning(string stateName)//애니메이션 작동 판별
     {
         if (animator != null)
@@ -126,7 +125,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
 
     public eNodeState OnCheckDead()
     {
-        if (Hp <= 0)
+        if (Entity.Model.Health.Value <= 0)
         {
             return eNodeState.success;
         }
@@ -161,7 +160,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
 
         var dist = (transform.position - target.transform.position).sqrMagnitude;
 
-        if (dist < enemyStatus.range)
+        if (dist < Entity.Model.Range.Value)
         {
             navMesh.speed = 0;
             return eNodeState.success;
@@ -216,7 +215,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
             Debug.Log("타깃이 없다");
             return eNodeState.failure;
         }
-        if ((target.transform.position - transform.position).sqrMagnitude < enemyStatus.range)
+        if ((target.transform.position - transform.position).sqrMagnitude < Entity.Model.Range.Value)
         {
             navMesh.speed = 0;
             return eNodeState.success;
@@ -235,11 +234,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
         navMesh.speed = 0;
         return eNodeState.running;
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, enemyStatus.range);
-    }
+
 }
 [CustomEditor(typeof(EnemyAIController))]
 public class EnemyControl : Editor
