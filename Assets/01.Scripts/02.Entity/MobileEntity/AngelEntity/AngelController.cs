@@ -13,7 +13,6 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
 
     protected override void OnInit()
     {
-        Debug.Log("[Controller] OnInit 실행됨");
         navMesh = GetComponent<NavMeshAgent>();
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
@@ -21,12 +20,8 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         UnityTimer.ScheduleRepeating(0.1f, () =>
         {
             var bt = BuildBehaviorTree();
-            Debug.Log("[BT] 루프 작동");
-            if (bt.Check())
-            {
-                Debug.Log("[BT] 실행 조건 충족, 행동 실행");
+            if (bt.Check())  
                 bt.Run();
-            }
         });
     }
     private void Start()
@@ -86,7 +81,7 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
 
     private RxBehaviorNode BuildBehaviorTree()
     {
-        return new FirstTrue(new[]
+        return new Selector(new[]
         {
             Node_DeadCheck(),
             Node_FallingCheck(),
@@ -97,20 +92,20 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
     }
 
     private RxBehaviorNode Node_DeadCheck() =>
-        DoIf.Create(() => IsDead, () =>
+        ConditionAction.Create(() => IsDead, () =>
         {
             animator.Play("Dead");
             navMesh.isStopped = true;
         });
 
     private RxBehaviorNode Node_FallingCheck() =>
-        DoIf.Create(() => IsFalling, () =>
+        ConditionAction.Create(() => IsFalling, () =>
         {
             animator.Play("Falling");
         });
 
     private RxBehaviorNode Node_AttackCheck() =>
-        DoIf.Create(() => IsInRange(Entity.Model.Range.Value), () =>
+        ConditionAction.Create(() => IsInRange(Entity.Model.Range.Value), () =>
         {
             navMesh.isStopped = true;
             transform.LookAt(player);
@@ -118,13 +113,13 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         });
 
     private RxBehaviorNode Node_MoveToPlayer() =>
-        DoIf.Create(() => player != null, () =>
+        ConditionAction.Create(() => player != null, () =>
         {
             MoveTo(player.position);
         });
 
     private RxBehaviorNode Node_StandStill() =>
-        DoIf.Create(() => true, () =>
+        ConditionAction.Create(() => true, () =>
         {
             navMesh.isStopped = true;
             animator.Play("Idle");
