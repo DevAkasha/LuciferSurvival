@@ -1148,6 +1148,166 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: bt.root
+      value: 2295249601623752744
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: AttackRate
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752744]
+      value: Assembly-CSharp Ironcow.BT.RootNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752745]
+      value: Assembly-CSharp Ironcow.BT.SelectorNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752746]
+      value: Assembly-CSharp Ironcow.BT.SequenceNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752747]
+      value: Assembly-CSharp Ironcow.BT.SequenceNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752748]
+      value: Assembly-CSharp Ironcow.BT.ActionNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752749]
+      value: Assembly-CSharp Ironcow.BT.ActionNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752750]
+      value: Assembly-CSharp Ironcow.BT.ActionNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752751]
+      value: Assembly-CSharp Ironcow.BT.ActionNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752744].node
+      value: 2295249601623752745
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752748].funcName
+      value: AboveStay
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752749].funcName
+      value: OnCheckDead
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752750].funcName
+      value: OnDead
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752751].funcName
+      value: ToTargetMove
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752744].className
+      value: RootNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752745].className
+      value: SelectorNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752746].className
+      value: SequenceNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752747].className
+      value: SequenceNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752748].className
+      value: ActionNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752749].className
+      value: ActionNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752750].className
+      value: ActionNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752751].className
+      value: ActionNode
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752745].childs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752746].childs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752747].childs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752745].childs.Array.data[0]
+      value: 2295249601623752746
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752745].childs.Array.data[1]
+      value: 2295249601623752747
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752745].childs.Array.data[2]
+      value: 2295249601623752748
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752746].childs.Array.data[0]
+      value: 2295249601623752749
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752746].childs.Array.data[1]
+      value: 2295249601623752750
+      objectReference: {fileID: 0}
+    - target: {fileID: 1374167852781710984, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: managedReferences[2295249601623752747].childs.Array.data[0]
+      value: 2295249601623752751
+      objectReference: {fileID: 0}
     - target: {fileID: 2524162312750879575, guid: e3752dffa5db42243a67a8b264d68249,
         type: 3}
       propertyPath: m_Name

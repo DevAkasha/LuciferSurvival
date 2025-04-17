@@ -20,7 +20,8 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
 
     [Header("Enemy 정보")]
     public float AttackRate;
-    public bool statusEffect;
+    public bool StatusEffect;
+    public bool Confused;
 
     [Header("BT러너")]
     [SerializeField] BTRunner bt;
@@ -68,33 +69,34 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     }
     public void InStunned(float delayTime)
     {
-        //statusEffect = true;
+        StatusEffect = true;
         rigidbodys.velocity = Vector3.zero;
+        DOVirtual.DelayedCall(delayTime, () => { InOffStatusEffect(); });
 
     }
-    public void InConfused()
+    public void InConfused(float delayTime)
     {
-        statusEffect = true;
-        Vector3 toTarget = transform.position - target.position;
-        Vector3 ReverseTarget = transform.position + -toTarget.normalized * 5f;
-
-        InMove(ReverseTarget);//1번 밖에 불러오지 않아 현재는 멈춰 있는 것처럼 보임, InMove 안에서 처리 하는 것으로 변경해야 할 듯
+        Confused = true;
+        DOVirtual.DelayedCall(delayTime, () => { InOffStatusEffect(); });
     }
     public void InKnockBack(float KnockBackDistance)
     {
- 
+        if (StatusEffect)
+            return;
 
-        statusEffect = true;
+        StatusEffect = true;
         Vector3 toTarget = transform.position - target.position;
         Vector3 ReverseTarget = transform.position + toTarget.normalized * KnockBackDistance;
 
-        transform.DOMove(ReverseTarget, 0.2f).SetEase(Ease.OutQuad);
-        statusEffect = false;
+        transform.DOMove(ReverseTarget, 0.3f).SetEase(Ease.OutQuad).OnComplete(() =>
+        {
+            StatusEffect = false;
+        }); ;
     }
     public void InFalling()
     {
         if (navMesh.enabled == false)
-            return;
+            return;//에어본 중첩 방지
 
         navMesh.enabled = false;
 
@@ -107,21 +109,13 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
                     {
                         navMesh.enabled = true;
                     });
-            });//에어본이 중첩되는 문제있음. 추후 Ray나 다른 방법으로 막아야 함
+            });
     }
-
-    bool IsAnimationRunning(string stateName)//애니메이션 작동 판별
+    public void InOffStatusEffect()
     {
-        if (animator != null)
-        {
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
-            {
-                var normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-                return normalizedTime != 0 && normalizedTime < 1f;
-            }
-        }
-        return false;
-    }
+        StatusEffect = false;
+        Confused = false;
+    }    
 
     public eNodeState OnCheckDead()
     {
@@ -139,8 +133,9 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     }
     public eNodeState IsStatusEffect()
     {
-        if (statusEffect)
+        if (StatusEffect)
         {
+            navMesh.speed = 0;
             return eNodeState.success;
         }
 
@@ -223,8 +218,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
         //var dir = (target.transform.position - transform.position).normalized;
         //Debug.Log("추적 개시");
 
-        var dir = target.position;
-        InMove(dir);
+        InMove(IsTargetPosition());
         return eNodeState.running;
 
     }
@@ -234,7 +228,34 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
         navMesh.speed = 0;
         return eNodeState.running;
     }
+    bool IsAnimationRunning(string stateName)//애니메이션 작동 판별
+    {
+        if (animator != null)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
+            {
+                var normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                return normalizedTime != 0 && normalizedTime < 1f;
+            }
+        }
+        return false;
+    }
+    Vector3 IsTargetPosition()
+    {
+        if(Confused)
+        {
+            Vector3 toTarget = transform.position - target.position;
+            Vector3 ReverseTarget = transform.position + toTarget.normalized * 10f;
 
+            return ReverseTarget;
+        }
+        else
+        {
+            var dir = target.position;
+
+            return dir;
+        }
+    }
 }
 [CustomEditor(typeof(EnemyAIController))]
 public class EnemyControl : Editor
@@ -249,17 +270,17 @@ public class EnemyControl : Editor
             {
                 ((EnemyAIController)target).InDamage(10000);
             }
-            if (GUILayout.Button("3초 스턴(개선 중)"))
+            if (GUILayout.Button("스턴(3초)"))
             {
                 ((EnemyAIController)target).InStunned(3f);
             }
-            if (GUILayout.Button("혼란"))
+            if (GUILayout.Button("혼란(3초)"))
             {
-                ((EnemyAIController)target).InConfused();
+                ((EnemyAIController)target).InConfused(3);
             }
-            if (GUILayout.Button("넉백(거리 1)"))
+            if (GUILayout.Button("넉백(거리 1.5)"))
             {
-                ((EnemyAIController)target).InKnockBack(1f);
+                ((EnemyAIController)target).InKnockBack(1.5f);
             }
             if (GUILayout.Button("에어본"))
             {
