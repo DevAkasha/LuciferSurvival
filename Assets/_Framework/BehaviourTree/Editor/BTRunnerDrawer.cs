@@ -61,7 +61,7 @@ public class BTRunnerDrawer : PropertyDrawer
         if (Application.isPlaying) return;
         if (instance.root != null)
             data.SaveData(instance.root);
-        //EditorUtility.SetDirty(data);
+        EditorUtility.SetDirty(data);//스크립터블 오브젝트에 저장
         //data.SetDirty();
     }
 
