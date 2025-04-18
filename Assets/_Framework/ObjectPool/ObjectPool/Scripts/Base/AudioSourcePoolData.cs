@@ -1,16 +1,16 @@
-using Ironcow.ObjectPool;
+﻿using Ironcow.ObjectPool;
 using System.Collections;
 using UnityEngine;
 
-public class AudioSourcePoolData : ObjectPoolBase
+public class AudioSourcePoolData : MonoBehaviour,IObjectPoolBase
 {
     [SerializeField] private AudioSource source;
     public bool isBgm { get; private set; }
 
-    public override void Init(params object[] param)
-    {
+    //public override void Init(params object[] param)
+    //{
         
-    }
+    //}
 
     public void PlayBgm(AudioClip clip, bool isLoop)
     {
@@ -38,5 +38,20 @@ public class AudioSourcePoolData : ObjectPoolBase
     public void SetSource(AudioSource source)
     {
         this.source = source;
+    }
+
+    public void SetActive(bool active)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Release()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Init(params object[] param)
+    {
+        throw new System.NotImplementedException();
     }
 }

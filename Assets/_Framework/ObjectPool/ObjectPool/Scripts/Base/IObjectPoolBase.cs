@@ -1,10 +1,16 @@
-using Ironcow;
+﻿using Ironcow;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Ironcow.ObjectPool
 {
+    public interface IObjectPoolBase
+    {
+        void Init(params object[] param);
+        void SetActive(bool active);
+        void Release();
+    }
     public abstract class ObjectPoolBase
 #if USE_AUTO_CACHING
     : MonoAutoCaching
@@ -24,7 +30,7 @@ namespace Ironcow.ObjectPool
 #endif
         void Release()
         {
-            PoolManager.instance.Release(this);
+            //PoolManager.instance.Release(this);
         }
     }
 

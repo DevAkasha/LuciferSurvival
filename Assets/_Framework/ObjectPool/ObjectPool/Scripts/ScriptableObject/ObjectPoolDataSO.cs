@@ -1,4 +1,4 @@
-using Ironcow;
+﻿using Ironcow;
 using Ironcow.Convenience;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace Ironcow.ObjectPool
         public string prefabName;
         public int count = 50;
         public int velocity = 25;
-        [HideInInspector] public ObjectPoolBase prefab;
+        [HideInInspector] public IObjectPoolBase prefab;
         [HideInInspector] public Transform parent;
     }
 

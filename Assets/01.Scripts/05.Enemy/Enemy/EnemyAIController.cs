@@ -6,8 +6,9 @@ using static UnityEngine.GraphicsBuffer;
 using UnityEditor;
 using System.Security.Cryptography.X509Certificates;
 using DG.Tweening;
+using Ironcow.ObjectPool;
 
-public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
+public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>//, IObjectPoolBase
 {
     //public EnemyDataSO enemyStatus;
     [SerializeField] private NavMeshAgent navMesh;
@@ -110,6 +111,17 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
                         navMesh.enabled = true;
                     });
             });
+    }
+    public void InDotDamage(float totalDamage, int timer)
+    {
+        float dotDamage = totalDamage / timer;
+
+        DOVirtual.DelayedCall(1, () =>
+            {
+                Entity.TakeDamaged(dotDamage);
+                Debug.Log($"{dotDamage}의 피해 ");
+            })
+            .SetLoops(timer, LoopType.Restart);
     }
     public void InOffStatusEffect()
     {
@@ -256,6 +268,21 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
             return dir;
         }
     }
+
+    public void SetActive(bool active)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Release()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Init(params object[] param)
+    {
+        throw new System.NotImplementedException();
+    }
 }
 [CustomEditor(typeof(EnemyAIController))]
 public class EnemyControl : Editor
@@ -285,6 +312,10 @@ public class EnemyControl : Editor
             if (GUILayout.Button("에어본"))
             {
                 ((EnemyAIController)target).InFalling();
+            }
+            if (GUILayout.Button("지속 피해(300, 3초)"))
+            {
+                ((EnemyAIController)target).InDotDamage(300, 3);
             }
         }
     }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using Unity.VisualScripting;
 #if UNITY_EDITOR
@@ -90,7 +90,7 @@ namespace Ironcow.ObjectPool
                     GUILayout.BeginVertical();
                     {
                         var fields = poolData.GetType().GetFields().ToList();
-                        fields.ForEach(obj =>
+                        fields.ForEach((System.Action<FieldInfo>)(obj =>
                         {
                             if (obj.FieldType == typeof(string))
                             {
@@ -101,7 +101,7 @@ namespace Ironcow.ObjectPool
                                 obj.SetValue(poolData, SetInt(obj.Name, (int)obj.GetValue(poolData)));
                             }
 #if !USE_ADDRESSABLE
-                            else if (obj.FieldType == typeof(ObjectPoolBase))
+                            else if (obj.FieldType == typeof(ObjectPool.IObjectPoolBase))
                             {
                                 SetObject(obj);
                             }
@@ -110,7 +110,7 @@ namespace Ironcow.ObjectPool
                                 SetObject(obj);
                             }
 #endif
-                        });
+                        }));
                     }
                     GUILayout.EndVertical();
                 }
@@ -140,7 +140,7 @@ namespace Ironcow.ObjectPool
 
         public void SetObject(FieldInfo fieldInfo)
         {
-            var obj = (ObjectPoolBase)fieldInfo.GetValue(poolData);
+            var obj = (IObjectPoolBase)fieldInfo.GetValue(poolData);
             var rcode = poolData.prefabName;
             if (poolData.GetType().GetField("createItem") != null)
                 rcode = (string)poolData.GetType().GetField("createItem").GetValue(poolData);
@@ -149,10 +149,10 @@ namespace Ironcow.ObjectPool
             var path = DataToolSetting.ThumbnailPath + "/" + rcode + ".png";
             if (obj == null)
             {
-                obj = AssetDatabase.LoadAssetAtPath(path, fieldInfo.FieldType) as ObjectPoolBase;
+                obj = AssetDatabase.LoadAssetAtPath(path, fieldInfo.FieldType) as IObjectPoolBase;
             }
             GUILayout.BeginHorizontal();
-            fieldInfo.SetValue(poolData, EditorGUILayout.ObjectField(fieldInfo.Name.FirstCharacterToUpper(), obj, fieldInfo.FieldType, false));
+            //fieldInfo.SetValue(poolData, EditorGUILayout.ObjectField(fieldInfo.Name.FirstCharacterToUpper(), obj, fieldInfo.FieldType, false));
             GUILayout.EndHorizontal();
         }
 
