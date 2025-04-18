@@ -1,9 +1,5 @@
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
-using UnityEditor.Experimental.GraphView;
-using System;
-using System.IO;
-using Ironcow.BT;
 using UnityEngine.UIElements;
 
 public class BTEditorWindow : EditorWindow

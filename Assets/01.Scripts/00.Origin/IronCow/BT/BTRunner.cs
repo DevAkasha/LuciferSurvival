@@ -1,5 +1,4 @@
-using UnityEngine;
-using Ironcow.BT;
+﻿using UnityEngine;
 using System.Reflection;
 using System.Linq.Expressions;
 using System;
@@ -15,7 +14,7 @@ public class BTRunner
 #endif
     public BTRunner()
     {
-        if(root == null)
+        if (root == null)
             root = new RootNode();
 
     }

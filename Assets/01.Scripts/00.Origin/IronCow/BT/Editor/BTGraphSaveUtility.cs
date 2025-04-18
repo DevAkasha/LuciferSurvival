@@ -1,5 +1,4 @@
-using Ironcow.BT;
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -54,7 +53,7 @@ public static class BTGraphSaveUtility
 
         if (container == null)
         {
-            Debug.LogError("ÀúÀåµÈ ±×·¡ÇÁ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("ì €ì¥ëœ ê·¸ë˜í”„ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -62,7 +61,7 @@ public static class BTGraphSaveUtility
 
         Dictionary<string, BTNodeView> nodeMap = new();
 
-        // ³ëµå º¹¿ø
+        // ë…¸ë“œ ë³µì›
         foreach (var nodeData in container.Nodes)
         {
             var type = System.Type.GetType(nodeData.Type);
@@ -73,7 +72,7 @@ public static class BTGraphSaveUtility
             nodeMap.Add(nodeView.GUID, nodeView);
         }
 
-        // ¿¬°á º¹¿ø
+        // ì—°ê²° ë³µì›
         foreach (var link in container.Links)
         {
             if (nodeMap.TryGetValue(link.OutputNodeGUID, out var outputNode) &&

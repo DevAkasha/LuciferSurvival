@@ -1,8 +1,5 @@
+ï»¿using System;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
-using UnityEngine.UIElements;
-using System;
-using Ironcow.BT;
 
 public class BTNodeView : Node
 {
@@ -35,7 +32,7 @@ public class BTNodeView : Node
 
     void CreateOutputPort()
     {
-        // ¾×¼Ç ³ëµå´Â ÀÚ½ÄÀÌ ¾øÀ¸¹Ç·Î Ãâ·Â Æ÷Æ® »ı·«
+        // ì•¡ì…˜ ë…¸ë“œëŠ” ìì‹ì´ ì—†ìœ¼ë¯€ë¡œ ì¶œë ¥ í¬íŠ¸ ìƒëµ
         if (!(node is ActionNode))
         {
             output = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(bool));
@@ -47,7 +44,7 @@ public class BTNodeView : Node
 
     public void Draw()
     {
-        // ±âº» ÀÔÃâ·Â Æ÷Æ® ¼³Á¤
+        // ê¸°ë³¸ ì…ì¶œë ¥ í¬íŠ¸ ì„¤ì •
         input = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Single, typeof(bool));
         input.portName = "";
         input.name = "Input";

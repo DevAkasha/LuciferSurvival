@@ -1,9 +1,8 @@
+ï»¿using System;
+using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using System;
-using Ironcow.BT;
-using System.Collections.Generic;
 
 public class BTGraphView : GraphView
 {
@@ -68,7 +67,7 @@ public class BTGraphView : GraphView
 
     public void ClearGraph()
     {
-        // ±âÁ¸ ³ëµå¿Í ¿§Áö ÀüºÎ Á¦°Å
+        // ê¸°ì¡´ ë…¸ë“œì™€ ì—£ì§€ ì „ë¶€ ì œê±°
         graphElements.ForEach(RemoveElement);
     }
     public void Save(string fileName)
@@ -90,7 +89,7 @@ public class BTGraphView : GraphView
 
         nodeView.SetPosition(new Rect(position, new Vector2(200, 150)));
         AddElement(nodeView);
-        nodeView.Draw(); // Æ÷Æ® ¹× ³»¿ë ±¸¼º
+        nodeView.Draw(); // í¬íŠ¸ ë° ë‚´ìš© êµ¬ì„±
 
         return nodeView;
     }

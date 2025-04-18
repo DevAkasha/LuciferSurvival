@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class WorldObject : MonoBehaviour
+public abstract class WorldObject : ObjectPoolBase
 {
     protected virtual void OnEnable()
     {
