@@ -10,6 +10,13 @@ public enum eUnitState
     Attack              //공격할때
 }
 
+public enum eProjectileType
+{
+    None,
+    Chain,
+    Spire
+}
+
 public class UnitModel : BaseModel
 {
     public string rcode;
