@@ -1,11 +1,10 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Ironcow;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public abstract class ManagerBase<T> : MonoSingleton<T>, IManagerInit where T : ManagerBase<T>
+public abstract class ManagerBase<T> : Singleton<T>, IManagerInit where T : ManagerBase<T>
 {
     public bool isInit { get; set; }
 

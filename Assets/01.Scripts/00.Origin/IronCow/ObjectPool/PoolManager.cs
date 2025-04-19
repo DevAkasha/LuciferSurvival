@@ -10,7 +10,7 @@ public class PoolManager : Singleton<PoolManager>
     {
         foreach (var data in ObjectPoolDataSO.instance.objectPoolDatas)
         {
-            data.prefab = ResourceManager.instance.LoadAsset<ObjectPoolBase>(data.prefabName, ResourceType.Prefabs);
+            data.prefab = ResourceManager.Instance.LoadAsset<ObjectPoolBase>(data.prefabName, ResourceType.Prefabs);
             data.parent = new GameObject(data.prefabName + "parent").transform;
             data.parent.parent = transform;
             Queue<ObjectPoolBase> queue = new Queue<ObjectPoolBase>();

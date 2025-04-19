@@ -1,4 +1,4 @@
-using Ironcow.Data;
+﻿using Ironcow.Data;
 using Ironcow.ObjectPool;
 using Ironcow.WorldObjectBase;
 using System.Threading.Tasks;
@@ -55,9 +55,9 @@ namespace Ironcow.Tool3D
             if (OnRay(ref position) || !isRandom)
             {
 #if USE_OBJECT_POOL
-                worldObject = PoolManager.instance.Spawn<T>(data.rcode, position, ObjectPool);
+                worldObject = PoolManager.Instance.Spawn<T>(data.rcode, position, ObjectPool);
 #else
-                worldObject = (T)Instantiate(ResourceManager.instance.LoadAsset<WorldBase<D>>(data.rcode, ResourceType.Prefabs), position, Quaternion.identity, ObjectPool);
+                worldObject = (T)Instantiate(ResourceManager.Instance.LoadAsset<WorldBase<D>>(data.rcode, ResourceType.Prefabs), position, Quaternion.identity, ObjectPool);
 #endif
                 worldObject.name = worldObject.name.Replace("(Clone)", "");
                 worldObject.Init(data);

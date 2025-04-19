@@ -1,4 +1,4 @@
-using Ironcow;
+﻿using Ironcow;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,7 +44,7 @@ namespace Ironcow.UI
             }
             if (isCreateSafeArea)
             {
-                var ui = Instantiate(ResourceManager.instance.LoadAsset<GameObject>("SafeArea", ResourceType.Prefabs), transform);
+                var ui = Instantiate(ResourceManager.Instance.LoadAsset<GameObject>("SafeArea", ResourceType.Prefabs), transform);
             }
         }
 

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
-//using Ironcow;
-using Ironcow.Resource;
 
 public enum eUIPosition
 {
@@ -30,29 +28,29 @@ namespace Ironcow.UI
 
         public static void SetWorldCanvas(Transform worldCanvas)
         {
-            instance.worldParent = worldCanvas;
+            Instance.worldParent = worldCanvas;
         }
 
         public static void SetParents(List<Transform> parents)
         {
-            instance.parents = parents;
-            instance.uiList.Clear();
+            Instance.parents = parents;
+            Instance.uiList.Clear();
         }
 
         public static T Show<T>(params object[] param) where T : UIBase
         {
             var key = typeof(T).ToString();
-            var ui = instance.uiList.FindLast(obj => obj.name == key);
+            var ui = Instance.uiList.FindLast(obj => obj.name == key);
             if (ui == null || ui.uiOptions.isMultiple)
             {
-                var prefab = ResourceManager.instance.LoadAsset<T>(key, ResourceType.UI);
-                ui = Instantiate(prefab, instance.parents[(int)prefab.uiPosition]);
+                var prefab = ResourceManager.Instance.LoadAsset<T>(key, ResourceType.UI);
+                ui = Instantiate(prefab, Instance.parents[(int)prefab.uiPosition]);
                 ui.name = key;
-                instance.uiList.Add(ui);
+                Instance.uiList.Add(ui);
             }
             if (ui.uiPosition == eUIPosition.UI && ui.uiOptions.isActiveOnLoad)
             {
-                instance.uiList.ForEach(obj =>
+                Instance.uiList.ForEach(obj =>
                 {
                     if (obj.uiPosition == eUIPosition.UI) obj.gameObject.SetActive(false);
                 });
@@ -66,13 +64,13 @@ namespace Ironcow.UI
         public static void Hide<T>(params object[] param) where T : UIBase
         {
             var key = typeof(T).ToString();
-            var ui = instance.uiList.FindLast(obj => obj.name == key);
+            var ui = Instance.uiList.FindLast(obj => obj.name == key);
             if (ui != null)
             {
-                instance.uiList.Remove(ui);
+                Instance.uiList.Remove(ui);
                 if (ui.uiPosition == eUIPosition.UI)
                 {
-                    var prevUI = instance.uiList.FindLast(obj => obj.uiPosition == eUIPosition.UI);
+                    var prevUI = Instance.uiList.FindLast(obj => obj.uiPosition == eUIPosition.UI);
                     prevUI.SetActive(true);
                 }
                 ui.closed?.Invoke(param);
@@ -91,13 +89,13 @@ namespace Ironcow.UI
         public static T Get<T>() where T : UIBase
         {
             var key = typeof(T).ToString();
-            return (T)instance.uiList.Find(obj => obj.name == key);
+            return (T)Instance.uiList.Find(obj => obj.name == key);
         }
 
         public static bool IsOpened<T>() where T : UIBase
         {
             var key = typeof(T).ToString();
-            var ui = instance.uiList.Find(obj => obj.name == key);
+            var ui = Instance.uiList.Find(obj => obj.name == key);
             return ui != null && ui.gameObject.activeInHierarchy;
         }
 

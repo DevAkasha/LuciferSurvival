@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class WorldObject : ObjectPoolBase
 {
+    public override void Init(params object[] param) { }
+
     protected virtual void OnEnable()
     {
         SetupModel();

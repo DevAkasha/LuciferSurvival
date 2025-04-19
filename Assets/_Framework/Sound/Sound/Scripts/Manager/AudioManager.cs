@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ironcow;
@@ -46,7 +46,7 @@ namespace Ironcow.Sound
 
         public override void Init(UnityAction<string> progressTextCallback = null, UnityAction<float> progressValueCallback = null)
         {
-            progressTextCallback?.Invoke("¿Àµð¿À ¼¼ÆÃ Áß");
+            progressTextCallback?.Invoke("ì˜¤ë””ì˜¤ ì„¸íŒ… ì¤‘");
             progressValueCallback?.Invoke(1);
             isInit = true;
         }
@@ -54,9 +54,9 @@ namespace Ironcow.Sound
         public async void PlayBgm(string key, bool isLoop = true)
         {
             if (!audioPool.ContainsKey(key))
-                audioPool.Add(key, ResourceManager.instance.LoadAsset<AudioClip>(key, ResourceType.Audio));
+                audioPool.Add(key, ResourceManager.Instance.LoadAsset<AudioClip>(key, ResourceType.Audio));
 #if USE_OBJECT_POOL
-            var source = PoolManager.instance.SpawnAudioSource<AudioSourcePoolData>();
+            var source = PoolManager.Instance.SpawnAudioSource<AudioSourcePoolData>();
             source.PlayBgm(audioPool[key], isLoop);
 #else
             source.clip = audioPool[key];
@@ -68,9 +68,9 @@ namespace Ironcow.Sound
         public async void PlayOneShot(string key)
         {
             if (!audioPool.ContainsKey(key))
-                audioPool.Add(key, ResourceManager.instance.LoadAsset<AudioClip>(key, ResourceType.Audio));
+                audioPool.Add(key, ResourceManager.Instance.LoadAsset<AudioClip>(key, ResourceType.Audio));
 #if USE_OBJECT_POOL
-            var source = PoolManager.instance.SpawnAudioSource<AudioSourcePoolData>();
+            var source = PoolManager.Instance.SpawnAudioSource<AudioSourcePoolData>();
             source.PlayOneShot(audioPool[key]);
 #else
             effect.PlayOneShot(audioPool[key]);

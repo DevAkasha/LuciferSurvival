@@ -22,7 +22,7 @@ public class BTRunner
     public BTRunner(string parentName)
     {
         //data = ResourceManager.instance.LoadAsset<BTSaveData>($"{parentName}Data", ResourceType.Datas);
-        data = ResourceManager.instance.LoadAsset<BTSaveData>($"BTSaveData/{parentName}Data", ResourceType.GameDatas);
+        data = ResourceManager.Instance.LoadAsset<BTSaveData>($"BTSaveData/{parentName}Data", ResourceType.GameDatas);
         root = JsonUtility.FromJson<RootNode>(data.data);
     }
 

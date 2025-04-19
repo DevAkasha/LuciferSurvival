@@ -32,7 +32,7 @@ public class AudioSourcePoolData : ObjectPoolBase
     {
         yield return new WaitForSeconds(delay);
         isBgm = false;
-        PoolManager.instance.Release(this);
+        PoolManager.Instance.Release(this);
     }
 
     public void SetSource(AudioSource source)

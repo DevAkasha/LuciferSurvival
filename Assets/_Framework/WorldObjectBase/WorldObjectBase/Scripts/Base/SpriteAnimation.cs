@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ironcow.Convenience;
@@ -50,7 +50,7 @@ namespace Ironcow.WorldObjectBase
             bool isEmptySlot = animations.Find(obj => obj.sprites.Count == 0) != null;
             if (isEmptySlot)
             {
-                var sprites = ResourceManager.instance.LoadAssets<Sprite>(name.Replace("(Clone)", ""), animations[0].resourceType);
+                var sprites = ResourceManager.Instance.LoadAssets<Sprite>(name.Replace("(Clone)", ""), animations[0].resourceType);
                 if (sprites != null && sprites.Count > 0)
                 {
                     foreach (var ani in animations)
@@ -69,7 +69,7 @@ namespace Ironcow.WorldObjectBase
 
         public void Init(string rcode, string type, bool isLoop, bool isEndDestroy, int sortingOrder)
         {
-            var sprites = ResourceManager.instance.LoadAssets<Sprite>(rcode.Replace("(Clone)", ""), type);
+            var sprites = ResourceManager.Instance.LoadAssets<Sprite>(rcode.Replace("(Clone)", ""), type);
             var keys = new List<string>();
             if (sprites != null && sprites.Count > 0)
             {
