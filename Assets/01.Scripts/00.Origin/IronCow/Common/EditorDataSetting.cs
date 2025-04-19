@@ -2,8 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Ironcow.Convenience
-{
+
 #if UNITY_EDITOR
     [InitializeOnLoad]
 #endif
@@ -60,4 +59,3 @@ namespace Ironcow.Convenience
         public static string CreateAssetPrefabPath { get => AssetDatabase.GetAssetPath(Instance.createAssetPrefabPath); }
 #endif
     }
-}

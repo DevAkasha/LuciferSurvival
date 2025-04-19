@@ -1,4 +1,4 @@
-using Ironcow.FSM;
+﻿using Ironcow.FSM;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -64,17 +64,17 @@ public class FSMDataDrawer : Editor
 
     public void CreateBaseState(string path)
     {
-        var newPath = Path.Combine(path, $"{FSMData.instance.fsmName}BaseState.cs");
+        var newPath = Path.Combine(path, $"{FSMData.Instance.fsmName}BaseState.cs");
         var data = File.ReadAllText(Path.Combine(FSMData.TempleteFolder, "BaseStateTemplate.cs.txt").Replace("Assets", Application.dataPath));
-        data = data.Replace("#SCRIPTNAME#", FSMData.instance.fsmName);
+        data = data.Replace("#SCRIPTNAME#", FSMData.Instance.fsmName);
         File.WriteAllText(newPath, data);
     }
 
     public void CreateState(string path, string state)
     {
-        var newPath = Path.Combine(path, $"{FSMData.instance.fsmName}{state}State.cs");
+        var newPath = Path.Combine(path, $"{FSMData.Instance.fsmName}{state}State.cs");
         var data = File.ReadAllText(Path.Combine(FSMData.TempleteFolder, "StateTemplate.cs.txt").Replace("Assets", Application.dataPath));
-        data = data.Replace("#SCRIPTNAME#", $"{FSMData.instance.fsmName}{state}").Replace("#PARENT#", $"{FSMData.instance.fsmName}BaseState");
+        data = data.Replace("#SCRIPTNAME#", $"{FSMData.Instance.fsmName}{state}").Replace("#PARENT#", $"{FSMData.Instance.fsmName}BaseState");
         File.WriteAllText(newPath, data);
     }
 }

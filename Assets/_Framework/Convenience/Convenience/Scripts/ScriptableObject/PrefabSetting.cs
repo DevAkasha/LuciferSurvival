@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -9,6 +9,6 @@ public class PrefabSetting : SOSingleton<PrefabSetting>
 {
     public Object prefabPath;
 #if UNITY_EDITOR
-    public static string path { get => AssetDatabase.GetAssetPath(instance.prefabPath); }
+    public static string path { get => AssetDatabase.GetAssetPath(Instance.prefabPath); }
 #endif
 }

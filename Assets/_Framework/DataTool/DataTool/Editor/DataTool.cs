@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEditor;
 using System;
 using System.IO;
@@ -122,7 +122,7 @@ namespace Ironcow.Data
                         bool opened = isOpened[key];
                         var style = new GUIStyle(UnityEngine.GUI.skin.button);
                         style.alignment = TextAnchor.MiddleLeft;
-                        //opened = GUILayout.Toggle(opened, new GUIContent((opened ? "¡å " : "¢º ") + sheet.className), style, GUILayout.Width(180));
+                        //opened = GUILayout.Toggle(opened, new GUIContent((opened ? "â–¼ " : "â–¶ ") + sheet.className), style, GUILayout.Width(180));
                         opened = EditorGUILayout.Foldout(opened, sheet.className);
                         isOpened[key] = opened;
                         lastID = key;
@@ -423,7 +423,7 @@ namespace Ironcow.Data
         {
             foreach (var sheet in sheets)
             {
-                var url = $"{DataToolSetting.instance.GSheetUrl}export?format=tsv&gid={sheet.sheetId}";
+                var url = $"{DataToolSetting.Instance.GSheetUrl}export?format=tsv&gid={sheet.sheetId}";
                 var req = UnityWebRequest.Get(url);
                 var op = req.SendWebRequest();
                 Debug.Log($"{sheet.className}");
@@ -494,7 +494,7 @@ namespace Ironcow.Data
 #endif
         }
 
-        private List<SheetInfoSO> sheets { get => DataToolSetting.instance.sheets; }
+        private List<SheetInfoSO> sheets { get => DataToolSetting.Instance.sheets; }
 
 #if USE_SO_DATA
         public ScriptableObject DicToClass(Type type, Dictionary<string, string> data)

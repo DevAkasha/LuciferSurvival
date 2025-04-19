@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using System;
 using UnityEditor;
 using UnityEngine;
@@ -31,7 +31,7 @@ namespace Ironcow.Common
         {
             try
             {
-                KeyBindListData.instance.Refresh();
+                KeyBindListData.Instance.Refresh();
             }
             catch (Exception ex)
             {
@@ -39,7 +39,7 @@ namespace Ironcow.Common
             }
         }
 
-        List<KeyBindData> datas => KeyBindListData.instance.datas;
+        List<KeyBindData> datas => KeyBindListData.Instance.datas;
         int selectedIdx = 0;
         private void Draw()
         {
@@ -50,12 +50,12 @@ namespace Ironcow.Common
                 EditorGUI.indentLevel++;
                 this.sceneViewScrollPosition = EditorGUILayout.BeginScrollView(this.sceneViewScrollPosition, "box", GUILayout.Width(200));
                 {
-                    if (GUILayout.Button("Å° Ãß°¡"))
+                    if (GUILayout.Button("í‚¤ ì¶”ê°€"))
                     {
                         var path = $"{InputSystemSetting.CreateKeyBindPath}KeyBinding{datas.Count + 1}.asset";
                         var data = CreateInstance<KeyBindData>();
                         AssetDatabase.CreateAsset(data, path);
-                        KeyBindListData.instance.Refresh();
+                        KeyBindListData.Instance.Refresh();
                     }
                     var style = new GUIStyle(UnityEngine.GUI.skin.button);
                     style.alignment = TextAnchor.MiddleLeft;
@@ -87,7 +87,7 @@ namespace Ironcow.Common
         {
             if (datas.Count == 0) return;
             ScriptableObject scriptableObject = datas[selectedIdx];
-            if (GUILayout.Button(isCheckKey ? "Å° ÀÔ·Â ´ë±âÁß" : "Å° ¹ÙÀÎµù"))
+            if (GUILayout.Button(isCheckKey ? "í‚¤ ìž…ë ¥ ëŒ€ê¸°ì¤‘" : "í‚¤ ë°”ì¸ë”©"))
             {
                 isCheckKey = true;
             }
@@ -103,10 +103,10 @@ namespace Ironcow.Common
             scriptableObject = EditorGUILayout.ObjectField("", scriptableObject, scriptableObject.GetType().DeclaringType, true) as ScriptableObject;
             var editor = Editor.CreateEditor(scriptableObject);
             editor.OnInspectorGUI();
-            if (KeyBindListData.instance.keys.Find(obj => obj == datas[selectedIdx].key) == null)
+            if (KeyBindListData.Instance.keys.Find(obj => obj == datas[selectedIdx].key) == null)
             {
-                KeyBindListData.instance.keys.Add(datas[selectedIdx].key);
-                KeyBindListData.instance.SaveData();
+                KeyBindListData.Instance.keys.Add(datas[selectedIdx].key);
+                KeyBindListData.Instance.SaveData();
             }
         }
 

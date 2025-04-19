@@ -1,4 +1,4 @@
-using Ironcow;
+ï»¿using Ironcow;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -13,8 +13,8 @@ namespace Ironcow.ThumbnailMaker
     public class ThumbnailPathSetting : SOSingleton<ThumbnailPathSetting>
     {
 #if UNITY_EDITOR
-        public static string ScriptFolderFullPath { get; private set; }      // "......\ÀÌ ½ºÅ©¸³Æ®°¡ À§Ä¡ÇÑ Æú´õ °æ·Î"
-        public static string ScriptFolderInProjectPath { get; private set; } // "Assets\...\ÀÌ ½ºÅ©¸³Æ®°¡ À§Ä¡ÇÑ Æú´õ °æ·Î"
+        public static string ScriptFolderFullPath { get; private set; }      // "......\ì´ ìŠ¤í¬ë¦½íŠ¸ê°€ ìœ„ì¹˜í•œ í´ë” ê²½ë¡œ"
+        public static string ScriptFolderInProjectPath { get; private set; } // "Assets\...\ì´ ìŠ¤í¬ë¦½íŠ¸ê°€ ìœ„ì¹˜í•œ í´ë” ê²½ë¡œ"
         public static string AssetFolderPath { get; private set; }
         private static void InitFolderPath([System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "")
         {
@@ -30,8 +30,8 @@ namespace Ironcow.ThumbnailMaker
 
         [Header("Created thumbnail target path")]
         public Object thumbnailPath;
-        public static string ThumbnailPath { get => AssetDatabase.GetAssetPath(instance.thumbnailPath); }
-        public static string ThumbnailFullPath { get => AssetDatabase.GetAssetPath(instance.thumbnailPath).Replace("Asset", Application.dataPath); }
+        public static string ThumbnailPath { get => AssetDatabase.GetAssetPath(Instance.thumbnailPath); }
+        public static string ThumbnailFullPath { get => AssetDatabase.GetAssetPath(Instance.thumbnailPath).Replace("Asset", Application.dataPath); }
 #endif
     }
 

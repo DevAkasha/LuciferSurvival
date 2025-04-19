@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -12,8 +12,8 @@ namespace Ironcow.BT
 		public Object savePath;
 
 #if UNITY_EDITOR
-		public static string ParentPath { get => AssetDatabase.GetAssetPath(instance.savePath); }
-		public static string SavePath { get => Path.Combine(AssetDatabase.GetAssetPath(instance.savePath), "BTSaveData/"); }
+		public static string ParentPath { get => AssetDatabase.GetAssetPath(Instance.savePath); }
+		public static string SavePath { get => Path.Combine(AssetDatabase.GetAssetPath(Instance.savePath), "BTSaveData/"); }
 #endif
 	}
 }

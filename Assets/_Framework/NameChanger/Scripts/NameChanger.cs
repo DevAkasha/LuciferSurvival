@@ -1,4 +1,4 @@
-using Ironcow.Data;
+﻿using Ironcow.Data;
 using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -20,6 +20,6 @@ public class NameChanger : SOSingleton<NameChanger>
     [Header("Prefab Path")]
     public Object prefabPath;
 #if UNITY_EDITOR
-    public static string PrefabPath { get => AssetDatabase.GetAssetPath(instance.prefabPath); }
+    public static string PrefabPath { get => AssetDatabase.GetAssetPath(Instance.prefabPath); }
 #endif
 }

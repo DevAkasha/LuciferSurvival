@@ -1,4 +1,4 @@
-#if USE_ADDRESSABLE
+﻿#if USE_ADDRESSABLE
 using Ironcow.Addressable;
 #endif
 using System;
@@ -30,7 +30,7 @@ namespace Ironcow.LocalizeTool
 #endif
         public static void SetLocalePrefabs()
         {
-            var folders = LocalePathSetting.instance.prefabFolders;
+            var folders = LocalePathSetting.Instance.prefabFolders;
             foreach (var folder in folders)
             {
                 var path = AssetDatabase.GetAssetPath(folder);
@@ -86,7 +86,7 @@ namespace Ironcow.LocalizeTool
                     string lastID = "";
                     EditorGUI.indentLevel -= 2;
                     List<string> list = new List<string>();
-                    foreach (var data in LocaleDataSO.instance.localeData)
+                    foreach (var data in LocaleDataSO.Instance.localeData)
                     {
                         var name = data.Key;
                         /*
@@ -127,9 +127,9 @@ namespace Ironcow.LocalizeTool
             }
             EditorGUI.indentLevel--;
             EditorGUILayout.Space(10);
-            if (LocaleDataSO.instance.localeData != null && LocaleDataSO.instance.localeData.Count > 0)
+            if (LocaleDataSO.Instance.localeData != null && LocaleDataSO.Instance.localeData.Count > 0)
             {
-                localeData = LocaleDataSO.instance.localeData[selectIndex];
+                localeData = LocaleDataSO.Instance.localeData[selectIndex];
                 if (localeData != null)
                 {
                     GUILayout.BeginVertical();
@@ -157,7 +157,7 @@ namespace Ironcow.LocalizeTool
             {
                 ClearLog();
                 Init();
-                LocaleDataSO.instance.SetDirty();
+                LocaleDataSO.Instance.SetDirty();
 #if USE_ADDRESSABLE
                 AddressableUtils.Mapping();
 #endif
@@ -206,7 +206,7 @@ namespace Ironcow.LocalizeTool
 
         public async void Init()
         {
-            var url = $"{LocalePathSetting.instance.GSheetUrl}export?format=tsv&gid={LocalePathSetting.instance.localeSheetId}";
+            var url = $"{LocalePathSetting.Instance.GSheetUrl}export?format=tsv&gid={LocalePathSetting.Instance.localeSheetId}";
             var req = UnityWebRequest.Get(url);
             var op = req.SendWebRequest();
             await op;
@@ -241,8 +241,8 @@ namespace Ironcow.LocalizeTool
             {
                 field.FieldType.GetMethod("SetData")?.Invoke(field.GetValue(this), null);
             }
-            LocaleDataSO.instance.localeData = localeDatas.data;
-            LocaleDataSO.instance.SetDirty();
+            LocaleDataSO.Instance.localeData = localeDatas.data;
+            LocaleDataSO.Instance.SetDirty();
             OnEnable();
         }
 

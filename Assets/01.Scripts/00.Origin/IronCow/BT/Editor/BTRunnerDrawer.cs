@@ -67,9 +67,9 @@ public class BTRunnerDrawer : PropertyDrawer
     public void LoadData()
     {
         if (isDialog) return;
-        if (BTEditor.instance.savePath == null)
+        if (BTEditor.Instance.savePath == null)
         {
-            Selection.activeObject = BTEditor.instance;
+            Selection.activeObject = BTEditor.Instance;
             isDialog = EditorUtility.DisplayDialog("���", "BTEditor�� SavePath�� ������ּ���", "ok");
             return;
         }

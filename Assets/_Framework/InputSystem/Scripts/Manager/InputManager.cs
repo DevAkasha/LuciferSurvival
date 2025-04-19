@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ironcow;
@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 public class InputManager : MonoSingleton<InputManager>
 {
-    [SerializeField] public List<KeyBindData> keyBindDatas => KeyBindListData.instance.datas;
+    [SerializeField] public List<KeyBindData> keyBindDatas => KeyBindListData.Instance.datas;
 
     private Vector3 axis;
     public Vector3 Axis { get => this.axis.normalized; }

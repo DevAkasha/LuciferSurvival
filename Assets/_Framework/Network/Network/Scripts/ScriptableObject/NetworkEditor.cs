@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,7 +9,7 @@ public class NetworkEditorSO : SOSingleton<NetworkEditorSO>
 
 	public Object targetFolder;
 #if UNITY_EDITOR
-	public static string TargetPath { get => AssetDatabase.GetAssetPath(instance.targetFolder); }
+	public static string TargetPath { get => AssetDatabase.GetAssetPath(Instance.targetFolder); }
 #endif
 	public string apiName;
 	public string clsasName;

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -12,7 +12,7 @@ public class FSMData : SOSingleton<FSMData>
     [MenuItem("Ironcow/Data/FSMData Settings")]
     private static void Edit()
     {
-        Selection.activeObject = instance;
+        Selection.activeObject = Instance;
     }
 #endif
 
@@ -20,8 +20,8 @@ public class FSMData : SOSingleton<FSMData>
     public List<string> states;
 #if UNITY_EDITOR
     public Object templeteFolder;
-    public static string TempleteFolder { get => AssetDatabase.GetAssetPath(instance.templeteFolder); }
+    public static string TempleteFolder { get => AssetDatabase.GetAssetPath(Instance.templeteFolder); }
     public Object outPath;
-    public static string OutPath { get => AssetDatabase.GetAssetPath(instance.outPath); }
+    public static string OutPath { get => AssetDatabase.GetAssetPath(Instance.outPath); }
 #endif
 }

@@ -1,4 +1,4 @@
-using Ironcow.Data;
+﻿using Ironcow.Data;
 using Ironcow.LocalizeTool;
 using System.Collections.Generic;
 using System;
@@ -69,13 +69,13 @@ namespace Ironcow.Common
                     isSelected = GUILayout.Toggle(isSelected == 4, new GUIContent("Input System Setting"), style, GUILayout.Width(180)) ? 4 : isSelected;
                     isSelected = GUILayout.Toggle(isSelected == 5, new GUIContent("Name Changer"), style, GUILayout.Width(180)) ? 5 : isSelected;
                     isSelected = GUILayout.Toggle(isSelected == 6, new GUIContent("Behaviour Tree"), style, GUILayout.Width(180)) ? 6 : isSelected;
-                    if (FrameworkController.instance.isScriptableObjectData)
+                    if (FrameworkController.Instance.isScriptableObjectData)
                         isSelected = GUILayout.Toggle(isSelected == 101, new GUIContent("Data Tool Setting"), style, GUILayout.Width(180)) ? 101 : isSelected;
-                    if (FrameworkController.instance.isLocale)
+                    if (FrameworkController.Instance.isLocale)
                         isSelected = GUILayout.Toggle(isSelected == 102, new GUIContent("Localize Path Setting"), style, GUILayout.Width(180)) ? 102 : isSelected;
-                    if (FrameworkController.instance.isObjectPool)
+                    if (FrameworkController.Instance.isObjectPool)
                         isSelected = GUILayout.Toggle(isSelected == 103, new GUIContent("ObjectPool Tool Setting"), style, GUILayout.Width(180)) ? 103 : isSelected;
-                    if (FrameworkController.instance.isFSM)
+                    if (FrameworkController.Instance.isFSM)
                         isSelected = GUILayout.Toggle(isSelected == 104, new GUIContent("FSM Create Tool"), style, GUILayout.Width(180)) ? 104 : isSelected;
                 }
                 EditorGUILayout.EndScrollView();
@@ -101,23 +101,23 @@ namespace Ironcow.Common
             {
                 case 0:
                     {
-                        scriptableObject = FrameworkController.instance;
+                        scriptableObject = FrameworkController.Instance;
                     }
                     break;
                 case 1:
                     {
-                        scriptableObject = ApplicationSettings.instance;
+                        scriptableObject = ApplicationSettings.Instance;
                     }
                     break;
                 case 2:
                     {
-                        scriptableObject = EditorDataSetting.instance;
+                        scriptableObject = EditorDataSetting.Instance;
                         DrawEditorButtons();
                     }
                     break;
                 case 3:
                     {
-                        scriptableObject = ThumbnailPathSetting.instance;
+                        scriptableObject = ThumbnailPathSetting.Instance;
                     }
                     break;
                 case 4:
@@ -126,26 +126,26 @@ namespace Ironcow.Common
                         {
                             InputSettingTool.Open();
                         }
-                        var obj = EditorGUILayout.ObjectField("", InputSystemSetting.instance, InputSystemSetting.instance.GetType().DeclaringType, true) as ScriptableObject;
-                        var editor2 = Editor.CreateEditor(InputSystemSetting.instance);
+                        var obj = EditorGUILayout.ObjectField("", InputSystemSetting.Instance, InputSystemSetting.Instance.GetType().DeclaringType, true) as ScriptableObject;
+                        var editor2 = Editor.CreateEditor(InputSystemSetting.Instance);
                         editor2.OnInspectorGUI();
                         GUILayout.Space(30);
-                        scriptableObject = KeyBindListData.instance;
+                        scriptableObject = KeyBindListData.Instance;
                     }
                     break;
                 case 5:
                     {
-                        scriptableObject = NameChanger.instance;
+                        scriptableObject = NameChanger.Instance;
                     }
                     break;
                 case 6:
                     {
-                        scriptableObject = BT.BTEditor.instance;
+                        scriptableObject = BT.BTEditor.Instance;
                     }
                     break;
                 case 101:
                     {
-                        scriptableObject = DataToolSetting.instance;
+                        scriptableObject = DataToolSetting.Instance;
                         if (GUILayout.Button("Open Data Tool"))
                         {
                             DataTool.Open();
@@ -154,7 +154,7 @@ namespace Ironcow.Common
                     break;
                 case 102:
                     {
-                        scriptableObject = LocalePathSetting.instance;
+                        scriptableObject = LocalePathSetting.Instance;
                         if (GUILayout.Button("Open Localize Tool"))
                         {
                             LocalizeTool.LocalizeTool.Open();
@@ -163,7 +163,7 @@ namespace Ironcow.Common
                     break;
                 case 103:
                     {
-                        scriptableObject = ObjectPoolPathSetting.instance;
+                        scriptableObject = ObjectPoolPathSetting.Instance;
                         if (GUILayout.Button("Open ObjectPool Tool"))
                         {
                             ObjectPoolTool.Open();
@@ -172,11 +172,11 @@ namespace Ironcow.Common
                     break;
                 case 104:
                     {
-                        scriptableObject = FSMData.instance;
+                        scriptableObject = FSMData.Instance;
                     }
                     break;
                 default:
-                    scriptableObject = FrameworkController.instance;
+                    scriptableObject = FrameworkController.Instance;
                     break;
             }
 

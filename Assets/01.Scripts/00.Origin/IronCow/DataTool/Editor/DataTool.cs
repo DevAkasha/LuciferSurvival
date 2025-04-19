@@ -421,7 +421,7 @@ public class DataTool : EditorWindow
     {
         foreach (var sheet in sheets)
         {
-            var url = $"{DataToolSetting.instance.GSheetUrl}export?format=tsv&gid={sheet.sheetId}";
+            var url = $"{DataToolSetting.Instance.GSheetUrl}export?format=tsv&gid={sheet.sheetId}";
             var req = UnityWebRequest.Get(url);
             var op = req.SendWebRequest();
             Debug.Log($"{sheet.className}");
@@ -492,7 +492,7 @@ public class DataTool : EditorWindow
 #endif
     }
 
-    private List<SheetInfoSO> sheets { get => DataToolSetting.instance.sheets; }
+    private List<SheetInfoSO> sheets { get => DataToolSetting.Instance.sheets; }
 
 #if USE_SO_DATA
     public ScriptableObject DicToClass(Type type, Dictionary<string, string> data)

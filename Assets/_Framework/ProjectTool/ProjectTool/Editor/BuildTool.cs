@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEditor;
 using System;
 using System.IO;
@@ -38,14 +38,14 @@ namespace Ironcow.ProjectTool
 
         private void OnEnable()
         {
-            this.applicationSettings = ApplicationSettings.instance;
+            this.applicationSettings = ApplicationSettings.Instance;
         }
 
         private async void Draw()
         {
             EditorGUILayout.Space();
             GUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("ÇöÀç ºôµå Å¸°Ù", EditorUserBuildSettings.activeBuildTarget.ToString(), EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("í˜„ì¬ ë¹Œë“œ íƒ€ê²Ÿ", EditorUserBuildSettings.activeBuildTarget.ToString(), EditorStyles.boldLabel);
             if (GUILayout.Button("Windows", GUILayout.Width(80f)))
             {
                 EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Unknown, BuildTarget.StandaloneWindows);
@@ -196,7 +196,7 @@ namespace Ironcow.ProjectTool
                                     UnityEngine.GUI.backgroundColor = Color.red;
                                     if (GUILayout.Button("Delete"))
                                     {
-                                        if (EditorUtility.DisplayDialog("¾Ë¸²", "¼±ÅÃµÈ ºôµåÈ¯°æ ÆÄÀÏÀ» Áö¿ì½Ã°Ú½À´Ï±î?", "Ok", "Cancel"))
+                                        if (EditorUtility.DisplayDialog("ì•Œë¦¼", "ì„ íƒëœ ë¹Œë“œí™˜ê²½ íŒŒì¼ì„ ì§€ìš°ì‹œê² ìŠµë‹ˆê¹Œ?", "Ok", "Cancel"))
                                         {
                                             AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(value));
                                             this.applicationSettings.BuildSettingsList.RemoveAt(i);
@@ -288,7 +288,7 @@ namespace Ironcow.ProjectTool
 
                 if (this.applicationSettings.CurrentBuildSettings != null)
                 {
-                    EditorGUILayout.LabelField("ÇöÀç ºôµå È¯°æ", this.applicationSettings.CurrentBuildSettings.Name, EditorStyles.boldLabel);
+                    EditorGUILayout.LabelField("í˜„ì¬ ë¹Œë“œ í™˜ê²½", this.applicationSettings.CurrentBuildSettings.Name, EditorStyles.boldLabel);
                     GUILayout.Space(10f);
                 }
 
@@ -593,7 +593,7 @@ namespace Ironcow.ProjectTool
                             /*var extensions = new[] {
                                 new ExtensionFilter("APK", "apk", "aab" ),
                             };
-                            var files = StandaloneFileBrowser.OpenFilePanel("APK ¾÷·Îµå", directory, extensions, false);*/
+                            var files = StandaloneFileBrowser.OpenFilePanel("APK ì—…ë¡œë“œ", directory, extensions, false);*/
                             /*if (files.Length > 0)
                             {
                                 //Upload(Path.GetFileName(files[0]));
@@ -630,13 +630,13 @@ namespace Ironcow.ProjectTool
         {
             if (this.applicationSettings.CurrentBuildSettings.TargetService == BuildSettings.Service.DEVELOPER)
             {
-                if (EditorUtility.DisplayDialog("¾Ë¸²", "°³¹ßÀÚ ¹öÀüÀ¸·Î ¼³Á¤µÇ¾îÀÖ½À´Ï.\n\nºôµå¸¦ ÁøÇàÇÏ½Ã°Ú½À´Ï±î?\n\nÈ®ÀÎÀ» ´©¸£¸é ºôµå¸¦ ÁøÇàÇÕ´Ï´Ù.", "È®ÀÎ", "Ãë¼Ò"))
+                if (EditorUtility.DisplayDialog("ì•Œë¦¼", "ê°œë°œì ë²„ì „ìœ¼ë¡œ ì„¤ì •ë˜ì–´ìˆìŠµë‹ˆ.\n\në¹Œë“œë¥¼ ì§„í–‰í•˜ì‹œê² ìŠµë‹ˆê¹Œ?\n\ní™•ì¸ì„ ëˆ„ë¥´ë©´ ë¹Œë“œë¥¼ ì§„í–‰í•©ë‹ˆë‹¤.", "í™•ì¸", "ì·¨ì†Œ"))
                 {
                     this.Apply();
                     this.BuildPlayer(buildOptions);
                 }
             }
-            else if (EditorUtility.DisplayDialog("¾Ë¸²", "ÇöÀç ¼±ÅÃµÈ ºôµå È¯°æÀ¸·Î ºôµå¸¦ ÁøÇàÇÏ½Ã°Ú½À´Ï±î?\n\nºôµå ¼³Á¤À» ´Ù½Ã ÇÑ¹ø È®ÀÎÇÏ¼¼¿ä!!!(App Bundle)\n\nÈ®ÀÎÀ» ´©¸£¸é ºôµå¸¦ ÁøÇàÇÕ´Ï´Ù.", "È®ÀÎ", "Ãë¼Ò"))
+            else if (EditorUtility.DisplayDialog("ì•Œë¦¼", "í˜„ì¬ ì„ íƒëœ ë¹Œë“œ í™˜ê²½ìœ¼ë¡œ ë¹Œë“œë¥¼ ì§„í–‰í•˜ì‹œê² ìŠµë‹ˆê¹Œ?\n\në¹Œë“œ ì„¤ì •ì„ ë‹¤ì‹œ í•œë²ˆ í™•ì¸í•˜ì„¸ìš”!!!(App Bundle)\n\ní™•ì¸ì„ ëˆ„ë¥´ë©´ ë¹Œë“œë¥¼ ì§„í–‰í•©ë‹ˆë‹¤.", "í™•ì¸", "ì·¨ì†Œ"))
             {
                 this.Apply();
                 this.BuildPlayer(buildOptions);
@@ -678,33 +678,33 @@ namespace Ironcow.ProjectTool
                 EditorApplication.delayCall += async () =>
                 {
 #if UNITY_2018_3_OR_NEWER
-                    //await SendMessageAsync(target + " ºôµå ½ÃÀÛÇÕ´Ï´Ù.");
+                    //await SendMessageAsync(target + " ë¹Œë“œ ì‹œì‘í•©ë‹ˆë‹¤.");
                     UnityEditor.Build.Reporting.BuildReport buildReport =
                                 BuildPipeline.BuildPlayer(EditorBuildSettings.scenes, fullPath, BuildTarget.Android, buildOptions);
                     ICLogger.LogWarning(buildReport.summary.result);
                     if (buildReport.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded)
                     {
-                        //await SendMessageAsync(PlayerSettings.productName + " " + target + " ºôµå ¿Ï·á!");
+                        //await SendMessageAsync(PlayerSettings.productName + " " + target + " ë¹Œë“œ ì™„ë£Œ!");
                         if (this.actionUpload)
                         {
                             EditorPrefs.SetString("Latest Build Directory", System.IO.Path.GetDirectoryName(fullPath));
                             await UploadToFTP(fullPath);
-                            /*if (EditorUtility.DisplayDialog("ºôµå ¼º°ø", "ºôµå¸¦ ¿Ï·áÇÏ¿´½À´Ï´Ù.\n¾÷·Îµå¸¦ ÁøÇàÇÏ½Ã°Ú½À´Ï±î?.", "È®ÀÎ", "Ãë¼Ò"))
+                            /*if (EditorUtility.DisplayDialog("ë¹Œë“œ ì„±ê³µ", "ë¹Œë“œë¥¼ ì™„ë£Œí•˜ì˜€ìŠµë‹ˆë‹¤.\nì—…ë¡œë“œë¥¼ ì§„í–‰í•˜ì‹œê² ìŠµë‹ˆê¹Œ?.", "í™•ì¸", "ì·¨ì†Œ"))
                             {
                                 UploadToFTP(fullPath);
                             }*/
                         }
                         else
                         {
-                            if (EditorUtility.DisplayDialog("ºôµå ¼º°ø", PlayerSettings.productName + " " + "ºôµå¸¦ ¿Ï·áÇÏ¿´½À´Ï´Ù.\nÈ®ÀÎÀ» ´©¸£¸é ºôµåµÈ Æú´õ·Î ÀÌµ¿ÇÕ´Ï´Ù.", "È®ÀÎ", "Ãë¼Ò"))
+                            if (EditorUtility.DisplayDialog("ë¹Œë“œ ì„±ê³µ", PlayerSettings.productName + " " + "ë¹Œë“œë¥¼ ì™„ë£Œí•˜ì˜€ìŠµë‹ˆë‹¤.\ní™•ì¸ì„ ëˆ„ë¥´ë©´ ë¹Œë“œëœ í´ë”ë¡œ ì´ë™í•©ë‹ˆë‹¤.", "í™•ì¸", "ì·¨ì†Œ"))
                                 EditorUtility.RevealInFinder(fullPath);
                         }
                     }
 #else
                 string message = BuildPipeline.BuildPlayer( EditorBuildSettings.scenes, fullPath, BuildTarget.Android, buildOptions );
 
-                // Windows¿¡¼­ ºôµå½Ã ¾Æ·¡¿Í °°Àº XCode °ü·Ã ¿À·ù ¸Ş¼¼ÁöÀÌ¹Ç·Î ÇØ´ç ¸Ş¼¼Áö´Â ½ºÅµÇÑ´Ù.
-                // OSXÈ¯°æ¿¡¼­ ¾Èµå·ÎÀÌµå ºôµå½Ã ÀÌ»ó¾øÀ½.
+                // Windowsì—ì„œ ë¹Œë“œì‹œ ì•„ë˜ì™€ ê°™ì€ XCode ê´€ë ¨ ì˜¤ë¥˜ ë©”ì„¸ì§€ì´ë¯€ë¡œ í•´ë‹¹ ë©”ì„¸ì§€ëŠ” ìŠ¤í‚µí•œë‹¤.
+                // OSXí™˜ê²½ì—ì„œ ì•ˆë“œë¡œì´ë“œ ë¹Œë“œì‹œ ì´ìƒì—†ìŒ.
                 // Facebook.Unity.Editor.XCodePostProcess:OnPostProcessBuild(BuildTarget, String)
                 // Your Android setup is not correct. See Settings in Facebook menu.
                 if( message.Equals( "Your Android setup is not correct. See Settings in Facebook menu.", StringComparison.OrdinalIgnoreCase ) )
@@ -715,12 +715,12 @@ namespace Ironcow.ProjectTool
                 if( !string.IsNullOrEmpty( message ) )
                 {
                     EditorApplication.Beep();
-                    EditorUtility.DisplayDialog( "ºôµå ½ÇÆĞ", message, Locale.GetString("AlertOk0") );
+                    EditorUtility.DisplayDialog( "ë¹Œë“œ ì‹¤íŒ¨", message, Locale.GetString("AlertOk0") );
                 }
                 else
                 {
                     EditorPrefs.SetString( "Latest Build Directory", System.IO.Path.GetDirectoryName( fullPath ) );
-                    if( EditorUtility.DisplayDialog( "ºôµå ¼º°ø", "ºôµå¸¦ ¿Ï·áÇÏ¿´½À´Ï´Ù.\nÈ®ÀÎÀ» ´©¸£¸é ºôµåµÈ Æú´õ·Î ÀÌµ¿ÇÕ´Ï´Ù.", "È®ÀÎ", "Ãë¼Ò" ) )
+                    if( EditorUtility.DisplayDialog( "ë¹Œë“œ ì„±ê³µ", "ë¹Œë“œë¥¼ ì™„ë£Œí•˜ì˜€ìŠµë‹ˆë‹¤.\ní™•ì¸ì„ ëˆ„ë¥´ë©´ ë¹Œë“œëœ í´ë”ë¡œ ì´ë™í•©ë‹ˆë‹¤.", "í™•ì¸", "ì·¨ì†Œ" ) )
                         EditorUtility.RevealInFinder( fullPath );
                 }
 #endif
@@ -851,7 +851,7 @@ namespace Ironcow.ProjectTool
                     ICLogger.LogWarning( buildReport.summary.result );
                     if( buildReport.summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded )
                     {
-                        if( EditorUtility.DisplayDialog( "ºôµå ¼º°ø", "ºôµå¸¦ ¿Ï·áÇÏ¿´½À´Ï´Ù.\nÈ®ÀÎÀ» ´©¸£¸é ºôµåµÈ Æú´õ·Î ÀÌµ¿ÇÕ´Ï´Ù.", "È®ÀÎ", "Ãë¼Ò" ) )
+                        if( EditorUtility.DisplayDialog( "ë¹Œë“œ ì„±ê³µ", "ë¹Œë“œë¥¼ ì™„ë£Œí•˜ì˜€ìŠµë‹ˆë‹¤.\ní™•ì¸ì„ ëˆ„ë¥´ë©´ ë¹Œë“œëœ í´ë”ë¡œ ì´ë™í•©ë‹ˆë‹¤.", "í™•ì¸", "ì·¨ì†Œ" ) )
                         {
                             ExecuteProcessTerminal();
                             EditorUtility.RevealInFinder( fullPath );
@@ -864,8 +864,8 @@ namespace Ironcow.ProjectTool
 
         public string getDayOfWeek(DayOfWeek dow)
         {
-            return dow == DayOfWeek.Monday ? "¿ù" : dow == DayOfWeek.Tuesday ? "È­" : dow == DayOfWeek.Wednesday ? "¼ö" : dow == DayOfWeek.Thursday ? "¸ñ" :
-                dow == DayOfWeek.Friday ? "±İ" : dow == DayOfWeek.Saturday ? "Åä" : "ÀÏ";
+            return dow == DayOfWeek.Monday ? "ì›”" : dow == DayOfWeek.Tuesday ? "í™”" : dow == DayOfWeek.Wednesday ? "ìˆ˜" : dow == DayOfWeek.Thursday ? "ëª©" :
+                dow == DayOfWeek.Friday ? "ê¸ˆ" : dow == DayOfWeek.Saturday ? "í† " : "ì¼";
         }
 
         private string ExecuteProcessTerminal()
@@ -926,13 +926,13 @@ namespace Ironcow.ProjectTool
             }
             try
             {
-                // ÀÌÁ¦ µğ·ºÅä¸®¸¦ ¸¸µç´Ù°í FTP·Î ¿äÃ»À» ÇÕ´Ï´Ù.
+                // ì´ì œ ë””ë ‰í† ë¦¬ë¥¼ ë§Œë“ ë‹¤ê³  FTPë¡œ ìš”ì²­ì„ í•©ë‹ˆë‹¤.
                 FtpWebResponse res = (FtpWebResponse)await request.GetResponseAsync();
                 res.Dispose();
             }
             catch (WebException ex)
             {
-                // ¿¹¿ÜÃ³¸®.
+                // ì˜ˆì™¸ì²˜ë¦¬.
                 FtpWebResponse response = (FtpWebResponse)ex.Response;
 
                 switch (response.StatusCode)
@@ -945,7 +945,7 @@ namespace Ironcow.ProjectTool
                 }
                 response.Dispose();
             }
-            //await SendMessageAsync(fileName + " ¾÷·Îµå ¿Ï·á ´Ù¿î·Îµå ¸µÅ© : http://wocjf84.synology.me/ds_apk/");
+            //await SendMessageAsync(fileName + " ì—…ë¡œë“œ ì™„ë£Œ ë‹¤ìš´ë¡œë“œ ë§í¬ : http://wocjf84.synology.me/ds_apk/");
             this.actionUpload = false;
             Debug.Log("Upload End");
         }

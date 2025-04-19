@@ -39,7 +39,7 @@ namespace Ironcow.ObjectPool
 
         private void OnDestroy()
         {
-            ObjectPoolDataSO.instance.SaveSO();
+            ObjectPoolDataSO.Instance.SaveSO();
         }
 
         int selectIndex = 0;
@@ -54,14 +54,14 @@ namespace Ironcow.ObjectPool
                 GUILayout.BeginVertical();
                 if (GUILayout.Button("Add new pool data"))
                 {
-                    ObjectPoolDataSO.instance.objectPoolDatas.Add(new ObjectPoolData());
-                    ObjectPoolDataSO.instance.SaveSO();
+                    ObjectPoolDataSO.Instance.objectPoolDatas.Add(new ObjectPoolData());
+                    ObjectPoolDataSO.Instance.SaveSO();
                 }
                 EditorGUI.indentLevel++;
                 this.sceneViewScrollPosition = EditorGUILayout.BeginScrollView(this.sceneViewScrollPosition, "box", GUILayout.Width(200));
                 {
                     int index = 0;
-                    foreach (var data in ObjectPoolDataSO.instance.objectPoolDatas)
+                    foreach (var data in ObjectPoolDataSO.Instance.objectPoolDatas)
                     {
                         var name = data.prefabName;
                         if (data != null)
@@ -82,9 +82,9 @@ namespace Ironcow.ObjectPool
             }
             EditorGUI.indentLevel--;
             EditorGUILayout.Space(10);
-            if (ObjectPoolDataSO.instance.objectPoolDatas != null && ObjectPoolDataSO.instance.objectPoolDatas.Count > 0)
+            if (ObjectPoolDataSO.Instance.objectPoolDatas != null && ObjectPoolDataSO.Instance.objectPoolDatas.Count > 0)
             {
-                poolData = ObjectPoolDataSO.instance.objectPoolDatas[selectIndex];
+                poolData = ObjectPoolDataSO.Instance.objectPoolDatas[selectIndex];
                 if (poolData != null)
                 {
                     GUILayout.BeginVertical();
@@ -116,7 +116,7 @@ namespace Ironcow.ObjectPool
                 }
             }
             GUILayout.EndHorizontal();
-            ObjectPoolDataSO.instance.SaveSO();
+            ObjectPoolDataSO.Instance.SaveSO();
         }
 
 

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -38,7 +38,7 @@ namespace Ironcow.Convenience
 #endif
         public static void AutoCacheAll()
         {
-            var folders = EditorDataSetting.instance.prefabFolders;
+            var folders = EditorDataSetting.Instance.prefabFolders;
             foreach (var folder in folders)
             {
                 var path = AssetDatabase.GetAssetPath(folder);

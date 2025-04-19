@@ -1,4 +1,4 @@
-using Ironcow;
+ï»¿using Ironcow;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -13,8 +13,8 @@ namespace Ironcow.LocalizeTool
     public class LocalePathSetting : SOSingleton<LocalePathSetting>
     {
 #if UNITY_EDITOR
-        public static string ScriptFolderFullPath { get; private set; }      // "......\ÀÌ ½ºÅ©¸³Æ®°¡ À§Ä¡ÇÑ Æú´õ °æ·Î"
-        public static string ScriptFolderInProjectPath { get; private set; } // "Assets\...\ÀÌ ½ºÅ©¸³Æ®°¡ À§Ä¡ÇÑ Æú´õ °æ·Î"
+        public static string ScriptFolderFullPath { get; private set; }      // "......\ì´ ìŠ¤í¬ë¦½íŠ¸ê°€ ìœ„ì¹˜í•œ í´ë” ê²½ë¡œ"
+        public static string ScriptFolderInProjectPath { get; private set; } // "Assets\...\ì´ ìŠ¤í¬ë¦½íŠ¸ê°€ ìœ„ì¹˜í•œ í´ë” ê²½ë¡œ"
         public static string AssetFolderPath { get; private set; }
 
         private static void InitFolderPath([System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "")
@@ -34,7 +34,7 @@ namespace Ironcow.LocalizeTool
         public string GSheetUrl;
         public string localeSheetId;
         public Object localeDataPath;
-        public static string LocaleDataPath { get => AssetDatabase.GetAssetPath(instance.localeDataPath); }
+        public static string LocaleDataPath { get => AssetDatabase.GetAssetPath(Instance.localeDataPath); }
 #endif
     }
 }

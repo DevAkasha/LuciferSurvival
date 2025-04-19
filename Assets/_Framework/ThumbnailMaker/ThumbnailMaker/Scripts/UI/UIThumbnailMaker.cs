@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,7 +27,7 @@ namespace Ironcow.ThumbnailMaker
         {
             yield return null;
 #if UNITY_EDITOR
-            foreach (var folder in ThumbnailPathSetting.instance.prefabFolders)
+            foreach (var folder in ThumbnailPathSetting.Instance.prefabFolders)
             {
                 var path = AssetDatabase.GetAssetPath(folder) + "/";
                 var fullPath = UnityEngine.Application.dataPath.Replace("/Assets", "/") + path;

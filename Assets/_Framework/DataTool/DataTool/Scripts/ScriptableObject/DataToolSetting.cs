@@ -1,4 +1,4 @@
-using Ironcow;
+ï»¿using Ironcow;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -13,8 +13,8 @@ namespace Ironcow.Data
     public class DataToolSetting : SOSingleton<DataToolSetting>
     {
 #if UNITY_EDITOR
-        public static string ScriptFolderFullPath { get; private set; }      // "......\ÀÌ ½ºÅ©¸³Æ®°¡ À§Ä¡ÇÑ Æú´õ °æ·Î"
-        public static string ScriptFolderInProjectPath { get; private set; } // "Assets\...\ÀÌ ½ºÅ©¸³Æ®°¡ À§Ä¡ÇÑ Æú´õ °æ·Î"
+        public static string ScriptFolderFullPath { get; private set; }      // "......\ì´ ìŠ¤í¬ë¦½íŠ¸ê°€ ìœ„ì¹˜í•œ í´ë” ê²½ë¡œ"
+        public static string ScriptFolderInProjectPath { get; private set; } // "Assets\...\ì´ ìŠ¤í¬ë¦½íŠ¸ê°€ ìœ„ì¹˜í•œ í´ë” ê²½ë¡œ"
         public static string AssetFolderPath { get; private set; }
 
         private static void InitFolderPath([System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "")
@@ -28,12 +28,12 @@ namespace Ironcow.Data
         }
         [Header("Scriptable Object Data Path")]
         public Object dataScriptableObjectPath;
-        public static string DataScriptableObjectPath { get => AssetDatabase.GetAssetPath(instance.dataScriptableObjectPath); }
-        public static string DataScriptableObjectFullPath { get => Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(instance.dataScriptableObjectPath); }
+        public static string DataScriptableObjectPath { get => AssetDatabase.GetAssetPath(Instance.dataScriptableObjectPath); }
+        public static string DataScriptableObjectFullPath { get => Application.dataPath.Replace("Assets", "") + AssetDatabase.GetAssetPath(Instance.dataScriptableObjectPath); }
 
         [Header("Thumbnail Path")]
         public Object thumbnailPath;
-        public static string ThumbnailPath { get => AssetDatabase.GetAssetPath(instance.thumbnailPath); }
+        public static string ThumbnailPath { get => AssetDatabase.GetAssetPath(Instance.thumbnailPath); }
 
         [Header("Google Sheet Data")]
         public string GSheetUrl;

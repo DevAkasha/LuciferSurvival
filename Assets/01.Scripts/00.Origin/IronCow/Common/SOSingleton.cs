@@ -1,7 +1,4 @@
-﻿using Ironcow.Convenience;
-using Ironcow.ObjectPool;
-using System.IO;
-using Unity.VisualScripting;
+﻿using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,20 +7,20 @@ using UnityEngine;
 #endif
 public class SOSingleton<T> : ScriptableObject where T : ScriptableObject
 {
-    static private T _instance = null;
-    static public T instance
+    static private T instance = null;
+    static public T Instance
     {
         get
         {
-            if (_instance == null)
+            if (instance == null)
             {
                 var name = typeof(T).Name;
-                _instance = Resources.Load<T>(name);
-                if (_instance == null)
+                instance = Resources.Load<T>(name);
+                if (instance == null)
                 {
 #if UNITY_EDITOR
-                    _instance = AssetDatabase.LoadAssetAtPath<T>(Path.Combine(EditorDataSetting.SettingSOPath, name + ".asset"));
-                    if (_instance == null)
+                    instance = AssetDatabase.LoadAssetAtPath<T>(Path.Combine(EditorDataSetting.SettingSOPath, name + ".asset"));
+                    if (instance == null)
                     {
                         T instance = CreateInstance<T>();
                         string directory = Application.dataPath.Replace("Assets", EditorDataSetting.SettingSOPath);
@@ -39,19 +36,19 @@ public class SOSingleton<T> : ScriptableObject where T : ScriptableObject
                 }
             }
 
-            return _instance;
+            return instance;
         }
     }
 
 #if UNITY_EDITOR
     private static void Edit()
     {
-        Selection.activeObject = instance;
+        Selection.activeObject = Instance;
     }
 
     public void SaveData()
     {
-        EditorUtility.SetDirty(_instance);
+        EditorUtility.SetDirty(instance);
     }
 #endif
 }

@@ -11,7 +11,7 @@ public class ObjectPoolData
     [HideInInspector] public Transform parent;
 }
 
-public class ObjectPoolDataSO : SOSingletonLite<ObjectPoolDataSO>
+public class ObjectPoolDataSO : SOSingleton<ObjectPoolDataSO>
 {
     public void SaveSO()
     {
