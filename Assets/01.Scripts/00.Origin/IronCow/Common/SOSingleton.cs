@@ -19,7 +19,7 @@ public class SOSingleton<T> : ScriptableObject where T : ScriptableObject
                 if (instance == null)
                 {
 #if UNITY_EDITOR
-                    instance = AssetDatabase.LoadAssetAtPath<T>(Path.Combine(EditorDataSetting.SettingSOPath, name + ".asset"));
+                    //instance = AssetDatabase.LoadAssetAtPath<T>(Path.Combine(EditorDataSetting.SettingSOPath, name + ".asset"));
                     if (instance == null)
                     {
                         T instance = CreateInstance<T>();
