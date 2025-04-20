@@ -19,6 +19,17 @@ public static class ExtensionMethods
     {
         return new List<T>(array);
     }
+    public static Sprite ToSprite(this Texture2D tex)
+    {
+        Rect rect = new Rect(0, 0, tex.width, tex.height);
+        return Sprite.Create(tex, rect, new Vector2(0.5f, 0.5f));
+    }
+
+    public static Sprite ToSprite(this Texture tex)
+    {
+        return ToSprite((Texture2D)tex);
+    }
+
 #if USE_SO_DATA
     public static void AddRange<T>(this Dictionary<string, BaseDataSO> dic, List<T> datas) where T : BaseDataSO
     {

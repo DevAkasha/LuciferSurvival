@@ -2,7 +2,6 @@
 using UnityEditor;
 using System.IO;
 using System.Text;
-using Ironcow.Convenience;
 
 public class DataEditor : Editor
 {

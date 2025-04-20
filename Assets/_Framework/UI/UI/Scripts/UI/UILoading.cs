@@ -1,7 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Ironcow;
 using UnityEngine.UI;
 
 namespace Ironcow.UI
@@ -10,7 +9,7 @@ namespace Ironcow.UI
 using UnityEngine.ResourceManagement.AsyncOperations;
 #endif
 
-    public class UILoading : MonoSingleton<UILoading>
+    public class UILoading : Singleton<UILoading>
     {
         [SerializeField] private Image bg;
         [SerializeField] private Image progressFill;
@@ -25,8 +24,8 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
         public static void Show(Sprite bg = null)
         {
-            instance.SetBG(bg);
-            instance.gameObject.SetActive(true);
+            Instance.SetBG(bg);
+            Instance.gameObject.SetActive(true);
         }
 
         public void SetBG(Sprite bg = null)
@@ -37,7 +36,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
         public static void Hide()
         {
-            instance.gameObject.SetActive(false);
+            Instance.gameObject.SetActive(false);
         }
 
         public void SetProgress(float progress, string desc = "")

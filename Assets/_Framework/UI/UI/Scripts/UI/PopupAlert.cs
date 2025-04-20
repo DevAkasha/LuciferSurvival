@@ -105,7 +105,7 @@ public class PopupAlert : UIBase
             }
             if (tex != null)
             {
-                img = tex.ToSprite();
+                img = tex.ToSprite();//확장메서드 사용 중
             }
             image.sprite = img;
             var origin = image.rectTransform.sizeDelta;

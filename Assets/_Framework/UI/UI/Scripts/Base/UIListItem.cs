@@ -1,4 +1,4 @@
-﻿using Ironcow.Convenience;
+﻿
 #if USE_LOCALE
 using Ironcow.LocalizeTool;
 #endif
