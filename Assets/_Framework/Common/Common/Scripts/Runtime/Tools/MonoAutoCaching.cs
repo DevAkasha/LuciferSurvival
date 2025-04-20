@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 namespace Ironcow
 {
-    public class MonoAutoCaching : MonoBehaviour, IDelegate
+    public class MonoAutoCaching : MonoBehaviour
     {
 #if UNITY_EDITOR
         protected virtual void OnValidate()

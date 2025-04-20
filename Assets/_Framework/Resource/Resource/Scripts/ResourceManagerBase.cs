@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Ironcow;
 using UnityEngine.Events;
 using UnityEngine;
-using Ironcow.Addressable;
 #if USE_SO_DATA
 using Ironcow.Data;
 #endif

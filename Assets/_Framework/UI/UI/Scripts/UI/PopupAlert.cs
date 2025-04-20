@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,11 +6,10 @@ using UnityEngine.UI;
 using TMPro;
 using Ironcow;
 using System;
-using Ironcow.LocalizeTool;
 using Ironcow.UI;
 
 /// <summary>
-/// ¸Å°³º¯¼ö ¼ø¼­ : Á¦¸ñ, ¸Ş¼¼Áö³»¿ë, OKbtn¹®±¸, Cancelbtn¹®±¸, OKAction, CancleAction, Image, 1 or 2(ÀÌ¹ÌÁöÃÖ»ó´ÜorÃÖÇÏ´Ü)
+/// ë§¤ê°œë³€ìˆ˜ ìˆœì„œ : ì œëª©, ë©”ì„¸ì§€ë‚´ìš©, OKbtnë¬¸êµ¬, Cancelbtnë¬¸êµ¬, OKAction, CancleAction, Image, 1 or 2(ì´ë¯¸ì§€ìµœìƒë‹¨orìµœí•˜ë‹¨)
 /// </summary>
 public class PopupAlert : UIBase
 {
@@ -47,15 +46,15 @@ public class PopupAlert : UIBase
     private UnityAction<string> okInputCallback;
     private UnityAction cancelCallback;
 
-    // ¸Å°³º¯¼ö ¼ø¼­ : Á¦¸ñ, ¸Ş¼¼Áö³»¿ë, OKbtn, Cancelbtn, OKAction, CancleAction, Image, 1 or 2(ÀÌ¹ÌÁöÃÖ»ó´ÜorÃÖÇÏ´Ü)
+    // ë§¤ê°œë³€ìˆ˜ ìˆœì„œ : ì œëª©, ë©”ì„¸ì§€ë‚´ìš©, OKbtn, Cancelbtn, OKAction, CancleAction, Image, 1 or 2(ì´ë¯¸ì§€ìµœìƒë‹¨orìµœí•˜ë‹¨)
     public override void Opened(object[] param)
     {
-        // ÀÌ¹Ì ¿­·ÁÀÖ´Â°Ô ¶È°°Àº alertÀÎ °æ¿ì ½ºÅµ.
+        // ì´ë¯¸ ì—´ë ¤ìˆëŠ”ê²Œ ë˜‘ê°™ì€ alertì¸ ê²½ìš° ìŠ¤í‚µ.
         if (UIManager.IsOpened<PopupAlert>())
         {
             if (descText.text == (string)param[0] && titleText.text == (string)param[1])
             {
-                print("ÀÌ¹Ì ¿­·ÁÀÖ´Â alertÃ¢");
+                print("ì´ë¯¸ ì—´ë ¤ìˆëŠ” alertì°½");
                 return;
             }
         }
@@ -87,7 +86,7 @@ public class PopupAlert : UIBase
         this.title = string.IsNullOrEmpty(title) ? LocaleDataSO.GetString("popupTitle0") : title.Replace("/n", "\n");
 #endif
 
-        #region ÆË¾÷Ã¢ Å©±â Á¶Àı
+        #region íŒì—…ì°½ í¬ê¸° ì¡°ì ˆ
         height += titleText.transform.parent.GetComponent<RectTransform>().sizeDelta.y;
 
         goCancel.SetActive(cancelCallback != null);
@@ -112,10 +111,10 @@ public class PopupAlert : UIBase
             var origin = image.rectTransform.sizeDelta;
             image.SetNativeSize();
 
-            // ±âº» °ªº¸´Ù ÀÌ¹ÌÁö°¡ Å¬ ¶§
+            // ê¸°ë³¸ ê°’ë³´ë‹¤ ì´ë¯¸ì§€ê°€ í´ ë•Œ
             if (image.rectTransform.sizeDelta.x >= origin.x || image.rectTransform.sizeDelta.y >= origin.y)
             {
-                // °¡·Î ±æÀÌ´Â °íÁ¤½ÃÅ°°í ºñÀ²¸¸Å­ ¼¼·Î ±æÀÌ¸¦ °è»ê
+                // ê°€ë¡œ ê¸¸ì´ëŠ” ê³ ì •ì‹œí‚¤ê³  ë¹„ìœ¨ë§Œí¼ ì„¸ë¡œ ê¸¸ì´ë¥¼ ê³„ì‚°
                 var size = image.rectTransform.sizeDelta.y / image.rectTransform.sizeDelta.x;
                 image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, origin.x);
                 image.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, origin.x * size);
@@ -129,7 +128,7 @@ public class PopupAlert : UIBase
 
         if (height > 1300)
         {
-            print("Å©±âÃÖ´ëÄ¡");
+            print("í¬ê¸°ìµœëŒ€ì¹˜");
             height = 1300;
         }
         #endregion
