@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System;
 using System.Text;
 using System.Resources;
-using Ironcow.Data;
 #if USE_ADDRESSABLE
 using UnityEngine.AddressableAssets.ResourceLocators;
 #endif
