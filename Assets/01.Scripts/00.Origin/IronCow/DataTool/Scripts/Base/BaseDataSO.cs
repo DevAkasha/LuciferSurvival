@@ -4,14 +4,9 @@ using UnityEngine;
 
 [System.Serializable]
 [CreateAssetMenu(fileName = "BaseData", menuName = "ScriptableObjects/Base Data")]
-public class BaseDataSO
-#if USE_SO_DATA
-: ScriptableObject
-#endif
+public class BaseDataSO: ScriptableObject
 {
-#if USE_SO_DATA
     [SerializeField] public Sprite thumbnail;
-#endif
     public string rcode;
     public string displayName;
     public string description;

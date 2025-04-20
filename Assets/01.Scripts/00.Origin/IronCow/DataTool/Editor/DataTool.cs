@@ -14,9 +14,7 @@ using System.Linq;
 public class DataTool : EditorWindow
 {
     public static DataTool instance;
-#if USE_SO_DATA
     [MenuItem("Ironcow/Tool/Data Tool #&x")]
-#endif
     public static void Open()
     {
         if (instance == null)
@@ -72,7 +70,6 @@ public class DataTool : EditorWindow
     {
         for (int i = 0; i < datas.Count; i++)
         {
-#if USE_SO_DATA
             var asset = AssetDatabase.LoadAssetAtPath<BaseDataSO>(datas[i].Replace(Application.dataPath, "Assets"));
             if (asset == null) continue;
             var field = asset.GetType().GetField("thumbnail");
@@ -91,7 +88,6 @@ public class DataTool : EditorWindow
                     asset.SetDirty();
                 }
             }
-#endif
         }
         AssetDatabase.SaveAssets();
     }
@@ -132,13 +128,7 @@ public class DataTool : EditorWindow
                         {
                             var name = data.Split('\\').Last().Split('.')[0];
                             var path = DataToolSetting.DataScriptableObjectPath + "/" + name + ".asset";
-                            names.Add(name,
-#if USE_LOCALE
-                                    $"{LocaleDataSO.GetString("name_" + name)}({name})"
-#else
-                                $"{name}"
-#endif
-                            );
+                            names.Add(name, $"{name}" );
                             index++;
                         }
                         var keys = new List<string>(names.Keys);
@@ -161,7 +151,6 @@ public class DataTool : EditorWindow
         EditorGUILayout.Space(10);
         if (datas != null && datas.Count > 0)
         {
-#if USE_SO_DATA
             currentAsset = AssetDatabase.LoadAssetAtPath<BaseDataSO>(DataToolSetting.DataScriptableObjectPath + "/" + selectRCode + ".asset");
             if (currentAsset != null)
             {
@@ -171,7 +160,6 @@ public class DataTool : EditorWindow
                 }
                 GUILayout.EndVertical();
             }
-#endif
         }
         GUILayout.EndHorizontal();
     }
@@ -188,192 +176,11 @@ public class DataTool : EditorWindow
             var sheets = this.sheets.FindAll(obj => obj.className == currentAsset.GetType().ToString());
             DownloadData(sheets, currentAsset);
         }
-#if USE_SO_DATA
+
         currentAsset = EditorGUILayout.ObjectField("", currentAsset, currentAsset.GetType().DeclaringType, true) as BaseDataSO;
         var editor = Editor.CreateEditor(currentAsset);
         editor.OnInspectorGUI();
-#endif
     }
-
-    #region old
-    //public void DrawScriptableObjectToReflection()
-    //{
-
-    //    EditorGUILayout.LabelField(LocaleDataSO.GetString("name_" + currentAsset.rcode));
-    //    var fields = currentAsset.GetType().GetFields().ToList();
-    //    var baseFields = typeof(BaseDataSO).GetFields().ToList();
-    //    fields.InsertRange(0, fields.GetRange(fields.Count - baseFields.Count, baseFields.Count));
-    //    fields.RemoveRange(fields.Count - baseFields.Count, baseFields.Count);
-    //    fields.ForEach(fieldInfo =>
-    //    {
-    //        if (fieldInfo.FieldType == typeof(string))
-    //        {
-    //            fieldInfo.SetValue(currentAsset, SetText(fieldInfo.Name, (string)fieldInfo.GetValue(currentAsset)));
-    //        }
-    //        else if (fieldInfo.FieldType == typeof(int))
-    //        {
-    //            fieldInfo.SetValue(currentAsset, SetInt(fieldInfo.Name, (int)fieldInfo.GetValue(currentAsset)));
-    //        }
-    //        else if (fieldInfo.FieldType == typeof(float))
-    //        {
-    //            fieldInfo.SetValue(currentAsset, SetFloat(fieldInfo.Name, (float)fieldInfo.GetValue(currentAsset)));
-    //        }
-    //        else if (fieldInfo.FieldType == typeof(bool))
-    //        {
-    //            fieldInfo.SetValue(currentAsset, SetBool(fieldInfo.Name, (bool)fieldInfo.GetValue(currentAsset)));
-    //        }
-    //        else if (fieldInfo.FieldType == typeof(Vector3))
-    //        {
-    //            fieldInfo.SetValue(currentAsset, SetVector3(fieldInfo.Name, (Vector3)fieldInfo.GetValue(currentAsset)));
-    //        }
-    //        else if (fieldInfo.FieldType.BaseType == typeof(Enum))
-    //        {
-    //            SetEnum(fieldInfo);
-    //            //obj.SetValue(currentAsset, );
-    //        }
-    //        else if (fieldInfo.FieldType == typeof(Texture))
-    //        {
-    //            SetTexture(fieldInfo);
-    //        }
-    //        else if (fieldInfo.FieldType == typeof(Sprite))
-    //        {
-    //            SetSprite(fieldInfo);
-    //        }
-    //        else
-    //        {
-    //            SetList(fieldInfo.Name, (IList)fieldInfo.GetValue(currentAsset), fieldInfo.FieldType);
-    //        }
-    //    });
-    //}
-
-    //public string SetText(string label, string value)
-    //{
-    //    GUILayout.BeginHorizontal();
-    //    EditorGUILayout.LabelField(label.ToUpper(), GUILayout.Width(150));
-    //    var retStr = EditorGUILayout.TextField(value);
-    //    GUILayout.EndHorizontal();
-    //    return retStr;
-    //}
-
-    //public int SetInt(string label, int value)
-    //{
-    //    GUILayout.BeginHorizontal();
-    //    EditorGUILayout.LabelField(label.ToUpper(), GUILayout.Width(150));
-    //    var retStr = EditorGUILayout.IntField(value);
-    //    GUILayout.EndHorizontal();
-    //    return retStr;
-    //}
-
-    //public float SetFloat(string label, float value)
-    //{
-    //    GUILayout.BeginHorizontal();
-    //    EditorGUILayout.LabelField(label.ToUpper(), GUILayout.Width(150));
-    //    var retStr = EditorGUILayout.FloatField(value);
-    //    GUILayout.EndHorizontal();
-    //    return retStr;
-    //}
-
-    //public bool SetBool(string label, bool value)
-    //{
-    //    GUILayout.BeginHorizontal();
-    //    EditorGUILayout.LabelField(label.ToUpper(), GUILayout.Width(150));
-    //    var retStr = EditorGUILayout.Toggle(value);
-    //    GUILayout.EndHorizontal();
-    //    return retStr;
-    //}
-
-    //public Vector3 SetVector3(string label, Vector3 value)
-    //{
-    //    GUILayout.BeginHorizontal();
-    //    EditorGUILayout.LabelField(label.ToUpper(), GUILayout.Width(150));
-    //    var retStr = EditorGUILayout.Vector3Field("", value);
-    //    GUILayout.EndHorizontal();
-    //    return retStr;
-    //}
-
-    //public void SetList(string label, IList value, Type type)
-    //{
-    //    ReorderableList list = new ReorderableList(value, type, true, true, true, true);
-    //    list.drawHeaderCallback = rect =>
-    //    {
-    //        EditorGUI.LabelField(rect, label.ToUpper());
-    //    };
-    //    list.drawElementCallback = (rect, index, isActive, isFocused) =>
-    //    {
-    //        rect.height -= 4;
-    //        rect.y += 2;
-    //        if (value[index].GetType() == typeof(string))
-    //            value[index] = EditorGUI.TextField(rect, (string)value[index]);
-    //        if (value[index].GetType() == typeof(int))
-    //            value[index] = EditorGUI.IntField(rect, (int)value[index]);
-    //        if (value[index].GetType() == typeof(float))
-    //            value[index] = EditorGUI.FloatField(rect, (float)value[index]);
-    //    };
-    //    list.DoLayoutList();
-    //}
-
-    //public void SetEnum(FieldInfo fieldInfo)
-    //{
-    //    GUILayout.BeginHorizontal();
-    //    var names = Enum.GetValues(fieldInfo.FieldType);
-    //    GenericMenu menu = new GenericMenu();
-    //    int idx = 0;
-    //    string selectedEnumDropdown = fieldInfo.GetValue(currentAsset).ToString();
-    //    foreach (var name in names)
-    //    {
-    //        var isEquip = name.ToString() == selectedEnumDropdown;
-    //        menu.AddItem(new GUIContent(name.ToString()), isEquip, (nm) =>
-    //        {
-    //            fieldInfo.SetValue(currentAsset, nm);
-    //        }, name);
-    //        idx++;
-    //    }
-    //    GUIContent content = new GUIContent(selectedEnumDropdown);
-    //    EditorGUILayout.LabelField(fieldInfo.Name.ToUpper(), GUILayout.Width(150));
-    //    if (EditorGUILayout.DropdownButton(content, FocusType.Keyboard))
-    //    {
-    //        menu.ShowAsContext();
-    //    }
-    //    GUILayout.EndHorizontal();
-    //}
-
-    //public void SetTexture(FieldInfo fieldInfo)
-    //{
-    //    var texture = (Texture)fieldInfo.GetValue(currentAsset);
-    //    var rcode = currentAsset.rcode;
-    //    if (currentAsset.GetType().GetField("createItem") != null)
-    //        rcode = (string)currentAsset.GetType().GetField("createItem").GetValue(currentAsset);
-    //    if (currentAsset.GetType().GetField("target") != null)
-    //        rcode = (string)currentAsset.GetType().GetField("target").GetValue(currentAsset);
-    //    var path = DataToolSetting.ThumbnailPath + "/" + rcode + ".png";
-    //    if (texture == null)
-    //    {
-    //        texture = AssetDatabase.LoadAssetAtPath(path, fieldInfo.FieldType) as Texture;
-    //    }
-    //    GUILayout.BeginHorizontal();
-    //    fieldInfo.SetValue(currentAsset, EditorGUILayout.ObjectField(fieldInfo.Name.ToUpper(), texture, fieldInfo.FieldType, false));
-    //    GUILayout.EndHorizontal();
-    //}
-
-    //public void SetSprite(FieldInfo fieldInfo)
-    //{
-    //    var sprite = (Sprite)fieldInfo.GetValue(currentAsset);
-    //    var rcode = currentAsset.rcode;
-    //    if (currentAsset.GetType().GetField("createItem") != null)
-    //        rcode = (string)currentAsset.GetType().GetField("createItem").GetValue(currentAsset);
-    //    if (currentAsset.GetType().GetField("target") != null)
-    //        rcode = (string)currentAsset.GetType().GetField("target").GetValue(currentAsset);
-    //    var path = DataToolSetting.ThumbnailPath + "/" + rcode + ".png";
-    //    if (sprite == null)
-    //    {
-    //        sprite = AssetDatabase.LoadAssetAtPath(path, fieldInfo.FieldType) as Sprite;
-    //    }
-    //    GUILayout.BeginHorizontal();
-    //    fieldInfo.SetValue(currentAsset, EditorGUILayout.ObjectField(fieldInfo.Name.ToUpper(), sprite, fieldInfo.FieldType, false));
-    //    GUILayout.EndHorizontal();
-    //}
-    #endregion
-
 
     private void OnGUI()
     {
@@ -470,7 +277,6 @@ public class DataTool : EditorWindow
 
     public void GetDatas(Type type, List<Dictionary<string, string>> datas)
     {
-#if USE_SO_DATA
         foreach (var data in datas)
         {
             var path = DataToolSetting.DataScriptableObjectPath + "/" + data["rcode"] + ".asset";
@@ -488,17 +294,14 @@ public class DataTool : EditorWindow
             EditorUtility.SetDirty(dt);
             AssetDatabase.SaveAssets();
         }
-#endif
     }
 
     private List<SheetInfoSO> sheets { get => DataToolSetting.Instance.sheets; }
 
-#if USE_SO_DATA
     public ScriptableObject DicToClass(Type type, Dictionary<string, string> data)
     {
         var dt = CreateInstance(type);
         AssetDatabase.CreateAsset(dt, DataToolSetting.DataScriptableObjectPath + "/" + data["rcode"] + ".asset");
         return TSVParser.DicToSOData(type, dt, data);
     }
-#endif
 }

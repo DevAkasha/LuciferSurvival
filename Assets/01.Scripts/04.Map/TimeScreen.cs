@@ -1,23 +1,22 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Ironcow;
 
 public class TimeScreen : TimeManager
 {
-    public TMP_Text timeText; // ¹ãÀÎÁö ³·ÀÎÁö ¾Ë°ÔÇØÁÖ´Â ÅØ½ºÆ®
-    public TMP_Text timerText; // ¹ãÀÏ¶§ ³²Àº½Ã°£ º¸¿©ÁÖ´Â ÅØ½ºÆ®
+    public TMP_Text timeText; // ë°¤ì¸ì§€ ë‚®ì¸ì§€ ì•Œê²Œí•´ì£¼ëŠ” í…ìŠ¤íŠ¸
+    public TMP_Text timerText; // ë°¤ì¼ë•Œ ë‚¨ì€ì‹œê°„ ë³´ì—¬ì£¼ëŠ” í…ìŠ¤íŠ¸
 
-    // ¿ÀºêÁ§Æ®°¡ È°¼ºÈ­µÉ¶§
+    // ì˜¤ë¸Œì íŠ¸ê°€ í™œì„±í™”ë ë•Œ
     private void OnEnable()
     {
         OnDay += UpdateUI;
         OnNight += UpdateUI;
     }
 
-    // ¿ÀºêÁ§Æ®°¡ ºñÈ°¼ºÈ­µÉ¶§, ¸Ş¸ğ¸® ´©¼ö¸¦ À§ÇØ¼­ ²¨Áú¶§ ÀÌº¥Æ® Á¦°Å
+    // ì˜¤ë¸Œì íŠ¸ê°€ ë¹„í™œì„±í™”ë ë•Œ, ë©”ëª¨ë¦¬ ëˆ„ìˆ˜ë¥¼ ìœ„í•´ì„œ êº¼ì§ˆë•Œ ì´ë²¤íŠ¸ ì œê±°
     private void OnDisable()
     {
         OnDay -= UpdateUI;
@@ -26,15 +25,15 @@ public class TimeScreen : TimeManager
 
     private void UpdateUI()
     {
-        bool isNight = IsNight(); // ¹ãÀÏ¶§¸¸ Å¸ÀÌ¸Ó°¡ º¸ÀÌ°Ô
+        bool isNight = IsNight(); // ë°¤ì¼ë•Œë§Œ íƒ€ì´ë¨¸ê°€ ë³´ì´ê²Œ
         timerText.gameObject.SetActive(isNight);
 
         if (isNight)
         {
             float leftTime = NightTimeLeft;
-            timerText.text = $"³²Àº ½Ã°£: {leftTime:F1}ÃÊ"; // ¹ã ³²Àº ½Ã°£ Ç¥½Ã
+            timerText.text = $"ë‚¨ì€ ì‹œê°„: {leftTime:F1}ì´ˆ"; // ë°¤ ë‚¨ì€ ì‹œê°„ í‘œì‹œ
         }
 
-        timeText.text = IsNight() ? "¹ã" : "³·";
+        timeText.text = IsNight() ? "ë°¤" : "ë‚®";
     }
 }

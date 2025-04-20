@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
-using Ironcow;
 using System;
-using Ironcow.UI;
 
 /// <summary>
 /// 매개변수 순서 : 제목, 메세지내용, OKbtn문구, Cancelbtn문구, OKAction, CancleAction, Image, 1 or 2(이미지최상단or최하단)
@@ -37,10 +35,10 @@ public class PopupAlert : UIBase
     [SerializeField]
     private Image image;
 
-    private string text { set => descText.text = value; }
-    private string title { set => titleText.text = value; }
-    private string oktext { set => okButtonText.text = value; }
-    private string canceltext { set => cancelButtonText.text = value; }
+    private string Text { set => descText.text = value; }
+    private string Title { set => titleText.text = value; }
+    private string OkText { set => okButtonText.text = value; }
+    private string CancelText { set => cancelButtonText.text = value; }
 
     private UnityAction okCallback;
     private UnityAction<string> okInputCallback;
@@ -77,14 +75,7 @@ public class PopupAlert : UIBase
             inputField.gameObject.SetActive(true);
         }
         cancelCallback = (UnityAction)param[5];
-#if USE_LOCALE
-        this.oktext = string.IsNullOrEmpty(oktext) ? LocaleDataSO.GetString("popupButtonOk") : oktext;
-        this.canceltext = string.IsNullOrEmpty(canceltext) ? LocaleDataSO.GetString("popupButtonCancel") : canceltext;
-#endif
-        text = desc.Replace("/n", "\n");
-#if USE_LOCALE
-        this.title = string.IsNullOrEmpty(title) ? LocaleDataSO.GetString("popupTitle0") : title.Replace("/n", "\n");
-#endif
+        Text = desc.Replace("/n", "\n");
 
         #region 팝업창 크기 조절
         height += titleText.transform.parent.GetComponent<RectTransform>().sizeDelta.y;

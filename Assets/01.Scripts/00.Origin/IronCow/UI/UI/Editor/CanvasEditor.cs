@@ -1,10 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Ironcow;
 using UnityEngine.UI;
 using UnityEditor;
-using Ironcow.UI;
 
 [CustomEditor(typeof(CanvasBase), true)]
 public class CavnasEditor :
@@ -18,7 +16,7 @@ public class CavnasEditor :
     {
         if(GUILayout.Button("Set Parents"))
         {
-            var instance = (CanvasOption)target;
+            var instance = (ICanvasOption)target;
             instance.SetParent();
         }
 #if USE_AUTO_CACHING

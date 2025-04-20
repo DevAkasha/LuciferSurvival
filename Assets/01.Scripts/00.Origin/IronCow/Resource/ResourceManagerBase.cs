@@ -1,41 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-
 using UnityEngine.Events;
 using UnityEngine;
-
-#if USE_ADDRESSABLE
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.SceneManagement;
-using UnityEngine.Experimental.AI;
-#endif
 
 public class ResourceManagerBase<T> : ManagerBase<T> where T : ResourceManagerBase<T>
 {
     public bool isAutoLoading = false;
-
-#if !USE_ADDRESSABLE
     private ResourcesHandler handler = new ResourcesHandler();
-#elif USE_ADDRESSABLE
-        private AddressableHandler handler = new AddressableHandler();
-#endif
 
-    public async override void Init(UnityAction<string> progressTextCallback = null, UnityAction<float> progressValueCallback = null)
+    public override void Init(UnityAction<string> progressTextCallback = null, UnityAction<float> progressValueCallback = null)
     {
-#if USE_ADDRESSABLE
-            await handler.LoadAddressable(progressTextCallback, progressValueCallback);
-#endif
-        isInit = true;
+        IsInit = true;
     }
-
-#if USE_ADDRESSABLE
-        public void InitAddressableMap()
-        {
-            handler.InitAddressableMap();
-        }
-#endif
 
     public V LoadAsset<V>(string key, string type) where V : UnityEngine.Object
     {

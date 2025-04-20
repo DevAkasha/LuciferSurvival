@@ -98,7 +98,7 @@ public abstract class GSpreadReader<V> : ManagerBase<V> where V : GSpreadReader<
         {
             field.FieldType.GetMethod("SetData")?.Invoke(field.GetValue(this), null);
         }
-        isInit = true;
+        IsInit = true;
     }
 
     public List<T> ImportData<T>()
@@ -195,7 +195,7 @@ public abstract class GSpreadReader<V> : ManagerBase<V> where V : GSpreadReader<
             }
             catch (Exception ex)
             {
-                Debug.Log("Convert Failed");
+                Debug.Log($"Convert Failed : { ex }");
             }
         }
         return (T)dt;

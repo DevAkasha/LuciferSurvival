@@ -15,7 +15,9 @@ public class ObjectPoolDataSO : SOSingleton<ObjectPoolDataSO>
 {
     public void SaveSO()
     {
+#pragma warning disable CS0618 // 형식 또는 멤버는 사용되지 않습니다.
         SetDirty();
+#pragma warning restore CS0618 // 형식 또는 멤버는 사용되지 않습니다.
     }
 
     [SerializeField] public List<ObjectPoolData> objectPoolDatas = new List<ObjectPoolData>();

@@ -11,41 +11,33 @@ public class DataManagerBase<T, U> : GSpreadReader<T> where T : DataManagerBase<
 
     public override void Init(UnityAction<string> progressTextCallback = null, UnityAction<float> progressValueCallback = null)
     {
-#if USE_ADDRESSABLE
-            AddDataDics(ResourceManager.instance.LoadDataAssets<BaseDataSO>());
-#else
-#if USE_SO_DATA
         AddDataDics(Resources.LoadAll<BaseDataSO>("GameDatas").ToList());
-#endif
-#endif
-        isInit = true;
+        IsInit = true;
     }
 
-    public T GetData<T>(string rcode) where T : BaseDataSO
+    public D GetData<D>(string rcode) where D : BaseDataSO
     {
-        return (T)dataDics[rcode];
+        return (D)dataDics[rcode];
     }
 
-    public T GetCloneData<T>(string rcode) where T : BaseDataSO
+    public D GetCloneData<D>(string rcode) where D : BaseDataSO
     {
-        return (T)dataDics[rcode].clone;
+        return (D)dataDics[rcode].clone;
     }
 
-    public override void AddDataDics<T>(List<T> datas)
+    public override void AddDataDics<D>(List<D> datas)
     {
-#if USE_SO_DATA
         dataDics.AddRange(datas);
-#endif
     }
 
-    public List<T> GetDatas<T>() where T : BaseDataSO
+    public List<D> GetDatas<D>() where D : BaseDataSO
     {
-        List<T> datas = new List<T>();
+        List<D> datas = new List<D>();
         foreach (var key in dataDics.Keys)
         {
             if (dataDics[key].GetType().Equals(typeof(T)))
             {
-                datas.Add((T)dataDics[key]);
+                datas.Add((D)dataDics[key]);
             }
         }
         return datas;

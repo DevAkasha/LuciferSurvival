@@ -30,7 +30,6 @@ public static class ExtensionMethods
         return ToSprite((Texture2D)tex);
     }
 
-#if USE_SO_DATA
     public static void AddRange<T>(this Dictionary<string, BaseDataSO> dic, List<T> datas) where T : BaseDataSO
     {
         foreach (var data in datas)
@@ -39,5 +38,5 @@ public static class ExtensionMethods
                     dic.Add(data.rcode, data);
         }
     }
-#endif
+
 }

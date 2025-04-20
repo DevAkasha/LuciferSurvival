@@ -6,13 +6,13 @@ using UnityEngine.Events;
 
 public interface IManagerInit
 {
-    public bool isInit { get; set; }
+    public bool IsInit { get; set; }
     public void Init(UnityAction<string> progressTextCallback = null, UnityAction<float> progressValueCallback = null);
 }
 
 public abstract class ManagerBase<T> : Singleton<T>, IManagerInit where T : ManagerBase<T>
 {
-    public bool isInit { get; set; }
+    public bool IsInit { get; set; }
 
     public virtual void Init(UnityAction<string> progressTextCallback = null, UnityAction<float> progressValueCallback = null)
     {

@@ -26,7 +26,7 @@ public class StorageManager : Singleton<StorageManager>
     public static string PROFILE_INTRODUCTION { get => PlayerPrefs.GetString("PROFILE_INTRODUCTION", "저는 호기심이 많아 다양한 취미 활동에 도전하지만\n주로 활동적인 일에 더 적극적입니다!"); set => PlayerPrefs.SetString("PROFILE_INTRODUCTION", value); }
 
     public static string JWT { get => PlayerPrefs.GetString("JWT", ""); set => PlayerPrefs.SetString("JWT", value); }
-    public static bool isJWT { get => JWT.Length > 0; }
+    public static bool IsJWT { get => JWT.Length > 0; }
 
     public static string INSIDE_VIEW { get => PlayerPrefs.GetString("InsideView", "view1"); set => PlayerPrefs.SetString("InsideView", value); }
     #endregion
