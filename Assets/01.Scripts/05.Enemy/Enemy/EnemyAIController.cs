@@ -44,7 +44,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
         while (true)
         {
             bt.Operate();
-            //Debug.Log("루프 작동");
+            Debug.Log("루프 작동");
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -125,10 +125,16 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     {
         StatusEffect = false;
         Confused = false;
-    }    
+    }
 
     public eNodeState OnCheckDead()
     {
+        if (Entity == null || Entity.Model == null )//|| Entity.Model.Health == null)
+        {
+            Debug.LogError("[OnCheckDead] Entity 또는 하위 필드가 null입니다.");
+            return eNodeState.failure;
+        }
+
         if (Entity.Model.Health.Value <= 0)
         {
             return eNodeState.success;
@@ -212,7 +218,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     {
         //if (TargetPlayer == null)
         //{
-        //    Debug.Log("타깃이 없다");
+            //Debug.Log("타깃이 없다");
         //    return eNodeState.failure;
         //}
         if (target == null)
@@ -226,7 +232,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
             return eNodeState.success;
         }
         //var dir = (target.transform.position - transform.position).normalized;
-        //Debug.Log("추적 개시");
+            //Debug.Log("추적 개시");
 
         InMove(IsTargetPosition());
         return eNodeState.running;
@@ -252,7 +258,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     }
     Vector3 IsTargetPosition()
     {
-        if(Confused)
+        if (Confused)
         {
             Vector3 toTarget = transform.position - target.position;
             Vector3 ReverseTarget = transform.position + toTarget.normalized * 10f;
@@ -266,22 +272,8 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
             return dir;
         }
     }
-
-    public void SetActive(bool active)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Release()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Init(params object[] param)
-    {
-        throw new System.NotImplementedException();
-    }
 }
+
 [CustomEditor(typeof(EnemyAIController))]
 public class EnemyControl : Editor
 {
