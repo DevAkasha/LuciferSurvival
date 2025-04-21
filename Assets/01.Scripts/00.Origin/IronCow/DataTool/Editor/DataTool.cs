@@ -14,13 +14,13 @@ using System.Linq;
 public class DataTool : EditorWindow
 {
     public static DataTool instance;
-    [MenuItem("Ironcow/Tool/Data Tool #&x")]
+    [MenuItem("Tools/Data Tool #&x")]
     public static void Open()
     {
         if (instance == null)
         {
             var window = GetWindow<DataTool>();
-            window.minSize = new Vector2(512f, 728f);
+            window.minSize = new Vector2(512f, 268f);
             instance = window;
         }
     }

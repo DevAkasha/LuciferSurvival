@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
-[CustomEditor(typeof(DataManager))]
+//[CustomEditor(typeof(DataManager))]
 public class DataToolInfo : Editor
 {
     //private List<SheetInfo> sheets { get; }
