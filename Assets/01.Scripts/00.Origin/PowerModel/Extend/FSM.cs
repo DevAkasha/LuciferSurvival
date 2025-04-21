@@ -70,7 +70,9 @@ public class FSM<TState> where TState : Enum
     // 다중 후보 중 가장 높은 우선순위 요청
     public void RequestByPriority(params TState[] candidates) // 상태 전이 요청
     {
+#nullable enable
         TState? best = default;
+#nullable disable
         int bestPriority = int.MinValue;
 
         foreach (var state in candidates)

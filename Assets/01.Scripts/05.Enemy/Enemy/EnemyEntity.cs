@@ -17,6 +17,6 @@ public class EnemyEntity : MobileEntity<EnemyModel>
             return;
         }
 
-        Model = new EnemyModel(DataManager.instance.GetData<EnemyDataSO>(rcode));
+        Model = new EnemyModel(DataManager.Instance.GetData<EnemyDataSO>(rcode));
     }
 }

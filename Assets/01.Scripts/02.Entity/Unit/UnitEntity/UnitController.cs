@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Ironcow.BT;
 using UnityEngine;
 
 public class UnitController: BaseController<UnitEntity,UnitModel>
