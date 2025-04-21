@@ -11,9 +11,17 @@ namespace Ironcow.ObjectPool
 
         public void Init()
         {
+            
             foreach (var data in ObjectPoolDataSO.instance.objectPoolDatas)
             {
-                //data.prefab = ResourceManager.instance.LoadAsset<GameObject>(data.prefabName, ResourceType.Prefabs);
+                var prefabGO = ResourceManager.instance.LoadAsset<GameObject>($"GameDatas/ObjectPoolData/Enemy", ResourceType.Prefabs);
+
+                if (prefabGO == null)
+                {
+                    Debug.LogError($"❌ 프리팹 로드 실패: {data.prefabName} (경로나 파일명이 맞는지 확인하세요)");
+                    return;
+                }
+                data.prefab = ResourceManager.instance.LoadAsset<GameObject>(data.prefabName, ResourceType.Prefabs).GetComponent<IObjectPoolBase>();
                 data.parent = new GameObject(data.prefabName + "parent").transform;
                 data.parent.parent = transform;
                 Queue<IObjectPoolBase> queue = new Queue<IObjectPoolBase>();

@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c0121319f18dc149baef7f4d982fca0, type: 3}
   m_Name: ObjectPoolDataSO
   m_EditorClassIdentifier: 
-  objectPoolDatas: []
+  objectPoolDatas:
+  - prefabName: Enemy
+    count: 10
+    velocity: 10
+    parent: {fileID: 0}
