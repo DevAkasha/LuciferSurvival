@@ -23,7 +23,7 @@ public class UnitEntity : BaseEntity<UnitModel>
             return;
         }
 
-        Model = new UnitModel(DataManager.instance.GetData<UnitDataSO>(rcode));
+        Model = new UnitModel(DataManager.Instance.GetData<UnitDataSO>(rcode));
     }
 
     public void FindEnemy()

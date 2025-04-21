@@ -8,13 +8,16 @@ using UnityEngine;
 public sealed class RxStateFlag: RxBase // 단일 상태 플래그를 나타내는 클래스
 {
     private readonly RxVar<bool> internalFlag; // 내부 상태 값 (true/false)를 저장
-    private Func<bool>? condition; // 조건 기반으로 자동 평가될 수 있는 함수
 
+#nullable enable
+    private Func<bool>? condition; // 조건 기반으로 자동 평가될 수 있는 함수
+#nullable disable
     public string Name { get; } // 플래그의 이름 (식별용)
     public bool Value => internalFlag.Value; // 현재 플래그 값 (true/false)
 
+#nullable enable
     public event Action<bool>? OnChanged; // 값이 변경되었을 때 알림
-
+#nullable disable
     internal RxStateFlag(string name, object owner = null) // 조건 기반으로 자동 평가될 수 있는 함수
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));

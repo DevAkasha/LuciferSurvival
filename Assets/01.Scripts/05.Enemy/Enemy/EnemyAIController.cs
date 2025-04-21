@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using Ironcow.BT;
 using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
 using UnityEditor;

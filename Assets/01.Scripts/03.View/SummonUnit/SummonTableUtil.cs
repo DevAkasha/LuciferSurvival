@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,7 +42,7 @@ public static class SummonTableUtil
     {
         shopUnits.Clear();
 
-        // È®·üÇ¥ °¡Á®¿À±â
+        // í™•ë¥ í‘œ ê°€ì ¸ì˜¤ê¸°
         int[] tierChances = GetSummonTableDict()[shopLevel].summonRate;
 
         for (int i = 0; i < summonCount; i++)
