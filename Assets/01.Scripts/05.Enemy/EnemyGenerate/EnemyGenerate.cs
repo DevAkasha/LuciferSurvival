@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Ironcow.ObjectPool;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -18,12 +17,12 @@ public class EnemyGenerate : MonoBehaviour
     private void Start()
     {
         target = PlayerManager.Instance.Player.transform;
-        PoolManager.instance.Init();
+        PoolManager.Instance.Init();
     }
     public void EnemySet()
     {
         //Instantiate(enemyList[randomEnemy], SpawnArea(), Quaternion.identity);
-        var enemy = PoolManager.instance.Spawn<EnemyAIController>("Enemy", SpawnArea(),transform);
+        //var enemy = PoolManager.Instance.Spawn<EnemyAIController>("Enemy", SpawnArea(),transform);
     }
 
     Vector3 SpawnArea()

@@ -5,9 +5,8 @@ using static UnityEngine.GraphicsBuffer;
 using UnityEditor;
 using System.Security.Cryptography.X509Certificates;
 using DG.Tweening;
-using Ironcow.ObjectPool;
 
-public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>, IObjectPoolBase
+public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
 {
     //public EnemyDataSO enemyStatus;
     [SerializeField] private NavMeshAgent navMesh;

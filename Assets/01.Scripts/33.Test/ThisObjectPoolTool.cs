@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Ironcow.ObjectPool;
 using UnityEditor;
 using UnityEngine;
 
@@ -88,12 +87,12 @@ public class ThisObjectPoolTool : EditorWindow
 
     private bool IsValidPoolPrefab(GameObject go)
     {
-        return go != null && go.GetComponent<IObjectPoolBase>() != null;
+        return go != null && go.GetComponent<ObjectPoolBase>() != null;
     }
 
     private void ConvertToObjectPoolDataSO()
     {
-        var so = ObjectPoolDataSO.instance;
+        var so = ObjectPoolDataSO.Instance;
         so.objectPoolDatas.Clear();
 
         foreach (var prefab in poolPrefabs)
