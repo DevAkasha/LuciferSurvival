@@ -20,7 +20,7 @@ public class DataTool : EditorWindow
         if (instance == null)
         {
             var window = GetWindow<DataTool>();
-            window.minSize = new Vector2(512f, 268f);
+            window.minSize = new Vector2(512f, 728f);
             instance = window;
         }
     }
@@ -223,7 +223,7 @@ public class DataTool : EditorWindow
         method.Invoke(new object(), null);
     }
 
-    public async void DownloadData(List<SheetInfoSO> sheets, BaseDataSO data = null)
+    public async void DownloadData(List<SheetInfo> sheets, BaseDataSO data = null)
     {
         foreach (var sheet in sheets)
         {
@@ -246,7 +246,7 @@ public class DataTool : EditorWindow
         }
     }
 
-    public void RefreshData(SheetInfoSO sheet, BaseDataSO data)
+    public void RefreshData(SheetInfo sheet, BaseDataSO data)
     {
         var dicData = sheet.datas.Find(obj => obj["rcode"] == data.rcode);
         var path = DataToolSetting.DataScriptableObjectPath + "/" + dicData["rcode"] + ".asset";
@@ -257,7 +257,7 @@ public class DataTool : EditorWindow
         AssetDatabase.SaveAssets();
     }
 
-    protected void ImportDatas(List<SheetInfoSO> sheets)
+    protected void ImportDatas(List<SheetInfo> sheets)
     {
         foreach (var sheet in sheets)
         {
@@ -265,7 +265,7 @@ public class DataTool : EditorWindow
         }
     }
 
-    protected void ImportData(SheetInfoSO sheet)
+    protected void ImportData(SheetInfo sheet)
     {
         if (sheet.isUpdate)
         {
@@ -296,7 +296,7 @@ public class DataTool : EditorWindow
         }
     }
 
-    private List<SheetInfoSO> sheets { get => DataToolSetting.Instance.sheets; }
+    private List<SheetInfo> sheets { get => DataToolSetting.Instance.sheets; }
 
     public ScriptableObject DicToClass(Type type, Dictionary<string, string> data)
     {
