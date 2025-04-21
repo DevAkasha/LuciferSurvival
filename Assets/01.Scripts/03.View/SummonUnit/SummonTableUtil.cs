@@ -1,15 +1,18 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public static class SummonTableUtil
 {
     private static int summonCount = 5;
+    private static Dictionary<int, List<UnitDataSO>> unitDict = new Dictionary<int, List<UnitDataSO>>();
+    private static Dictionary<int, SummonTableSO> summonTableDict = new Dictionary<int, SummonTableSO>();
+    private static List<UnitDataSO> shopUnits { get; } = new List<UnitDataSO>();
 
     private static Dictionary<int, List<UnitDataSO>> GetUnitDict()
-    {   
+    {
         List<UnitDataSO> unitList = DataManager.Instance.GetDatas<UnitDataSO>();
-        Dictionary<int, List<UnitDataSO>> unitDict = new Dictionary<int, List<UnitDataSO>>();
+        unitDict.Clear();
 
         foreach (var unit in unitList)
         {
@@ -25,9 +28,9 @@ public static class SummonTableUtil
     private static Dictionary<int, SummonTableSO> GetSummonTableDict()
     {
         List<SummonTableSO> summonTableList = DataManager.Instance.GetDatas<SummonTableSO>();
-        Dictionary<int, SummonTableSO> summonTableDict = new Dictionary<int, SummonTableSO>();
+        summonTableDict.Clear();
 
-        for(int i = 0; i < summonTableList.Count; i++)
+        for (int i = 0; i < summonTableList.Count; i++)
         {
             summonTableDict.Add(summonTableList[i].level, summonTableList[i]);
         }
@@ -37,7 +40,7 @@ public static class SummonTableUtil
 
     public static List<UnitDataSO> RerollShop(int shopLevel)
     {
-        List<UnitDataSO> shopUnits = new List<UnitDataSO>();
+        shopUnits.Clear();
 
         // 확률표 가져오기
         int[] tierChances = GetSummonTableDict()[shopLevel].summonRate;
@@ -72,5 +75,13 @@ public static class SummonTableUtil
         List<UnitDataSO> pool = GetUnitDict()[tier];
         int index = Random.Range(0, pool.Count);
         return pool[index];
+    }
+
+    public static void ClearAllChildren(Transform tableTransform)
+    {
+        foreach (Transform child in tableTransform)
+        {
+            Object.Destroy(child.gameObject);
+        }
     }
 }
