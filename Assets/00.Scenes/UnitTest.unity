@@ -684,8 +684,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1371493119}
-  - component: {fileID: 1371493118}
   - component: {fileID: 1371493120}
+  - component: {fileID: 1371493121}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -693,20 +693,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1371493118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1371493117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6458ba8ddf7f0243a1331bc8627d22a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDontDestroy: 1
-  isAutoLoading: 0
 --- !u!4 &1371493119
 Transform:
   m_ObjectHideFlags: 0
@@ -731,13 +717,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1371493117}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bfda4afb3b9e42439dc2025a71dd1be, type: 3}
+  m_Script: {fileID: 11500000, guid: e6fdfe9605132c348a39711c2405074d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDontDestroy: 1
+  isAutoLoading: 0
+--- !u!114 &1371493121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371493117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b29a5c70a0f7c314e980a2f524978828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   isAutoLoading: 1
-  url: 
-  sheets: []
+  url: https://docs.google.com/spreadsheets/d/12fHdjZZQ7cL0xARX6AbQV_d08fnGQ6NqpUhi-ePcUbs/
+  sheets:
+  - className: UnitDataSO
+    sheetId: 930551064
+  - className: EnemyDataSO
+    sheetId: 1576224224
+  - className: UnionTableSO
+    sheetId: 1480292564
 --- !u!1 &1382102959
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,6 +992,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1389943806437722062, guid: 067f598eff79008469f3de84a5eca632,
+        type: 3}
+      propertyPath: speed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5165206208076009924, guid: 067f598eff79008469f3de84a5eca632,
         type: 3}
       propertyPath: m_LocalPosition.x

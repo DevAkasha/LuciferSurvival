@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +11,7 @@ public static class SummonTableUtil
 
     private static Dictionary<int, List<UnitDataSO>> GetUnitDict()
     {
-        List<UnitDataSO> unitList = DataManager.instance.GetDatas<UnitDataSO>();
+        List<UnitDataSO> unitList = DataManager.Instance.GetDatas<UnitDataSO>();
         unitDict.Clear();
 
         foreach (var unit in unitList)
@@ -27,7 +27,7 @@ public static class SummonTableUtil
 
     private static Dictionary<int, SummonTableSO> GetSummonTableDict()
     {
-        List<SummonTableSO> summonTableList = DataManager.instance.GetDatas<SummonTableSO>();
+        List<SummonTableSO> summonTableList = DataManager.Instance.GetDatas<SummonTableSO>();
         summonTableDict.Clear();
 
         for (int i = 0; i < summonTableList.Count; i++)
