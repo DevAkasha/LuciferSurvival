@@ -59,15 +59,19 @@ public abstract class RxBase : IConditionCheckable
     public abstract void ClearRelation();
     public virtual bool Satisfies(Func<object, bool> predicate) => false;
 }
-
-public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
+public interface IRxModFormulaProvider
+{
+    string BuildDebugFormula();
+}
+public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>, IRxModFormulaProvider
 {
     protected T origin; // 초기 원본 값
     protected T cachedValue; // 계산된 값 캐싱
     protected T lastNotifiedValue;
     protected bool dirty = true;
-
+    
     protected readonly List<Action<T>> listeners = new();
+
     public string FieldName { get; set; } = string.Empty;
 
     public T Value
@@ -173,6 +177,15 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
         RemoveModifier(ModifierType.Multiplier, key);
         RemoveModifier(ModifierType.FinalAdd, key);
         RemoveModifier(ModifierType.SignFlip, key);
+    }
+
+    public string DebugFormula => BuildDebugFormula();
+
+    protected abstract string BuildDebugFormula();
+
+    string IRxModFormulaProvider.BuildDebugFormula()
+    {
+        return BuildDebugFormula();
     }
 }
 

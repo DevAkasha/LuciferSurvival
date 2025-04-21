@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,8 +7,8 @@ public static class SummonTableUtil
     private static int summonCount = 5;
 
     private static Dictionary<int, List<UnitDataSO>> GetUnitDict()
-    {
-        List<UnitDataSO> unitList = DataManager.instance.GetDatas<UnitDataSO>();
+    {   
+        List<UnitDataSO> unitList = DataManager.Instance.GetDatas<UnitDataSO>();
         Dictionary<int, List<UnitDataSO>> unitDict = new Dictionary<int, List<UnitDataSO>>();
 
         foreach (var unit in unitList)
@@ -24,7 +24,7 @@ public static class SummonTableUtil
 
     private static Dictionary<int, SummonTableSO> GetSummonTableDict()
     {
-        List<SummonTableSO> summonTableList = DataManager.instance.GetDatas<SummonTableSO>();
+        List<SummonTableSO> summonTableList = DataManager.Instance.GetDatas<SummonTableSO>();
         Dictionary<int, SummonTableSO> summonTableDict = new Dictionary<int, SummonTableSO>();
 
         for(int i = 0; i < summonTableList.Count; i++)
@@ -39,7 +39,7 @@ public static class SummonTableUtil
     {
         List<UnitDataSO> shopUnits = new List<UnitDataSO>();
 
-        // È®·üÇ¥ °¡Á®¿À±â
+        // í™•ë¥ í‘œ ê°€ì ¸ì˜¤ê¸°
         int[] tierChances = GetSummonTableDict()[shopLevel].summonRate;
 
         for (int i = 0; i < summonCount; i++)

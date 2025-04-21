@@ -1,21 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEngine;
+#endif
 
 public sealed class RxStateFlag: RxBase // 단일 상태 플래그를 나타내는 클래스
 {
     private readonly RxVar<bool> internalFlag; // 내부 상태 값 (true/false)를 저장
-    private Func<bool>? condition; // 조건 기반으로 자동 평가될 수 있는 함수
 
+#nullable enable
+    private Func<bool>? condition; // 조건 기반으로 자동 평가될 수 있는 함수
+#nullable disable
     public string Name { get; } // 플래그의 이름 (식별용)
     public bool Value => internalFlag.Value; // 현재 플래그 값 (true/false)
 
+#nullable enable
     public event Action<bool>? OnChanged; // 값이 변경되었을 때 알림
-
+#nullable disable
     internal RxStateFlag(string name, object owner = null) // 조건 기반으로 자동 평가될 수 있는 함수
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         internalFlag = new RxVar<bool>(false, owner); // 내부 상태 값 (true/false)를 저장
         internalFlag.AddListener(HandleChange); // 외부에서 변경 알림을 구독할 수 있음
+
+        if (owner is ITrackableRxModel model)
+            model.RegisterRx(this);
     }
 
     private void HandleChange(bool value)
@@ -63,7 +73,7 @@ public sealed class RxStateFlag: RxBase // 단일 상태 플래그를 나타내�
     }
 }
 
-public class RxStateFlagSet<TEnum>: RxBase where TEnum : Enum // 여러 플래그를 Enum 기반으로 관리하는 클래스
+public partial class RxStateFlagSet<TEnum>: RxBase where TEnum : Enum // 여러 플래그를 Enum 기반으로 관리하는 클래스
 {
     private readonly List<RxStateFlag> flags;
     private readonly Dictionary<TEnum, int> indexMap; // Enum 값을 인덱스로 매핑
@@ -80,6 +90,10 @@ public class RxStateFlagSet<TEnum>: RxBase where TEnum : Enum // 여러 플래�
             indexMap[enumValue] = i; // Enum 값을 인덱스로 매핑
             flags.Add(new RxStateFlag(enumValue.ToString(), owner));
         }
+
+        if (owner is ITrackableRxModel model)
+            model.RegisterRx(this);
+
     }
 
     public RxStateFlag this[TEnum state] => flags[indexMap[state]]; // Enum 값을 인덱스로 매핑
@@ -131,3 +145,29 @@ public class RxStateFlagSet<TEnum>: RxBase where TEnum : Enum // 여러 플래�
         return $"RxStateFlagSet<{typeof(TEnum).Name}>: " + string.Join(", ", Snapshot()); // 현재 모든 플래그 상태를 (이름, 값) 튜플로 반환
     }
 }
+#if UNITY_EDITOR
+
+public interface IRxInspectable
+{
+    void DrawDebugInspector();
+}
+
+public partial class RxStateFlagSet<TEnum> : IRxInspectable where TEnum : Enum
+{
+    public void DrawDebugInspector()
+    {
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField($"RxStateFlagSet<{typeof(TEnum).Name}>", EditorStyles.boldLabel);
+        EditorGUI.indentLevel++;
+        foreach (var (key, value) in Snapshot())
+        {
+            GUIStyle style = new(EditorStyles.label)
+            {
+                normal = { textColor = value ? Color.green : Color.gray }
+            };
+            EditorGUILayout.LabelField(key.ToString(), value.ToString(), style);
+        }
+        EditorGUI.indentLevel--;
+    }
+}
+#endif
