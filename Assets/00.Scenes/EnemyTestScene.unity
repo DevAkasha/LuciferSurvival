@@ -261,7 +261,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 555925410}
-  - component: {fileID: 555925409}
+  - component: {fileID: 555925411}
   m_Layer: 0
   m_Name: ResourceManager
   m_TagString: Untagged
@@ -269,20 +269,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &555925409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 555925408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6458ba8ddf7f0243a1331bc8627d22a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDontDestroy: 0
-  isAutoLoading: 0
 --- !u!4 &555925410
 Transform:
   m_ObjectHideFlags: 0
@@ -298,6 +284,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &555925411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555925408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6fdfe9605132c348a39711c2405074d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAutoLoading: 0
 --- !u!1 &700816136
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,7 +428,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 703756975}
-  - component: {fileID: 703756974}
+  - component: {fileID: 703756976}
   m_Layer: 0
   m_Name: DataManager
   m_TagString: Untagged
@@ -437,22 +436,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &703756974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 703756973}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bfda4afb3b9e42439dc2025a71dd1be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDontDestroy: 1
-  isAutoLoading: 1
-  url: 
-  sheets: []
 --- !u!4 &703756975
 Transform:
   m_ObjectHideFlags: 0
@@ -468,6 +451,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &703756976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 703756973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b29a5c70a0f7c314e980a2f524978828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAutoLoading: 1
+  url: 
+  sheets: []
 --- !u!1 &1074275450
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,7 +612,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1531767914}
-  - component: {fileID: 1531767913}
+  - component: {fileID: 1531767915}
   m_Layer: 0
   m_Name: PoolManager
   m_TagString: Untagged
@@ -622,20 +620,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1531767913
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1531767912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac8d534c34237cb40b58dd2b7dacedc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDontDestroy: 0
-  isInit: 0
 --- !u!4 &1531767914
 Transform:
   m_ObjectHideFlags: 0
@@ -651,6 +635,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1531767915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531767912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 996c3f918587bc0418112cd03a168a3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInit: 0
 --- !u!1 &1604810527
 GameObject:
   m_ObjectHideFlags: 0
