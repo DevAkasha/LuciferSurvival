@@ -428,7 +428,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 703756975}
-  - component: {fileID: 703756974}
+  - component: {fileID: 703756976}
   m_Layer: 0
   m_Name: DataManager
   m_TagString: Untagged
@@ -436,7 +436,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &703756974
+--- !u!4 &703756975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 703756973}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.4673076, y: 0.006062251, z: -0.0032044337, w: 0.8840683}
+  m_LocalPosition: {x: -1.5554814, y: 19.653877, z: -10.832283}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &703756976
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -448,24 +463,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b29a5c70a0f7c314e980a2f524978828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAutoLoading: 0
-  url: 
-  sheets: []
---- !u!4 &703756975
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 703756973}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.6897902, y: 6.8365345, z: -6.325651}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  isAutoLoading: 1
+  url: https://docs.google.com/spreadsheets/d/12fHdjZZQ7cL0xARX6AbQV_d08fnGQ6NqpUhi-ePcUbs/
+  sheets:
+  - className: UnitDataSO
+    sheetId: 930551064
+  - className: EnemyDataSO
+    sheetId: 1576224224
+  - className: UnionTableSO
+    sheetId: 1480292564
 --- !u!1 &1074275450
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
@@ -131,7 +131,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     {
         if (Entity == null || Entity.Model == null )//|| Entity.Model.Health == null)
         {
-            Debug.LogError("[OnCheckDead] Entity 또는 하위 필드가 null입니다.");
+            Debug.LogError("Entity 또는 하위 필드가 null입니다.");
             return eNodeState.failure;
         }
 
