@@ -10,7 +10,7 @@ public class SODataTool : EditorWindow
 
     private Vector2 scroll;
 
-    [MenuItem("Tools/SO Data Tool")]
+    //[MenuItem("Tools/SO Data Tool")]
     public static void OpenWindow()
     {
         var window = GetWindow<SODataTool>("SO Data Tool");

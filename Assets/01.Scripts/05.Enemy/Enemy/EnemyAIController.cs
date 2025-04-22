@@ -62,6 +62,10 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     {
         Entity.TakeDamaged(damage);
     }
+    public void InToDamage(float damage)
+    {
+        PlayerManager.Instance.Player.Entity.TakeDamaged(damage);
+    }
     public void InDead()
     {
 

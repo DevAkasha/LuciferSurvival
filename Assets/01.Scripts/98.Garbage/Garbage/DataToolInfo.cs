@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Net.Sockets;
 
-[CustomEditor(typeof(DataManager))]
+//[CustomEditor(typeof(DataManager))]
 public class DataToolInfo : Editor
 {
     //private List<SheetInfo> sheets { get; }
