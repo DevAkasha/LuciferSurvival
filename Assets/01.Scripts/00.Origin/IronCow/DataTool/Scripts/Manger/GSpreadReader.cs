@@ -30,6 +30,8 @@ public class SheetInfo
 {
     public string className;
     public string sheetId;
+    public string key;
+    public bool isUpdate;
     public List<Dictionary<string, string>> datas;
 }
 
