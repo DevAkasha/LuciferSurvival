@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,6 +15,11 @@ public class DataManagerBase<T, U> : GSpreadReader<T> where T : DataManagerBase<
         IsInit = true;
     }
 
+    public override void AddDataDics<D>(List<D> datas)
+    {
+        dataDics.AddRange(datas);
+    }
+
     public D GetData<D>(string rcode) where D : BaseDataSO
     {
         return (D)dataDics[rcode];
@@ -25,10 +30,7 @@ public class DataManagerBase<T, U> : GSpreadReader<T> where T : DataManagerBase<
         return (D)dataDics[rcode].clone;
     }
 
-    public override void AddDataDics<D>(List<D> datas)
-    {
-        dataDics.AddRange(datas);
-    }
+
 
     public List<D> GetDatas<D>() where D : BaseDataSO
     {

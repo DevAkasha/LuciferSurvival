@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.Events;
+using UnityEditor;
 
 
 public static class GSpreadExtensions
@@ -28,10 +29,12 @@ public class SheetInfo
 {
     public string className;
     public string sheetId;
+    public string key;
+    public bool isUpdate;
     public List<Dictionary<string, string>> datas;
 }
 
-public abstract class GSpreadReader<V> : ManagerBase<V> where V : GSpreadReader<V>
+public abstract class GSpreadReader<V> : ManagerBase<V> where V : GSpreadReader<V> 
 {
     [Serializable]
     public class GameData<T> where T : BaseDataSO
@@ -49,6 +52,7 @@ public abstract class GSpreadReader<V> : ManagerBase<V> where V : GSpreadReader<
     [SerializeField] private bool isAutoLoading = false;
     [SerializeField] private string url;
     [SerializeField] private List<SheetInfo> sheets;
+    public List<SheetInfo> Sheets => sheets;
 
     protected override void Awake()
     {
@@ -195,12 +199,17 @@ public abstract class GSpreadReader<V> : ManagerBase<V> where V : GSpreadReader<
             }
             catch (Exception ex)
             {
-                Debug.Log($"Convert Failed : { ex }");
+                Debug.Log($"Convert Failed : {ex}");
             }
         }
         return (T)dt;
     }
 
     public abstract void AddDataDics<T>(List<T> datas) where T : BaseDataSO;
+
+    public void SuccessInit()
+    {
+        Init();
+    }
 
 }
