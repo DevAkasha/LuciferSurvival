@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.Net.Sockets;
 
-//[CustomEditor(typeof(DataManager))]
+[CustomEditor(typeof(DataManager))]
 public class DataToolInfo : Editor
 {
     //private List<SheetInfo> sheets { get; }
     public BaseDataSO currentAsset = null;
+    List<string> datas = new List<string>();
+    string selectRCode;
 
     public override void OnInspectorGUI()
     {
@@ -33,6 +36,12 @@ public class DataToolInfo : Editor
     }
     public async void DownloadData(List<SheetInfo> sheets, BaseDataSO data = null)
     {
+        if (datas != null && datas.Count > 0)
+        {
+            currentAsset = AssetDatabase.LoadAssetAtPath<BaseDataSO>(DataToolSetting.DataScriptableObjectPath + "/" + selectRCode + ".asset");
+            if (currentAsset != null)
+            {
+                
         foreach (var sheet in sheets)
         {
             var url = $"{DataToolSetting.Instance.GSheetUrl}export?format=tsv&gid={sheet.sheetId}";
@@ -51,6 +60,8 @@ public class DataToolInfo : Editor
         else
         {
             ImportDatas(sheets);
+        }
+            }
         }
     }
 
