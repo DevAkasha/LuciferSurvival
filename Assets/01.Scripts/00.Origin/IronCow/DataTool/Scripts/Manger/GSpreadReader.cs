@@ -50,7 +50,6 @@ public abstract class GSpreadReader<V> : ManagerBase<V> where V : GSpreadReader<
     }
 
     public static GSpreadReader<V> gSpread;
-    [SerializeField] private bool isAutoLoading = false;
     [SerializeField] private string url;
     [SerializeField] private List<SheetInfo> sheets;
     public List<SheetInfo> Sheets => sheets;
@@ -59,7 +58,6 @@ public abstract class GSpreadReader<V> : ManagerBase<V> where V : GSpreadReader<
     {
         base.Awake();
         gSpread = this;
-        if (isAutoLoading) Init();
     }
 
     public async override void Init(UnityAction<string> progressTextCallback = null, UnityAction<float> progressValueCallback = null)
