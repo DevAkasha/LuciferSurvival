@@ -24,7 +24,6 @@ public static class GSpreadExtensions
 
 }
 
-
 [System.Serializable]
 public class SheetInfo
 {

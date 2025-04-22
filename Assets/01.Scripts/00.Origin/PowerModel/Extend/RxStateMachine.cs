@@ -7,9 +7,9 @@ public class RxStateMachine<TState> where TState : Enum
     private readonly Dictionary<TState, Func<TState, bool>> transitionGuards = new();
     private readonly Dictionary<TState, Action> onEnter = new();
     private readonly Dictionary<TState, Action> onExit = new();
-
+#nullable enable
     public event Action<TState>? OnStateChanged;
-
+#nullable disable
     public RxVar<TState> Current => current;
     public TState Value => current.Value;
 
