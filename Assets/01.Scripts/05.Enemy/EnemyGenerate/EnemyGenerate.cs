@@ -17,22 +17,12 @@ public class EnemyGenerate : MonoBehaviour
     private void Start()
     {
         target = PlayerManager.Instance.Player.transform;
+        PoolManager.Instance.Init();
     }
     public void EnemySet()
     {
-        int listLimit;
-
-        if (Wave > enemyList.Count)
-        {
-            listLimit = enemyList.Count;
-        }
-        else
-        {
-            listLimit = Wave;
-        }
-
-        int randomEnemy = Random.Range(0, listLimit);
-        Instantiate(enemyList[randomEnemy], SpawnArea(), Quaternion.identity);
+        //Instantiate(enemyList[randomEnemy], SpawnArea(), Quaternion.identity);
+        //var enemy = PoolManager.Instance.Spawn<EnemyAIController>("Enemy", SpawnArea(),transform);
     }
 
     Vector3 SpawnArea()

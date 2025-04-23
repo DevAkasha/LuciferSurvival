@@ -33,7 +33,5 @@ public class AngelModel : BaseModel
         yield return MoveSpeed;
         yield return Health;
         yield return Range;
-        
     }
-
 }

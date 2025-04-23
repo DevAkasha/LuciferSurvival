@@ -18,7 +18,7 @@ public class AngelEntity : MobileEntity<AngelModel>
             return;
         }
 
-        Model = new AngelModel(DataManager.instance.GetData<EnemyDataSO>(rcode));
+        Model = new AngelModel(DataManager.Instance.GetData<EnemyDataSO>(rcode));
     }
 
 }

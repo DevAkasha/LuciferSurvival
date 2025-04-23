@@ -32,6 +32,8 @@ public abstract class BaseModel : IModifiableTarget, ITrackableRxModel
     }
 
     public virtual IEnumerable<IModifiable> GetModifiables() => modifiables; // 수정 가능한 필드 목록 반환
+    
+    public IEnumerable<RxBase> GetAllRxFields() => trackedRxVars;
 
     public void Unload()
     {
