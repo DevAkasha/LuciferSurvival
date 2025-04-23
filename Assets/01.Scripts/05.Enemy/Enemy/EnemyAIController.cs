@@ -1,10 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
 using UnityEditor;
 using System.Security.Cryptography.X509Certificates;
 using DG.Tweening;
+using System.Threading.Tasks;
 
 public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
 {
@@ -18,9 +19,10 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     //Collider TargetPlayer;
 
     [Header("Enemy 정보")]
-    public float AttackRate;
-    public bool StatusEffect;
-    public bool Confused;
+    [SerializeField] private float AttackRate;
+    [SerializeField] private bool AttackActive;
+    [SerializeField] private bool StatusEffect;
+    [SerializeField] private bool Confused;
 
     [Header("BT러너")]
     [SerializeField] BTRunner bt;
@@ -62,9 +64,16 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     {
         Entity.TakeDamaged(damage);
     }
+    public void InToDamage()
+    {
+        var dist = (transform.position - target.transform.position).sqrMagnitude;
+
+        if (dist < Entity.Model.Range.Value)
+            PlayerManager.Instance.Player.Entity.TakeDamaged(Entity.Model.Atk.Value);
+    }
     public void InDead()
     {
-
+        
     }
     public void InStunned(float delayTime)
     {
@@ -125,10 +134,16 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     {
         StatusEffect = false;
         Confused = false;
-    }    
+    }
 
     public eNodeState OnCheckDead()
     {
+        if (Entity == null || Entity.Model == null )//|| Entity.Model.Health == null)
+        {
+            Debug.LogError("Entity 또는 하위 필드가 null입니다.");
+            return eNodeState.failure;
+        }
+
         if (Entity.Model.Health.Value <= 0)
         {
             return eNodeState.success;
@@ -181,9 +196,19 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
 
         if (target != null)
         {
-            transform.LookAt(target.transform);
-            return eNodeState.success;
+            if (AttackActive)
+            {
+                transform.LookAt(target.transform);
+                //공격 애니메이션 실행
+                return eNodeState.success;
+            }
+            else
+            {
+                transform.LookAt(target.transform);
+                return eNodeState.success;
+            }
         }
+
         return eNodeState.failure;
     }
     //public eNodeState ToDetectPlayer()
@@ -212,7 +237,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     {
         //if (TargetPlayer == null)
         //{
-        //    Debug.Log("타깃이 없다");
+            //Debug.Log("타깃이 없다");
         //    return eNodeState.failure;
         //}
         if (target == null)
@@ -226,7 +251,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
             return eNodeState.success;
         }
         //var dir = (target.transform.position - transform.position).normalized;
-        //Debug.Log("추적 개시");
+            //Debug.Log("추적 개시");
 
         InMove(IsTargetPosition());
         return eNodeState.running;
@@ -252,7 +277,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     }
     Vector3 IsTargetPosition()
     {
-        if(Confused)
+        if (Confused)
         {
             Vector3 toTarget = transform.position - target.position;
             Vector3 ReverseTarget = transform.position + toTarget.normalized * 10f;
@@ -266,22 +291,29 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
             return dir;
         }
     }
-
-    public void SetActive(bool active)
+    private async void AttackCoolTime()
     {
-        throw new System.NotImplementedException();
-    }
+        AttackActive = false;
 
-    public void Release()
-    {
-        throw new System.NotImplementedException();
-    }
+        float elapsed = 0f;
 
-    public void Init(params object[] param)
-    {
-        throw new System.NotImplementedException();
+        while (elapsed < AttackRate)
+        {
+            // 일시정지 중이면 멈춤 (timeScale == 0)
+            while (Time.timeScale == 0f)
+            {
+                await Task.Yield(); // 한 프레임 대기
+            }
+
+            await Task.Yield(); // 매 프레임 대기
+            elapsed += Time.deltaTime; // 타임스케일 적용된 시간
+        }
+
+        AttackActive = true;
+        elapsed = 0f;
     }
 }
+
 [CustomEditor(typeof(EnemyAIController))]
 public class EnemyControl : Editor
 {

@@ -10,6 +10,7 @@ using UnityEditorInternal;
 using System.Collections;
 using UnityEngine.Networking;
 using System.Linq;
+using static UnityEngine.GraphicsBuffer;
 
 public class DataTool : EditorWindow
 {
@@ -57,7 +58,7 @@ public class DataTool : EditorWindow
             isOpened.Clear();
             foreach (var sheet in sheets)
             {
-                isOpened.Add(sheet.key, false);
+                isOpened.Add(sheet.className, false);
             }
         }
         catch (Exception ex)
@@ -111,7 +112,7 @@ public class DataTool : EditorWindow
                 EditorGUI.indentLevel -= 2;
                 foreach (var sheet in sheets)
                 {
-                    var key = sheet.key;
+                    var key = sheet.className;
                     bool opened = isOpened[key];
                     var style = new GUIStyle(UnityEngine.GUI.skin.button);
                     style.alignment = TextAnchor.MiddleLeft;
@@ -128,7 +129,7 @@ public class DataTool : EditorWindow
                         {
                             var name = data.Split('\\').Last().Split('.')[0];
                             var path = DataToolSetting.DataScriptableObjectPath + "/" + name + ".asset";
-                            names.Add(name, $"{name}" );
+                            names.Add(name, $"{name}");
                             index++;
                         }
                         var keys = new List<string>(names.Keys);
@@ -166,20 +167,25 @@ public class DataTool : EditorWindow
 
     public void DrawScriptableObject()
     {
-        if (GUILayout.Button($"Refresh All {currentAsset.GetType().ToString()}s"))
-        {
-            var sheets = this.sheets.FindAll(obj => obj.className == currentAsset.GetType().ToString());
-            DownloadData(sheets);
-        }
-        if (GUILayout.Button($"Refresh {currentAsset.rcode}"))
-        {
-            var sheets = this.sheets.FindAll(obj => obj.className == currentAsset.GetType().ToString());
-            DownloadData(sheets, currentAsset);
-        }
 
-        currentAsset = EditorGUILayout.ObjectField("", currentAsset, currentAsset.GetType().DeclaringType, true) as BaseDataSO;
-        var editor = Editor.CreateEditor(currentAsset);
-        editor.OnInspectorGUI();
+        //var sheetsField = ((GSpreadReader<DataManager>sa)target).Sheets;
+        //var sheets = sheetsField.FindAll(obj => obj.className == currentAsset.GetType().ToString());
+
+        DownloadData(sheets);
+        //if (GUILayout.Button($"Refresh All {currentAsset.GetType().ToString()}s"))
+        //{
+        //    var sheets = this.sheets.FindAll(obj => obj.className == currentAsset.GetType().ToString());
+        //    DownloadData(sheets);
+        //}
+        //if (GUILayout.Button($"Refresh {currentAsset.rcode}"))
+        //{
+        //    var sheets = this.sheets.FindAll(obj => obj.className == currentAsset.GetType().ToString());
+        //    DownloadData(sheets, currentAsset);
+        //}
+
+        //currentAsset = EditorGUILayout.ObjectField("", currentAsset, currentAsset.GetType().DeclaringType, true) as BaseDataSO;
+        //var editor = Editor.CreateEditor(currentAsset);
+        //editor.OnInspectorGUI();
     }
 
     private void OnGUI()
@@ -223,7 +229,7 @@ public class DataTool : EditorWindow
         method.Invoke(new object(), null);
     }
 
-    public async void DownloadData(List<SheetInfoSO> sheets, BaseDataSO data = null)
+    public async void DownloadData(List<SheetInfo> sheets, BaseDataSO data = null)
     {
         foreach (var sheet in sheets)
         {
@@ -246,7 +252,7 @@ public class DataTool : EditorWindow
         }
     }
 
-    public void RefreshData(SheetInfoSO sheet, BaseDataSO data)
+    public void RefreshData(SheetInfo sheet, BaseDataSO data)
     {
         var dicData = sheet.datas.Find(obj => obj["rcode"] == data.rcode);
         var path = DataToolSetting.DataScriptableObjectPath + "/" + dicData["rcode"] + ".asset";
@@ -257,7 +263,7 @@ public class DataTool : EditorWindow
         AssetDatabase.SaveAssets();
     }
 
-    protected void ImportDatas(List<SheetInfoSO> sheets)
+    protected void ImportDatas(List<SheetInfo> sheets)
     {
         foreach (var sheet in sheets)
         {
@@ -265,14 +271,11 @@ public class DataTool : EditorWindow
         }
     }
 
-    protected void ImportData(SheetInfoSO sheet)
+    protected void ImportData(SheetInfo sheet)
     {
-        if (sheet.isUpdate)
-        {
-            Assembly assembly = typeof(BaseDataSO).Assembly;
-            var type = assembly.GetType(sheet.className);
-            GetDatas(type, sheet.datas);
-        }
+        Assembly assembly = typeof(BaseDataSO).Assembly;
+        var type = assembly.GetType(sheet.className);
+        GetDatas(type, sheet.datas);
     }
 
     public void GetDatas(Type type, List<Dictionary<string, string>> datas)
@@ -296,7 +299,7 @@ public class DataTool : EditorWindow
         }
     }
 
-    private List<SheetInfoSO> sheets { get => DataToolSetting.Instance.sheets; }
+    private List<SheetInfo> sheets { get => DataToolSetting.Instance.sheets; }
 
     public ScriptableObject DicToClass(Type type, Dictionary<string, string> data)
     {
