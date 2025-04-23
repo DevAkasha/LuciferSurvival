@@ -44,6 +44,7 @@ public class UnitEntity : BaseEntity<UnitModel>
         //공격이 끝나면 Stay 상태 변환 필요
         if (colliders.Length > 0)
         {
+            
             //공격 후 collider를 비워 새로운 적을 찾게 만듦
             //공격이 끝난 후 Stay값으로 변경하여 공격이 끝났음을 보여주는 처리
             Array.Clear(colliders, 0, colliders.Length);

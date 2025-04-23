@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System;
 using System.IO;
@@ -14,7 +14,7 @@ using System.Linq;
 public class DataTool : EditorWindow
 {
     public static DataTool instance;
-    [MenuItem("Ironcow/Tool/Data Tool #&x")]
+    [MenuItem("Tools/Data Tool #&x")]
     public static void Open()
     {
         if (instance == null)
