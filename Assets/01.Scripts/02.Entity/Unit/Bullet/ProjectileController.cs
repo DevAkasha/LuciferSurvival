@@ -11,16 +11,15 @@ public class ProjectileController : MonoBehaviour
     [SerializeField]
     private LayerMask layerMask;
 
-    [SerializeField]   //나중에 빼기(컨트롤러 타깃 초기화 함수 만들 필요 있어보임)
-    private Transform target;
-
     private Vector3 direction;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        direction = (target.position - transform.position).normalized;
-        direction.y = 0f;
+        if (projectile?.Target != null)
+        {
+            direction = (projectile.Target.position - transform.position).normalized;
+            direction.y = 0f;
+        }
     }
 
     void Update()
