@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -34,7 +34,7 @@ using UnityEngine;
 
         [Header("Google Sheet Data")]
         public string GSheetUrl;
-        public List<SheetInfoSO> sheets;
+        public List<SheetInfo> sheets;
 
 #endif
     }

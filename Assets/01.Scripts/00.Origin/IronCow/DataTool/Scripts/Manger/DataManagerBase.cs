@@ -9,6 +9,12 @@ public class DataManagerBase<T, U> : GSpreadReader<T> where T : DataManagerBase<
 
     private Dictionary<string, BaseDataSO> dataDics = new Dictionary<string, BaseDataSO>();
 
+    protected override void Awake()
+    {
+        base.Awake();
+        Init();
+    }
+
     public override void Init(UnityAction<string> progressTextCallback = null, UnityAction<float> progressValueCallback = null)
     {
         AddDataDics(Resources.LoadAll<BaseDataSO>("GameDatas").ToList());
