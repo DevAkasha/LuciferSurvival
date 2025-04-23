@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 963260770437781237}
-  m_Layer: 0
+  - component: {fileID: 7769266325576708323}
+  - component: {fileID: 1565968940513325944}
+  m_Layer: 6
   m_Name: Unit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,6 +34,34 @@ Transform:
   - {fileID: 6952893001486300508}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7769266325576708323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214996522932382032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1e7431959b544d429c188a27325d71c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entity: {fileID: 1565968940513325944}
+--- !u!114 &1565968940513325944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214996522932382032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dedd3c9a2a532e4d9547505d8abda39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rcode: UNIT0001
+  projectile: {fileID: 1389943806437722062, guid: 067f598eff79008469f3de84a5eca632,
+    type: 3}
 --- !u!1 &7797270842963641082
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,7 +74,7 @@ GameObject:
   - component: {fileID: 996788473234657927}
   - component: {fileID: 4769610347095870296}
   - component: {fileID: 3508611550584366118}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
