@@ -212,7 +212,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &234169017
 Transform:
   m_ObjectHideFlags: 0
@@ -261,7 +261,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 555925410}
-  - component: {fileID: 555925411}
+  - component: {fileID: 555925409}
   m_Layer: 0
   m_Name: ResourceManager
   m_TagString: Untagged
@@ -269,6 +269,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &555925409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555925408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6fdfe9605132c348a39711c2405074d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAutoLoading: 0
 --- !u!4 &555925410
 Transform:
   m_ObjectHideFlags: 0
@@ -284,19 +297,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &555925411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 555925408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6fdfe9605132c348a39711c2405074d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isAutoLoading: 0
 --- !u!1 &700816136
 GameObject:
   m_ObjectHideFlags: 0
@@ -444,8 +444,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 703756973}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.6897902, y: 6.8365345, z: -6.325651}
+  m_LocalRotation: {x: 0.4673076, y: 0.006062251, z: -0.0032044337, w: 0.8840683}
+  m_LocalPosition: {x: -1.5554814, y: 19.653877, z: -10.832283}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -464,8 +464,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAutoLoading: 1
-  url: 
-  sheets: []
+  url: https://docs.google.com/spreadsheets/d/12fHdjZZQ7cL0xARX6AbQV_d08fnGQ6NqpUhi-ePcUbs/
+  sheets:
+  - className: UnitDataSO
+    sheetId: 930551064
+    key: 
+    isUpdate: 0
+  - className: EnemyDataSO
+    sheetId: 1576224224
+    key: 
+    isUpdate: 0
+  - className: UnionTableSO
+    sheetId: 1480292564
+    key: 
+    isUpdate: 0
 --- !u!1 &1074275450
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,51 +615,6 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!1 &1531767912
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1531767914}
-  - component: {fileID: 1531767915}
-  m_Layer: 0
-  m_Name: PoolManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1531767914
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1531767912}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1531767915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1531767912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 996c3f918587bc0418112cd03a168a3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isInit: 0
 --- !u!1 &1604810527
 GameObject:
   m_ObjectHideFlags: 0
@@ -1136,6 +1103,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 782113307443736477, guid: e3752dffa5db42243a67a8b264d68249,
+        type: 3}
+      propertyPath: rcode
+      value: ENE0001
+      objectReference: {fileID: 0}
     - target: {fileID: 1325305280918069342, guid: e3752dffa5db42243a67a8b264d68249,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1309,7 +1281,6 @@ SceneRoots:
   - {fileID: 234169017}
   - {fileID: 555925410}
   - {fileID: 703756975}
-  - {fileID: 1531767914}
   - {fileID: 1652415920}
   - {fileID: 2816340396237915062}
   - {fileID: 5829490781953243155}
