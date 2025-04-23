@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -93,18 +93,36 @@ public class EffectRunner : Singleton<EffectRunner>
         float time = 0f;
         ModifierKey key = effect.Key;
 
+        // ModifierEffect에 등록된 필드 목록
+        var modifiers = effect.Modifiers;
+
         while (time < duration)
         {
             float t = time / duration;
             object value = effect.Interpolator.Invoke(t);
 
-            Debug.Log($"[InterpolatedEffect] t={t:F2}, value={value}");
-
             foreach (var modifiable in target.GetModifiables())
             {
-                if (modifiable is IRxModBase mod)
+                if (modifiable is not IRxField rxField)
+                    continue;
+
+                foreach (var modifier in modifiers)
                 {
-                    mod.SetModifier(ModifierType.Multiplier, key, value);
+                    // 필드명이 일치할 경우에만 적용
+                    if (!string.Equals(rxField.FieldName, modifier.FieldName, StringComparison.OrdinalIgnoreCase))
+                        continue;
+
+                    if (modifiable is IRxModBase mod)
+                    {
+                        try
+                        {
+                            mod.SetModifier(modifier.Type, key, value);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.LogError($"[InterpolatedEffect] Failed to set modifier: {e.Message}");
+                        }
+                    }
                 }
             }
 
@@ -112,11 +130,12 @@ public class EffectRunner : Singleton<EffectRunner>
             yield return null;
         }
 
+        // 종료 시 모든 modifier 제거
         foreach (var modifiable in target.GetModifiables())
         {
             modifiable.RemoveModifier(key);
         }
 
-        Debug.Log("[InterpolatedEffect] Modifier removed.");
+        Debug.Log($"[InterpolatedEffect] Modifier removed: {key}");
     }
 }
