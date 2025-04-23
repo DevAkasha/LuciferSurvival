@@ -5,6 +5,7 @@ using static UnityEngine.GraphicsBuffer;
 using UnityEditor;
 using System.Security.Cryptography.X509Certificates;
 using DG.Tweening;
+using System.Threading.Tasks;
 
 public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
 {
@@ -18,9 +19,10 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     //Collider TargetPlayer;
 
     [Header("Enemy 정보")]
-    public float AttackRate;
-    public bool StatusEffect;
-    public bool Confused;
+    [SerializeField] private float AttackRate;
+    [SerializeField] private bool AttackActive;
+    [SerializeField] private bool StatusEffect;
+    [SerializeField] private bool Confused;
 
     [Header("BT러너")]
     [SerializeField] BTRunner bt;
@@ -44,7 +46,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
         while (true)
         {
             bt.Operate();
-            Debug.Log("루프 작동");
+            //Debug.Log("루프 작동");
             yield return new WaitForSeconds(0.1f);
         }
     }
@@ -62,13 +64,16 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     {
         Entity.TakeDamaged(damage);
     }
-    public void InToDamage(float damage)
+    public void InToDamage()
     {
-        PlayerManager.Instance.Player.Entity.TakeDamaged(damage);
+        var dist = (transform.position - target.transform.position).sqrMagnitude;
+
+        if (dist < Entity.Model.Range.Value)
+            PlayerManager.Instance.Player.Entity.TakeDamaged(Entity.Model.Atk.Value);
     }
     public void InDead()
     {
-
+        
     }
     public void InStunned(float delayTime)
     {
@@ -191,9 +196,19 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
 
         if (target != null)
         {
-            transform.LookAt(target.transform);
-            return eNodeState.success;
+            if (AttackActive)
+            {
+                transform.LookAt(target.transform);
+                //공격 애니메이션 실행
+                return eNodeState.success;
+            }
+            else
+            {
+                transform.LookAt(target.transform);
+                return eNodeState.success;
+            }
         }
+
         return eNodeState.failure;
     }
     //public eNodeState ToDetectPlayer()
@@ -275,6 +290,27 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
 
             return dir;
         }
+    }
+    private async void AttackCoolTime()
+    {
+        AttackActive = false;
+
+        float elapsed = 0f;
+
+        while (elapsed < AttackRate)
+        {
+            // 일시정지 중이면 멈춤 (timeScale == 0)
+            while (Time.timeScale == 0f)
+            {
+                await Task.Yield(); // 한 프레임 대기
+            }
+
+            await Task.Yield(); // 매 프레임 대기
+            elapsed += Time.deltaTime; // 타임스케일 적용된 시간
+        }
+
+        AttackActive = true;
+        elapsed = 0f;
     }
 }
 

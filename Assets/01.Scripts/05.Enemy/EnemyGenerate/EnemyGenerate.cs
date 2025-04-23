@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -21,7 +21,7 @@ public class EnemyGenerate : MonoBehaviour
     }
     public void EnemySet()
     {
-        //Instantiate(enemyList[randomEnemy], SpawnArea(), Quaternion.identity);
+        Instantiate(enemyList[0], SpawnArea(), Quaternion.identity);
         //var enemy = PoolManager.Instance.Spawn<EnemyAIController>("Enemy", SpawnArea(),transform);
     }
 
