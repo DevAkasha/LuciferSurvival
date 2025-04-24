@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,32 +6,37 @@ public class TileManager : Singleton<TileManager>
 {
     protected override bool IsPersistent => false;
 
-    public GameObject lockBlockTile;
+    public GameObject lockBlockTile; // 잠금타일
+    public GameObject resourceTile; // 자원타일
 
-    // Vector3Int : 월드 좌표나 그리드 좌표를 기준으로 씀 - gird position, gridpos : 격자 좌표, 딕셔너리에 타일 오브젝트 저장
-    public Dictionary<Vector3Int, GameObject> tiles = new Dictionary<Vector3Int, GameObject>();
+    int gridCount = 100;
 
-    // 그리드 좌표로 변환, 딕셔너리의 키로 만들어줄수있게 하는 함수, 플레이어쪽에선 그리드 좌표를 구하고 타일이 있는지 확인 후 상호작용으로 처리 가능
-    private Vector3Int GridPosition(Vector3 worldPos)
+    [SerializeField] private GameObject lockTileObj;
+    [SerializeField] private Grid grid;
+    [SerializeField] private List<Vector2Int> excludedCells; // 제외할 셀 좌표들
+
+    private void Start()
     {
-        return Vector3Int.RoundToInt(worldPos);
+        SetLockTileMap();
     }
 
-    // 플레이어 상호작용 용도, 플레이어가 본인의 위치를 알 때
-    public void RemoveTile(GameObject tile)
+    public void SetLockTileMap()
     {
-        Destroy(tile);
-    }
+        // 프리펩 크기 조절할수있게 추가 하나 해줘보기, 공부하기
 
-    // 상호작용한 위치의 타일 제거, 플레이어가 위치를 모를 때
-    public void RemoveTile(Vector3 worldPos)
-    {
-        Vector3Int gridPos = GridPosition(worldPos);
-
-        if (tiles.TryGetValue(gridPos, out GameObject tile))
+        for (int x = 0; x < gridCount; x++)
         {
-            Destroy(tile);
-            tiles.Remove(gridPos);
+            for (int y = 0; y < gridCount; y++)
+            {
+                Vector2Int cell = new Vector2Int(x, y);
+                //if (excludedCells.Contains(cell))
+                //  continue; // 제외된 영역은 스킵
+                Vector3Int gridCell = new Vector3Int(x, y, 0);
+                Vector3 worldPos = grid.CellToWorld(gridCell);
+                // XZ 평면 → Y를 0으로 고정
+                Vector3 adjustedPos = new Vector3(worldPos.x, 0f, worldPos.z);
+                Instantiate(lockTileObj, adjustedPos, Quaternion.identity, transform);
+            }
         }
     }
 }
