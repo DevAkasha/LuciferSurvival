@@ -17,12 +17,20 @@ public class TileManager : Singleton<TileManager>
 
     private void Start()
     {
+        SetResourceTileMap();
         SetLockTileMap();
     }
 
+    public void SetResourceTileMap()
+    {
+
+    }
+
+    // 잠금타일 배치 메서드
     public void SetLockTileMap()
     {
         // 프리펩 크기 조절할수있게 추가 하나 해줘보기, 공부하기
+        // 현재 포지션 000기준으로 생성되는 형식인데 중앙에서 퍼져나가는 형식으로도 가능한지 나중에 확인해보기
 
         for (int x = 0; x < gridCount; x++)
         {
@@ -32,15 +40,14 @@ public class TileManager : Singleton<TileManager>
                 if (excludedCells.Contains(cell))
                     continue; // 제외된 영역은 스킵
                 Vector3Int gridCell = new Vector3Int(x, y, 0); // grid 좌표로 변환
-                Vector3 worldPos = grid.CellToWorld(gridCell); // gridcell 위치를 월드좌표로 변환, 정확한 위치 파악
-                // XZ 평면 → Y를 0으로 고정
+                Vector3 worldPos = grid.CellToWorld(gridCell); // gridcell 위치를 월드좌표로 변환, 정확한 위치 파악, XZ 평면 → Y를 0으로 고정
                 Vector3 addjustedPos = new Vector3(worldPos.x, 0f, worldPos.z); // y축은 0으로 고정, xz평면위에 배치, adjustedPos:최종위치값
                 Instantiate(lockTileObj, addjustedPos, Quaternion.identity, transform); // lockTile프리팹을 adjustedPos월드위치에 생성, 회전없이, 부모는 현재객체
             }
         }
     }
 
-    // 제외시킬 위치를 확인하기 위해 필요한 기즈모 (위치 시각화 용도)
+    // 잠금타일 제외시킬 위치를 확인하기 위해 필요한 기즈모 (위치 시각화 용도)
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
