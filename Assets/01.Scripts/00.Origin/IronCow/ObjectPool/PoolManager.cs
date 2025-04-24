@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PoolManager : Singleton<PoolManager>
 {
+    [SerializeField] private List<ObjectPoolData> sheets;
     Dictionary<string, Queue<ObjectPoolBase>> pools = new Dictionary<string, Queue<ObjectPoolBase>>();
     public bool isInit = false;
 
     public void Init()
     {
-        foreach (var data in ObjectPoolDataSO.Instance.objectPoolDatas)
+        foreach (var data in sheets) //(var data in ObjectPoolDataSO.Instance.objectPoolDatas)
         {
             data.prefab = ResourceManager.Instance.LoadAsset<ObjectPoolBase>(data.prefabName, ResourceType.Prefabs);
             data.parent = new GameObject(data.prefabName + "parent").transform;

@@ -21,8 +21,8 @@ public class EnemyGenerate : MonoBehaviour
     }
     public void EnemySet()
     {
-        Instantiate(enemyList[0], SpawnArea(), Quaternion.identity);
-        //var enemy = PoolManager.Instance.Spawn<EnemyAIController>("Enemy", SpawnArea(),transform);
+        //Instantiate(enemyList[0], SpawnArea(), Quaternion.identity);
+        var enemy = PoolManager.Instance.Spawn<ObjectPoolBase>("Enemy", SpawnArea(),transform);
     }
 
     Vector3 SpawnArea()
