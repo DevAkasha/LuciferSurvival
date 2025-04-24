@@ -10802,10 +10802,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lockBlockTile: {fileID: 1452142422}
   resourceTile: {fileID: 1016419883}
-  lockTilesPrefab: {fileID: 1994693040836722, guid: 13603974f7df41442b7edeb05b6b74eb,
+  lockTileObj: {fileID: 1994693040836722, guid: 13603974f7df41442b7edeb05b6b74eb,
     type: 3}
   grid: {fileID: 269747610}
-  excludedCells: []
+  excludedCells:
+  - {x: 6, y: 7}
+  - {x: 5, y: 7}
+  - {x: 5, y: 6}
+  - {x: 6, y: 6}
+  - {x: 7, y: 6}
+  - {x: 5, y: 5}
+  - {x: 6, y: 5}
 --- !u!4 &1991441222
 Transform:
   m_ObjectHideFlags: 0
