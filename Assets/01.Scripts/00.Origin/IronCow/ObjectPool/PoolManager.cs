@@ -31,7 +31,7 @@ public class PoolManager : Singleton<PoolManager>
     {
         if (pools[rcode].Count == 0)
         {
-            var data = ObjectPoolDataSO.Instance.objectPoolDatas.Find(obj => obj.prefabName == rcode);
+            var data = sheets.Find(obj => obj.prefabName == rcode);
             for (int i = 0; i < data.count; i++)
             {
                 var obj = Instantiate(data.prefab, data.parent);
@@ -97,7 +97,7 @@ public class PoolManager : Singleton<PoolManager>
     {
         if (pools["AudioSource"].Count == 0)
         {
-            var data = ObjectPoolDataSO.Instance.objectPoolDatas.Find(obj => obj.prefabName == "AudioSource");
+            var data = sheets.Find(obj => obj.prefabName == "AudioSource");
             for (int i = 0; i < data.count; i++)
             {
                 var obj = Instantiate(data.prefab, data.parent);
@@ -113,7 +113,7 @@ public class PoolManager : Singleton<PoolManager>
     public void Release(ObjectPoolBase item)
     {
         item.SetActive(false);
-        var data = ObjectPoolDataSO.Instance.objectPoolDatas.Find(obj => obj.prefabName == item.name);
+        var data = sheets.Find(obj => obj.prefabName == item.name);
         item.transform.parent = data.parent;
         pools[item.name].Enqueue(item);
     }
