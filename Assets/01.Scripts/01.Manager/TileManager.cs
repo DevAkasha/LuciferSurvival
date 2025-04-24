@@ -1,37 +1,87 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TileManager : Singleton<TileManager>
 {
     protected override bool IsPersistent => false;
 
-    public GameObject lockBlockTile;
+    int gridCount = 20;     // 전체 크기
+    int resourceCount = 20; // 자원 갯수
 
-    // Vector3Int : 월드 좌표나 그리드 좌표를 기준으로 씀 - gird position, gridpos : 격자 좌표, 딕셔너리에 타일 오브젝트 저장
-    public Dictionary<Vector3Int, GameObject> tiles = new Dictionary<Vector3Int, GameObject>();
+    [SerializeField] private GameObject lockTileObj;            // 잠금타일 프리펩
+    [SerializeField] private List<GameObject> resourceTileObj;  // 자원타일 프리펩 리스트
+    [SerializeField] private Grid grid;
+    [SerializeField] private List<Vector2Int> excludedCells;    // 제외할 셀 좌표 리스트
 
-    // 그리드 좌표로 변환, 딕셔너리의 키로 만들어줄수있게 하는 함수, 플레이어쪽에선 그리드 좌표를 구하고 타일이 있는지 확인 후 상호작용으로 처리 가능
-    private Vector3Int GridPosition(Vector3 worldPos)
+    private void Start()
     {
-        return Vector3Int.RoundToInt(worldPos);
+        SetResourceTileMap();
+        SetLockTileMap();
     }
 
-    // 플레이어 상호작용 용도, 플레이어가 본인의 위치를 알 때
-    public void RemoveTile(GameObject tile)
+    /// <summary>
+    /// 자원타일 배치
+    /// </summary>
+    public void SetResourceTileMap()
     {
-        Destroy(tile);
-    }
+        // 자원타일이 이미 배치된 좌표 확인용
+        List<Vector2Int> useTileObj = new List<Vector2Int>();
 
-    // 상호작용한 위치의 타일 제거, 플레이어가 위치를 모를 때
-    public void RemoveTile(Vector3 worldPos)
-    {
-        Vector3Int gridPos = GridPosition(worldPos);
-
-        if (tiles.TryGetValue(gridPos, out GameObject tile))
+        for (int i = 0; i < resourceCount; i++)
         {
-            Destroy(tile);
-            tiles.Remove(gridPos);
+            int randomX = Random.Range(0, gridCount);
+            int randomY = Random.Range(0, gridCount);
+            int resourceType = Random.Range(0, resourceTileObj.Count);
+
+            Vector2Int cell = new Vector2Int(randomX, randomY); // 랜덤 좌표 생성
+            if (useTileObj.Contains(cell)) // 이미 배치된 좌표일경우 반복횟수 복원
+            {
+                i--;
+                continue; 
+            } 
+            useTileObj.Add(cell); // 좌표 등록
+
+            Vector3Int gridCell = new Vector3Int(randomX, randomY, 0); // grid 좌표로 변환
+            Vector3 worldPos = grid.CellToWorld(gridCell); // 월드좌표로 변환
+            Vector3 addjustedPos = new Vector3(worldPos.x, 0f, worldPos.z); // 최종위치값 = y축은 0으로 고정, xz평면위에 배치
+            Instantiate(resourceTileObj[resourceType], addjustedPos, Quaternion.identity, transform); // 프리팹들을 adjustedPos월드위치에 생성
+        }
+    }
+
+    /// <summary>
+    /// 잠금타일
+    /// </summary>
+    public void SetLockTileMap()
+    {
+        for (int x = 0; x < gridCount; x++)
+        {
+            for (int y = 0; y < gridCount; y++)
+            {
+                Vector2Int cell = new Vector2Int(x, y); // 제외할 타일 목록
+                if (excludedCells.Contains(cell))
+                    continue; // 제외된 영역은 스킵
+                Vector3Int gridCell = new Vector3Int(x, y, 0);
+                Vector3 worldPos = grid.CellToWorld(gridCell);
+                Vector3 addjustedPos = new Vector3(worldPos.x, 0f, worldPos.z);
+                Instantiate(lockTileObj, addjustedPos, Quaternion.identity, transform); // 프리팹을 adjustedPos월드위치에 생성
+            }
+        }
+    }
+
+    /// <summary>
+    /// 자금타일 위치확인용 기즈모
+    /// </summary>
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red; // 기즈모 설정 색
+        foreach (var cell in excludedCells)
+        {
+            Vector3Int gridCell = new Vector3Int(cell.x, cell.y, 0); // 3D좌표로 변환
+            Vector3 worldPos = grid.CellToWorld(gridCell); // 월드좌표로 변환
+            Vector3 pos = new Vector3(worldPos.x, 0f, worldPos.z); // 위치
+            Gizmos.DrawWireCube(pos, Vector3.one * 2f); // 와이어프레임 박스 표시 (222 크기의 정육면체)
         }
     }
 }
