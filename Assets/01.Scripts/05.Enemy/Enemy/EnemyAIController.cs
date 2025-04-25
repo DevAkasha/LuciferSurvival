@@ -19,7 +19,6 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     //Collider TargetPlayer;
 
     [Header("Enemy 정보")]
-    [SerializeField] private float AttackRate;
     [SerializeField] private bool AttackActive;
     [SerializeField] private bool StatusEffect;
     [SerializeField] private bool Confused;
@@ -291,13 +290,13 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
             return dir;
         }
     }
-    private async void AttackCoolTime()
+    private async void InAttackCoolTime()
     {
         AttackActive = false;
 
         float elapsed = 0f;
 
-        while (elapsed < AttackRate)
+        while (elapsed < Entity.Model.AtkRecovery.Value)
         {
             // 일시정지 중이면 멈춤 (timeScale == 0)
             while (Time.timeScale == 0f)

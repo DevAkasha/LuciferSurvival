@@ -12,6 +12,8 @@ public class EnemyModel : BaseModel
     public RxModFloat MoveSpeed;
     public RxModFloat Health;
     public RxModFloat Range;
+    public RxModFloat AtkSpeed;
+    public RxModFloat AtkRecovery;
 
     public EnemyModel(EnemyDataSO enemyDataSO)
     {
@@ -23,6 +25,8 @@ public class EnemyModel : BaseModel
         MoveSpeed = new(enemyDataSO.moveSpeed, nameof(MoveSpeed), this);
         Health = new(enemyDataSO.health, nameof(Health), this);
         Range = new(enemyDataSO.atkRange, nameof(Range), this);
+        AtkSpeed = new(enemyDataSO.atkSpeed, nameof(AtkSpeed), this);
+        AtkRecovery = new(enemyDataSO.atkRecovery, nameof(AtkRecovery), this);
     }
     public override IEnumerable<IModifiable> GetModifiables()
     {
@@ -30,5 +34,7 @@ public class EnemyModel : BaseModel
         yield return MoveSpeed;
         yield return Health;
         yield return Range;
+        yield return AtkSpeed;
+        yield return AtkRecovery;
     }
 }
