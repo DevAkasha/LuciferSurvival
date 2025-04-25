@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +22,7 @@ public class EnemyModel : BaseModel
         Atk = new(enemyDataSO.atk, nameof(Atk), this);
         MoveSpeed = new(enemyDataSO.moveSpeed, nameof(MoveSpeed), this);
         Health = new(enemyDataSO.health, nameof(Health), this);
-        Range = new(enemyDataSO.range, nameof(Range), this);
+        Range = new(enemyDataSO.atkRange, nameof(Range), this);
     }
     public override IEnumerable<IModifiable> GetModifiables()
     {

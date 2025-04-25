@@ -28,11 +28,13 @@ public class EnemyGenerate : MonoBehaviour
     Vector3 SpawnArea()
     {
         if (mainCamera == null)
-        { 
+        {
+            Debug.Log("카메라 없음");
             return Vector3.zero; 
         }
         if (target == null)
-        { 
+        {
+            Debug.Log("플레이어 없음");
             return Vector3.zero; 
         }
 
@@ -57,6 +59,7 @@ public class EnemyGenerate : MonoBehaviour
             }
         }
 
+        Debug.Log("먼가 없음");
         return Vector3.zero;
     }
     private void OnDrawGizmos()

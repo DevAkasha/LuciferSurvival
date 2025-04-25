@@ -472,7 +472,7 @@ MonoBehaviour:
   - className: EnemyDataSO
     sheetId: 1576224224
     key: 
-    isUpdate: 0
+    isUpdate: 1
   - className: UnionTableSO
     sheetId: 1480292564
     key: 
@@ -508,8 +508,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sheets:
   - prefabName: Enemy
-    count: 10
-    velocity: 10
+    count: 300
     prefab: {fileID: 0}
     parent: {fileID: 0}
   isInit: 0

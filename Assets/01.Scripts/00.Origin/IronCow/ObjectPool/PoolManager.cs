@@ -94,6 +94,13 @@ public class PoolManager : Singleton<PoolManager>
         return obj;
     }
 
+    public T Spawn<T>(string rcode, Vector3 position) where T : ObjectPoolBase
+    {
+        var obj = Spawn<T>(rcode);
+        obj.transform.position = position;
+        return obj;
+    }
+
     public T SpawnAudioSource<T>() where T : ObjectPoolBase
     {
         if (pools["AudioSource"].Count == 0)
