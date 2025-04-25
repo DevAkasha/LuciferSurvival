@@ -73,7 +73,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     }
     public void InDead()
     {
-        
+        PoolManager.Instance.Release(Entity);
     }
     public void InStunned(float delayTime)
     {
@@ -153,7 +153,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     public eNodeState OnDead()
     {
         navMesh.speed = 0;
-        //InDead();
+        InDead();
         return eNodeState.success;
     }
     public eNodeState IsStatusEffect()

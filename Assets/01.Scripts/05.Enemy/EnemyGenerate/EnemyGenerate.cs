@@ -22,7 +22,7 @@ public class EnemyGenerate : MonoBehaviour
     public void EnemySet()
     {
         //Instantiate(enemyList[0], SpawnArea(), Quaternion.identity);
-        var enemy = PoolManager.Instance.Spawn<ObjectPoolBase>("Enemy", SpawnArea(),transform);
+        var enemy = PoolManager.Instance.Spawn<ObjectPoolBase>("Enemy", SpawnArea());
     }
 
     Vector3 SpawnArea()
