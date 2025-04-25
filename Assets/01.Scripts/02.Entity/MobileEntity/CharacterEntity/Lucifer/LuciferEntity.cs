@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +10,7 @@ public class LuciferEntity : PlayerEntity
     }
 
     #region proxy property
-    public override float Health
+    protected override float Health
     {
         get => Model.Health.Value;
         set => Model.Health.SetValue(value);

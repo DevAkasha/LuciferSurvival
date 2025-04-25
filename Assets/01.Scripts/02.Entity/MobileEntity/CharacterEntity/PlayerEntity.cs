@@ -1,5 +1,7 @@
-﻿using System;
+using System;
+using System.Threading.Tasks.Sources;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
@@ -16,6 +18,12 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
 
     public abstract float MoveSpeed { get; set; }
 
+    private bool IsMove
+    {
+        get => Model.Flags.GetValue(PlayerStateFlag.Move);
+        set => Model.Flags.SetValue(PlayerStateFlag.Move, value);
+    }
+
     protected override void OnInit()
     {
         rigid = GetComponent<Rigidbody>();
@@ -24,7 +32,11 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
     protected virtual void FixedUpdate()
     {
         if (!isStopMove && Math.Abs(moveInput.x) + Math.Abs(moveInput.y) > 0.001)
+        {
             Move();
+            return;
+        }
+        IsMove = false;
     }
 
     public override void TakeDamaged(float damage)
@@ -46,5 +58,6 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
         transform.LookAt(transform.position + moveDir);
         moveVel = moveDir * MoveSpeed;
         rigid.MovePosition(transform.position + moveVel * Time.fixedDeltaTime);
+        IsMove = true;
     }
 }

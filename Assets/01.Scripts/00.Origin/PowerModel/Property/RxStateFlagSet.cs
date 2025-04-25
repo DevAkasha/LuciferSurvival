@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -116,9 +116,35 @@ public partial class RxStateFlagSet<TEnum>: RxBase where TEnum : Enum // 여러 
     public void RemoveListener(TEnum state, Action<bool> listener) => this[state].RemoveListener(listener);
 
     public bool AnyActive() => flags.Exists(f => f.Value);
+    public bool AnyActive(params TEnum[] subset)
+    {
+        foreach (var flag in subset)
+        {
+            if (this[flag].Value)
+                return true;
+        }
+        return false;
+    }
     public bool AllSatisfied() => flags.TrueForAll(f => f.Value);
+    public bool AllSatisfied(params TEnum[] subset)
+    {
+        foreach (var flag in subset)
+        {
+            if (!this[flag].Value)
+                return false;
+        }
+        return true;
+    }
     public bool NoneActive() => flags.TrueForAll(f => !f.Value);
-
+    public bool NoneActive(params TEnum[] subset)
+    {
+        foreach (var flag in subset)
+        {
+            if (this[flag].Value)
+                return false;
+        }
+        return true;
+    }
     public IEnumerable<(TEnum, bool)> Snapshot() // 현재 모든 플래그 상태를 (이름, 값) 튜플로 반환
     {
         foreach (var pair in indexMap) // Enum 값을 인덱스로 매핑

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +17,11 @@ public class PlayerSkillModule : PlayerPart
     [SerializeField] private float rollDuration = 0.6f;
     [SerializeField] private AnimationCurve rollSpeedCurve;
 
-    private bool isRolling = false;
+    private bool IsRolling 
+    { 
+        get => Model.Flags.GetValue(PlayerStateFlag.Roll); 
+        set => Model.Flags.SetValue(PlayerStateFlag.Roll, value);
+    }
 
     private void Awake()
     {
@@ -34,7 +38,7 @@ public class PlayerSkillModule : PlayerPart
 
     public void ActivateRoll()
     {
-        if (!isRolling)
+        if (!IsRolling)
         {
             StartCoroutine(RollCoroutine());
             Debug.Log($"[Roll] Rolling Start");
@@ -43,7 +47,7 @@ public class PlayerSkillModule : PlayerPart
 
     private IEnumerator RollCoroutine()
     {
-        isRolling = true;
+        IsRolling = true;
         float timer = 0f;
 
         // 무적 상태 진입
@@ -61,7 +65,7 @@ public class PlayerSkillModule : PlayerPart
         }
 
         Debug.Log("무적상태 탈출");
-        isRolling = false;
+        IsRolling = false;
         Entity.isStopMove = false;
     }
 

@@ -13,6 +13,7 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
     [SerializeField] private NavMeshAgent navMesh;
     [SerializeField] private Rigidbody rigidbodys;
     [SerializeField] private Animator animator;
+    
     Transform target;
 
     //Collider[] colliders = new Collider[10];
