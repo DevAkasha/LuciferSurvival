@@ -21,7 +21,7 @@ public class AngelModel : BaseModel
         Atk = new(enemyDataSO.atk, nameof(Atk), this);
         MoveSpeed = new(enemyDataSO.moveSpeed, nameof(MoveSpeed), this);
         Health = new(enemyDataSO.health, nameof(Health), this);
-        Range = new(enemyDataSO.range, nameof(Range), this);
+        Range = new(enemyDataSO.atkRange, nameof(Range), this);
 
         Flags = new RxStateFlagSet<PlayerStateFlag>(this);
         Flags.SetCondition(PlayerStateFlag.Death, () => Health.Value <= 0f);
