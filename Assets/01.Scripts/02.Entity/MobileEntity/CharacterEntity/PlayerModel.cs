@@ -39,8 +39,6 @@ public class PlayerModel: BaseModel
         MoveSpeed = new(4f, nameof(MoveSpeed), this);
 
         Flags = new RxStateFlagSet<PlayerStateFlag>(this);
-        Flags.SetCondition(PlayerStateFlag.Death, () => Health.Value <= 0f);
-        Health.AddListener(_ => Flags.Evaluate(PlayerStateFlag.Death));
 
         State = new FSM<PlayerState>(PlayerState.Idle)
             .SetPriority(PlayerState.Death, 100)

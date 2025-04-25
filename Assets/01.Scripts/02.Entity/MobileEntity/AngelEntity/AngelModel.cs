@@ -24,7 +24,6 @@ public class AngelModel : BaseModel
         Range = new(enemyDataSO.atkRange, nameof(Range), this);
 
         Flags = new RxStateFlagSet<PlayerStateFlag>(this);
-        Flags.SetCondition(PlayerStateFlag.Death, () => Health.Value <= 0f);
 
         State = new FSM<PlayerState>(PlayerState.Idle)
             .SetPriority(PlayerState.Death, 100)

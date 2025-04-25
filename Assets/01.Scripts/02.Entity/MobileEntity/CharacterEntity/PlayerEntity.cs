@@ -42,7 +42,11 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
         get => Model.Flags.GetValue(PlayerStateFlag.Move);
         set => Model.Flags.SetValue(PlayerStateFlag.Move, value);
     }
-
+    private bool IsDeath
+    {
+        get => Model.Flags.GetValue(PlayerStateFlag.Death);
+        set => Model.Flags.SetValue(PlayerStateFlag.Death, value);
+    }
     protected override void OnInit()
     {
         rigid = GetComponent<Rigidbody>();
@@ -67,6 +71,8 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
         }
 
         base.TakeDamaged(damage);
+        if (Health < 0f) 
+            IsDeath = true;
     }
 
     public virtual void Move()

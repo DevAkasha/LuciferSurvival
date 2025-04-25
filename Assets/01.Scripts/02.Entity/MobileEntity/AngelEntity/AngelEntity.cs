@@ -14,14 +14,44 @@ public class AngelEntity : MobileEntity<AngelModel>
 
     [SerializeField] private NavMeshAgent navMesh;
     [SerializeField] private Rigidbody rigid;
-    private bool IsAttack { get => Model.Flags.GetValue(PlayerStateFlag.Attack); set => Model.Flags.SetValue(PlayerStateFlag.Attack, value); }
-    protected override float Health { get => Model.Health.Value; set => Model.Health.SetValue(value); }
-    private float Atk { get => Model.Atk.Value; set => Model.Atk.SetValue(value); }
-    private bool IsStun { get => Model.Flags.GetValue(PlayerStateFlag.Stun); set => Model.Flags.SetValue(PlayerStateFlag.Stun, value); }
-    private bool IsConfuse { get => Model.Flags.GetValue(PlayerStateFlag.Confuse); set => Model.Flags.SetValue(PlayerStateFlag.Confuse, value); }
-    private bool IsKnockback { get => Model.Flags.GetValue(PlayerStateFlag.Knockback); set => Model.Flags.SetValue(PlayerStateFlag.Knockback, value); }
-    private bool IsFall { get => Model.Flags.GetValue(PlayerStateFlag.Fall); set => Model.Flags.SetValue(PlayerStateFlag.Fall, value); }
-    private bool IsMove { get => Model.Flags.GetValue(PlayerStateFlag.Move); set => Model.Flags.SetValue(PlayerStateFlag.Move, value); }
+
+    #region ProxyProperty
+    protected override float Health 
+    { 
+        get => Model.Health.Value; 
+        set => Model.Health.SetValue(value); 
+    }
+    private float Atk 
+    { 
+        get => Model.Atk.Value; 
+        set => Model.Atk.SetValue(value); 
+    }
+    private bool IsStun 
+    { 
+        get => Model.Flags.GetValue(PlayerStateFlag.Stun); 
+        set => Model.Flags.SetValue(PlayerStateFlag.Stun, value); 
+    }
+    private bool IsConfuse 
+    { 
+        get => Model.Flags.GetValue(PlayerStateFlag.Confuse); 
+        set => Model.Flags.SetValue(PlayerStateFlag.Confuse, value);
+    }
+    private bool IsKnockback 
+    { 
+        get => Model.Flags.GetValue(PlayerStateFlag.Knockback); 
+        set => Model.Flags.SetValue(PlayerStateFlag.Knockback, value); 
+    }
+    private bool IsDeath 
+    { 
+        get => Model.Flags.GetValue(PlayerStateFlag.Death); 
+        set => Model.Flags.SetValue(PlayerStateFlag.Death, value); 
+    }
+    private bool IsMove 
+    { 
+        get => Model.Flags.GetValue(PlayerStateFlag.Move); 
+        set => Model.Flags.SetValue(PlayerStateFlag.Move, value); 
+    }
+    #endregion
 
     protected override void SetupModel()
     {
@@ -40,6 +70,7 @@ public class AngelEntity : MobileEntity<AngelModel>
     {
         Model.Flags.AddListener(PlayerStateFlag.Death, OnDeath);
     }
+
     public void StopMove()
     {
         if (!navMesh.enabled)
@@ -48,6 +79,7 @@ public class AngelEntity : MobileEntity<AngelModel>
         rigid.velocity = Vector3.zero;
         navMesh.speed = 0f;
     }
+
     public void MoveTo(Vector3 target)
     {
         if (!navMesh.enabled) 
@@ -66,11 +98,16 @@ public class AngelEntity : MobileEntity<AngelModel>
         navMesh.SetDestination(target);
     }
 
-    public async void OnAttack(PlayerController player)
+    public override void TakeDamaged(float damage)
     {
-        IsAttack = true;
-        transform.LookAt(player.transform);
-        StopMove();
+        base.TakeDamaged(damage);
+        if(Health<0f)
+            IsDeath = true;
+    }
+
+    public void OnAttack(PlayerController player)
+    {
+        player.Entity.TakeDamaged(Atk);
     }
 
     private void OnDeath(bool isDead)

@@ -75,7 +75,7 @@ public sealed class RxStateFlag: RxBase // 단일 상태 플래그를 나타내�
     }
 }
 
-public partial class RxStateFlagSet<TEnum>: RxBase where TEnum : Enum // 여러 플래그를 Enum 기반으로 관리하는 클래스
+public partial class RxStateFlagSet<TEnum> : RxBase where TEnum : Enum // 여러 플래그를 Enum 기반으로 관리하는 클래스
 {
     private readonly List<RxStateFlag> flags;
     private readonly Dictionary<TEnum, int> indexMap; // Enum 값을 인덱스로 매핑
@@ -112,11 +112,7 @@ public partial class RxStateFlagSet<TEnum>: RxBase where TEnum : Enum // 여러 
     }
 
     public void SetCondition(TEnum state, Func<bool> condition) => this[state].SetCondition(condition);
-    public void SetConditionAndBind<T>(TEnum state, IRxReadable<T> rx, Func<T, bool> predicate)
-    {
-        SetCondition(state, () => predicate(rx.Value));
-        rx.AddListener(_ => Evaluate(state));
-    }
+  
     public void AddListener(TEnum state, Action<bool> listener) => this[state].AddListener(listener); // 외부에서 변경 알림을 구독할 수 있음
 
     public void RemoveListener(TEnum state, Action<bool> listener) => this[state].RemoveListener(listener);
