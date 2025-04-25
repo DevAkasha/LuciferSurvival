@@ -61,12 +61,16 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
     }
 
     private RxBehaviorNode Node_DontActCheck() =>
-        ConditionAction.Create(() => IsDontAct, () => { });
+        ConditionAction.Create(() => IsDontAct, () =>
+        { 
+            Entity.StopMove(); 
+        });
 
     private RxBehaviorNode Node_CastableCheck() =>
         ConditionAction.Create(() => IsCastable, () =>
         {
             IsCast = true;
+            Entity.StopMove();
         });
 
     private RxBehaviorNode Node_AttackCheck() =>
@@ -74,6 +78,8 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         {
             IsAttack = true;
             transform.LookAt(player.transform);
+            Entity.StopMove();
+            Debug.Log($"{name} 공격 중");
             //Todo.애니메이터 어택모션
             DOVirtual.DelayedCall(1.0f, () =>
             {

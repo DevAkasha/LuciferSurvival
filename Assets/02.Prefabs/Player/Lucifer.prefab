@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6564937081725769909}
   - component: {fileID: 4987724745762102699}
   - component: {fileID: 7868430529771463299}
+  - component: {fileID: 8570408626004793619}
   m_Layer: 3
   m_Name: Lucifer
   m_TagString: Player
@@ -199,6 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entity: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &4987724745762102699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,6 +233,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52da489a383284647913480a351e6680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rcode: 
+  rigid: {fileID: 0}
   BarrierCount: 0
   isStopMove: 0
   moveInput: {x: 0, y: 0}
+--- !u!95 &8570408626004793619
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7242157551745410787}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

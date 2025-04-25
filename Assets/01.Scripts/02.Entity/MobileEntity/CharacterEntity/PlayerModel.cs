@@ -40,6 +40,7 @@ public class PlayerModel: BaseModel
 
         Flags = new RxStateFlagSet<PlayerStateFlag>(this);
         Flags.SetCondition(PlayerStateFlag.Death, () => Health.Value <= 0f);
+        Health.AddListener(_ => Flags.Evaluate(PlayerStateFlag.Death));
 
         State = new FSM<PlayerState>(PlayerState.Idle)
             .SetPriority(PlayerState.Death, 100)

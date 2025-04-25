@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 
 public class AngelEntity : MobileEntity<AngelModel>
@@ -12,14 +14,15 @@ public class AngelEntity : MobileEntity<AngelModel>
 
     [SerializeField] private NavMeshAgent navMesh;
     [SerializeField] private Rigidbody rigid;
-
+    private bool IsAttack { get => Model.Flags.GetValue(PlayerStateFlag.Attack); set => Model.Flags.SetValue(PlayerStateFlag.Attack, value); }
     protected override float Health { get => Model.Health.Value; set => Model.Health.SetValue(value); }
     private float Atk { get => Model.Atk.Value; set => Model.Atk.SetValue(value); }
     private bool IsStun { get => Model.Flags.GetValue(PlayerStateFlag.Stun); set => Model.Flags.SetValue(PlayerStateFlag.Stun, value); }
     private bool IsConfuse { get => Model.Flags.GetValue(PlayerStateFlag.Confuse); set => Model.Flags.SetValue(PlayerStateFlag.Confuse, value); }
     private bool IsKnockback { get => Model.Flags.GetValue(PlayerStateFlag.Knockback); set => Model.Flags.SetValue(PlayerStateFlag.Knockback, value); }
     private bool IsFall { get => Model.Flags.GetValue(PlayerStateFlag.Fall); set => Model.Flags.SetValue(PlayerStateFlag.Fall, value); }
-       
+    private bool IsMove { get => Model.Flags.GetValue(PlayerStateFlag.Move); set => Model.Flags.SetValue(PlayerStateFlag.Move, value); }
+
     protected override void SetupModel()
     {
         if (rcode.Equals(string.Empty)) return;
@@ -37,12 +40,19 @@ public class AngelEntity : MobileEntity<AngelModel>
     {
         Model.Flags.AddListener(PlayerStateFlag.Death, OnDeath);
     }
-
+    public void StopMove()
+    {
+        if (!navMesh.enabled)
+            return;
+        IsMove = false;
+        rigid.velocity = Vector3.zero;
+        navMesh.speed = 0f;
+    }
     public void MoveTo(Vector3 target)
     {
         if (!navMesh.enabled) 
             return;
-
+        IsMove = true;
         rigid.velocity = Vector3.zero;
         navMesh.speed = Model.MoveSpeed.Value;
 
@@ -56,9 +66,11 @@ public class AngelEntity : MobileEntity<AngelModel>
         navMesh.SetDestination(target);
     }
 
-    public void OnAttack(PlayerController Target)
+    public async void OnAttack(PlayerController player)
     {
-        Target.Entity.TakeDamaged(Atk);
+        IsAttack = true;
+        transform.LookAt(player.transform);
+        StopMove();
     }
 
     private void OnDeath(bool isDead)

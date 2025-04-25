@@ -1,12 +1,15 @@
 using System;
 using System.Threading.Tasks.Sources;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
+
 
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(Rigidbody))]
 public abstract class PlayerEntity : MobileEntity<PlayerModel>
 {
+    [SerializeField] private string rcode;
+    [SerializeField] protected Rigidbody rigid;
+
     public int BarrierCount;
     
     public bool isStopMove;
@@ -14,9 +17,25 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
     
     protected Vector3 moveDir;
     protected Vector3 moveVel;
-    protected Rigidbody rigid;
 
-    public abstract float MoveSpeed { get; set; }
+    protected override void SetupModel()
+    {
+        //if (rcode.Equals(string.Empty)) return; 나중에 데이터 로드할 때 사용
+
+        Model = new PlayerModel();
+    }
+
+    protected override float Health
+    {
+        get => Model.Health.Value;
+        set => Model.Health.SetValue(value);
+    }
+
+    public float MoveSpeed
+    {
+        get => Model.MoveSpeed.Value;
+        set => Model.MoveSpeed.SetValue(value);
+    }
 
     private bool IsMove
     {

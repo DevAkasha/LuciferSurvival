@@ -42,8 +42,10 @@ public sealed class RxStateFlag: RxBase // 단일 상태 플래그를 나타내�
 
     internal void Evaluate() // condition이 있을 경우 조건을 평가하여 값 갱신
     {
-        if (condition == null) return;
-        Set(condition.Invoke());
+        if (condition != null)
+        {
+            internalFlag.SetValue(condition.Invoke());
+        }
     }
 
     internal void SetCondition(Func<bool> newCondition)
@@ -110,7 +112,11 @@ public partial class RxStateFlagSet<TEnum>: RxBase where TEnum : Enum // 여러 
     }
 
     public void SetCondition(TEnum state, Func<bool> condition) => this[state].SetCondition(condition);
-
+    public void SetConditionAndBind<T>(TEnum state, IRxReadable<T> rx, Func<T, bool> predicate)
+    {
+        SetCondition(state, () => predicate(rx.Value));
+        rx.AddListener(_ => Evaluate(state));
+    }
     public void AddListener(TEnum state, Action<bool> listener) => this[state].AddListener(listener); // 외부에서 변경 알림을 구독할 수 있음
 
     public void RemoveListener(TEnum state, Action<bool> listener) => this[state].RemoveListener(listener);
