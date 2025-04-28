@@ -1,14 +1,27 @@
-﻿using UnityEngine;
+using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 using UnityEngine.InputSystem;
 
 public abstract class PlayerController : MobileController<PlayerEntity, PlayerModel>
 {
+    [SerializeField] private Animator animator;
+    
     protected override void OnInit()
     {
         PlayerManager.Instance.ResistPlayer(this);
+        animator = GetComponent<Animator>();
     }
-
+    private void Start()
+    {
+        Entity.Model.State.OnEnter(PlayerState.Move, () => animator.Play("Move"));
+        Entity.Model.State.OnEnter(PlayerState.Idle, () => animator.Play("Idle"));
+        Entity.Model.State.OnEnter(PlayerState.Death, () => animator.Play("Death"));
+        Entity.Model.State.OnEnter(PlayerState.Stun, () => animator.Play("Stun"));
+        Entity.Model.State.OnEnter(PlayerState.Roll, () => animator.Play("Roll"));
+        Entity.Model.State.OnEnter(PlayerState.Attack, () => animator.Play("Attack"));
+        Entity.Model.State.OnEnter(PlayerState.Cast, () => animator.Play("Cast"));
+        Entity.Model.State.OnEnter(PlayerState.Death, () => animator.Play("Death"));
+    }
     public virtual void OnMove(CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)

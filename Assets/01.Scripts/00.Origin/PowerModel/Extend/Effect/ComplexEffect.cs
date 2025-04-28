@@ -1,0 +1,34 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ComplexEffect : BaseEffect
+{
+    private readonly List<BaseEffect> effects = new();
+
+    public ComplexEffect(Enum id) : base(id) { }
+
+    public ComplexEffect AddEffect(BaseEffect effect)
+    {
+        effects.Add(effect);
+        return this;
+    }
+
+    public override void ApplyTo(IBaseEntity target)
+    {
+        foreach (var effect in effects)
+        {
+            effect.ApplyTo(target);
+        }
+    }
+
+    public override void RemoveFrom(IBaseEntity target)
+    {
+        // 역순으로 제거 (마지막에 추가된 효과부터)
+        for (int i = effects.Count - 1; i >= 0; i--)
+        {
+            effects[i].RemoveFrom(target);
+        }
+    }
+}

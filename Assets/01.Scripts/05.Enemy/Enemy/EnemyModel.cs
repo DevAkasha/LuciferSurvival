@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,16 +13,16 @@ public class EnemyModel : BaseModel
     public RxModFloat Health;
     public RxModFloat Range;
 
-    public EnemyModel(EnemyDataSO enemyDataSO)
+    public EnemyModel(EnemyDataSO data)
     {
-        displayName = enemyDataSO.displayName;
-        displayName = enemyDataSO.displayName;
-        idx = enemyDataSO.idx;
+        displayName = data.displayName;
+        displayName = data.displayName;
+        idx = data.idx;
 
-        Atk = new(enemyDataSO.atk, nameof(Atk), this);
-        MoveSpeed = new(enemyDataSO.moveSpeed, nameof(MoveSpeed), this);
-        Health = new(enemyDataSO.health, nameof(Health), this);
-        Range = new(enemyDataSO.range, nameof(Range), this);
+        Atk = new(data.atk, nameof(Atk), this);
+        MoveSpeed = new(data.moveSpeed, nameof(MoveSpeed), this);
+        Health = new(data.health, nameof(Health), this);
+        Range = new(data.atkRange, nameof(Range), this);
     }
     public override IEnumerable<IModifiable> GetModifiables()
     {

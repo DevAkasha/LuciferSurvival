@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -10,7 +10,7 @@ public class ObjectPoolData
     [HideInInspector] public ObjectPoolBase prefab;
     [HideInInspector] public Transform parent;
 }
-
+[CreateAssetMenu(fileName = "ObjectPoolDataSO", menuName = "ScriptableObjects/ObjectPoolDataSO")]
 public class ObjectPoolDataSO : SOSingleton<ObjectPoolDataSO>
 {
     public void SaveSO()

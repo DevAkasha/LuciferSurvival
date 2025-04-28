@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 public interface ITrackableRxModel
@@ -13,21 +13,21 @@ public interface IModifiableTarget
 
 public abstract class BaseModel : IModifiableTarget, ITrackableRxModel
 {
-    private readonly List<RxBase> trackedRxVars = new();
-    private readonly List<IModifiable> modifiables = new();
+    private readonly HashSet<RxBase> trackedRxVars = new();
+    private readonly HashSet<IModifiable> modifiables = new();
 
     public void RegisterRx(RxBase rx) // Rx 필드를 모델에 등록
     {
-        if (!trackedRxVars.Contains(rx))
-            trackedRxVars.Add(rx);
-
-        if (rx is IModifiable mod)
-            RegisterModifiable(mod);
+        if (trackedRxVars.Add(rx))
+        {
+            if (rx is IModifiable mod)
+                RegisterModifiable(mod);
+        }
     }
 
     protected void RegisterModifiable(IModifiable modifiable)
     {
-        if (modifiable != null && !modifiables.Contains(modifiable))
+        if (modifiable != null)
             modifiables.Add(modifiable);
     }
 
