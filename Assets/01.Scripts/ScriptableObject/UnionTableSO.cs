@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,8 +7,8 @@ using UnityEngine;
 public class UnionTableSO : BaseDataSO
 {
     public int idx;
-    public int unit1;
-    public int unit2;
-    public int unit3;
-    public int unit4;
+    public string unit1;
+    public string unit2;
+    public string unit3;
+    public string unit4;
 }

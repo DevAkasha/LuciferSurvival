@@ -697,7 +697,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 50, y: 1, z: 50}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1847777275}
@@ -986,6 +986,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac6f6c349629bd34699dc869380d85d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockTileBlock: {fileID: 1452142423}
+  ResourceTileBlock: {fileID: 1016419884}
   lockTileObj: {fileID: 1994693040836722, guid: 13603974f7df41442b7edeb05b6b74eb,
     type: 3}
   resourceTileObj:
@@ -996,13 +998,13 @@ MonoBehaviour:
   - {fileID: 1731777810837456}
   grid: {fileID: 269747610}
   excludedCells:
+  - {x: 7, y: 7}
   - {x: 6, y: 7}
-  - {x: 5, y: 7}
-  - {x: 5, y: 6}
+  - {x: 8, y: 7}
   - {x: 6, y: 6}
   - {x: 7, y: 6}
-  - {x: 5, y: 5}
-  - {x: 6, y: 5}
+  - {x: 7, y: 8}
+  - {x: 6, y: 8}
 --- !u!4 &1991441222
 Transform:
   m_ObjectHideFlags: 0
