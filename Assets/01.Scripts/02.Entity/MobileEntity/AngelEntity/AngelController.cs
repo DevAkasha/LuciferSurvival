@@ -139,7 +139,7 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
 
     private void Update()
     {
-        Entity.TakeDamaged(0.1f);
+        Entity.TakeDamaged(10f);
     }
 
     private void OnDrawGizmosSelected()
