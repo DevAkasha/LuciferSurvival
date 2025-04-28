@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,7 +17,6 @@ public sealed class RxModFloat : RxModBase<float>
     {
         this.origin = origin;
         cachedValue = origin;
-        lastNotifiedValue = origin;
 
         if (!string.IsNullOrEmpty(fieldName))
             FieldName = fieldName;
@@ -26,7 +25,8 @@ public sealed class RxModFloat : RxModBase<float>
             model.RegisterRx(this);
     }
 
-    protected override void Recalculate()
+    // 실제 계산 구현
+    protected override void CalculateValue()
     {
         sum = origin;
         foreach (var v in additives.Values) sum += v;
@@ -44,14 +44,6 @@ public sealed class RxModFloat : RxModBase<float>
 
         float result = (sum * addMul * mul) + postAdd;
         cachedValue = isNegative ? -result : result;
-
-        if (!cachedValue.Equals(lastNotifiedValue))
-        {
-            NotifyAll(cachedValue);
-            lastNotifiedValue = cachedValue;
-        }
-
-        dirty = false;
     }
 
     protected override string BuildDebugFormula()
@@ -75,7 +67,7 @@ public sealed class RxModFloat : RxModBase<float>
         multipliers.Clear();
         postMultiplicativeAdditives.Clear();
         signModifiers.Clear();
-        Invalidate();
+        Recalculate(); // 즉시 재계산
     }
 
     public override void SetModifier(ModifierType type, ModifierKey key, float value)
@@ -88,7 +80,7 @@ public sealed class RxModFloat : RxModBase<float>
             case ModifierType.FinalAdd: postMultiplicativeAdditives[key] = value; break;
             default: throw new InvalidOperationException("Use AddModifier for SignFlip.");
         }
-        Invalidate();
+        Recalculate(); // 즉시 재계산
     }
 
     public override void AddModifier(ModifierType type, ModifierKey key)
@@ -96,7 +88,7 @@ public sealed class RxModFloat : RxModBase<float>
         if (type != ModifierType.SignFlip)
             throw new InvalidOperationException("Only SignFlip can be added without a value.");
         signModifiers.Add(key);
-        Invalidate();
+        Recalculate(); // 즉시 재계산
     }
 
     public override void RemoveModifier(ModifierType type, ModifierKey key)
@@ -110,6 +102,11 @@ public sealed class RxModFloat : RxModBase<float>
             ModifierType.SignFlip => signModifiers.Remove(key),
             _ => false
         };
-        if (removed) Invalidate();
+        if (removed) Recalculate(); // 변경 있을 때만 재계산
+    }
+
+    protected override bool AreValuesEqual(float a, float b)
+    {
+        return Math.Abs(a - b) < 0.0001f;
     }
 }
