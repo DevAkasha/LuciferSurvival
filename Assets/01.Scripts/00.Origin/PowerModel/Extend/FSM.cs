@@ -64,7 +64,6 @@ public partial class FSM<TState> : RxBase where TState : Enum
 
     public bool CanTransitTo(TState next)
     {
-        if (EqualityComparer<TState>.Default.Equals(Value, next)) return false;
         return !guards.TryGetValue(next, out var cond) || cond(Value);
     }
 
