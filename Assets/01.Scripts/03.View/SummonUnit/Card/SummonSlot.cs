@@ -21,11 +21,12 @@ public class SummonSlot : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI unitCostText;
 
+    public Lock unitLock;
+
     public void SetSlot(UnitDataSO unitDataSO)
     {
-        //À¯´Ö, µî±Ş ÀÌ¹ÌÁö¸¦ ¾ÆÁ÷ ±¸ÇÏÁö ¾Ê¾Æ »ı¼ºÀÚ¿¡ Àû¿ëÇÒÁö È®ÀÎÀÌ ÇÊ¿äÇÔ
+        //ìœ ë‹›, ë“±ê¸‰ ì´ë¯¸ì§€ë¥¼ ì•„ì§ êµ¬í•˜ì§€ ì•Šì•„ ìƒì„±ìì— ì ìš©í• ì§€ í™•ì¸ì´ í•„ìš”í•¨
         unitNameText.text = unitDataSO.displayName;
-        unitDescText.text = unitDataSO.description;
         unitCostText.text = unitDataSO.cost.ToString();
     }
 }

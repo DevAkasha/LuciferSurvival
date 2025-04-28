@@ -43,7 +43,7 @@ public class DataManagerBase<T, U> : GSpreadReader<T> where T : DataManagerBase<
         List<D> datas = new List<D>();
         foreach (var key in dataDics.Keys)
         {
-            if (dataDics[key].GetType().Equals(typeof(T)))
+            if (dataDics[key].GetType().Equals(typeof(D)))
             {
                 datas.Add((D)dataDics[key]);
             }
