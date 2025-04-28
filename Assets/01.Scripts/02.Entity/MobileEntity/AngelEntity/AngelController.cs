@@ -46,7 +46,6 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         Entity.Model.State.OnEnter(PlayerState.Roll, () => animator.Play("Roll"));
         Entity.Model.State.OnEnter(PlayerState.Attack, () => animator.Play("Attack"));
         Entity.Model.State.OnEnter(PlayerState.Cast, () => animator.Play("Cast"));
-        Entity.Model.State.OnEnter(PlayerState.Death, () => animator.Play("Death"));
 
         RunBehaviorLoop().Forget(); // UniTask를 무시하고 실행
     }

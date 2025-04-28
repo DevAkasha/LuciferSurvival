@@ -291,27 +291,27 @@ public class EnemyAIController : MobileController<EnemyEntity, EnemyModel>
             return dir;
         }
     }
-    private async void InAttackCoolTime()
-    {
-        AttackActive = false;
+    //private async void InAttackCoolTime()
+    //{
+    //    AttackActive = false;
 
-        float elapsed = 0f;
+    //    float elapsed = 0f;
 
-        while (elapsed < Entity.Model.AtkRecovery.Value)
-        {
-            // 일시정지 중이면 멈춤 (timeScale == 0)
-            while (Time.timeScale == 0f)
-            {
-                await Task.Yield(); // 한 프레임 대기
-            }
+    //    while (elapsed < Entity.Model..Value)
+    //    {
+    //        // 일시정지 중이면 멈춤 (timeScale == 0)
+    //        while (Time.timeScale == 0f)
+    //        {
+    //            await Task.Yield(); // 한 프레임 대기
+    //        }
 
-            await Task.Yield(); // 매 프레임 대기
-            elapsed += Time.deltaTime; // 타임스케일 적용된 시간
-        }
+    //        await Task.Yield(); // 매 프레임 대기
+    //        elapsed += Time.deltaTime; // 타임스케일 적용된 시간
+    //    }
 
-        AttackActive = true;
-        elapsed = 0f;
-    }
+    //    AttackActive = true;
+    //    elapsed = 0f;
+    //}
 }
 
 [CustomEditor(typeof(EnemyAIController))]
