@@ -14,12 +14,13 @@ public class AngelEntity : MobileEntity<AngelModel>
 
     [SerializeField] private NavMeshAgent navMesh;
     [SerializeField] private Rigidbody rigid;
+    public Transform headPivot;
 
     #region ProxyProperty
     protected override float Health 
     { 
-        get => Model.Health.Value; 
-        set => Model.Health.SetValue(value); 
+        get => Model.CurHealth.Value; 
+        set => Model.CurHealth.SetValue(value); 
     }
     private float Atk 
     { 

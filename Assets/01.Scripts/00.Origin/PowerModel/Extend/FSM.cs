@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 public class FSM<TState> : RxBase where TState : Enum
 {
@@ -17,6 +19,11 @@ public class FSM<TState> : RxBase where TState : Enum
 
         if (owner != null)
             owner.RegisterRx(this);
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        // Auto-register with memory tracker
+        RxMemoryTracker.TrackObject(this, $"FSM<{typeof(TState).Name}> owned by {owner?.GetType().Name ?? "unknown"}");
+#endif
     }
 
     public RxVar<TState> State => state;
@@ -27,9 +34,28 @@ public class FSM<TState> : RxBase where TState : Enum
     {
         if (!CanTransitTo(next)) return this;
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
+#endif
+
         onExit.TryGetValue(Value, out var exit); exit?.Invoke();
         state.SetValue(next);
         onEnter.TryGetValue(next, out var enter); enter?.Invoke();
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        sw.Stop();
+        float elapsedMs = sw.ElapsedTicks / (float)TimeSpan.TicksPerMillisecond;
+
+        // Record performance metrics
+        RxDebugger.RecordNotification(this, elapsedMs, listeners.Count);
+
+        // Log slow transitions
+        if (elapsedMs > 5.0f) // Threshold for "slow" transitions
+        {
+            Debug.LogWarning($"[FSM] Slow transition to {next} took {elapsedMs:F2}ms");
+        }
+#endif
 
         return this;
     }
@@ -63,6 +89,18 @@ public class FSM<TState> : RxBase where TState : Enum
     public FSM<TState> AddListener(Action<TState> listener)
     {
         if (listener == null) return this;
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        // Check for self-subscription which can cause infinite loops
+        if (listener.Target == this)
+        {
+            Debug.LogWarning($"[FSM] Self-subscription detected in {this}! This may cause infinite loops.");
+        }
+
+        // Record the subscription for debugging
+        this.RecordSubscription(listener.Target);
+#endif
+
         listeners.Add(listener);
         listener(Value);
         return this;
@@ -70,14 +108,55 @@ public class FSM<TState> : RxBase where TState : Enum
 
     public FSM<TState> RemoveListener(Action<TState> listener)
     {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        // Remove subscription tracking
+        if (listener != null)
+        {
+            this.RemoveSubscriptionRecord(listener.Target);
+        }
+#endif
+
         listeners.Remove(listener);
         return this;
     }
 
     private void NotifyAll(TState v)
     {
-        foreach (var l in listeners)
-            l(v);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
+#endif
+
+        // Cache the list count since listeners may change during notification
+        int listenerCount = listeners.Count;
+
+        // Take a snapshot to avoid modification issues
+        var currentListeners = new Action<TState>[listenerCount];
+        listeners.CopyTo(currentListeners);
+
+        // Notify all listeners
+        foreach (var l in currentListeners)
+        {
+            if (l != null) // Check in case it was removed during iteration
+            {
+                try
+                {
+                    l(v);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"[FSM] Exception in listener: {ex.Message}\n{ex.StackTrace}");
+                }
+            }
+        }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        sw.Stop();
+        float elapsedMs = sw.ElapsedTicks / (float)TimeSpan.TicksPerMillisecond;
+
+        // Record performance metrics
+        RxDebugger.RecordNotification(this, elapsedMs, listenerCount);
+#endif
     }
 
     public override void ClearRelation()
@@ -142,5 +221,10 @@ public class FSM<TState> : RxBase where TState : Enum
     {
         var next = evaluator(flags);
         RequestByPriority(next);
+    }
+
+    public override string ToString()
+    {
+        return $"FSM<{typeof(TState).Name}>({Value})";
     }
 }

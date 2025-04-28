@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class AngelModel : BaseModel
 {
@@ -8,8 +9,11 @@ public class AngelModel : BaseModel
 
     public RxModFloat Atk;
     public RxModFloat MoveSpeed;
-    public RxModFloat Health;
+    public RxModFloat MaxHealth;
+    public RxModFloat CurHealth;
     public RxModFloat Range;
+
+    public RxVar<float> NormalizedHP;
 
     public RxStateFlagSet<PlayerStateFlag> Flags;
     public FSM<PlayerState> State;
@@ -20,8 +24,15 @@ public class AngelModel : BaseModel
 
         Atk = new(enemyDataSO.atk, nameof(Atk), this);
         MoveSpeed = new(enemyDataSO.moveSpeed, nameof(MoveSpeed), this);
-        Health = new(enemyDataSO.health, nameof(Health), this);
         Range = new(enemyDataSO.atkRange, nameof(Range), this);
+
+        MaxHealth = new(enemyDataSO.health, nameof(MaxHealth), this);
+        CurHealth = new(MaxHealth.Value, nameof(CurHealth), this);
+        NormalizedHP = new(1f, this);
+        
+        Action<float> recalc = _ => NormalizedHP.SetValue((float)CurHealth.Value / MaxHealth.Value);
+        CurHealth.AddListener(recalc);
+        MaxHealth.AddListener(recalc);
 
         Flags = new RxStateFlagSet<PlayerStateFlag>(this);
 
@@ -62,7 +73,8 @@ public class AngelModel : BaseModel
     {
         yield return Atk;
         yield return MoveSpeed;
-        yield return Health;
+        yield return CurHealth;
         yield return Range;
+        yield return MaxHealth;
     }
 }

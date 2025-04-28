@@ -31,12 +31,13 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
 
     protected override void OnInit()
     {
-        animator = GetComponent<Animator>(); 
+        animator = GetComponent<Animator>();
     }
 
     private void Start()
     {
         player = PlayerManager.Instance.Player;
+        HealthBarManager.Instance.Attach(this);
 
         Entity.Model.State.OnEnter(PlayerState.Move, () => animator.Play("Move"));
         Entity.Model.State.OnEnter(PlayerState.Idle, () => animator.Play("Idle"));
@@ -134,6 +135,11 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         //애니메이션 이벤트 대신 0.5초 대기
         await UniTask.Delay(TimeSpan.FromSeconds(0.5f), DelayType.DeltaTime, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
         attackTime = true;
+    }
+
+    private void Update()
+    {
+        Entity.TakeDamaged(0.1f);
     }
 
     private void OnDrawGizmosSelected()
