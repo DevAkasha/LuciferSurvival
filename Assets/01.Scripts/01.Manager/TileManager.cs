@@ -7,6 +7,9 @@ public class TileManager : Singleton<TileManager>
 {
     protected override bool IsPersistent => false;
 
+    public Transform ResourceTileBlock;     // grid 하위의 오브젝트 (자원타일)
+    public Transform lockTileBlock;         // grid 하위의 오브젝트 (잠금타일)
+
     int gridCount = 15;     // 전체 크기
 
     [SerializeField] private GameObject lockTileObj;            // 잠금타일 프리펩
@@ -25,9 +28,12 @@ public class TileManager : Singleton<TileManager>
     /// </summary>
     public void SetResourceTileMap()
     {
-        for (int x = 0; x < gridCount; x++)
+        // 그리드 중심으로부터 범위를 계산
+        int halfGrid = gridCount / 2;
+
+        for (int x = -halfGrid; x <= halfGrid; x++)
         {
-            for (int y = 0; y < gridCount; y++)
+            for (int y = -halfGrid; y <= halfGrid; y++)
             {
                 int resourceCount = Random.Range(0, 3); // 0~2사이의 타일이 랜덤으로 생성
 
@@ -41,34 +47,10 @@ public class TileManager : Singleton<TileManager>
 
                     Vector3 spawnPos = GetRandomPositionInCell(addjustedPos, 7);
 
-                    Instantiate(resourceTileObj[resourceType], spawnPos, Quaternion.identity, transform); // 프리팹을 adjustedPos월드위치에 생성
+                    Instantiate(resourceTileObj[resourceType], spawnPos, Quaternion.identity, ResourceTileBlock); // 프리팹을 adjustedPos월드위치에 생성
                 }
             }
         }
-
-        //// 자원타일이 이미 배치된 좌표 확인용
-        //List<Vector2Int> useTileObj = new List<Vector2Int>();
-
-
-        //for (int i = 0; i < resourceCount; i++)
-        //{
-        //int randomX = Random.Range(0, gridCount);
-        //int randomY = Random.Range(0, gridCount);
-        //    int resourceType = Random.Range(0, resourceTileObj.Count);
-
-        //    Vector2Int cell = new Vector2Int(randomX, randomY); // 랜덤 좌표 생성
-        //    if (useTileObj.Contains(cell)) // 이미 배치된 좌표일경우 반복횟수 복원
-        //    {
-        //        i--;
-        //        continue;
-        //    }
-        //    useTileObj.Add(cell); // 좌표 등록
-
-        //    Vector3Int gridCell = new Vector3Int(randomX, randomY, 0); // grid 좌표로 변환
-        //    Vector3 worldPos = grid.CellToWorld(gridCell); // 월드좌표로 변환
-        //    Vector3 addjustedPos = new Vector3(worldPos.x, 0f, worldPos.z); // 최종위치값 = y축은 0으로 고정, xz평면위에 배치
-        //    Instantiate(resourceTileObj[resourceType], addjustedPos, Quaternion.identity, transform); // 프리팹들을 adjustedPos월드위치에 생성
-        //}
     }
 
     /// <summary>
@@ -76,21 +58,35 @@ public class TileManager : Singleton<TileManager>
     /// </summary>
     public void SetLockTileMap()
     {
-        for (int x = 0; x < gridCount; x++)
+        // 그리드 중심으로부터 범위를 계산
+        int halfGrid = gridCount / 2;
+
+        for (int x = -halfGrid; x <= halfGrid; x++)
         {
-            for (int y = 0; y < gridCount; y++)
+            for (int y = -halfGrid; y <= halfGrid; y++)
             {
-                Vector2Int cell = new Vector2Int(x, y); // 제외할 타일 목록
-                if (excludedCells.Contains(cell))
+                // 제외할 타일 목록, excludedCells에 있는 좌표도 중심 기준으로 조정해야 할 수 있음
+                Vector2Int cell = new Vector2Int(x, y);
+                // excludedCells의 좌표 시스템에 맞게 변환 필요
+                Vector2Int adjustedCell = new Vector2Int(x + halfGrid, y + halfGrid);
+
+                if (excludedCells.Contains(adjustedCell))
                     continue; // 제외된 영역은 스킵
+
                 Vector3Int gridCell = new Vector3Int(x, y, 0);
                 Vector3 worldPos = grid.CellToWorld(gridCell);
                 Vector3 addjustedPos = new Vector3(worldPos.x, 0f, worldPos.z);
-                Instantiate(lockTileObj, addjustedPos, Quaternion.identity, transform); // 프리팹을 adjustedPos월드위치에 생성
+                Instantiate(lockTileObj, addjustedPos, Quaternion.identity, lockTileBlock); // 프리팹을 addjustedPos월드위치에 생성
             }
         }
     }
 
+    /// <summary>
+    /// 일정한 범위 내 랜덤한 위치 생성
+    /// </summary>
+    /// <param name="center"></param>
+    /// <param name="maxOffset"></param>
+    /// <returns></returns>
     private Vector3 GetRandomPositionInCell(Vector3 center, float maxOffset)
     {
         // 원형 범위 안 랜덤 위치
@@ -105,10 +101,12 @@ public class TileManager : Singleton<TileManager>
     /// </summary>
     private void OnDrawGizmosSelected()
     {
+        int halfGrid = gridCount / 2;
         Gizmos.color = Color.red; // 기즈모 설정 색
         foreach (var cell in excludedCells)
         {
-            Vector3Int gridCell = new Vector3Int(cell.x, cell.y, 0); // 3D좌표로 변환
+            Vector2Int adjustedCell = new Vector2Int(cell.x - halfGrid, cell.y - halfGrid);
+            Vector3Int gridCell = new Vector3Int(adjustedCell.x, adjustedCell.y, 0); // 3D좌표로 변환
             Vector3 worldPos = grid.CellToWorld(gridCell); // 월드좌표로 변환
             Vector3 pos = new Vector3(worldPos.x, 0f, worldPos.z); // 위치
             Gizmos.DrawWireCube(pos, Vector3.one * 2f); // 와이어프레임 박스 표시 (222 크기의 정육면체)
