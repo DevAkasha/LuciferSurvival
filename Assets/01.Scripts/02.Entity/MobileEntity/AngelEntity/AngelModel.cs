@@ -36,7 +36,7 @@ public class AngelModel : BaseModel
 
         Flags = new RxStateFlagSet<PlayerStateFlag>(this);
 
-        State = new FSM<PlayerState>(PlayerState.Idle)
+        State = new FSM<PlayerState>(PlayerState.Idle,this)
             .SetPriority(PlayerState.Death, 100)
             .SetPriority(PlayerState.Stun, 90)
             .SetPriority(PlayerState.Roll, 80)
