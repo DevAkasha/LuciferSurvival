@@ -4,15 +4,14 @@ using UnityEngine;
 
 public static class SummonTableUtil
 {
-    private static int summonCount = 5;
     private static Dictionary<int, List<UnitDataSO>> unitDict = new Dictionary<int, List<UnitDataSO>>();
     private static Dictionary<int, SummonTableSO> summonTableDict = new Dictionary<int, SummonTableSO>();
     private static List<UnitDataSO> shopUnits { get; } = new List<UnitDataSO>();
 
     private static Dictionary<int, List<UnitDataSO>> GetUnitDict()
     {
-        List<UnitDataSO> unitList = DataManager.Instance.GetDatas<UnitDataSO>();
         unitDict.Clear();
+        List<UnitDataSO> unitList = DataManager.Instance.GetDatas<UnitDataSO>();
 
         foreach (var unit in unitList)
         {
@@ -27,8 +26,8 @@ public static class SummonTableUtil
 
     private static Dictionary<int, SummonTableSO> GetSummonTableDict()
     {
-        List<SummonTableSO> summonTableList = DataManager.Instance.GetDatas<SummonTableSO>();
         summonTableDict.Clear();
+        List<SummonTableSO> summonTableList = DataManager.Instance.GetDatas<SummonTableSO>();
 
         for (int i = 0; i < summonTableList.Count; i++)
         {
@@ -38,7 +37,7 @@ public static class SummonTableUtil
         return summonTableDict;
     }
 
-    public static List<UnitDataSO> RerollShop(int shopLevel)
+    public static List<UnitDataSO> RerollShop(int shopLevel, int summonCount)
     {
         shopUnits.Clear();
 
@@ -83,5 +82,23 @@ public static class SummonTableUtil
         {
             Object.Destroy(child.gameObject);
         }
+    }
+
+    public static SummonTableSO GetSummonTable(int shopLevel)
+    {
+        if (summonTableDict[shopLevel] != null)
+        {
+            return summonTableDict[shopLevel];
+        }
+        return null;
+    }
+
+    public static bool CanLevelUp(int level)
+    {
+        if (summonTableDict[level + 1] != null)
+        {
+            return true;
+        }
+        return false;
     }
 }
