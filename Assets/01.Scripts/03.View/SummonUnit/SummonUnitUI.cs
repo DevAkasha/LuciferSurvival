@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Ricimi;
+using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,34 +15,131 @@ public class SummonUnitUI : MonoBehaviour
     private SummonSlot summonSlotPrefab;
 
     [SerializeField]
+    private List<Color> gradeColors;  
+
+    [SerializeField]
     private List<Sprite> gradeSprites;
 
+    [SerializeField]
+    private Button levelUpButton;
+
+    [SerializeField]
+    private Button rerollButton;
+
+    [SerializeField]
+    private TextMeshProUGUI rerollCostText;
+
+    [SerializeField]
+    private TextMeshProUGUI shopLevelUpCostText;
+
+    [SerializeField]
+    private TextMeshProUGUI shopLevelText;
+
+    [SerializeField]
+    private TextMeshProUGUI soulStoneCountText;
+
     private int shopLevel = 1;
+    private int rerollCost = 3;
+
+    private SummonSlot[] curSlots;
 
     private void Start()
     {
+        curSlots = summonSlotLayout.GetComponentsInChildren<SummonSlot>();
         SetRandomUnit();
+        UpdateShopLevelUpCost();
+        UpdateRerollCost();
+        UpdateSoulStone();
     }
 
     public void OnclickShopLevelUp()
     {
-        //«ˆ¿Á ªÛ¡° ∑π∫ß √º≈© »ƒ ∑π∫ßæ˜¿Ã ∞°¥…«— ¿Á»≠¿Ã∏È ∑π∫ßæ˜
+        //ÌòÑÏû¨ ÏÉÅÏ†ê Î†àÎ≤® Ï≤¥ÌÅ¨ ÌõÑ Î†àÎ≤®ÏóÖÏù¥ Í∞ÄÎä•Ìïú Ïû¨ÌôîÏù¥Î©¥ Î†àÎ≤®ÏóÖ
+        if (SummonTableUtil.CanLevelUp(shopLevel))
+        {
+            if (StageManager.Instance.UseSoulStone(SummonTableUtil.GetSummonTable(shopLevel + 1).cost))
+            {
+
+            }
+        }
     }
 
     public void OnclickRerollUnit()
     {
-        SummonTableUtil.ClearAllChildren(summonSlotLayout);
-        SetRandomUnit();
+        if (StageManager.Instance.UseSoulStone(rerollCost + CountLockedSlot()))
+        {
+            SummonTableUtil.ClearAllChildren(summonSlotLayout);
+            SetRandomUnit();
+        }
     }
 
     private void SetRandomUnit()
     {
-        List<UnitDataSO> units = SummonTableUtil.RerollShop(shopLevel);
+        List<int> rerollIndices = new();
 
-        foreach (UnitDataSO unitData in units)
+        for (int i = 0; i < curSlots.Length; i++)
         {
-            SummonSlot slot = Instantiate(summonSlotPrefab, summonSlotLayout);
-            slot.SetSlot(unitData);
+            if (!curSlots[i].unitLock.isLocked)
+                rerollIndices.Add(i);
         }
+
+        List<UnitDataSO> rerollUnits = SummonTableUtil.RerollShop(shopLevel, rerollIndices.Count);
+
+        for (int i = 0; i < rerollIndices.Count; i++)
+        {
+            int index = rerollIndices[i];
+            curSlots[index].SetSlot(rerollUnits[i]);
+        }
+    }
+
+    public bool CheckRerollCost()
+    {
+        //ÌòÑÏû¨ Í∏àÏï°Ïù¥ Î¶¨Î°§ Í∞ÄÍ≤©Î≥¥Îã§ ÎÜíÏùÑ Ïãú Î≤ÑÌäº ÌôúÏÑ±Ìôî
+        //ÌòÑÏû¨ Í∏àÏï°Ïù¥ Î¶¨Î°§ Í∞ÄÍ≤©Î≥¥Îã§ ÎÜíÏßÄ ÏïäÏùÑÏãú Î≤ÑÌäº ÎπÑÌôúÏÑ±Ìôî
+        return false;
+    }
+
+    public void RerollButtonEnable()
+    {
+        rerollButton.GetComponent<CleanButton>().Interactable = true;
+    }
+
+    public void RerollButtonDisable()
+    {
+        rerollButton.GetComponent<CleanButton>().Interactable = false;
+    }
+
+    public int CountLockedSlot()
+    {
+        SummonSlot[] slotList = transform.GetComponentsInChildren<SummonSlot>();
+        int result = 0;
+
+        foreach (SummonSlot slot in slotList)
+        {
+            if (slot.unitLock.isLocked)
+            {
+                result++;
+            }
+        }
+
+        return result;
+    }
+
+    public void UpdateRerollCost()
+    {
+        rerollCostText.text = (rerollCost + CountLockedSlot()).ToString();
+    }
+
+    public void UpdateShopLevelUpCost()
+    {
+        if (SummonTableUtil.CanLevelUp(shopLevel))
+        {
+            shopLevelUpCostText.text = SummonTableUtil.GetSummonTable(shopLevel + 1).cost.ToString();
+        }
+    }
+
+    public void UpdateSoulStone()
+    {
+        soulStoneCountText.text = StageManager.Instance.SoulStone.ToString();
     }
 }
