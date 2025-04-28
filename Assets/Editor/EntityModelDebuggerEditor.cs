@@ -1,9 +1,8 @@
-﻿#if UNITY_EDITOR
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-
 [CustomEditor(typeof(BaseEntity), true)]
 public class EntityModelDebuggerEditor : Editor
 {
@@ -27,7 +26,7 @@ public class EntityModelDebuggerEditor : Editor
     private void DrawModelDebugView(BaseModel model)
     {
         EditorGUILayout.Space();
-        showRxDebug = EditorGUILayout.Foldout(showRxDebug, "📊 RxModel Debug View", true);
+        showRxDebug = EditorGUILayout.Foldout(showRxDebug, "📊 RxModel 디버그 뷰", true);
         if (!showRxDebug) return;
 
         EditorGUI.indentLevel++;
@@ -36,7 +35,7 @@ public class EntityModelDebuggerEditor : Editor
         {
             if (rx == null) continue;
 
-            // RxStateFlagSet<T> 처리 (인터페이스 활용)
+            // RxStateFlagSet<T>와 FSM<T>는 모두 IRxInspectable를 구현함
             if (rx is IRxInspectable inspectable)
             {
                 inspectable.DrawDebugInspector();
