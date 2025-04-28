@@ -1,11 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyEntity : MobileEntity<EnemyModel>
 {
     [SerializeField] private string rcode;
-    public override float Health
+    protected override float CurHealth
     {
         get => Model.Health.Value;
         set => Model.Health.SetValue(value);

@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 public sealed class RxVar<T> : RxBase, IRxReadable<T>
 {
@@ -13,6 +15,11 @@ public sealed class RxVar<T> : RxBase, IRxReadable<T>
         {
             model.RegisterRx(this); // Rx 필드를 모델에 등록
         }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        // Auto-register with memory tracker
+        RxMemoryTracker.TrackObject(this, $"RxVar<{typeof(T).Name}> owned by {owner?.GetType().Name ?? "unknown"}");
+#endif
     }
 
     public T Value => value;
@@ -30,6 +37,17 @@ public sealed class RxVar<T> : RxBase, IRxReadable<T>
     {
         if (listener != null)
         {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+            // Check for self-subscription which can cause infinite loops
+            if (listener.Target == this)
+            {
+                Debug.LogWarning($"[RxVar] Self-subscription detected in {this}! This may cause infinite loops.");
+            }
+
+            // Record the subscription for debugging
+            this.RecordSubscription(listener.Target);
+#endif
+
             listeners.Add(listener);
             listener(value);
         }
@@ -37,7 +55,14 @@ public sealed class RxVar<T> : RxBase, IRxReadable<T>
 
     public void RemoveListener(Action<T> listener) // 구독 해제
     {
-        listeners.Remove(listener);
+        if (listener != null)
+        {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+            // Remove subscription tracking
+            this.RemoveSubscriptionRecord(listener.Target);
+#endif
+            listeners.Remove(listener);
+        }
     }
 
     public override void ClearRelation()
@@ -47,7 +72,43 @@ public sealed class RxVar<T> : RxBase, IRxReadable<T>
 
     private void NotifyAll()
     {
-        foreach (var listener in listeners)
-            listener(value);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        // Start performance measurement
+        RxDebugger.BeginNotification();
+        RxPerformanceMonitor.StartMeasurement();
+#endif
+
+        // Cache the list count since listeners may change during notification
+        int listenerCount = listeners.Count;
+
+        // Take a snapshot of the current listeners to avoid modification issues
+        var currentListeners = new Action<T>[listenerCount];
+        listeners.CopyTo(currentListeners);
+
+        // Notify all listeners
+        foreach (var listener in currentListeners)
+        {
+            if (listener != null) // Check in case it was removed during iteration
+            {
+                try
+                {
+                    listener(value);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"[RxVar] Exception in listener: {ex.Message}\n{ex.StackTrace}");
+                }
+            }
+        }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        // End performance measurement
+        RxDebugger.RecordNotification(this, 0, listenerCount); // Duration is calculated by RxPerformanceMonitor
+#endif
+    }
+
+    public override string ToString()
+    {
+        return $"RxVar<{typeof(T).Name}>({value})";
     }
 }

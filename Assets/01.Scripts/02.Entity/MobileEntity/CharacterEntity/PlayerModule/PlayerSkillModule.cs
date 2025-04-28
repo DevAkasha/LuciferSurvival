@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +17,11 @@ public class PlayerSkillModule : PlayerPart
     [SerializeField] private float rollDuration = 0.6f;
     [SerializeField] private AnimationCurve rollSpeedCurve;
 
-    private bool isRolling = false;
+    private bool IsRolling 
+    { 
+        get => Model.Flags.GetValue(PlayerStateFlag.Roll); 
+        set => Model.Flags.SetValue(PlayerStateFlag.Roll, value);
+    }
 
     private void Awake()
     {
@@ -34,20 +38,16 @@ public class PlayerSkillModule : PlayerPart
 
     public void ActivateRoll()
     {
-        if (!isRolling)
+        if (!IsRolling)
         {
             StartCoroutine(RollCoroutine());
-            Debug.Log($"[Roll] Rolling Start");
         }
     }
 
     private IEnumerator RollCoroutine()
     {
-        isRolling = true;
+        IsRolling = true;
         float timer = 0f;
-
-        // 무적 상태 진입
-        Debug.Log("무적상태 돌입");
 
         Entity.isStopMove = true;
         Vector3 direction = transform.forward; // 또는 현재 이동 방향
@@ -60,39 +60,42 @@ public class PlayerSkillModule : PlayerPart
             yield return null;
         }
 
-        Debug.Log("무적상태 탈출");
-        isRolling = false;
+        IsRolling = false;
         Entity.isStopMove = false;
     }
 
     public void ActivateGhost()
     {
-        var effect = EffectManager.Instance.GetEffect(EffectId.Ghost);  //쓸 스킬
-        var applier = new ModifierApplier(effect).AddTarget(Model);     //적용할 애 설정
-        EffectRunner.Instance.ApplyTimedEffect(effect, applier);        //적용
+        var effect = EffectManager.Instance.GetModifierEffect(EffectId.Ghost);  // 쓸 스킬
 
-        Debug.Log($"[Ghost] MoveSpeed after buff: {Model.MoveSpeed.Value}");
+        new EffectApplier(effect)
+            .AddTarget(Entity)  // 여기서 this는 IBaseEntity를 구현한 객체여야 함
+            .Apply();
     }
 
     public void ActivateBarrier()
     {
         Entity.BarrierCount = 5;
-        Debug.Log($"[Barrier] Barrier Start");
     }
 
     public void ActivateExhaust()
     {
         var enemies = FindEnemiesInRange(5f);
-        var effect = EffectManager.Instance.GetEffect(EffectId.Exhaust);
+        var effect = EffectManager.Instance.GetModifierEffect(EffectId.Exhaust);
 
-        foreach (var entity in FindEnemiesInRange(5f))
+        foreach (var enemy in enemies)
         {
-            var model = entity.GetBaseModel();
-            var applier = new ModifierApplier(effect).AddTarget(model);
-            EffectRunner.Instance.ApplyInterpolatedEffect(effect, applier);
+            if (effect.IsInterpolated)
+            {
+                EffectRunner.Instance.RegisterInterpolatedEffect(effect, enemy);
+            }
+            else
+            {
+                new EffectApplier(effect)
+                    .AddTarget(enemy)
+                    .Apply();
+            }
         }
-
-        Debug.Log("[Exhaust] Interpolated Slow Applied");
     }
 
     private List<IBaseEntity> FindEnemiesInRange(float range)

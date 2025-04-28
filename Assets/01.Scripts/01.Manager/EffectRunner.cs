@@ -5,27 +5,62 @@ using UnityEngine;
 
 public class EffectRunner : Singleton<EffectRunner>
 {
-    private readonly Dictionary<ModifierKey, Coroutine> activeEffects = new();
+    private readonly Dictionary<(ModifierKey, IBaseEntity), Coroutine> activeEffects = new();
 
-    public void ApplyTimedEffect(ModifierEffect effect, ModifierApplier applier)
+    public void RegisterTimedEffect(ModifierEffect effect, IBaseEntity target)
     {
+        if (target == null)
+        {
+            Debug.LogError("[EffectRunner] Cannot register effect for null target");
+            return;
+        }
+
         if (!effect.Condition())
         {
             Debug.LogWarning($"[EffectRunner] Condition not met for effect: {effect.Key}");
             return;
         }
 
-        if (TryStartEffect(effect, applier, out var coroutine))
+        if (TryStartEffect(effect, target, out var coroutine))
         {
             Debug.Log($"[EffectRunner] <color=cyan>Effect START</color> - {effect.Key}, Duration: {effect.Duration}s");
+
             if (!effect.Stackable)
-                activeEffects[effect.Key] = coroutine;
+            {
+                activeEffects[(effect.Key, target)] = coroutine;
+            }
         }
     }
 
-    private bool TryStartEffect(ModifierEffect effect, ModifierApplier applier, out Coroutine coroutine)
+    public void RegisterInterpolatedEffect(ModifierEffect effect, IBaseEntity target)
     {
-        if (activeEffects.TryGetValue(effect.Key, out var existing))
+        if (target == null)
+        {
+            Debug.LogError("[EffectRunner] Cannot register interpolated effect for null target");
+            return;
+        }
+
+        if (!effect.IsInterpolated)
+        {
+            Debug.LogError($"[EffectRunner] Effect {effect.Key} is not interpolated");
+            return;
+        }
+
+        var modifiableTarget = target.GetBaseModel() as IModifiableTarget;
+        if (modifiableTarget == null)
+        {
+            Debug.LogError($"[EffectRunner] Target {target} does not implement IModifiableTarget");
+            return;
+        }
+
+        StartCoroutine(RunInterpolatedEffect(effect, modifiableTarget));
+    }
+
+    private bool TryStartEffect(ModifierEffect effect, IBaseEntity target, out Coroutine coroutine)
+    {
+        var key = (effect.Key, target);
+
+        if (activeEffects.TryGetValue(key, out var existing))
         {
             if (!effect.Stackable)
             {
@@ -33,7 +68,7 @@ public class EffectRunner : Singleton<EffectRunner>
                 {
                     Debug.Log($"[EffectRunner] Refreshing effect: {effect.Key}");
                     StopCoroutine(existing);
-                    coroutine = StartCoroutine(RunEffect(effect, applier));
+                    coroutine = StartCoroutine(RunEffect(effect, target));
                     return true;
                 }
                 else
@@ -45,62 +80,62 @@ public class EffectRunner : Singleton<EffectRunner>
             }
         }
 
-        coroutine = StartCoroutine(RunEffect(effect, applier));
+        coroutine = StartCoroutine(RunEffect(effect, target));
         return true;
     }
 
-    private IEnumerator RunEffect(ModifierEffect effect, ModifierApplier applier)
+    private IEnumerator RunEffect(ModifierEffect effect, IBaseEntity target)
     {
-        applier.Apply();
+        // 효과가 이미 적용되었다고 가정 (ModifierEffect.ApplyTo 메서드에서 적용됨)
 
+        // 제거 트리거가 있는 경우 해당 조건 체크
         if (effect.RemoveTrigger != null)
         {
             yield return CheckRemoveTrigger(effect.RemoveTrigger);
         }
-        else if (effect.Mode == EffectApplyMode.Timed)
+        // 그렇지 않으면 지정된 지속 시간 동안 대기
+        else
         {
             yield return new WaitForSeconds(effect.Duration);
         }
 
-        applier.Remove();
+        // 효과 제거
+        effect.RemoveFrom(target);
         Debug.Log($"[EffectRunner] <color=yellow>Effect END</color> - {effect.Key}");
 
-        if (!effect.Stackable)
-        {
-            activeEffects.Remove(effect.Key);
-        }
+        // 활성 효과 목록에서 제거
+        var key = (effect.Key, target);
+        activeEffects.Remove(key);
     }
 
     private IEnumerator CheckRemoveTrigger(Func<bool> trigger)
     {
+        // 트리거 조건이 참이 될 때까지 주기적으로 체크
         while (!trigger())
         {
             yield return new WaitForSeconds(0.2f);
         }
     }
 
-    public void ApplyInterpolatedEffect(ModifierEffect effect, ModifierApplier applier)
-    {
-        foreach (var target in applier.Targets)
-        {
-            Instance.StartCoroutine(RunInterpolatedModifier(effect, target));
-        }
-    }
-
-    private IEnumerator RunInterpolatedModifier(ModifierEffect effect, IModifiableTarget target)
+    private IEnumerator RunInterpolatedEffect(ModifierEffect effect, IModifiableTarget target)
     {
         float duration = effect.Duration;
-        float time = 0f;
+        float elapsedTime = 0f;
         ModifierKey key = effect.Key;
 
         // ModifierEffect에 등록된 필드 목록
         var modifiers = effect.Modifiers;
 
-        while (time < duration)
+        // 진행 시간(0~duration)에 따라 보간값 적용
+        while (elapsedTime < duration)
         {
-            float t = time / duration;
-            object value = effect.Interpolator.Invoke(t);
+            // 정규화된 시간 값 (0~1 사이)
+            float normalizedTime = elapsedTime / duration;
 
+            // 보간 함수를 통해 현재 시간에 해당하는 값 계산
+            object interpolatedValue = effect.Interpolator.Invoke(normalizedTime);
+
+            // 모든 수정 가능한 필드에 보간된 값 적용
             foreach (var modifiable in target.GetModifiables())
             {
                 if (modifiable is not IRxField rxField)
@@ -116,17 +151,18 @@ public class EffectRunner : Singleton<EffectRunner>
                     {
                         try
                         {
-                            mod.SetModifier(modifier.Type, key, value);
+                            mod.SetModifier(modifier.Type, key, interpolatedValue);
                         }
                         catch (Exception e)
                         {
-                            Debug.LogError($"[InterpolatedEffect] Failed to set modifier: {e.Message}");
+                            Debug.LogError($"[EffectRunner] Failed to set interpolated modifier: {e.Message}");
                         }
                     }
                 }
             }
 
-            time += Time.deltaTime;
+            // 시간 업데이트
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
 
@@ -136,6 +172,85 @@ public class EffectRunner : Singleton<EffectRunner>
             modifiable.RemoveModifier(key);
         }
 
-        Debug.Log($"[InterpolatedEffect] Modifier removed: {key}");
+        Debug.Log($"[EffectRunner] Interpolated effect removed: {key}");
+    }
+
+    public bool CancelEffect(ModifierKey effectKey, IBaseEntity target)
+    {
+        var key = (effectKey, target);
+
+        if (activeEffects.TryGetValue(key, out var coroutine))
+        {
+            StopCoroutine(coroutine);
+            activeEffects.Remove(key);
+
+            // 효과 제거
+            var effect = EffectManager.Instance.GetEffect(effectKey);
+            if (effect != null)
+            {
+                effect.RemoveFrom(target);
+                Debug.Log($"[EffectRunner] <color=orange>Effect CANCELED</color> - {effectKey}");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void CancelAllEffects(IBaseEntity target)
+    {
+        // 대상과 관련된 모든 키 수집
+        var keysToRemove = new List<(ModifierKey, IBaseEntity)>();
+
+        foreach (var pair in activeEffects)
+        {
+            var (effectKey, effectTarget) = pair.Key;
+
+            if (effectTarget == target)
+            {
+                keysToRemove.Add(pair.Key);
+                StopCoroutine(pair.Value);
+
+                // 효과 제거
+                var effect = EffectManager.Instance.GetEffect(effectKey);
+                if (effect != null)
+                {
+                    effect.RemoveFrom(target);
+                }
+            }
+        }
+
+        // 활성 효과 목록에서 제거
+        foreach (var key in keysToRemove)
+        {
+            activeEffects.Remove(key);
+        }
+
+        if (keysToRemove.Count > 0)
+        {
+            Debug.Log($"[EffectRunner] <color=orange>Canceled {keysToRemove.Count} effects</color> for {target}");
+        }
+    }
+
+    public bool HasActiveEffect(ModifierKey effectKey, IBaseEntity target)
+    {
+        return activeEffects.ContainsKey((effectKey, target));
+    }
+
+    public List<ModifierKey> GetActiveEffectKeys(IBaseEntity target)
+    {
+        var keys = new List<ModifierKey>();
+
+        foreach (var pair in activeEffects)
+        {
+            var (effectKey, effectTarget) = pair.Key;
+
+            if (effectTarget == target)
+            {
+                keys.Add(effectKey);
+            }
+        }
+
+        return keys;
     }
 }
