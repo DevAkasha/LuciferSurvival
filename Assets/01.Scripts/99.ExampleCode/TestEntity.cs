@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +11,7 @@ public class TestEntity : MobileEntity<TestModel>
         model = new TestModel();
     }
 
-    public override float Health
+    protected override float Health
     {
         get => model.Hp.Value;
         set => model.Hp.SetValue(value);

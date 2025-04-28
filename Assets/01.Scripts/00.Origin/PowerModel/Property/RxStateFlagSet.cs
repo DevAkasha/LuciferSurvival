@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -42,8 +42,10 @@ public sealed class RxStateFlag: RxBase // 단일 상태 플래그를 나타내�
 
     internal void Evaluate() // condition이 있을 경우 조건을 평가하여 값 갱신
     {
-        if (condition == null) return;
-        Set(condition.Invoke());
+        if (condition != null)
+        {
+            internalFlag.SetValue(condition.Invoke());
+        }
     }
 
     internal void SetCondition(Func<bool> newCondition)
@@ -73,7 +75,7 @@ public sealed class RxStateFlag: RxBase // 단일 상태 플래그를 나타내�
     }
 }
 
-public partial class RxStateFlagSet<TEnum>: RxBase where TEnum : Enum // 여러 플래그를 Enum 기반으로 관리하는 클래스
+public partial class RxStateFlagSet<TEnum> : RxBase where TEnum : Enum // 여러 플래그를 Enum 기반으로 관리하는 클래스
 {
     private readonly List<RxStateFlag> flags;
     private readonly Dictionary<TEnum, int> indexMap; // Enum 값을 인덱스로 매핑
@@ -110,15 +112,41 @@ public partial class RxStateFlagSet<TEnum>: RxBase where TEnum : Enum // 여러 
     }
 
     public void SetCondition(TEnum state, Func<bool> condition) => this[state].SetCondition(condition);
-
+  
     public void AddListener(TEnum state, Action<bool> listener) => this[state].AddListener(listener); // 외부에서 변경 알림을 구독할 수 있음
 
     public void RemoveListener(TEnum state, Action<bool> listener) => this[state].RemoveListener(listener);
 
     public bool AnyActive() => flags.Exists(f => f.Value);
+    public bool AnyActive(params TEnum[] subset)
+    {
+        foreach (var flag in subset)
+        {
+            if (this[flag].Value)
+                return true;
+        }
+        return false;
+    }
     public bool AllSatisfied() => flags.TrueForAll(f => f.Value);
+    public bool AllSatisfied(params TEnum[] subset)
+    {
+        foreach (var flag in subset)
+        {
+            if (!this[flag].Value)
+                return false;
+        }
+        return true;
+    }
     public bool NoneActive() => flags.TrueForAll(f => !f.Value);
-
+    public bool NoneActive(params TEnum[] subset)
+    {
+        foreach (var flag in subset)
+        {
+            if (this[flag].Value)
+                return false;
+        }
+        return true;
+    }
     public IEnumerable<(TEnum, bool)> Snapshot() // 현재 모든 플래그 상태를 (이름, 값) 튜플로 반환
     {
         foreach (var pair in indexMap) // Enum 값을 인덱스로 매핑

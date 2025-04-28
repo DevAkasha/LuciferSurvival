@@ -1,85 +1,188 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
-public class FSM<TState> where TState : Enum
+public class FSM<TState> : RxBase where TState : Enum
 {
-    private readonly RxStateMachine<TState> stateMachine;
+    private readonly RxVar<TState> state;
+    private readonly Dictionary<TState, Func<TState, bool>> guards = new();
+    private readonly Dictionary<TState, Action> onEnter = new();
+    private readonly Dictionary<TState, Action> onExit = new();
+    private readonly List<Action<TState>> listeners = new();
     private readonly Dictionary<TState, int> priorities = new();
 
-    public RxVar<TState> State => stateMachine.Current;
-    public TState Value => State.Value;
-
-    public FSM(TState initialState)
+    public FSM(TState initial, ITrackableRxModel owner = null)
     {
-        stateMachine = new RxStateMachine<TState>(initialState);
+        state = new RxVar<TState>(initial, owner);
+        state.AddListener(NotifyAll);
+
+        if (owner != null)
+            owner.RegisterRx(this);
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        // Auto-register with memory tracker
+        RxMemoryTracker.TrackObject(this, $"FSM<{typeof(TState).Name}> owned by {owner?.GetType().Name ?? "unknown"}");
+#endif
     }
 
-    // 상태 진입 시 콜백
-    public FSM<TState> OnEnter(TState state, Action callback) // 상태 진입 시 콜백
+    public RxVar<TState> State => state;
+    public TState Value => state.Value;
+
+    // 상태 변경 직접 요청
+    public FSM<TState> Request(TState next)
     {
-        stateMachine.OnEnter(state, callback); // 상태 진입 시 콜백
+        if (!CanTransitTo(next)) return this;
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
+#endif
+
+        onExit.TryGetValue(Value, out var exit); exit?.Invoke();
+        state.SetValue(next);
+        onEnter.TryGetValue(next, out var enter); enter?.Invoke();
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        sw.Stop();
+        float elapsedMs = sw.ElapsedTicks / (float)TimeSpan.TicksPerMillisecond;
+
+        // Record performance metrics
+        RxDebugger.RecordNotification(this, elapsedMs, listeners.Count);
+
+        // Log slow transitions
+        if (elapsedMs > 5.0f) // Threshold for "slow" transitions
+        {
+            Debug.LogWarning($"[FSM] Slow transition to {next} took {elapsedMs:F2}ms");
+        }
+#endif
+
         return this;
     }
 
-    // 상태 이탈 시 콜백
-    public FSM<TState> OnExit(TState state, Action callback) // 상태 이탈 시 콜백
+    public bool CanTransitTo(TState next)
     {
-        stateMachine.OnExit(state, callback); // 상태 이탈 시 콜백
+        if (EqualityComparer<TState>.Default.Equals(Value, next)) return false;
+        return !guards.TryGetValue(next, out var cond) || cond(Value);
+    }
+
+    public FSM<TState> AddTransitionRule(TState to, Func<TState, bool> rule)
+    {
+        guards[to] = rule;
         return this;
     }
 
-    // 우선순위 설정
+    public FSM<TState> OnEnter(TState state, Action callback)
+    {
+        if (!onEnter.ContainsKey(state)) onEnter[state] = callback;
+        else onEnter[state] += callback;
+        return this;
+    }
+
+    public FSM<TState> OnExit(TState state, Action callback)
+    {
+        if (!onExit.ContainsKey(state)) onExit[state] = callback;
+        else onExit[state] += callback;
+        return this;
+    }
+
+    public FSM<TState> AddListener(Action<TState> listener)
+    {
+        if (listener == null) return this;
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        // Check for self-subscription which can cause infinite loops
+        if (listener.Target == this)
+        {
+            Debug.LogWarning($"[FSM] Self-subscription detected in {this}! This may cause infinite loops.");
+        }
+
+        // Record the subscription for debugging
+        this.RecordSubscription(listener.Target);
+#endif
+
+        listeners.Add(listener);
+        listener(Value);
+        return this;
+    }
+
+    public FSM<TState> RemoveListener(Action<TState> listener)
+    {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        // Remove subscription tracking
+        if (listener != null)
+        {
+            this.RemoveSubscriptionRecord(listener.Target);
+        }
+#endif
+
+        listeners.Remove(listener);
+        return this;
+    }
+
+    private void NotifyAll(TState v)
+    {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
+#endif
+
+        // Cache the list count since listeners may change during notification
+        int listenerCount = listeners.Count;
+
+        // Take a snapshot to avoid modification issues
+        var currentListeners = new Action<TState>[listenerCount];
+        listeners.CopyTo(currentListeners);
+
+        // Notify all listeners
+        foreach (var l in currentListeners)
+        {
+            if (l != null) // Check in case it was removed during iteration
+            {
+                try
+                {
+                    l(v);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"[FSM] Exception in listener: {ex.Message}\n{ex.StackTrace}");
+                }
+            }
+        }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
+        sw.Stop();
+        float elapsedMs = sw.ElapsedTicks / (float)TimeSpan.TicksPerMillisecond;
+
+        // Record performance metrics
+        RxDebugger.RecordNotification(this, elapsedMs, listenerCount);
+#endif
+    }
+
+    public override void ClearRelation()
+    {
+        listeners.Clear();
+        state.ClearRelation();
+    }
+
+    // 우선순위 등록
     public FSM<TState> SetPriority(TState state, int priority)
     {
         priorities[state] = priority;
         return this;
     }
 
-    // 플래그 기반 상태 전이 (이벤트 리스너 등록 포함)
-    public FSM<TState> DriveByFlags<TFlag>(
-        RxStateFlagSet<TFlag> flags,
-        Func<RxStateFlagSet<TFlag>, TState> evaluator)
-        where TFlag : Enum
+    // 우선순위 기반 전이 요청
+    public void RequestByPriority(params TState[] candidates)
     {
-        EvaluateFlags(flags, evaluator); // 조건 평가 및 적용
-
-        foreach (var (flag, _) in flags.Snapshot()) // 현재 상태 스냅샷
-        {
-            flags.AddListener(flag, _ => EvaluateFlags(flags, evaluator)); // 값 변경을 구독할 수 있음
-        }
-
-        return this;
-    }
-
-    private void EvaluateFlags<TFlag>( // 조건 평가 및 적용
-        RxStateFlagSet<TFlag> flags,
-        Func<RxStateFlagSet<TFlag>, TState> evaluator)
-        where TFlag : Enum
-    {
-        var next = evaluator(flags);
-        RequestByPriority(next); // 상태 전이 요청
-    }
-
-    // 상태 전이 직접 요청
-    public void Request(TState next) // 상태 전이 요청
-    {
-        stateMachine.Request(next); // 상태 전이 요청
-    }
-
-    // 다중 후보 중 가장 높은 우선순위 요청
-    public void RequestByPriority(params TState[] candidates) // 상태 전이 요청
-    {
-#nullable enable
         TState? best = default;
-#nullable disable
         int bestPriority = int.MinValue;
 
         foreach (var state in candidates)
         {
-            if (!stateMachine.CanTransitTo(state)) continue;
+            if (!CanTransitTo(state)) continue;
 
-            int p = priorities.GetValueOrDefault(state, 0); // 현재 값 반환
+            int p = priorities.GetValueOrDefault(state, 0);
             if (best == null || p > bestPriority || (p == bestPriority && Equals(state, Value)))
             {
                 best = state;
@@ -88,19 +191,40 @@ public class FSM<TState> where TState : Enum
         }
 
         if (best != null && !Equals(best, Value))
-            Request(best); // 상태 전이 요청
+            Request(best);
     }
 
-    // 단일 후보 상태에 대한 조건부 전이
-    public void RequestByPriority(TState single) // 상태 전이 요청
+    public void RequestByPriority(TState single)
     {
-        RequestByPriority(new[] { single }); // 상태 전이 요청
+        RequestByPriority(new[] { single });
     }
 
-    // 상태 전이 로그 출력
-    public FSM<TState> LogTransitions(string tag = "[FSM]")
+    // 디버그 출력
+    public FSM<TState> WithDebug(string tag = "[FSM]")
     {
-        State.AddListener(state => Debug.Log($"{tag} State → {state}")); // 값 변경을 구독할 수 있음
+        AddListener(state => UnityEngine.Debug.Log($"{tag} → {state}"));
         return this;
+    }
+
+    // RxFlagSet으로 상태 평가
+    public FSM<TState> DriveByFlags<TFlag>(RxStateFlagSet<TFlag> flags, Func<RxStateFlagSet<TFlag>, TState> evaluator) where TFlag : Enum
+    {
+        EvaluateFlags(flags, evaluator);
+
+        foreach (var (flag, _) in flags.Snapshot())
+            flags.AddListener(flag, _ => EvaluateFlags(flags, evaluator));
+
+        return this;
+    }
+
+    private void EvaluateFlags<TFlag>(RxStateFlagSet<TFlag> flags, Func<RxStateFlagSet<TFlag>, TState> evaluator) where TFlag : Enum
+    {
+        var next = evaluator(flags);
+        RequestByPriority(next);
+    }
+
+    public override string ToString()
+    {
+        return $"FSM<{typeof(TState).Name}>({Value})";
     }
 }
