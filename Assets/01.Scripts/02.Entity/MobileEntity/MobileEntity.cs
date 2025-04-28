@@ -4,10 +4,10 @@ using UnityEngine;
 
 public abstract class MobileEntity<M> : BaseEntity<M> where M: BaseModel
 {
-    protected abstract float Health { get; set; }
+    protected abstract float CurHealth { get; set; }
     
     public virtual void TakeDamaged(float damage)
     {
-        Health -= damage;
+        CurHealth -= damage;
     }
 }

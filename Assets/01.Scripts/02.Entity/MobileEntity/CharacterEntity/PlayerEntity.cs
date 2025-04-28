@@ -25,10 +25,10 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
         Model = new PlayerModel();
     }
 
-    protected override float Health
+    protected override float CurHealth
     {
-        get => Model.Health.Value;
-        set => Model.Health.SetValue(value);
+        get => Model.CurHealth.Value;
+        set => Model.CurHealth.SetValue(value);
     }
 
     public float MoveSpeed
@@ -71,7 +71,7 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
         }
 
         base.TakeDamaged(damage);
-        if (Health < 0f) 
+        if (CurHealth < 0f) 
             IsDeath = true;
     }
 

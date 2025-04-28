@@ -30,7 +30,7 @@ public class AngelModel : BaseModel
         CurHealth = new(MaxHealth.Value, nameof(CurHealth), this);
         NormalizedHP = new(1f, this);
         
-        Action<float> recalc = _ => NormalizedHP.SetValue((float)CurHealth.Value / MaxHealth.Value);
+        Action<float> recalc = _ => NormalizedHP.SetValue(CurHealth.Value / MaxHealth.Value);
         CurHealth.AddListener(recalc);
         MaxHealth.AddListener(recalc);
 
