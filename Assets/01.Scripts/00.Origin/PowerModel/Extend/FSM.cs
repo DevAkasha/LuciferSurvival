@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using UnityEditor;
+using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-public class FSM<TState> : RxBase where TState : Enum
+public partial class FSM<TState> : RxBase where TState : Enum
 {
     private readonly RxVar<TState> state;
     private readonly Dictionary<TState, Func<TState, bool>> guards = new();
@@ -227,4 +229,59 @@ public class FSM<TState> : RxBase where TState : Enum
     {
         return $"FSM<{typeof(TState).Name}>({Value})";
     }
+}
+
+// FSM partial class implementation to add IRxInspectable interface
+public partial class FSM<TState> : IRxInspectable where TState : Enum
+{
+#if UNITY_EDITOR
+    public void DrawDebugInspector()
+    {
+        TState currentState = Value;
+
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+
+        // FSM 타입 이름으로 헤더 표시
+        EditorGUILayout.LabelField($"FSM<{typeof(TState).Name}>", EditorStyles.boldLabel);
+
+        // 현재 상태를 녹색으로 강조 표시
+        GUIStyle currentStateStyle = new(EditorStyles.boldLabel)
+        {
+            normal = { textColor = Color.green }
+        };
+
+        EditorGUILayout.LabelField("현재 상태:", currentState.ToString(), currentStateStyle);
+
+        // 가능한 전이 섹션
+        EditorGUILayout.Space(2);
+        EditorGUILayout.LabelField("가능한 전이:", EditorStyles.boldLabel);
+
+        // 모든 가능한 전이 나열
+        foreach (TState state in Enum.GetValues(typeof(TState)))
+        {
+            if (EqualityComparer<TState>.Default.Equals(state, currentState))
+                continue;
+
+            bool canTransit = CanTransitTo(state);
+            GUIStyle stateStyle = new(EditorStyles.label)
+            {
+                normal = { textColor = canTransit ? Color.cyan : Color.gray }
+            };
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(state.ToString(), stateStyle, GUILayout.Width(150));
+
+            GUI.enabled = canTransit;
+            if (GUILayout.Button("전이", GUILayout.Width(60)))
+            {
+                Request(state);
+            }
+            GUI.enabled = true;
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+        EditorGUILayout.EndVertical();
+    }
+#endif
 }
