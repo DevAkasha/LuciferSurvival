@@ -6,7 +6,32 @@ public class MapManager : Singleton<MapManager>
 {
     protected override bool IsPersistent => false;
 
-    // 맵 동적 생성 - 만들어진 지형 프리펩을 랜덤으로 가져오기
-    // 타일매니저에 있는것 응용하여 프리팹을 랜덤으로 하나 가져와 배치?
-    // 테마에 맞게 맵이 선정되어야 하는것이니 기획자분의 의도에 맞게 랜덤이 아닌 시작할때 지정해주는걸로 진행할수도 있음
+    public Transform BaseMapBlock;     // 베이스 맵을 담을 부모 Transform
+    [SerializeField] private List<GameObject> mapPrefabs;  // 맵 프리펩 리스트
+
+    private GameObject selectedMapPrefab; // 선택된 맵 프리펩
+    private GameObject currentMap;      // 현재 생성된 맵 게임오브젝트의 참조
+
+    private void Start()
+    {
+        SelectMap();
+        CreateMap();
+    }
+
+    // 맵 프리펩 선택 메서드 
+    public void SelectMap()
+    {
+        // 랜덤 인덱스 생성
+        int map = Random.Range(0, mapPrefabs.Count);
+
+        // 랜덤 맵 프리팹 선택
+        selectedMapPrefab = mapPrefabs[map];
+    }
+
+    // 선택된 프리펩으로 맵 생성
+    public void CreateMap()
+    {
+        // 맵 프리팹 생성 - 중앙 위치에 배치
+        currentMap = Instantiate(selectedMapPrefab, Vector3.zero, Quaternion.identity, BaseMapBlock);
+    }
 }
