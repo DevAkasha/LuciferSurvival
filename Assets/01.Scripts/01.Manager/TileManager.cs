@@ -11,11 +11,13 @@ public class TileManager : Singleton<TileManager>
     public Transform lockTileBlock;         // grid 하위의 오브젝트 (잠금타일)
 
     int gridCount = 15;     // 전체 크기
+    public int EnviromentCode;
 
     [SerializeField] private GameObject lockTileObj;            // 잠금타일 프리펩
     [SerializeField] private List<GameObject> resourceTileObj;  // 자원타일 프리펩 리스트
     [SerializeField] private Grid grid;
     [SerializeField] private List<Vector2Int> excludedCells;    // 제외할 셀 좌표 리스트
+    [SerializeField] private List<GameObject> environmentTemplate;
 
     private void Start()
     {
@@ -23,9 +25,17 @@ public class TileManager : Singleton<TileManager>
         SetLockTileMap();
     }
 
-    /// <summary>
-    /// 자원타일 배치
-    /// </summary>
+    public void SetEnviroment()
+    {
+        if (environmentTemplate == null)
+            return;
+        if(EnviromentCode < 0 && EnviromentCode > environmentTemplate.Count)
+            return;
+
+        Instantiate(resourceTileObj[EnviromentCode], Vector3.zero, Quaternion.identity);
+    }
+
+    // 자원타일 배치
     public void SetResourceTileMap()
     {
         // 그리드 중심으로부터 범위를 계산
