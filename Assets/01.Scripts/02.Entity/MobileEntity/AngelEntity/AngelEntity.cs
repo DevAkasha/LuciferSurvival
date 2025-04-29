@@ -17,7 +17,7 @@ public class AngelEntity : MobileEntity<AngelModel>
     public Transform headPivot;
 
     #region ProxyProperty
-    protected override float Health 
+    protected override float CurHealth 
     { 
         get => Model.CurHealth.Value; 
         set => Model.CurHealth.SetValue(value); 
@@ -102,7 +102,7 @@ public class AngelEntity : MobileEntity<AngelModel>
     public override void TakeDamaged(float damage)
     {
         base.TakeDamaged(damage);
-        if(Health<0f)
+        if(CurHealth<0f)
             IsDeath = true;
     }
 

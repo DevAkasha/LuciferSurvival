@@ -9,7 +9,6 @@ public abstract class PlayerController : MobileController<PlayerEntity, PlayerMo
     protected override void OnInit()
     {
         PlayerManager.Instance.ResistPlayer(this);
-        animator = GetComponent<Animator>();
     }
     private void Start()
     {
@@ -20,7 +19,6 @@ public abstract class PlayerController : MobileController<PlayerEntity, PlayerMo
         Entity.Model.State.OnEnter(PlayerState.Roll, () => animator.Play("Roll"));
         Entity.Model.State.OnEnter(PlayerState.Attack, () => animator.Play("Attack"));
         Entity.Model.State.OnEnter(PlayerState.Cast, () => animator.Play("Cast"));
-        Entity.Model.State.OnEnter(PlayerState.Death, () => animator.Play("Death"));
     }
     public virtual void OnMove(CallbackContext context)
     {

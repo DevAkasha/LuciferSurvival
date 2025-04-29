@@ -38,7 +38,7 @@ public class SummonUnitUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI soulStoneCountText;
 
-    private int shopLevel = 1;
+    private int shopLevel = 1;  //StageManager로 옮겨야될 수도 있음(영구저장 되는지 확인이 필요한 문제)
     private int rerollCost = 3;
 
     private SummonSlot[] curSlots;
@@ -48,6 +48,7 @@ public class SummonUnitUI : MonoBehaviour
         curSlots = summonSlotLayout.GetComponentsInChildren<SummonSlot>();
         SetRandomUnit();
         UpdateShopLevelUpCost();
+        CheckRerollCost();
         UpdateRerollCost();
         UpdateSoulStone();
     }
@@ -59,7 +60,7 @@ public class SummonUnitUI : MonoBehaviour
         {
             if (StageManager.Instance.UseSoulStone(SummonTableUtil.GetSummonTable(shopLevel + 1).cost))
             {
-
+                shopLevel += 1;
             }
         }
     }
@@ -94,9 +95,16 @@ public class SummonUnitUI : MonoBehaviour
 
     public bool CheckRerollCost()
     {
-        //현재 금액이 리롤 가격보다 높을 시 버튼 활성화
-        //현재 금액이 리롤 가격보다 높지 않을시 버튼 비활성화
-        return false;
+        if (StageManager.Instance.SoulStone >= rerollCost)
+        {
+            RerollButtonEnable();
+            return true;
+        }
+        else
+        {
+            RerollButtonDisable();
+            return false;
+        }
     }
 
     public void RerollButtonEnable()

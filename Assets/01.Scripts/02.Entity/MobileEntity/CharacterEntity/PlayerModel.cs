@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public enum PlayerState
@@ -27,20 +28,29 @@ public enum PlayerStateFlag
 
 public class PlayerModel: BaseModel
 {
-    public RxModFloat Health;
+    public RxModFloat MaxHealth;
+    public RxModFloat CurHealth;
     public RxModFloat MoveSpeed;
 
     public readonly RxStateFlagSet<PlayerStateFlag> Flags;
     public readonly FSM<PlayerState> State;
 
+    public RxVar<float> NormalizedHP;
+
     public PlayerModel()
     {
-        Health = new(100f, nameof(Health), this);
+        MaxHealth = new(100f, nameof(MaxHealth), this);
+        CurHealth = new(MaxHealth.Value, nameof(CurHealth), this);
         MoveSpeed = new(4f, nameof(MoveSpeed), this);
+        NormalizedHP = new(1f, this);
+        
+        Action<float> recalc = _ => NormalizedHP.SetValue(CurHealth.Value / MaxHealth.Value);
+        CurHealth.AddListener(recalc);
+        MaxHealth.AddListener(recalc);
 
         Flags = new RxStateFlagSet<PlayerStateFlag>(this);
 
-        State = new FSM<PlayerState>(PlayerState.Idle)
+        State = new FSM<PlayerState>(PlayerState.Idle,this)
             .SetPriority(PlayerState.Death, 100)
             .SetPriority(PlayerState.Stun, 90)
             .SetPriority(PlayerState.Roll, 80)
@@ -76,7 +86,8 @@ public class PlayerModel: BaseModel
 
     public override IEnumerable<IModifiable> GetModifiables()
     {
-        yield return Health;
+        yield return MaxHealth;
+        yield return CurHealth;
         yield return MoveSpeed;
     }
 }
