@@ -25,12 +25,12 @@ public class Lock : MonoBehaviour
         if (isLocked)
         {
             curImage.sprite = lockedSprite;
-            //금액 올라가는 함수 구현 필요
+            StageManager.Instance.SoulStone += 1;
         }
         else
         {
             curImage.sprite = unLockSprite;
-            //금액 내려가는 함수 구현 필요
+            StageManager.Instance.SoulStone -= 1;
         }
     }
 }

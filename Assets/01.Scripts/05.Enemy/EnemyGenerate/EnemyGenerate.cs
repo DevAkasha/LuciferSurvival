@@ -21,18 +21,20 @@ public class EnemyGenerate : MonoBehaviour
     }
     public void EnemySet()
     {
-        //Instantiate(enemyList[0], SpawnArea(), Quaternion.identity);
-        var enemy = PoolManager.Instance.Spawn<ObjectPoolBase>("Enemy", SpawnArea(),transform);
+        int RandomEnemy = Random.Range(0, enemyList.Count);
+        var enemy = PoolManager.Instance.Spawn<ObjectPoolBase>(enemyList[RandomEnemy].name.ToString(), SpawnArea());
     }
 
     Vector3 SpawnArea()
     {
         if (mainCamera == null)
-        { 
+        {
+            Debug.Log("카메라 없음");
             return Vector3.zero; 
         }
         if (target == null)
-        { 
+        {
+            Debug.Log("플레이어 없음");
             return Vector3.zero; 
         }
 
@@ -57,6 +59,7 @@ public class EnemyGenerate : MonoBehaviour
             }
         }
 
+        Debug.Log("먼가 없음");
         return Vector3.zero;
     }
     private void OnDrawGizmos()
