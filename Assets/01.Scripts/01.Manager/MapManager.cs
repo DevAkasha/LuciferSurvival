@@ -14,23 +14,18 @@ public class MapManager : Singleton<MapManager>
 
     private void Start()
     {
-        SelectMap();
         CreateMap();
     }
 
-    // 맵 프리펩 선택 메서드 
-    public void SelectMap()
+    // 선택된 프리펩으로 맵 생성
+    public void CreateMap()
     {
         // 랜덤 인덱스 생성
         int map = Random.Range(0, mapPrefabs.Count);
 
         // 랜덤 맵 프리팹 선택
         selectedMapPrefab = mapPrefabs[map];
-    }
 
-    // 선택된 프리펩으로 맵 생성
-    public void CreateMap()
-    {
         // 맵 프리팹 생성 - 중앙 위치에 배치
         currentMap = Instantiate(selectedMapPrefab, Vector3.zero, Quaternion.identity, BaseMapBlock);
     }
