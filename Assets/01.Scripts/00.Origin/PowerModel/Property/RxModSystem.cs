@@ -76,10 +76,6 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
 
     protected readonly List<Action<T>> listeners = new();
 
-#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
-    private readonly Dictionary<ModifierKey, string> modifierSources = new();
-#endif
-
     public string FieldName { get; set; } = string.Empty;
 
     public T Value => cachedValue;
@@ -90,17 +86,6 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
     {
         if (listener != null)
         {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
-            // Check for self-subscription which can cause infinite loops
-            if (listener.Target == this)
-            {
-                Debug.LogWarning($"[RxMod] Self-subscription detected in {this}! This may cause infinite loops.");
-            }
-
-            // Record the subscription for debugging
-            this.RecordSubscription(listener.Target);
-#endif
-
             listeners.Add(listener);
             listener(Value);
         }
@@ -108,14 +93,6 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
 
     public void RemoveListener(Action<T> listener) // 구독 해제
     {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
-        // Remove subscription tracking
-        if (listener != null)
-        {
-            this.RemoveSubscriptionRecord(listener.Target);
-        }
-#endif
-
         listeners.Remove(listener);
     }
 
@@ -123,11 +100,6 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
 
     protected void Recalculate()
     {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
-        Stopwatch sw = new Stopwatch();
-        sw.Start();
-#endif
-
         T oldValue = cachedValue;
 
         // 하위 클래스에서 구현하는 실제 계산
@@ -138,17 +110,6 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
         {
             NotifyAll(cachedValue);
         }
-
-#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
-        sw.Stop();
-        float elapsedMs = sw.ElapsedTicks / (float)TimeSpan.TicksPerMillisecond;
-
-        // Record performance metrics if there was a change
-        if (!AreValuesEqual(oldValue, cachedValue))
-        {
-            RxDebugger.RecordNotification(this, elapsedMs, listeners.Count);
-        }
-#endif
     }
 
     protected abstract bool AreValuesEqual(T a, T b);
@@ -166,41 +127,8 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
 
     protected void NotifyAll(T value)
     {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
-        Stopwatch sw = new Stopwatch();
-        sw.Start();
-#endif
-
-        // Cache the list count since listeners may change during notification
-        int listenerCount = listeners.Count;
-
-        // Take a snapshot of the current listeners to avoid modification issues
-        var currentListeners = new Action<T>[listenerCount];
-        listeners.CopyTo(currentListeners);
-
-        // Notify all listeners
-        foreach (var l in currentListeners)
-        {
-            if (l != null) // Check in case it was removed during iteration
-            {
-                try
-                {
-                    l(value);
-                }
-                catch (Exception ex)
-                {
-                    Debug.LogError($"[RxMod] Exception in listener: {ex.Message}\n{ex.StackTrace}");
-                }
-            }
-        }
-
-#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
-        sw.Stop();
-        float elapsedMs = sw.ElapsedTicks / (float)TimeSpan.TicksPerMillisecond;
-
-        // Record performance metrics
-        RxDebugger.RecordNotification(this, elapsedMs, listenerCount);
-#endif
+        foreach (var l in listeners)
+            l(value);
     }
 
     void IRxModBase.SetValue(object origin) // 값 설정
@@ -237,12 +165,6 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
 
     void IRxModBase.SetModifier(ModifierType type, ModifierKey key, object value)
     {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
-        // Record stacktrace for debugging
-        System.Diagnostics.StackTrace stackTrace = new System.Diagnostics.StackTrace(1, true);
-        modifierSources[key] = stackTrace.ToString();
-#endif
-
         if (value is T typed) SetModifier(type, key, typed);
         else throw new InvalidCastException($"Expected {typeof(T).Name}");
     }
@@ -252,22 +174,11 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
 
     void IRxModBase.AddModifier(ModifierType type, ModifierKey key)
     {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
-        // Record stacktrace for debugging
-        System.Diagnostics.StackTrace stackTrace = new System.Diagnostics.StackTrace(1, true);
-        modifierSources[key] = stackTrace.ToString();
-#endif
-
         AddModifier(type, key);
     }
 
     void IRxModBase.RemoveModifier(ModifierType type, ModifierKey key)
     {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
-        // Remove source tracking
-        modifierSources.Remove(key);
-#endif
-
         RemoveModifier(type, key);
     }
 
@@ -297,34 +208,6 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
     string IRxModFormulaProvider.BuildDebugFormula()
     {
         return BuildDebugFormula();
-    }
-
-#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
-    /// <summary>
-    /// Get detailed information about all modifiers applied to this RxMod
-    /// </summary>
-    public string GetModifierDebugInfo()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.AppendLine($"--- RxMod Debug Info: {FieldName} ---");
-        sb.AppendLine($"Current Value: {Value}");
-        sb.AppendLine($"Base Value: {origin}");
-        sb.AppendLine($"Formula: {BuildDebugFormula()}");
-        sb.AppendLine("Modifiers:");
-
-        foreach (var key in modifierSources.Keys)
-        {
-            sb.AppendLine($"  - {key}");
-            sb.AppendLine($"    Source: {modifierSources[key]}");
-        }
-
-        return sb.ToString();
-    }
-#endif
-
-    public override string ToString()
-    {
-        return $"RxMod<{typeof(T).Name}>({FieldName}={Value})";
     }
 }
 
