@@ -18,19 +18,6 @@ public interface IModifiable
     void RemoveModifier(ModifierKey key);
 }
 
-public interface IRxReadable<T>
-{
-    T Value { get; }
-    void AddListener(Action<T> listener); // 값 변경을 구독할 수 있음
-    void RemoveListener(Action<T> listener); // 구독 해제
-}
-public interface IRxField
-{
-    string FieldName { get; }
-}
-
-public interface IRxField<T> : IRxField, IRxReadable<T> { }
-
 public interface IRxModBase
 {
     object Value { get; }
@@ -50,21 +37,10 @@ public interface IRxMod<T> : IRxModBase, IRxField<T>
     void SetModifier(ModifierType type, ModifierKey key, T value);
 }
 
-public interface IConditionCheckable
-{
-    bool Satisfies(Func<object, bool> predicate);
-}
-
-public abstract class RxBase : IConditionCheckable
-{
-    public abstract void ClearRelation();
-    public virtual bool Satisfies(Func<object, bool> predicate) => false;
-}
 public interface IRxModFormulaProvider
 {
     string BuildDebugFormula();
 }
-
 
 public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>, IRxModFormulaProvider
 {
