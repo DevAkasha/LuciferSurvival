@@ -12,13 +12,15 @@ public partial class FSM<TState> : RxBase where TState : Enum
     private readonly List<Action<TState>> listeners = new();
     private readonly Dictionary<TState, int> priorities = new();
 
-    public FSM(TState initial, ITrackableRxModel owner = null)
+    public FSM(TState initial, IRxOwner owner)
     {
+        if(!owner.IsRxAllOwner)
+            throw new InvalidOperationException($"An invalid owner({owner}) has accessed.");
+
         state = new RxVar<TState>(initial, owner);
         state.AddListener(NotifyAll);
 
-        if (owner != null)
-            owner.RegisterRx(this);
+        owner.RegisterRx(this);
     }
 
     public RxVar<TState> State => state;
@@ -30,7 +32,7 @@ public partial class FSM<TState> : RxBase where TState : Enum
         if (!CanTransitTo(next)) return this;
 
         onExit.TryGetValue(Value, out var exit); exit?.Invoke();
-        state.SetValue(next);
+        state.Set(next);
         onEnter.TryGetValue(next, out var enter); enter?.Invoke();
 
         return this;

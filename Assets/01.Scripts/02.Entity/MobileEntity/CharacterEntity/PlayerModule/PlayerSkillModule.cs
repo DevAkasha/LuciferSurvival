@@ -98,14 +98,14 @@ public class PlayerSkillModule : PlayerPart
         }
     }
 
-    private List<IBaseEntity> FindEnemiesInRange(float range)
+    private List<IModelOwner> FindEnemiesInRange(float range)
     {
-        var results = new List<IBaseEntity>();
+        var results = new List<IModelOwner>();
         var colliders = Physics.OverlapSphere(transform.position, range, LayerMask.GetMask("Enemy"));
 
         foreach (var collider in colliders)
         {
-            var entity = collider.GetComponent<IBaseEntity>();
+            var entity = collider.GetComponent<IModelOwner>();
             if (entity != null)
             {
                 results.Add(entity);

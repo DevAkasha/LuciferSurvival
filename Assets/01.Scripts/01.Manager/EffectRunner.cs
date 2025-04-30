@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class EffectRunner : Singleton<EffectRunner>
 {
-    private readonly Dictionary<(ModifierKey, IBaseEntity), Coroutine> activeEffects = new();
+    private readonly Dictionary<(ModifierKey, IModelOwner), Coroutine> activeEffects = new();
 
-    public void RegisterTimedEffect(ModifierEffect effect, IBaseEntity target)
+    public void RegisterTimedEffect(ModifierEffect effect, IModelOwner target)
     {
         if (target == null)
         {
@@ -32,7 +32,7 @@ public class EffectRunner : Singleton<EffectRunner>
         }
     }
 
-    public void RegisterInterpolatedEffect(ModifierEffect effect, IBaseEntity target)
+    public void RegisterInterpolatedEffect(ModifierEffect effect, IModelOwner target)
     {
         if (target == null)
         {
@@ -56,7 +56,7 @@ public class EffectRunner : Singleton<EffectRunner>
         StartCoroutine(RunInterpolatedEffect(effect, modifiableTarget));
     }
 
-    private bool TryStartEffect(ModifierEffect effect, IBaseEntity target, out Coroutine coroutine)
+    private bool TryStartEffect(ModifierEffect effect, IModelOwner target, out Coroutine coroutine)
     {
         var key = (effect.Key, target);
 
@@ -84,7 +84,7 @@ public class EffectRunner : Singleton<EffectRunner>
         return true;
     }
 
-    private IEnumerator RunEffect(ModifierEffect effect, IBaseEntity target)
+    private IEnumerator RunEffect(ModifierEffect effect, IModelOwner target)
     {
         // 효과가 이미 적용되었다고 가정 (ModifierEffect.ApplyTo 메서드에서 적용됨)
 
@@ -175,7 +175,7 @@ public class EffectRunner : Singleton<EffectRunner>
         Debug.Log($"[EffectRunner] Interpolated effect removed: {key}");
     }
 
-    public bool CancelEffect(ModifierKey effectKey, IBaseEntity target)
+    public bool CancelEffect(ModifierKey effectKey, IModelOwner target)
     {
         var key = (effectKey, target);
 
@@ -197,10 +197,10 @@ public class EffectRunner : Singleton<EffectRunner>
         return false;
     }
 
-    public void CancelAllEffects(IBaseEntity target)
+    public void CancelAllEffects(IModelOwner target)
     {
         // 대상과 관련된 모든 키 수집
-        var keysToRemove = new List<(ModifierKey, IBaseEntity)>();
+        var keysToRemove = new List<(ModifierKey, IModelOwner)>();
 
         foreach (var pair in activeEffects)
         {
@@ -232,12 +232,12 @@ public class EffectRunner : Singleton<EffectRunner>
         }
     }
 
-    public bool HasActiveEffect(ModifierKey effectKey, IBaseEntity target)
+    public bool HasActiveEffect(ModifierKey effectKey, IModelOwner target)
     {
         return activeEffects.ContainsKey((effectKey, target));
     }
 
-    public List<ModifierKey> GetActiveEffectKeys(IBaseEntity target)
+    public List<ModifierKey> GetActiveEffectKeys(IModelOwner target)
     {
         var keys = new List<ModifierKey>();
 

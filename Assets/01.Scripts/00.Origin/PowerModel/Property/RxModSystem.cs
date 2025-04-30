@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using static UnityEngine.UI.GridLayoutGroup;
 
 
 public enum ModifierType
@@ -21,7 +22,7 @@ public interface IModifiable
 public interface IRxModBase
 {
     object Value { get; }
-    void SetValue(object origin); // 값 설정
+    void SetValue(object origin, IRxCaller caller); // 값 설정
     void ResetValue(object origin); // 초기 원본 값
     void SetModifier(ModifierType type, ModifierKey key, object value);
     void AddModifier(ModifierType type, ModifierKey key);
@@ -32,7 +33,7 @@ public interface IRxModBase
 public interface IRxMod<T> : IRxModBase, IRxField<T>
 {
     new T Value { get; }
-    void SetValue(T origin); // 값 설정
+    void SetValue(T origin, IRxCaller caller); // 값 설정
     void ResetValue(T origin); // 초기 원본 값
     void SetModifier(ModifierType type, ModifierKey key, T value);
 }
@@ -90,7 +91,14 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
 
     public abstract void SetModifier(ModifierType type, ModifierKey key, T value);
 
-    public void SetValue(T value) // 값 설정
+    public void SetValue(T value, IRxCaller caller) // 값 설정
+    {
+        if(!caller.IsFunctionalCaller)
+            throw new InvalidOperationException($"An invalid caller({caller}) has accessed.");
+        origin = value; // 초기 원본 값
+        ForceUpdate();
+    }
+    public void Set(T value) // 값 설정
     {
         origin = value; // 초기 원본 값
         ForceUpdate();
@@ -105,9 +113,11 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
             l(value);
     }
 
-    void IRxModBase.SetValue(object origin) // 값 설정
+    void IRxModBase.SetValue(object origin, IRxCaller caller) // 값 설정
     {
-        if (origin is T val) SetValue(val); // 값 설정
+        if(!caller.IsFunctionalCaller)
+            throw new InvalidOperationException($"An invalid caller({caller}) has accessed.");
+        if (origin is T val) Set(val); // 값 설정
         else throw new InvalidCastException($"Expected {typeof(T).Name}");
     }
 

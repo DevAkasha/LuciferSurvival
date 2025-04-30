@@ -3,8 +3,15 @@ using System.Collections.Generic;
 
 
 
-public abstract class BaseModel : IModifiableTarget, ITrackableRxModel
+public abstract class BaseModel : IModifiableTarget, IRxCaller, IRxOwner
 {
+    bool IRxCaller.IsLogicalCaller => true;
+    bool IRxCaller.IsMultiRolesCaller => true;
+    bool IRxCaller.IsFunctionalCaller => true;
+
+    bool IRxOwner.IsRxVarOwner => true;
+    bool IRxOwner.IsRxAllOwner => true;
+
     private readonly HashSet<RxBase> trackedRxVars = new();
     private readonly HashSet<IModifiable> modifiables = new();
 
