@@ -13,16 +13,17 @@ public sealed class RxModLong : RxModBase<long>
     private long sum, addMul, mul, postAdd;
     private bool isNegative;
 
-    public RxModLong(long origin = 0L, string fieldName = null, object owner = null)
+    public RxModLong(long origin = 0L, string fieldName = null, IRxOwner owner = null)
     {
+        if(!owner.IsRxAllOwner)
+            throw new InvalidOperationException($"An invalid owner({owner}) has accessed.");
         this.origin = origin;
         cachedValue = origin;
 
         if (!string.IsNullOrEmpty(fieldName))
             FieldName = fieldName;
 
-        if (owner is ITrackableRxModel model)
-            model.RegisterRx(this);
+        owner.RegisterRx(this);
 
         Recalculate();
     }

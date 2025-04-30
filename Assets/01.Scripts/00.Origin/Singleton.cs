@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine;
 
-public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
+public abstract class Singleton<T> : MonoBehaviour,IRxOwner,IRxCaller where T : Singleton<T>
 {
     private static T instance;
     public static T Instance
@@ -22,8 +23,8 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
         }
     }
     public static bool IsInstance => instance != null;
-    protected virtual bool IsPersistent => true;
 
+    protected virtual bool IsPersistent => true;
     protected virtual void Awake()
     {
         if (instance == null || instance == this)
@@ -40,5 +41,33 @@ public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
             Destroy(gameObject);
         }
     }
+
+    public bool IsRxVarOwner => true;
+    public bool IsRxAllOwner => false;
+    public bool IsLogicalCaller => true;
+    public bool IsMultiRolesCaller => true;
+    public bool IsFunctionalCaller => true;
+
+    private readonly HashSet<RxBase> trackedRxVars = new();
+
+    public void RegisterRx(RxBase rx)
+    {
+        trackedRxVars.Add(rx);
+    }
+
+    public void Unload()
+    {
+        foreach (var rx in trackedRxVars)
+        {
+            rx.ClearRelation();
+        }
+        trackedRxVars.Clear();
+    }
+
+    private void OnDestroy()
+    {
+        Unload();
+    }
+
 }
 

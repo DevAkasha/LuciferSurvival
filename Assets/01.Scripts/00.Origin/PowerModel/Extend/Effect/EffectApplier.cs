@@ -5,14 +5,14 @@ using UnityEngine;
 public class EffectApplier
 {
     private readonly BaseEffect effect;
-    private readonly List<IBaseEntity> targets = new();
+    private readonly List<IModelOwner> targets = new();
 
     public EffectApplier(BaseEffect effect)
     {
         this.effect = effect;
     }
 
-    public EffectApplier AddTarget(IBaseEntity target)
+    public EffectApplier AddTarget(IModelOwner target)
     {
         if (target != null)
             targets.Add(target);

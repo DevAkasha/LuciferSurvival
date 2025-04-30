@@ -3,8 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Controller : MonoBehaviour { } // 모든 컨트롤러의 기본 클래스 (MonoBehaviour 상속)
-public abstract class BaseController<E, M> : Controller where E : BaseEntity<M> where M : BaseModel // Entity와 Model을 연결하는 제네릭 컨트롤러
+public abstract class EMController : Controller { } // 모든 컨트롤러의 기본 클래스 (MonoBehaviour 상속)
+
+public abstract class BaseController<E, M> : EMController, IRxCaller where E : BaseEntity<M> where M : BaseModel // Entity와 Model을 연결하는 제네릭 컨트롤러
 {
+    bool IRxCaller.IsLogicalCaller => true;
+    bool IRxCaller.IsMultiRolesCaller => false;
+    bool IRxCaller.IsFunctionalCaller => false;
+ 
     [SerializeField] private E entity;
 
     public E Entity => entity;
@@ -25,12 +31,47 @@ public abstract class BaseController<E, M> : Controller where E : BaseEntity<M> 
     protected virtual void OnInit() { }
     protected virtual void OnEntityInjected() { } // Entity가 주입된 이후의 초기화 처리
 }
-public abstract class BaseController<M> : Controller where M : BaseModel
+public abstract class MController : Controller, IModelOwner
 {
-
+    public abstract BaseModel GetBaseModel();
 }
 
-public abstract class BaseController : Controller
-{ 
+public abstract class BaseController<M> : MController, IRxCaller, IModelOwner<M> where M : BaseModel
+{
+    bool IRxCaller.IsLogicalCaller => true;
+    bool IRxCaller.IsMultiRolesCaller => true;
+    bool IRxCaller.IsFunctionalCaller => false;
 
+    public M Model { get; set; }
+
+    public override BaseModel GetBaseModel() => Model;
+    public M GetModel() => Model;
+
+    protected virtual void OnDisable() => Model?.Unload();
+    protected virtual void OnDestroy() => Model?.Unload();
+}
+
+public abstract class BaseController : Controller, IRxCaller, IRxOwner
+{
+    bool IRxOwner.IsRxVarOwner => true;
+    bool IRxOwner.IsRxAllOwner => false;
+
+    bool IRxCaller.IsLogicalCaller => true;
+    bool IRxCaller.IsMultiRolesCaller => true;
+    bool IRxCaller.IsFunctionalCaller => false;
+
+    private readonly HashSet<RxBase> trackedRxVars = new();
+
+    public void RegisterRx(RxBase rx)
+    {
+        trackedRxVars.Add(rx);
+    }
+    public void Unload()
+    {
+        foreach (var rx in trackedRxVars)
+        {
+            rx.ClearRelation();
+        }
+        trackedRxVars.Clear();
+    }
 }

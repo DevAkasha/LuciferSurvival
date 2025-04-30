@@ -8,7 +8,7 @@ public class EnemyEntity : MobileEntity<EnemyModel>
     protected override float CurHealth
     {
         get => Model.Health.Value;
-        set => Model.Health.SetValue(value);
+        set => Model.Health.SetValue(value, this);
     }
     protected override void SetupModel()
     {

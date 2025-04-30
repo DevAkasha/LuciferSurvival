@@ -41,26 +41,80 @@ public class TileManager : Singleton<TileManager>
         // 그리드 중심으로부터 범위를 계산
         int halfGrid = gridCount / 2;
 
+        // 이미 사용된 위치를 추적하는 리스트
+        List<Vector3> usedPositions = new List<Vector3>();
+
         for (int x = -halfGrid; x <= halfGrid; x++)
         {
             for (int y = -halfGrid; y <= halfGrid; y++)
             {
+                // 중앙 타일(0,0)은 건너뜀
+                if (x == 0 && y == 0)
+                    continue;
+
                 int resourceCount = Random.Range(0, 3); // 0~2사이의 타일이 랜덤으로 생성
+                Vector3Int gridCell = new Vector3Int(x, y, 0);
+                Vector3 worldPos = grid.CellToWorld(gridCell);
+                Vector3 centerPos = new Vector3(worldPos.x, 0, worldPos.z);
 
                 for (int i = 0; i < resourceCount; i++)
                 {
-                    int resourceType = Random.Range(0, resourceTileObj.Count);
+                    // 겹치지 않는 위치 찾기
+                    Vector3 spawnPos;
+                    bool validPosition = false;
 
-                    Vector3Int gridCell = new Vector3Int(x, y, 0);
-                    Vector3 worldPos = grid.CellToWorld(gridCell); // 방의 중심좌표
-                    Vector3 addjustedPos = new Vector3(worldPos.x, 0, worldPos.z);
+                    // 최대 5번 시도
+                    for (int attempt = 0; attempt < 5; attempt++)
+                    {
+                        spawnPos = GetRandomPositionInCell(centerPos, 7);
 
-                    Vector3 spawnPos = GetRandomPositionInCell(addjustedPos, 7);
+                        // 다른 자원과 겹치는지 확인
+                        validPosition = true;
+                        foreach (var pos in usedPositions)
+                        {
+                            if (Vector3.Distance(spawnPos, pos) < 2.0f)
+                            {
+                                validPosition = false;
+                                break;
+                            }
+                        }
 
-                    Instantiate(resourceTileObj[resourceType], spawnPos, Quaternion.identity, ResourceTileBlock); // 프리팹을 adjustedPos월드위치에 생성
+                        // 겹치지 않는 위치를 찾았으면 자원 생성
+                        if (validPosition)
+                        {
+                            int resourceType = Random.Range(0, resourceTileObj.Count);
+                            Instantiate(resourceTileObj[resourceType], spawnPos, Quaternion.identity, ResourceTileBlock);
+                            usedPositions.Add(spawnPos);
+                            break;
+                        }
+                    }
                 }
             }
         }
+
+        //// 그리드 중심으로부터 범위를 계산
+        //int halfGrid = gridCount / 2;
+
+        //for (int x = -halfGrid; x <= halfGrid; x++)
+        //{
+        //    for (int y = -halfGrid; y <= halfGrid; y++)
+        //    {
+        //        int resourceCount = Random.Range(0, 3); // 0~2사이의 타일이 랜덤으로 생성
+
+        //        for (int i = 0; i < resourceCount; i++)
+        //        {
+        //            int resourceType = Random.Range(0, resourceTileObj.Count);
+
+        //            Vector3Int gridCell = new Vector3Int(x, y, 0);
+        //            Vector3 worldPos = grid.CellToWorld(gridCell); // 방의 중심좌표
+        //            Vector3 addjustedPos = new Vector3(worldPos.x, 0, worldPos.z);
+
+        //            Vector3 spawnPos = GetRandomPositionInCell(addjustedPos, 7);
+
+        //            Instantiate(resourceTileObj[resourceType], spawnPos, Quaternion.identity, ResourceTileBlock); // 프리팹을 adjustedPos월드위치에 생성
+        //        }
+        //    }
+        //}
     }
 
     /// <summary>
