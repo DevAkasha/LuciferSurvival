@@ -11,6 +11,9 @@ public class EquipSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandle
     [SerializeField]
     private Image iconImage;
 
+    [SerializeField]
+    private int transformIndex;
+
     private UnitModel equippedUnit;
 
     public void SetSlot(UnitModel unit)
@@ -45,9 +48,9 @@ public class EquipSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandle
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (StageManager.Instance.unitSlots[slotIndex] != null)
+        if (equippedUnit != null)
         {
-            StageUIManager.Instance.UnitInfo.SetUnitInfo(StageManager.Instance.unitSlots[slotIndex].unitModel);
+            StageUIManager.Instance.UnitInfo.SetUnitInfo(equippedUnit);
         }
     }
 
@@ -73,13 +76,13 @@ public class EquipSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandle
     {
         if (draggingEquipSlot == this)
         {
-            Debug.Log("[EquipSlot] 빈 공간 드랍 → 장착 해제");
             StageManager.Instance.AddUnit(equippedUnit);
             SetSlot(null);
         }
 
         draggingEquipSlot = null;
         StageUIManager.Instance.HideDragPreview();
+        StageUIManager.Instance.RefreshAllUnitSlots();
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -94,24 +97,42 @@ public class EquipSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandle
             if (equippedUnit != null)
                 StageManager.Instance.AddUnit(equippedUnit);
 
-            SetSlot(draggedUnit);
-            StageManager.Instance.unitSlots[UnitSlot.draggingSlotIndex] = null;
-            StageUIManager.Instance.RefreshUnitSlot(UnitSlot.draggingSlotIndex);
+            // draggedInventory.count 줄이기
+            if (draggedInventory.count > 1)
+            {
+                draggedInventory.count--;
+            }
+            else
+            {
+                StageManager.Instance.unitSlots[UnitSlot.draggingSlotIndex] = null;
+            }
+
+            SetSlot(draggedUnit); // 장착
+            StageUIManager.Instance.RefreshAllUnitSlots();
+
+            PlayerManager.Instance.Player.AddUnitTransform(transformIndex, equippedUnit);
 
             UnitSlot.isDropComplete = true;
             UnitSlot.draggingSlotIndex = -1;
+            StageUIManager.Instance.HideDragPreview();
             return;
         }
 
         if (draggingEquipSlot != null && draggingEquipSlot != this)
         {
+            int fromIndex = draggingEquipSlot.transformIndex;   //
+            int toIndex = transformIndex;                   //현재 인덱스
+
             var temp = equippedUnit;
             SetSlot(draggingEquipSlot.equippedUnit);
             draggingEquipSlot.SetSlot(temp);
 
-            draggingEquipSlot = null;
-        }
+            PlayerManager.Instance.Player.AddUnitTransform(fromIndex, equippedUnit);
+            PlayerManager.Instance.Player.AddUnitTransform(toIndex, draggingEquipSlot.equippedUnit);
 
-        StageUIManager.Instance.HideDragPreview();
+            draggingEquipSlot = null;
+            StageUIManager.Instance.HideDragPreview();
+            return;
+        }
     }
 }

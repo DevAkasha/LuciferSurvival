@@ -95,7 +95,7 @@ public static class SummonTableUtil
 
     public static bool CanLevelUp(int level)
     {
-        if (summonTableDict[level + 1] != null)
+        if (GetSummonTableDict()[level + 1] != null)
         {
             return true;
         }
