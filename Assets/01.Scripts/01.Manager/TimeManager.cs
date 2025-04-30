@@ -156,6 +156,7 @@ public class TimeManager : Singleton<TimeManager>
             if (flashCoroutine != null)
                 StopCoroutine(flashCoroutine);
 
+            damageImage.gameObject.SetActive(true);
             flashCoroutine = StartCoroutine(FlashRoutine());
         }
     }

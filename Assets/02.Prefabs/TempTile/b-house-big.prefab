@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6359077173804717176}
   - component: {fileID: 6549714169426106006}
   - component: {fileID: 8589391935673852926}
+  - component: {fileID: 1386435034716207140}
   m_Layer: 0
   m_Name: b-house-big
   m_TagString: Untagged
@@ -111,3 +112,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: d4817e0c8af4f425db4e25fdf58fadbc, type: 3}
+--- !u!208 &1386435034716207140
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5924215589157404117}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4.7720003, y: 5.018, z: 3.7640002}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.0050000004, y: 5.018, z: 0.19700001}
+  m_TimeToStationary: 0.5
