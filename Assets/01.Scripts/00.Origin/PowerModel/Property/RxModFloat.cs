@@ -23,6 +23,8 @@ public sealed class RxModFloat : RxModBase<float>
 
         if (owner is ITrackableRxModel model)
             model.RegisterRx(this);
+
+        Recalculate();
     }
 
     // 실제 계산 구현

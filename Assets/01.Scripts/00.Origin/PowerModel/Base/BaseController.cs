@@ -1,9 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseController : MonoBehaviour { } // 모든 컨트롤러의 기본 클래스 (MonoBehaviour 상속)
-public abstract class BaseController<E, M> : BaseController where E : BaseEntity<M> where M : BaseModel // Entity와 Model을 연결하는 제네릭 컨트롤러
+public abstract class Controller : MonoBehaviour { } // 모든 컨트롤러의 기본 클래스 (MonoBehaviour 상속)
+public abstract class BaseController<E, M> : Controller where E : BaseEntity<M> where M : BaseModel // Entity와 Model을 연결하는 제네릭 컨트롤러
 {
     [SerializeField] private E entity;
 
@@ -24,4 +24,13 @@ public abstract class BaseController<E, M> : BaseController where E : BaseEntity
 
     protected virtual void OnInit() { }
     protected virtual void OnEntityInjected() { } // Entity가 주입된 이후의 초기화 처리
+}
+public abstract class BaseController<M> : Controller where M : BaseModel
+{
+
+}
+
+public abstract class BaseController : Controller
+{ 
+
 }
