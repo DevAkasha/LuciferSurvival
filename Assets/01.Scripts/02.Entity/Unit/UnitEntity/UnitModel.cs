@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -20,6 +20,7 @@ public enum eProjectileType
 public class UnitModel : BaseModel
 {
     public string rcode;
+    public Sprite thumbnail;
     public string displayName;
     public string description;
     public int idx;
@@ -35,6 +36,7 @@ public class UnitModel : BaseModel
     public UnitModel(UnitDataSO unitDataSO)
     {
         rcode = unitDataSO.rcode;
+        thumbnail = unitDataSO.thumbnail;
         displayName = unitDataSO.displayName;
         description = unitDataSO.description;
         idx = unitDataSO.idx;

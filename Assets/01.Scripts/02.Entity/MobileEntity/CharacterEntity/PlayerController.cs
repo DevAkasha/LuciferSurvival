@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 public abstract class PlayerController : MobileController<PlayerEntity, PlayerModel>
 {
     [SerializeField] private Animator animator;
+
+    [SerializeField] private Transform[] unitTransforms;
     
     protected override void OnInit()
     {

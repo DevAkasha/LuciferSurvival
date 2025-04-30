@@ -19,7 +19,7 @@ public class UnitInfo : MonoBehaviour
 
     public void SetUnitInfo(UnitModel model)
     {
-        //unitImage.sprite =                        //이미지 작업 필요
+        unitImage.sprite = model.thumbnail;
         unitInfoText.text = $"{model.displayName}\n공격력: {model.atk}\n사거리: {model.range}\n{model.atkSpeed}/s";
     }
 
