@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +13,7 @@ public interface IBaseEntity<M> : IBaseEntity where M : BaseModel // 모델을 �
 
     public M GetModel(); //현재 모델 반환
 }
+
 public abstract class BaseEntity : WorldObject, IBaseEntity
 {
     public abstract BaseModel GetBaseModel();
