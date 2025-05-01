@@ -1,17 +1,133 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class UnitSlots : MonoBehaviour
+public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler, IDragHandler, IBeginDragHandler, IEndDragHandler, IDropHandler
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private Image iconImage;
+    [SerializeField]
+    private TMP_Text countText;
+    [SerializeField]
+    private GameObject countBackground;
+    [SerializeField]
+    private Image outline;
+
+    public static int draggingSlotIndex = -1;
+    public static bool isDropComplete = false;
+
+    protected override void UpdateSlotUI()
+    {
+        if (unitInventory != null)
+        {
+            countBackground.SetActive(true);
+            iconImage.sprite = unitInventory.unitModel.thumbnail;
+            iconImage.color = Color.white;
+            iconImage.enabled = true;
+            countText.text = unitInventory.count.ToString();
+        }
+        else
+        {
+            countBackground.SetActive(false);
+            iconImage.sprite = null;
+            iconImage.color = new Color(1f,1f,1f,0f);
+            iconImage.enabled = false;
+            countText.text = "";
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(StageManager.Instance.unitSlots[slotIndex] != null)
+        {
+            ActiveSlot();
+            StageUIManager.Instance.UnitInfo.SetUnitInfo(StageManager.Instance.unitSlots[slotIndex].unitModel);
+        }
+    }
+
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
+    {
+        //PC 기준 테두리 활성화 처리
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (unitInventory == null)
+            return;
+
+        draggingSlotIndex = slotIndex;
+
+        StageUIManager.Instance.ShowDragPreview(unitInventory.unitModel.thumbnail);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        StageUIManager.Instance.UpdateDragPreviewPosition();
+    }
+
+    public void OnEndDrag(PointerEventData eventData)               //그 이외에 드래그가 끝나면 처리해야될 것들(드래그 실패)
+    {
+        //테두리 비활성화 처리 필요
+        if (unitInventory == null)
+            return;
+
+        if (!isDropComplete)
+        {
+            Debug.Log("[UnitSlot] 드래그 실패 (빈 공간 등에 드롭됨)");
+            // 필요하면 드래그 실패 애니메이션 또는 처리 추가 가능
+        }
+
+        StageUIManager.Instance.HideDragPreview();
+
+        draggingSlotIndex = -1;
+        isDropComplete = false;
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        if (draggingSlotIndex == -1)
+            return;
+
+        if (draggingSlotIndex == slotIndex)
+        {
+            return;
+        }
+
+        var draggedUnitInventory = StageManager.Instance.unitSlots[draggingSlotIndex];
+        var targetUnitInventory = StageManager.Instance.unitSlots[slotIndex];
+
+        if (draggedUnitInventory == null)
+        {
+            return;
+        }
+
+        if (targetUnitInventory == null)
+        {
+            StageManager.Instance.unitSlots[slotIndex] = draggedUnitInventory;
+            StageManager.Instance.unitSlots[draggingSlotIndex] = null;
+        }
+        else
+        {
+            StageManager.Instance.unitSlots[draggingSlotIndex] = targetUnitInventory;
+            StageManager.Instance.unitSlots[slotIndex] = draggedUnitInventory;
+        }
+
+        StageUIManager.Instance.RefreshUnitSlot(draggingSlotIndex);
+        StageUIManager.Instance.RefreshUnitSlot(slotIndex);
+
+        StageUIManager.Instance.HideDragPreview();
+
+        isDropComplete = true;
+        draggingSlotIndex = -1;
+    }
+
+    public void ActiveSlot()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void InActiveSlot()
     {
         
     }
