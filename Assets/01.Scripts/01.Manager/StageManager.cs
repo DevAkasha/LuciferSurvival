@@ -5,10 +5,10 @@ using UnityEngine;
 public class StageManager : Singleton<StageManager>
 {
     public UnitInventory[] unitSlots = new UnitInventory[8];
-    [SerializeField]
-    SummonUnitUI summonUnitUI;
 
-    private RxVar<int> soulStone = new RxVar<int>();
+    public SummonUnitUI summonUnitUI;
+
+    private RxVar<int> soulStone = new RxVar<int>(0);
     private RxVar<int> rerollCost = new RxVar<int>(3);
     private RxVar<int> shopLevel = new RxVar<int>(1);
 
@@ -20,25 +20,17 @@ public class StageManager : Singleton<StageManager>
             unitSlots[i] = null;
         }
 
-        //soulStone.AddListener(v => summonUnitUI.UpdateSoulStoneText(v));
-        //rerollCost.AddListener(v => summonUnitUI.UpdateRerollCostText(v));
-        //shopLevel.AddListener(v => summonUnitUI.UpdateShopLevelUpCostText(v));
-        //shopLevel.AddListener(v => summonUnitUI.UpdateShopLevelText(v));
-
-        //unitSlots[0] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0001")));
-        //unitSlots[1] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0002")));
-        //unitSlots[2] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0003")));
-
-        //unitSlots[0].count = 3;
-        //unitSlots[1].count = 3;
-        //unitSlots[2].count = 3;
-
-        StageUIManager.Instance.RefreshAllUnitSlots();
-
+        //테스트용 코드
+        unitSlots[0] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0001")));
+        unitSlots[1] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0002")));
+        unitSlots[2] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0003")));
+        unitSlots[0].count = 3;
+        unitSlots[1].count = 3;
+        unitSlots[2].count = 3;
         SoulStone = 100;
     }
 
-    public int SoulStone { 
+    public int SoulStone {
         get { return soulStone.Value; }
         set { soulStone.SetValue(value, this); }
     }
@@ -46,13 +38,28 @@ public class StageManager : Singleton<StageManager>
     public int RerollCost
     {
         get { return rerollCost.Value; }
-        set { rerollCost.SetValue(value); }
+        set { rerollCost.SetValue(value, this); }
     }
 
     public int ShopLevel
     {
         get { return shopLevel.Value; }
-        set { shopLevel.SetValue(value); }
+        set { shopLevel.SetValue(value, this); }
+    }
+
+    public void Init()
+    {
+        soulStone.AddListener(v => summonUnitUI.UpdateSoulStoneText(v));
+        rerollCost.AddListener(v => summonUnitUI.UpdateRerollCostText(v));
+        shopLevel.AddListener(v => summonUnitUI.UpdateShopLevelUpCostText(v));
+        shopLevel.AddListener(v => summonUnitUI.UpdateShopLevelText(v));
+
+        for (int i = 0; i < unitSlots.Length; i++)
+        {
+            
+        }
+
+        StageUIManager.Instance.RefreshAllUnitSlots();
     }
 
     public bool UseSoulStone(int cost)

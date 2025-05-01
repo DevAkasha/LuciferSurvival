@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class StageUIManager : Singleton<StageUIManager>
 {
-    [SerializeField]
     private UnitSlot[] unitSlotUIs = new UnitSlot[8];
 
     [SerializeField]
@@ -14,8 +13,12 @@ public class StageUIManager : Singleton<StageUIManager>
     [SerializeField]
     private Image activeDragPreview; // 현재 드래그 중인 프리뷰 아이콘
 
+    public UnitInfo unitInfo;
+
     [SerializeField]
-    private UnitInfo unitInfo;
+    private GameObject slotPrefab;
+
+    private UnitManageUI unitManageUI;
 
     public UnitInfo UnitInfo { get { return unitInfo; } }
 
@@ -23,6 +26,14 @@ public class StageUIManager : Singleton<StageUIManager>
     {
         base.Awake();
         activeDragPreview.gameObject.SetActive(false);
+    }
+
+    public void Register()
+    {
+        foreach (UnitSlot slot in unitSlotUIs)
+        {
+            
+        }
     }
 
     public void RefreshAllUnitSlots()
