@@ -10,7 +10,7 @@ public class StageManager : Singleton<StageManager>
 
     public int SoulStone { 
         get { return soulStone.Value; }
-        set { soulStone.SetValue(value); }
+        set { soulStone.SetValue(value, this); }
     }
 
     public bool UseSoulStone(int cost)

@@ -13,15 +13,18 @@ public sealed class RxModFloat : RxModBase<float>
     private float sum, addMul, mul, postAdd;
     private bool isNegative;
 
-    public RxModFloat(float origin = 0f, string fieldName = null, object owner = null)
+    public RxModFloat(float origin = 0f, string fieldName = null, IRxOwner owner = null)
     {
+        if (!owner.IsRxAllOwner)
+            throw new InvalidOperationException($"An invalid owner({owner}) has accessed.");
+
         this.origin = origin;
         cachedValue = origin;
 
         if (!string.IsNullOrEmpty(fieldName))
             FieldName = fieldName;
 
-        if (owner is ITrackableRxModel model)
+        if (owner is IRxOwner model)
             model.RegisterRx(this);
 
         Recalculate();
