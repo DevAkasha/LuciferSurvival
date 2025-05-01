@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 public sealed class RxVar<T> : RxBase, IRxReadable<T>

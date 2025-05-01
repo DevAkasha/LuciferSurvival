@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 public abstract class PlayerController : MobileController<PlayerEntity, PlayerModel>
 {
     [SerializeField] private Animator animator;
+
+    [SerializeField] private Transform[] unitTransforms;
     
     protected override void OnInit()
     {
@@ -31,5 +33,28 @@ public abstract class PlayerController : MobileController<PlayerEntity, PlayerMo
     public virtual void OnMoveByJoystick(Vector2 JoysticInput)
     {
         Entity.moveInput = JoysticInput;
+    }
+
+    //유닛 생성
+    public void AddUnitTransform(int index, UnitModel model)
+    {
+        var prefab = Resources.Load<UnitController>($"Prefabs/Unit/{model.rcode}");
+        if (prefab == null)
+        {
+            return;
+        }
+        RemoveUnitTransform(index);
+
+        Instantiate(prefab, unitTransforms[index]);
+    }
+
+    //유닛 제거
+    public void RemoveUnitTransform(int index)
+    {
+        var unit = unitTransforms[index].GetComponentInChildren<UnitController>();
+        if (unit != null)
+        {
+            Destroy(unit.gameObject);
+        }
     }
 }

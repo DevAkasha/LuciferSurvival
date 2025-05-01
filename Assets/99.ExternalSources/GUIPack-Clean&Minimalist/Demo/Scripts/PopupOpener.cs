@@ -26,6 +26,11 @@ namespace Ricimi
             popup.transform.localScale = Vector3.zero;
             popup.transform.SetParent(m_canvas.transform, false);
             popup.GetComponent<Popup>().Open();
+            StageManager.Instance.summonUnitUI = popup.GetComponent<UnitManageUI>().SummonUnitUI;
+            StageUIManager.Instance.unitManageUI = popup.GetComponent<UnitManageUI>();
+            StageUIManager.Instance.unitInfo = popup.GetComponent<UnitManageUI>().UnitInfo;
+            StageManager.Instance.Init();
+            StageUIManager.Instance.Register();
         }
     }
 }
