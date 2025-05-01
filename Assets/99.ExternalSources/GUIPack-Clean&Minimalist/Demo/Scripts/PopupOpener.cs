@@ -30,7 +30,8 @@ namespace Ricimi
             StageUIManager.Instance.unitManageUI = popup.GetComponent<UnitManageUI>();
             StageUIManager.Instance.unitInfo = popup.GetComponent<UnitManageUI>().UnitInfo;
             StageManager.Instance.Init();
-            StageUIManager.Instance.Register();
+            StageUIManager.Instance.RegisterUnitSlots();
+            StageUIManager.Instance.RegisterEquipSlots();
         }
     }
 }
