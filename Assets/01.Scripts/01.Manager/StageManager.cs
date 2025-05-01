@@ -54,11 +54,6 @@ public class StageManager : Singleton<StageManager>
         shopLevel.AddListener(v => summonUnitUI.UpdateShopLevelUpCostText(v));
         shopLevel.AddListener(v => summonUnitUI.UpdateShopLevelText(v));
 
-        for (int i = 0; i < unitSlots.Length; i++)
-        {
-            
-        }
-
         StageUIManager.Instance.RefreshAllUnitSlots();
     }
 

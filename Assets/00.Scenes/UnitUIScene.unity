@@ -945,18 +945,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d4ab6dabee1e88449326671857cf7a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitSlotUIs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   canvas: {fileID: 1904807260}
   activeDragPreview: {fileID: 2067080255}
   unitInfo: {fileID: 0}
+  slotPrefab: {fileID: 4775101306020985681, guid: 7f446c1a35fc8bf4592c61ed4a393bfa,
+    type: 3}
+  unitManageUI: {fileID: 0}
 --- !u!1 &1904807257
 GameObject:
   m_ObjectHideFlags: 0

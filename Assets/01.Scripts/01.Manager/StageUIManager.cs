@@ -18,7 +18,7 @@ public class StageUIManager : Singleton<StageUIManager>
     [SerializeField]
     private GameObject slotPrefab;
 
-    private UnitManageUI unitManageUI;
+    public UnitManageUI unitManageUI;
 
     public UnitInfo UnitInfo { get { return unitInfo; } }
 
@@ -30,10 +30,14 @@ public class StageUIManager : Singleton<StageUIManager>
 
     public void Register()
     {
-        foreach (UnitSlot slot in unitSlotUIs)
+        for (int i = 0; i < unitSlotUIs.Length; i++)
         {
-            
+            GameObject go = Instantiate(slotPrefab, unitManageUI.Bottom);
+            UnitSlot slot = go.GetComponent<UnitSlot>();
+
+            unitSlotUIs[i] = slot;
         }
+        RefreshAllUnitSlots();
     }
 
     public void RefreshAllUnitSlots()
