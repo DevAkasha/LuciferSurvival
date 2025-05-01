@@ -69,7 +69,7 @@ public class EnemyGenerate : MonoBehaviour
             return;
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(target.position, SpawnRange); Dev
+        Gizmos.DrawWireSphere(target.position, SpawnRange);
     }
 
 }
