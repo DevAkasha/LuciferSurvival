@@ -20,12 +20,12 @@ public class AngelEntity : MobileEntity<AngelModel>
     protected override float CurHealth 
     { 
         get => Model.CurHealth.Value; 
-        set => Model.CurHealth.SetValue(value); 
+        set => Model.CurHealth.SetValue(value, this); 
     }
     private float Atk 
     { 
         get => Model.Atk.Value; 
-        set => Model.Atk.SetValue(value); 
+        set => Model.Atk.SetValue(value, this); 
     }
     private bool IsStun 
     { 

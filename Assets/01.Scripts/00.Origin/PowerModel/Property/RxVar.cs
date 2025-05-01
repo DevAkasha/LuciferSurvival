@@ -6,18 +6,27 @@ public sealed class RxVar<T> : RxBase, IRxReadable<T>
     private T value;
     private readonly List<Action<T>> listeners = new();
 
-    public RxVar(T initialValue = default, object owner = null)
+    public RxVar(T initialValue = default, IRxOwner owner = null)
     {
         value = initialValue;
-        if (owner is ITrackableRxModel model)
-        {
-            model.RegisterRx(this); // Rx 필드를 모델에 등록
-        }
+        //owner.RegisterRx(this);
     }
 
     public T Value => value;
 
-    public void SetValue(T newValue) // 값 설정
+    public void SetValue(T newValue, IRxCaller caller) // 값 설정
+    {
+        if (!caller.IsMultiRolesCaller)
+            throw new InvalidOperationException($"An invalid caller({caller}) has accessed.");
+
+        if (!EqualityComparer<T>.Default.Equals(value, newValue))
+        {
+            value = newValue;
+            NotifyAll();
+        }
+    }
+
+    public void Set(T newValue) // 값 설정
     {
         if (!EqualityComparer<T>.Default.Equals(value, newValue))
         {

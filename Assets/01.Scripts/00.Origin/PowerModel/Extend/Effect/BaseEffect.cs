@@ -23,7 +23,7 @@ public abstract class BaseEffect
 
     public Func<bool> Condition => () => conditions.TrueForAll(cond => cond());
 
-    public abstract void ApplyTo(IBaseEntity target);
+    public abstract void ApplyTo(IModelOwner target);
 
-    public abstract void RemoveFrom(IBaseEntity target);
+    public abstract void RemoveFrom(IModelOwner target);
 }

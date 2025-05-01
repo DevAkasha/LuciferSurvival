@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using static UnityEngine.UI.GridLayoutGroup;
 
 
 public enum ModifierType
@@ -18,23 +19,10 @@ public interface IModifiable
     void RemoveModifier(ModifierKey key);
 }
 
-public interface IRxReadable<T>
-{
-    T Value { get; }
-    void AddListener(Action<T> listener); // 값 변경을 구독할 수 있음
-    void RemoveListener(Action<T> listener); // 구독 해제
-}
-public interface IRxField
-{
-    string FieldName { get; }
-}
-
-public interface IRxField<T> : IRxField, IRxReadable<T> { }
-
 public interface IRxModBase
 {
     object Value { get; }
-    void SetValue(object origin); // 값 설정
+    void SetValue(object origin, IRxCaller caller); // 값 설정
     void ResetValue(object origin); // 초기 원본 값
     void SetModifier(ModifierType type, ModifierKey key, object value);
     void AddModifier(ModifierType type, ModifierKey key);
@@ -45,26 +33,15 @@ public interface IRxModBase
 public interface IRxMod<T> : IRxModBase, IRxField<T>
 {
     new T Value { get; }
-    void SetValue(T origin); // 값 설정
+    void SetValue(T origin, IRxCaller caller); // 값 설정
     void ResetValue(T origin); // 초기 원본 값
     void SetModifier(ModifierType type, ModifierKey key, T value);
 }
 
-public interface IConditionCheckable
-{
-    bool Satisfies(Func<object, bool> predicate);
-}
-
-public abstract class RxBase : IConditionCheckable
-{
-    public abstract void ClearRelation();
-    public virtual bool Satisfies(Func<object, bool> predicate) => false;
-}
 public interface IRxModFormulaProvider
 {
     string BuildDebugFormula();
 }
-
 
 public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>, IRxModFormulaProvider
 {
@@ -114,7 +91,14 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
 
     public abstract void SetModifier(ModifierType type, ModifierKey key, T value);
 
-    public void SetValue(T value) // 값 설정
+    public void SetValue(T value, IRxCaller caller) // 값 설정
+    {
+        if(!caller.IsFunctionalCaller)
+            throw new InvalidOperationException($"An invalid caller({caller}) has accessed.");
+        origin = value; // 초기 원본 값
+        ForceUpdate();
+    }
+    public void Set(T value) // 값 설정
     {
         origin = value; // 초기 원본 값
         ForceUpdate();
@@ -129,9 +113,11 @@ public abstract class RxModBase<T> : RxBase, IRxMod<T>, IModifiable, IRxField<T>
             l(value);
     }
 
-    void IRxModBase.SetValue(object origin) // 값 설정
+    void IRxModBase.SetValue(object origin, IRxCaller caller) // 값 설정
     {
-        if (origin is T val) SetValue(val); // 값 설정
+        if(!caller.IsFunctionalCaller)
+            throw new InvalidOperationException($"An invalid caller({caller}) has accessed.");
+        if (origin is T val) Set(val); // 값 설정
         else throw new InvalidCastException($"Expected {typeof(T).Name}");
     }
 

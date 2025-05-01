@@ -89,7 +89,7 @@ public class ModifierEffect : BaseEffect
         return this;
     }
 
-    public override void ApplyTo(IBaseEntity target)
+    public override void ApplyTo(IModelOwner target)
     {
         var modifiableTarget = target.GetBaseModel() as IModifiableTarget;
         if (modifiableTarget == null)
@@ -138,7 +138,7 @@ public class ModifierEffect : BaseEffect
         }
     }
 
-    public override void RemoveFrom(IBaseEntity target)
+    public override void RemoveFrom(IModelOwner target)
     {
         var modifiableTarget = target.GetBaseModel() as IModifiableTarget;
         if (modifiableTarget == null)

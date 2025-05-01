@@ -38,38 +38,31 @@ public class SummonUnitUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI soulStoneCountText;
 
-    private int shopLevel = 1;  //StageManager로 옮겨야될 수도 있음(영구저장 되는지 확인이 필요한 문제)
-    private int rerollCost = 3;
-
     private SummonSlot[] curSlots;
 
     private void Start()
     {
         curSlots = summonSlotLayout.GetComponentsInChildren<SummonSlot>();
         SetRandomUnit();
-        UpdateShopLevelUpCost();
         CheckRerollCost();
-        UpdateRerollCost();
-        UpdateSoulStone();
     }
 
     public void OnclickShopLevelUp()
     {
         //현재 상점 레벨 체크 후 레벨업이 가능한 재화이면 레벨업
-        if (SummonTableUtil.CanLevelUp(shopLevel))
+        if (SummonTableUtil.CanLevelUp(StageManager.Instance.ShopLevel))
         {
-            if (StageManager.Instance.UseSoulStone(SummonTableUtil.GetSummonTable(shopLevel + 1).cost))
+            if (StageManager.Instance.UseSoulStone(SummonTableUtil.GetSummonTable(StageManager.Instance.ShopLevel + 1).cost))
             {
-                shopLevel += 1;
+                StageManager.Instance.ShopLevel += 1;
             }
         }
     }
 
     public void OnclickRerollUnit()
     {
-        if (StageManager.Instance.UseSoulStone(rerollCost + CountLockedSlot()))
+        if (StageManager.Instance.UseSoulStone(StageManager.Instance.RerollCost))
         {
-            SummonTableUtil.ClearAllChildren(summonSlotLayout);
             SetRandomUnit();
         }
     }
@@ -84,7 +77,7 @@ public class SummonUnitUI : MonoBehaviour
                 rerollIndices.Add(i);
         }
 
-        List<UnitDataSO> rerollUnits = SummonTableUtil.RerollShop(shopLevel, rerollIndices.Count);
+        List<UnitDataSO> rerollUnits = SummonTableUtil.RerollShop(StageManager.Instance.ShopLevel, rerollIndices.Count);
 
         for (int i = 0; i < rerollIndices.Count; i++)
         {
@@ -95,7 +88,7 @@ public class SummonUnitUI : MonoBehaviour
 
     public bool CheckRerollCost()
     {
-        if (StageManager.Instance.SoulStone >= rerollCost)
+        if (StageManager.Instance.SoulStone >= StageManager.Instance.RerollCost)
         {
             RerollButtonEnable();
             return true;
@@ -133,12 +126,12 @@ public class SummonUnitUI : MonoBehaviour
         return result;
     }
 
-    public void UpdateRerollCost()
+    public void UpdateRerollCostText(int cost)
     {
-        rerollCostText.text = (rerollCost + CountLockedSlot()).ToString();
+        rerollCostText.text = (cost).ToString();
     }
 
-    public void UpdateShopLevelUpCost()
+    public void UpdateShopLevelUpCostText(int shopLevel)
     {
         if (SummonTableUtil.CanLevelUp(shopLevel))
         {
@@ -146,8 +139,13 @@ public class SummonUnitUI : MonoBehaviour
         }
     }
 
-    public void UpdateSoulStone()
+    public void UpdateSoulStoneText(int soulStone)
     {
-        soulStoneCountText.text = StageManager.Instance.SoulStone.ToString();
+        soulStoneCountText.text = soulStone.ToString();
+    }
+
+    public void UpdateShopLevelText(int shopLevel)
+    {
+        shopLevelText.text = shopLevel.ToString();
     }
 }

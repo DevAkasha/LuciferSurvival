@@ -25,12 +25,12 @@ public class Lock : MonoBehaviour
         if (isLocked)
         {
             curImage.sprite = lockedSprite;
-            StageManager.Instance.SoulStone += 1;
+            StageManager.Instance.RerollCost += 1;
         }
         else
         {
             curImage.sprite = unLockSprite;
-            StageManager.Instance.SoulStone -= 1;
+            StageManager.Instance.RerollCost -= 1;
         }
     }
 }

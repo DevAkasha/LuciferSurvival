@@ -32,7 +32,7 @@ public class DirectEffect : BaseEffect
         return this;
     }
 
-    public override void ApplyTo(IBaseEntity target)
+    public override void ApplyTo(IModelOwner target)
     {
         var model = target.GetBaseModel();
         var rxFields = model.GetAllRxFields();
@@ -69,11 +69,11 @@ public class DirectEffect : BaseEffect
                 if (IsPercentage)
                 {
                     int percentChange = (int)(intVar.Value * change / 100f);
-                    intVar.SetValue(intVar.Value + percentChange);
+                    intVar.Set(intVar.Value + percentChange);
                 }
                 else
                 {
-                    intVar.SetValue(intVar.Value + change);
+                    intVar.Set(intVar.Value + change);
                 }
             }
             else if (field is RxVar<float> floatVar)
@@ -82,11 +82,11 @@ public class DirectEffect : BaseEffect
                 if (IsPercentage)
                 {
                     float percentChange = floatVar.Value * change / 100f;
-                    floatVar.SetValue(floatVar.Value + percentChange);
+                    floatVar.Set(floatVar.Value + percentChange);
                 }
                 else
                 {
-                    floatVar.SetValue(floatVar.Value + change);
+                    floatVar.Set(floatVar.Value + change);
                 }
             }
             else if (field is RxVar<long> longVar)
@@ -95,11 +95,11 @@ public class DirectEffect : BaseEffect
                 if (IsPercentage)
                 {
                     long percentChange = (long)(longVar.Value * change / 100f);
-                    longVar.SetValue(longVar.Value + percentChange);
+                    longVar.Set(longVar.Value + percentChange);
                 }
                 else
                 {
-                    longVar.SetValue(longVar.Value + change);
+                    longVar.Set(longVar.Value + change);
                 }
             }
             else if (field is RxVar<double> doubleVar)
@@ -108,22 +108,22 @@ public class DirectEffect : BaseEffect
                 if (IsPercentage)
                 {
                     double percentChange = doubleVar.Value * change / 100d;
-                    doubleVar.SetValue(doubleVar.Value + percentChange);
+                    doubleVar.Set(doubleVar.Value + percentChange);
                 }
                 else
                 {
-                    doubleVar.SetValue(doubleVar.Value + change);
+                    doubleVar.Set(doubleVar.Value + change);
                 }
             }
             else if (field is RxVar<bool> boolVar)
             {
                 bool newValue = Convert.ToBoolean(value);
-                boolVar.SetValue(newValue);
+                boolVar.Set(newValue);
             }
             else if (field is RxVar<string> stringVar)
             {
                 string newValue = Convert.ToString(value);
-                stringVar.SetValue(newValue);
+                stringVar.Set(newValue);
             }
             else
             {
@@ -136,7 +136,7 @@ public class DirectEffect : BaseEffect
         }
     }
 
-    public override void RemoveFrom(IBaseEntity target)
+    public override void RemoveFrom(IModelOwner target)
     {
 
     }
