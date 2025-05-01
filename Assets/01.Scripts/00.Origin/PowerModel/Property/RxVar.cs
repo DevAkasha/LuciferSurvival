@@ -8,11 +8,8 @@ public sealed class RxVar<T> : RxBase, IRxReadable<T>
 
     public RxVar(T initialValue = default, IRxOwner owner = null)
     {
-        if (!owner.IsRxVarOwner)
-            throw new InvalidOperationException($"An invalid owner({owner}) has accessed.");
-
         value = initialValue;
-        owner.RegisterRx(this);
+        owner?.RegisterRx(this);
     }
 
     public T Value => value;
