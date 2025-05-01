@@ -61,6 +61,14 @@ public class StageManager : Singleton<StageManager>
         StageUIManager.Instance.RefreshAllEquipSlots();
     }
 
+    public void OnPopupClose()
+    {
+        soulStone.ClearRelation();
+        rerollCost.ClearRelation();
+        shopLevel.ClearRelation();
+        shopLevel.ClearRelation();
+    }
+
     public bool UseSoulStone(int cost)
     {
         if (soulStone.Value >= cost)

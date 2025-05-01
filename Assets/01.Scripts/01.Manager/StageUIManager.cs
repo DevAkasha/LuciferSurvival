@@ -12,7 +12,6 @@ public class StageUIManager : Singleton<StageUIManager>
     [SerializeField]
     private Canvas canvas; // 드래그 프리뷰 위치 계산용 (캔버스 추가 필요)
 
-    [SerializeField]
     private Image activeDragPreview; // 현재 드래그 중인 프리뷰 아이콘
 
     public UnitInfo unitInfo;
@@ -27,7 +26,6 @@ public class StageUIManager : Singleton<StageUIManager>
     protected override void Awake()
     {
         base.Awake();
-        activeDragPreview.gameObject.SetActive(false);
     }
 
     public void RegisterUnitSlots()
@@ -51,6 +49,22 @@ public class StageUIManager : Singleton<StageUIManager>
             equipSlotUIs[i].SetSlot(StageManager.Instance.GetEquippedUnit(i));
         }
         RefreshAllEquipSlots();
+    }
+
+    public void InitPreviewImage()
+    {
+        if (activeDragPreview != null)
+        {
+            activeDragPreview.transform.SetAsLastSibling();
+            return;
+        }
+            
+        GameObject imagePrefab = new GameObject("BasicImage", typeof(Image));
+
+        activeDragPreview = Instantiate(imagePrefab, canvas.transform).GetComponent<Image>();
+        activeDragPreview.rectTransform.sizeDelta = new Vector2(100, 100);
+        activeDragPreview.raycastTarget = false;
+        activeDragPreview.gameObject.SetActive(false);
     }
 
     public void RefreshAllUnitSlots()
@@ -113,9 +127,9 @@ public class StageUIManager : Singleton<StageUIManager>
 
     public void RefreshEquipSlot(int index)
     {
-        EquipSlot[] equipSlots = StageUIManager.Instance.equipSlotUIs;
+        EquipSlot[] equipSlots = equipSlotUIs;
 
-        if (index < 0 || index >= equipSlots.Length)
+        if (equipSlotUIs[index] == null)
             return;
 
         UnitModel unit = StageManager.Instance.GetEquippedUnit(index);

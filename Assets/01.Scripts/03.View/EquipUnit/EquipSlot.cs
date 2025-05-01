@@ -22,6 +22,7 @@ public class EquipSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandle
     public void SetSlot(UnitModel unit)
     {
         equippedUnit = unit;
+        StageManager.Instance.equippedUnits[transformIndex] = unit;
 
         if (unit != null)
         {

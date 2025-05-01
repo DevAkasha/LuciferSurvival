@@ -32,6 +32,7 @@ namespace Ricimi
             StageManager.Instance.Init();
             StageUIManager.Instance.RegisterUnitSlots();
             StageUIManager.Instance.RegisterEquipSlots();
+            StageUIManager.Instance.InitPreviewImage();
         }
     }
 }
