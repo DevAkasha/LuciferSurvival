@@ -1,6 +1,7 @@
 using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public abstract class PlayerController : MobileController<PlayerEntity, PlayerModel>
 {
@@ -25,6 +26,7 @@ public abstract class PlayerController : MobileController<PlayerEntity, PlayerMo
     private void LateUpdate()
     {
         unitSlots.transform.rotation = Quaternion.identity;
+        SetDirectionUnitTransform();
     }
 
     public virtual void OnMove(CallbackContext context)
@@ -60,6 +62,13 @@ public abstract class PlayerController : MobileController<PlayerEntity, PlayerMo
         if (unit != null)
         {
             Destroy(unit.gameObject);
+        }
+    }
+    public void SetDirectionUnitTransform()
+    {
+        foreach(var unity  in unitTransforms)
+        {
+            unity.transform.rotation = this.transform.rotation;
         }
     }
 }
