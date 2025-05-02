@@ -14,21 +14,23 @@ public class EquipSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandle
     [SerializeField]
     private int transformIndex;
 
+    [SerializeField]
+    private Sprite defaultSprite;
+
     private UnitModel equippedUnit;
 
     public void SetSlot(UnitModel unit)
     {
         equippedUnit = unit;
+        StageManager.Instance.equippedUnits[transformIndex] = unit;
 
         if (unit != null)
         {
             iconImage.sprite = unit.thumbnail;
-            iconImage.enabled = true;
         }
         else
         {
-            iconImage.sprite = null;
-            iconImage.enabled = false;
+            iconImage.sprite = defaultSprite;
         }
     }
 
@@ -120,7 +122,7 @@ public class EquipSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandle
 
         if (draggingEquipSlot != null && draggingEquipSlot != this)
         {
-            int fromIndex = draggingEquipSlot.transformIndex;   //
+            int fromIndex = draggingEquipSlot.transformIndex;   //드래그중인 인덱스
             int toIndex = transformIndex;                   //현재 인덱스
 
             var temp = equippedUnit;

@@ -10,10 +10,14 @@ public class UnitManageUI : MonoBehaviour
     private UnitInfo unitInfo;
     [SerializeField]
     private Transform bottom;
+    [SerializeField]
+    private Transform equipSlots;
 
     public SummonUnitUI SummonUnitUI { get { return summonUnitUI; } }
 
     public UnitInfo UnitInfo { get { return unitInfo; } }
 
     public Transform Bottom { get { return bottom; } }
+
+    public Transform EquipSlots { get { return equipSlots; } }
 }

@@ -7,10 +7,11 @@ public class StageUIManager : Singleton<StageUIManager>
 {
     private UnitSlot[] unitSlotUIs = new UnitSlot[8];
 
+    private EquipSlot[] equipSlotUIs = new EquipSlot[6];  // 동적 할당 가능하게 변경
+
     [SerializeField]
     private Canvas canvas; // 드래그 프리뷰 위치 계산용 (캔버스 추가 필요)
 
-    [SerializeField]
     private Image activeDragPreview; // 현재 드래그 중인 프리뷰 아이콘
 
     public UnitInfo unitInfo;
@@ -25,10 +26,9 @@ public class StageUIManager : Singleton<StageUIManager>
     protected override void Awake()
     {
         base.Awake();
-        activeDragPreview.gameObject.SetActive(false);
     }
 
-    public void Register()
+    public void RegisterUnitSlots()
     {
         for (int i = 0; i < unitSlotUIs.Length; i++)
         {
@@ -38,6 +38,33 @@ public class StageUIManager : Singleton<StageUIManager>
             unitSlotUIs[i] = slot;
         }
         RefreshAllUnitSlots();
+    }
+
+    public void RegisterEquipSlots()
+    {
+        equipSlotUIs = unitManageUI.EquipSlots.GetComponentsInChildren<EquipSlot>(true);
+
+        for (int i = 0; i < equipSlotUIs.Length; i++)
+        {
+            equipSlotUIs[i].SetSlot(StageManager.Instance.GetEquippedUnit(i));
+        }
+        RefreshAllEquipSlots();
+    }
+
+    public void InitPreviewImage()
+    {
+        if (activeDragPreview != null)
+        {
+            activeDragPreview.transform.SetAsLastSibling();
+            return;
+        }
+            
+        GameObject imagePrefab = new GameObject("BasicImage", typeof(Image));
+
+        activeDragPreview = Instantiate(imagePrefab, canvas.transform).GetComponent<Image>();
+        activeDragPreview.rectTransform.sizeDelta = new Vector2(100, 100);
+        activeDragPreview.raycastTarget = false;
+        activeDragPreview.gameObject.SetActive(false);
     }
 
     public void RefreshAllUnitSlots()
@@ -55,7 +82,7 @@ public class StageUIManager : Singleton<StageUIManager>
 
     public void RefreshUnitSlot(int index)
     {
-        var unitSlots = StageManager.Instance.unitSlots;
+        UnitInventory[] unitSlots = StageManager.Instance.unitSlots;
 
         if (index < 0 || index >= unitSlotUIs.Length)
             return;
@@ -95,6 +122,25 @@ public class StageUIManager : Singleton<StageUIManager>
         if (activeDragPreview != null)
         {
             activeDragPreview.gameObject.SetActive(false);
+        }
+    }
+
+    public void RefreshEquipSlot(int index)
+    {
+        EquipSlot[] equipSlots = equipSlotUIs;
+
+        if (equipSlotUIs[index] == null)
+            return;
+
+        UnitModel unit = StageManager.Instance.GetEquippedUnit(index);
+        equipSlots[index].SetSlot(unit);
+    }
+
+    public void RefreshAllEquipSlots()
+    {
+        for (int i = 0; i < equipSlotUIs.Length; i++)
+        {
+            RefreshEquipSlot(i);
         }
     }
 }
