@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public abstract class PlayerController : MobileController<PlayerEntity, PlayerModel>
 {
     [SerializeField] private Animator animator;
-
+    [SerializeField] private Transform unitSlots;
     [SerializeField] private Transform[] unitTransforms;
     
     protected override void OnInit()
@@ -22,6 +22,11 @@ public abstract class PlayerController : MobileController<PlayerEntity, PlayerMo
         Entity.Model.State.OnEnter(PlayerState.Attack, () => animator.Play("Attack"));
         Entity.Model.State.OnEnter(PlayerState.Cast, () => animator.Play("Cast"));
     }
+    private void LateUpdate()
+    {
+        unitSlots.transform.rotation = Quaternion.identity;
+    }
+
     public virtual void OnMove(CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
