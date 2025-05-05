@@ -5,8 +5,13 @@ using UnityEngine.InputSystem;
 public abstract class PlayerController : MobileController<PlayerEntity, PlayerModel>
 {
     [SerializeField] private Animator animator;
+<<<<<<< Updated upstream
+=======
+    public Transform unitSlots;
+    [SerializeField] private Transform[] unitTransforms;
+>>>>>>> Stashed changes
     
-    protected override void OnInit()
+    protected override void AtInit()
     {
         PlayerManager.Instance.ResistPlayer(this);
     }

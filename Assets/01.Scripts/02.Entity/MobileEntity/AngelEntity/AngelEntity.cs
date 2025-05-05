@@ -61,7 +61,7 @@ public class AngelEntity : MobileEntity<AngelModel>
         Model = new AngelModel(DataManager.Instance.GetData<EnemyDataSO>(rcode));
     }
 
-    protected override void OnInit()
+    protected override void AtInit()
     {
         navMesh = GetComponent<NavMeshAgent>();
         rigid = GetComponent<Rigidbody>();

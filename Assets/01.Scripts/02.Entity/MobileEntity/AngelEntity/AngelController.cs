@@ -29,13 +29,10 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
     public bool WaitAttackTime { get; set; }
     [SerializeField] public bool attackTime;
 
-    protected override void OnInit()
+    protected override void AtInit()
     {
         animator = GetComponent<Animator>();
-    }
 
-    private void Start()
-    {
         player = PlayerManager.Instance.Player;
         HealthBarManager.Instance.Attach(this);
 
@@ -48,6 +45,16 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         Entity.Model.State.OnEnter(PlayerState.Cast, () => animator.Play("Cast"));
 
         RunBehaviorLoop().Forget(); // UniTask를 무시하고 실행
+    }
+
+    private void Start()
+    {
+        
+    }
+
+    private void Update()
+    {
+        Entity.TakeDamaged(1f);
     }
 
     private async UniTaskVoid RunBehaviorLoop()
@@ -136,10 +143,13 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         attackTime = true;
     }
 
+<<<<<<< Updated upstream
     private void Update()
     {
         Entity.TakeDamaged(0.1f);
     }
+=======
+>>>>>>> Stashed changes
 
     private void OnDrawGizmosSelected()
     {

@@ -23,8 +23,20 @@ public abstract class BaseEntity<M> : BaseEntity, IBaseEntity<M> where M : BaseM
     public M Model { get; set; }
 
     public override BaseModel GetBaseModel() => Model;
+
     public M GetModel() => Model;
 
-    protected virtual void OnDisable() => Model?.Unload();
-    protected virtual void OnDestroy() => Model?.Unload();
+    public void CallInit()
+    {
+        SetupModel();
+        AtInit();
+    }
+
+    protected abstract void SetupModel();
+
+    protected virtual void AtInit() { }
+
+    
+    public virtual void AtDisable() { }
+    public virtual void AtDestroy() { }
 }
