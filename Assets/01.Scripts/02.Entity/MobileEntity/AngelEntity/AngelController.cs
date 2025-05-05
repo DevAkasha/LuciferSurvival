@@ -1,14 +1,17 @@
 using Cysharp.Threading.Tasks;
 using System;
-using DG.Tweening;
+using System.Threading;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class AngelController : MobileController<AngelEntity, AngelModel>
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private bool waitAttackTime = false;
+    public bool WaitAttackTime { get; set; }
+    [SerializeField] public bool attackTime;
 
     private PlayerController player;
+    private CancellationTokenSource behaviorCts;
 
     private bool IsDontAct => Entity.Model.Flags.AnyActive(PlayerStateFlag.Fall, PlayerStateFlag.Knockback, PlayerStateFlag.Stun, PlayerStateFlag.Death);
     private bool IsCastable => false;   //todo.캐스트 가능성 판단 추가해야 함
@@ -23,11 +26,6 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         get => Entity.Model.Flags.GetValue(PlayerStateFlag.Cast); 
         set => Entity.Model.Flags.SetValue(PlayerStateFlag.Cast, value); 
     }
-    
-    [SerializeField] private bool waitAttackTime = false;
-
-    public bool WaitAttackTime { get; set; }
-    [SerializeField] public bool attackTime;
 
     protected override void AtInit()
     {
@@ -44,7 +42,8 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         Entity.Model.State.OnEnter(PlayerState.Attack, () => animator.Play("Attack"));
         Entity.Model.State.OnEnter(PlayerState.Cast, () => animator.Play("Cast"));
 
-        RunBehaviorLoop().Forget(); // UniTask를 무시하고 실행
+        behaviorCts = new CancellationTokenSource();
+        RunBehaviorLoop(behaviorCts.Token).Forget();
     }
 
     private void Update()
@@ -52,16 +51,38 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         Entity.TakeDamaged(1f);
     }
 
-    private async UniTaskVoid RunBehaviorLoop()
+    protected override void AtDisable()
     {
-        var token = this.GetCancellationTokenOnDestroy();
+        behaviorCts?.Cancel();
+    }
+    protected override void AtDestroy()
+    {
+        behaviorCts?.Cancel();
+        behaviorCts = null;
+    }
 
-        while (!token.IsCancellationRequested)
+    private async UniTaskVoid RunBehaviorLoop(CancellationToken token)
+    {
+        try
         {
-            var bt = BuildBehaviorTree();
-            if (bt.Check()) bt.Run();
+            while (!token.IsCancellationRequested)
+            {
+                if (this == null || !this.isActiveAndEnabled)
+                    break;
 
-            await UniTask.Delay(TimeSpan.FromSeconds(0.1f), DelayType.DeltaTime, PlayerLoopTiming.Update, token);
+                var bt = BuildBehaviorTree();
+                if (bt.Check()) bt.Run();
+
+                await UniTask.Delay(TimeSpan.FromSeconds(0.1f), DelayType.DeltaTime, PlayerLoopTiming.Update, token);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // 취소 처리 - 정상
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"BT 루프 오류: {ex.Message}");
         }
     }
 

@@ -15,7 +15,9 @@ public class PoolManager : Singleton<PoolManager>
         {
             data.prefab = ResourceManager.Instance.LoadAsset<ObjectPoolBase>(data.prefabName, ResourceType.Enemy);//Resources폴더의 바로 하위에 가져올 폴더를 생성해야한다.
             data.parent = new GameObject(data.prefabName + "parent").transform;
+            data.parent.position = transform.position;
             data.parent.parent = transform;
+     
             Queue<ObjectPoolBase> queue = new Queue<ObjectPoolBase>();
             pools.Add(data.prefabName, queue);
             for (int i = 0; i < data.count; i++)
