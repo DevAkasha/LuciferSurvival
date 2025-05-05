@@ -17,10 +17,6 @@ public class EnemyGenerate : MonoBehaviour
     private void Start()
     {
         target = PlayerManager.Instance.Player.transform;
-<<<<<<< Updated upstream
-=======
-        //mainCamera = PlayerManager.Instance.Player.GetComponentInChildren<Camera>();
->>>>>>> Stashed changes
         PoolManager.Instance.Init();
     }
     public void EnemySet()

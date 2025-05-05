@@ -1,39 +1,31 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BasePart : WorldObject 
 {
-    public void CallInit()
-    {
-        SetupModel();
-        AtInit();
-    }
-
-    protected abstract void SetupModel();
+    public void CallInit() => AtInit();
+    public void CallDisable() => AtDisable(); 
+    public void CallDestroy() => AtDestroy();
 
     protected virtual void AtInit() { }
+    protected virtual void AtDisable() { }
+    protected virtual void AtDestroy() { }
+
 }
 
-public abstract class BasePart<E, M> : BasePart where E : IBaseEntity<M> where M : BaseModel
+public abstract class BasePart<E, M> : BasePart where E : BaseEntity where M : BaseModel
 {
     protected E Entity { get; set; }
     protected M Model { get; set; }
-<<<<<<< Updated upstream
-    protected virtual void Start() // Unity Start 함수
-    {
-        Model ??= Entity.GetModel();
-        OnStart(); // Unity Start 함수 후크
-    }
-    protected override void SetupModel() // 모델 초기화
-    {
-        Entity = (E)GetComponent<IBaseEntity<M>>();
-=======
 
-    protected override void SetupModel() // 모델 초기화
+    public void RegisterEntity(E entity)
     {
-        Entity = (E)GetComponentInParent<IModelOwner<M>>();
->>>>>>> Stashed changes
-        Model = Entity.GetModel();
+        Entity = entity;
+    }
+
+    public void RegisterModel(M model)
+    {
+        Model = model;
     }
 }

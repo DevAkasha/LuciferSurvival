@@ -5,18 +5,12 @@ using UnityEngine.InputSystem;
 public abstract class PlayerController : MobileController<PlayerEntity, PlayerModel>
 {
     [SerializeField] private Animator animator;
-<<<<<<< Updated upstream
-=======
     public Transform unitSlots;
     [SerializeField] private Transform[] unitTransforms;
->>>>>>> Stashed changes
     
     protected override void AtInit()
     {
         PlayerManager.Instance.ResistPlayer(this);
-    }
-    private void Start()
-    {
         Entity.Model.State.OnEnter(PlayerState.Move, () => animator.Play("Move"));
         Entity.Model.State.OnEnter(PlayerState.Idle, () => animator.Play("Idle"));
         Entity.Model.State.OnEnter(PlayerState.Death, () => animator.Play("Death"));
@@ -25,6 +19,7 @@ public abstract class PlayerController : MobileController<PlayerEntity, PlayerMo
         Entity.Model.State.OnEnter(PlayerState.Attack, () => animator.Play("Attack"));
         Entity.Model.State.OnEnter(PlayerState.Cast, () => animator.Play("Cast"));
     }
+
     public virtual void OnMove(CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)

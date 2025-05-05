@@ -143,14 +143,6 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         attackTime = true;
     }
 
-<<<<<<< Updated upstream
-    private void Update()
-    {
-        Entity.TakeDamaged(1f);
-    }
-=======
->>>>>>> Stashed changes
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

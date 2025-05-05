@@ -2,12 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseEntity : WorldObject, IModelOwner
-{
-    public abstract BaseModel GetBaseModel();
-}
-
-public abstract class BaseEntity<M> : BaseEntity, IModelOwner<M>, IRxCaller where M : BaseModel
+public abstract class BaseEntity : WorldObject, IModelOwner, IRxCaller
 {
     public bool IsLogicalCaller => true;
 
@@ -15,8 +10,11 @@ public abstract class BaseEntity<M> : BaseEntity, IModelOwner<M>, IRxCaller wher
 
     public bool IsFunctionalCaller => true;
 
-    public bool IsFullRolesCaller => true;
+    public abstract BaseModel GetBaseModel();
+}
 
+public abstract class BaseEntity<M> : BaseEntity, IModelOwner<M> where M : BaseModel
+{
     public M Model { get; set; }
 
     public override BaseModel GetBaseModel() => Model;
@@ -25,6 +23,7 @@ public abstract class BaseEntity<M> : BaseEntity, IModelOwner<M>, IRxCaller wher
 
     public void CallInit()
     {
+
         SetupModel();
         AtInit();
     }
@@ -36,4 +35,5 @@ public abstract class BaseEntity<M> : BaseEntity, IModelOwner<M>, IRxCaller wher
     
     public virtual void AtDisable() { }
     public virtual void AtDestroy() { }
+
 }
