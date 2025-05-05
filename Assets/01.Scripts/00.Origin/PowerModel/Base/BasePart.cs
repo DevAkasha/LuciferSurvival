@@ -12,6 +12,9 @@ public abstract class BasePart : WorldObject
     protected virtual void AtDisable() { }
     protected virtual void AtDestroy() { }
 
+    public abstract void RegistEntity(object entity);
+    public abstract void RegistModel(object model);
+
 }
 
 public abstract class BasePart<E, M> : BasePart where E : BaseEntity where M : BaseModel
@@ -19,7 +22,10 @@ public abstract class BasePart<E, M> : BasePart where E : BaseEntity where M : B
     protected E Entity { get; set; }
     protected M Model { get; set; }
 
-    public void RegisterEntity(E entity)
+    public override void RegistEntity(object entity) => RegisterEntity(entity as E);
+    public override void RegistModel(object entity) => RegisterModel(entity as M);
+
+    private void RegisterEntity(E entity)
     {
         Entity = entity;
     }

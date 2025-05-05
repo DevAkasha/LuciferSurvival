@@ -47,11 +47,6 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         RunBehaviorLoop().Forget(); // UniTask를 무시하고 실행
     }
 
-    private void Start()
-    {
-        
-    }
-
     private void Update()
     {
         Entity.TakeDamaged(1f);
