@@ -18,13 +18,13 @@ public sealed class RxStateFlag: RxBase // 단일 상태 플래그를 나타내�
 #nullable enable
     public event Action<bool>? OnChanged; // 값이 변경되었을 때 알림
 #nullable disable
-    internal RxStateFlag(string name, object owner = null) // 조건 기반으로 자동 평가될 수 있는 함수
+    internal RxStateFlag(string name, IRxOwner owner) // 조건 기반으로 자동 평가될 수 있는 함수
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         internalFlag = new RxVar<bool>(false, owner); // 내부 상태 값 (true/false)를 저장
         internalFlag.AddListener(HandleChange); // 외부에서 변경 알림을 구독할 수 있음
 
-        if (owner is ITrackableRxModel model)
+        if (owner is IRxOwner model)
             model.RegisterRx(this);
     }
 
@@ -37,14 +37,14 @@ public sealed class RxStateFlag: RxBase // 단일 상태 플래그를 나타내�
     {
         if (condition != null)
             throw new InvalidOperationException($"[RxStateFlag:{Name}] is condition-based.");
-        internalFlag.SetValue(value);
+        internalFlag.Set(value);
     }
 
     internal void Evaluate() // condition이 있을 경우 조건을 평가하여 값 갱신
     {
         if (condition != null)
         {
-            internalFlag.SetValue(condition.Invoke());
+            internalFlag.Set(condition.Invoke());
         }
     }
 
@@ -80,8 +80,11 @@ public partial class RxStateFlagSet<TEnum> : RxBase where TEnum : Enum // 여러
     private readonly List<RxStateFlag> flags;
     private readonly Dictionary<TEnum, int> indexMap; // Enum 값을 인덱스로 매핑
 
-    public RxStateFlagSet(object owner = null)
+    public RxStateFlagSet(IRxOwner owner)
     {
+        if(!owner.IsRxAllOwner)
+            throw new InvalidOperationException($"An invalid owner({owner}) has accessed.");
+
         var values = (TEnum[])Enum.GetValues(typeof(TEnum));
         flags = new List<RxStateFlag>(values.Length); // 모든 플래그를 저장하는 리스트
         indexMap = new Dictionary<TEnum, int>(); // Enum 값을 인덱스로 매핑
@@ -93,8 +96,7 @@ public partial class RxStateFlagSet<TEnum> : RxBase where TEnum : Enum // 여러
             flags.Add(new RxStateFlag(enumValue.ToString(), owner));
         }
 
-        if (owner is ITrackableRxModel model)
-            model.RegisterRx(this);
+        owner.RegisterRx(this);
 
     }
 

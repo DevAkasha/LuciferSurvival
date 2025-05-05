@@ -9,9 +9,11 @@ public class PoolManager : Singleton<PoolManager>
 
     public void Init()
     {
+        SheetsInfo();
+
         foreach (var data in sheets) //(var data in ObjectPoolDataSO.Instance.objectPoolDatas)
         {
-            data.prefab = ResourceManager.Instance.LoadAsset<ObjectPoolBase>(data.prefabName, ResourceType.Prefabs);//Resources폴더의 바로 하위에 가져올 폴더를 생성해야한다.
+            data.prefab = ResourceManager.Instance.LoadAsset<ObjectPoolBase>(data.prefabName, ResourceType.Enemy);//Resources폴더의 바로 하위에 가져올 폴더를 생성해야한다.
             data.parent = new GameObject(data.prefabName + "parent").transform;
             data.parent.parent = transform;
             Queue<ObjectPoolBase> queue = new Queue<ObjectPoolBase>();
@@ -125,4 +127,31 @@ public class PoolManager : Singleton<PoolManager>
         item.transform.parent = data.parent;
         pools[item.name].Enqueue(item);
     }
+
+    public void SheetsInfo()
+    {
+        sheets.Clear();
+
+        // Resources/Prefabs 폴더에서 모든 프리팹을 불러오기
+        var prefabs = Resources.LoadAll<GameObject>("Enemy");
+
+        foreach (var prefab in prefabs)
+        {
+            var poolComponent = prefab.GetComponent<ObjectPoolBase>();
+            if (poolComponent == null)
+            {
+                continue;
+            }
+
+            ObjectPoolData data = new ObjectPoolData
+            {
+                prefabName = prefab.name,
+                count = 10
+            };
+
+            sheets.Add(data);
+        }
+    }
+
+   
 }

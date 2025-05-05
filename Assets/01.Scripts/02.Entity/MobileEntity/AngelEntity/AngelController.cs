@@ -146,7 +146,7 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
 <<<<<<< Updated upstream
     private void Update()
     {
-        Entity.TakeDamaged(0.1f);
+        Entity.TakeDamaged(1f);
     }
 =======
 >>>>>>> Stashed changes

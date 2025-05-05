@@ -14,7 +14,7 @@ public class TestEntity : MobileEntity<TestModel>
     protected override float CurHealth
     {
         get => model.Hp.Value;
-        set => model.Hp.SetValue(value);
+        set => model.Hp.SetValue(value, this);
     }
 
     private void Start()

@@ -20,12 +20,12 @@ public class AngelEntity : MobileEntity<AngelModel>
     protected override float CurHealth 
     { 
         get => Model.CurHealth.Value; 
-        set => Model.CurHealth.SetValue(value); 
+        set => Model.CurHealth.SetValue(value, this); 
     }
     private float Atk 
     { 
         get => Model.Atk.Value; 
-        set => Model.Atk.SetValue(value); 
+        set => Model.Atk.SetValue(value, this); 
     }
     private bool IsStun 
     { 
@@ -58,6 +58,7 @@ public class AngelEntity : MobileEntity<AngelModel>
     {
         if (rcode.Equals(string.Empty)) return;
 
+        //rcode를 검사해 EnemyDataSO 중 같은 값의 rcode를 가진 SO의 값을 가져옴
         Model = new AngelModel(DataManager.Instance.GetData<EnemyDataSO>(rcode));
     }
 
@@ -146,5 +147,9 @@ public class AngelEntity : MobileEntity<AngelModel>
         rigid.AddForce(force, ForceMode.Impulse); // 순간적인 밀림
         await UniTask.WaitUntil(() => rigid.velocity.magnitude <= 0.01f, cancellationToken: this.GetCancellationTokenOnDestroy());
         IsKnockback = false;
+    }
+    public void OnRelease()
+    {
+        PoolManager.Instance.Release(this);
     }
 }
