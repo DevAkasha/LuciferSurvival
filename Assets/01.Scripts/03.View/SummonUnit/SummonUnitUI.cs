@@ -50,11 +50,11 @@ public class SummonUnitUI : MonoBehaviour
     public void OnclickShopLevelUp()
     {
         //현재 상점 레벨 체크 후 레벨업이 가능한 재화이면 레벨업
-        if (SummonTableUtil.CanLevelUp(StageManager.Instance.ShopLevel))
+        if (SummonTableUtil.CanLevelUp(StageManager.Instance.NextShopLevel))
         {
-            if (StageManager.Instance.UseSoulStone(SummonTableUtil.GetSummonTable(StageManager.Instance.ShopLevel + 1).cost))
+            if (StageManager.Instance.UseSoulStone(SummonTableUtil.GetSummonTable(StageManager.Instance.NextShopLevel).cost))
             {
-                StageManager.Instance.ShopLevel += 1;
+                StageManager.Instance.ShopLevel = StageManager.Instance.NextShopLevel;
             }
         }
     }
@@ -131,11 +131,11 @@ public class SummonUnitUI : MonoBehaviour
         rerollCostText.text = (cost).ToString();
     }
 
-    public void UpdateShopLevelUpCostText(int shopLevel)
+    public void UpdateShopLevelUpCostText()
     {
-        if (SummonTableUtil.CanLevelUp(shopLevel))
+        if (SummonTableUtil.CanLevelUp(StageManager.Instance.NextShopLevel))
         {
-            shopLevelUpCostText.text = SummonTableUtil.GetSummonTable(shopLevel + 1).cost.ToString();
+            shopLevelUpCostText.text = SummonTableUtil.GetSummonTable(StageManager.Instance.NextShopLevel).cost.ToString();
         }
     }
 
