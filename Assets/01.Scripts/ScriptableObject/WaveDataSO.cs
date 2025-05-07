@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WaveDataSO : BaseDataSO
 {
+    public int idx;
     public int Stage;
 
     public string enemy1rcode;
