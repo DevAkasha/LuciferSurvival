@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 public sealed class RxVar<T> : RxBase, IRxReadable<T>
@@ -9,7 +9,7 @@ public sealed class RxVar<T> : RxBase, IRxReadable<T>
     public RxVar(T initialValue = default, IRxOwner owner = null)
     {
         value = initialValue;
-        //owner.RegisterRx(this);
+        owner?.RegisterRx(this);
     }
 
     public T Value => value;
