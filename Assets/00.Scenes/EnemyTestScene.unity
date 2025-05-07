@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyList:
   - {fileID: 849644158024131024, guid: b20f9c5e396f3e3408b20a0d48f093f6, type: 3}
-  mainCamera: {fileID: 0}
+  mainCamera: {fileID: 1074275452}
   target: {fileID: 0}
   SpawnRange: 30
   Wave: 1
@@ -509,9 +509,13 @@ MonoBehaviour:
   - className: EnemyDataSO
     sheetId: 1576224224
     key: 
-    isUpdate: 1
+    isUpdate: 0
   - className: UnionTableSO
     sheetId: 1480292564
+    key: 
+    isUpdate: 0
+  - className: WaveDataSO
+    sheetId: 732631068
     key: 
     isUpdate: 0
 --- !u!1 &812879502
@@ -3701,8 +3705,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f78f4ff152f37642b51b2e7af404044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnableLifecycle: 1
   entity: {fileID: 0}
   animator: {fileID: 0}
+  unitSlots: {fileID: 0}
   unitTransforms: []
 --- !u!4 &7821833485724609184
 Transform:
