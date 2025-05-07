@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WaveManager : Singleton<WaveManager>
 {
-    [SerializeField] private List<GameObject> EnemyCount;
+    [SerializeField] private int killCount;
+
 
 }
