@@ -17,7 +17,7 @@ public class EnemyGenerate : MonoBehaviour
     private void Start()
     {
         target = PlayerManager.Instance.Player.transform;
-        mainCamera = PlayerManager.Instance.Player.GetComponentInChildren<Camera>();
+        //mainCamera = PlayerManager.Instance.Player.GetComponentInChildren<Camera>();
         PoolManager.Instance.Init();
     }
     public void EnemySet()
