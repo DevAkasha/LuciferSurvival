@@ -2,27 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BasePart : WorldObject { }
-
-public abstract class BasePart<E, M> : BasePart, IRxCaller where E : IModelOwner<M>  where M : BaseModel
+public abstract class BasePart : WorldObject 
 {
-    bool IRxCaller.IsLogicalCaller => true;
-    bool IRxCaller.IsMultiRolesCaller => true;
-    bool IRxCaller.IsFunctionalCaller => true;
+    public void CallInit() => AtInit();
+    public void CallDisable() => AtDisable(); 
+    public void CallDestroy() => AtDestroy();
 
+    protected virtual void AtInit() { }
+    protected virtual void AtDisable() { }
+    protected virtual void AtDestroy() { }
+
+    public abstract void RegistEntity(object entity);
+    public abstract void RegistModel(object model);
+
+}
+
+public abstract class BasePart<E, M> : BasePart where E : BaseEntity where M : BaseModel
+{
     protected E Entity { get; set; }
     protected M Model { get; set; }
 
-    protected virtual void Start() // Unity Start 함수
+    public override void RegistEntity(object entity) => RegisterEntity(entity as E);
+    public override void RegistModel(object entity) => RegisterModel(entity as M);
+
+    private void RegisterEntity(E entity)
     {
-        Model ??= Entity.GetModel();
-        OnStart(); // Unity Start 함수 후크
-    }
-    protected override void SetupModel() // 모델 초기화
-    {
-        Entity = (E)GetComponent<IModelOwner<M>>();
-        Model = Entity.GetModel();
+        Entity = entity;
     }
 
-    protected virtual void OnStart() { } // Unity Start 함수 후크
+    public void RegisterModel(M model)
+    {
+        Model = model;
+    }
 }

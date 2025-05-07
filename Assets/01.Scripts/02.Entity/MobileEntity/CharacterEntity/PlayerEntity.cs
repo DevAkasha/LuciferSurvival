@@ -47,7 +47,7 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
         get => Model.Flags.GetValue(PlayerStateFlag.Death);
         set => Model.Flags.SetValue(PlayerStateFlag.Death, value);
     }
-    protected override void OnInit()
+    protected override void AtInit()
     {
         rigid = GetComponent<Rigidbody>();
     }

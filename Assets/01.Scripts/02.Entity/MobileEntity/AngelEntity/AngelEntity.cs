@@ -62,7 +62,7 @@ public class AngelEntity : MobileEntity<AngelModel>
         Model = new AngelModel(DataManager.Instance.GetData<EnemyDataSO>(rcode));
     }
 
-    protected override void OnInit()
+    protected override void AtInit()
     {
         navMesh = GetComponent<NavMeshAgent>();
         rigid = GetComponent<Rigidbody>();
@@ -84,8 +84,9 @@ public class AngelEntity : MobileEntity<AngelModel>
 
     public void MoveTo(Vector3 target)
     {
-        if (!navMesh.enabled) 
+        if (navMesh == null || !navMesh.enabled || !navMesh.isOnNavMesh)
             return;
+
         IsMove = true;
         rigid.velocity = Vector3.zero;
         navMesh.speed = Model.MoveSpeed.Value;
@@ -114,8 +115,8 @@ public class AngelEntity : MobileEntity<AngelModel>
 
     private void OnDeath(bool isDead)
     {
-        if (!isDead) return;
-        navMesh.isStopped = true;
+        //if (!isDead) return;
+        //navMesh.isStopped = true;
     }
 
     public async void OnStun(float delayTime)

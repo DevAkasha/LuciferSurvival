@@ -40,8 +40,11 @@ public class SummonSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        StageManager.Instance.AddUnit(unitModel);
-        soldImage.gameObject.SetActive(true);
-        StageUIManager.Instance.RefreshAllUnitSlots();
+        if (StageManager.Instance.UseSoulStone(unitModel.cost))
+        {
+            StageManager.Instance.AddUnit(unitModel);
+            soldImage.gameObject.SetActive(true);
+            StageUIManager.Instance.RefreshAllUnitSlots();
+        }
     }
 }

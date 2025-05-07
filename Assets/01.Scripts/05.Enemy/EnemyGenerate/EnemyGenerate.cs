@@ -17,7 +17,6 @@ public class EnemyGenerate : MonoBehaviour
     private void Start()
     {
         target = PlayerManager.Instance.Player.transform;
-        mainCamera = PlayerManager.Instance.Player.GetComponentInChildren<Camera>();
         PoolManager.Instance.Init();
     }
     public void EnemySet()
@@ -65,11 +64,11 @@ public class EnemyGenerate : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        if (target == null)
-            return;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(target.position, SpawnRange);
+        if (target != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(target.position, SpawnRange);
+        }
     }
 
 }
