@@ -116,7 +116,6 @@ public class DataTool : EditorWindow
                     bool opened = isOpened[key];
                     var style = new GUIStyle(UnityEngine.GUI.skin.button);
                     style.alignment = TextAnchor.MiddleLeft;
-                    //opened = GUILayout.Toggle(opened, new GUIContent((opened ? "▼ " : "▶ ") + sheet.className), style, GUILayout.Width(180));
                     opened = EditorGUILayout.Foldout(opened, sheet.className);
                     isOpened[key] = opened;
                     lastID = key;

@@ -91,35 +91,8 @@ public class TileManager : Singleton<TileManager>
                 }
             }
         }
-
-        //// 그리드 중심으로부터 범위를 계산
-        //int halfGrid = gridCount / 2;
-
-        //for (int x = -halfGrid; x <= halfGrid; x++)
-        //{
-        //    for (int y = -halfGrid; y <= halfGrid; y++)
-        //    {
-        //        int resourceCount = Random.Range(0, 3); // 0~2사이의 타일이 랜덤으로 생성
-
-        //        for (int i = 0; i < resourceCount; i++)
-        //        {
-        //            int resourceType = Random.Range(0, resourceTileObj.Count);
-
-        //            Vector3Int gridCell = new Vector3Int(x, y, 0);
-        //            Vector3 worldPos = grid.CellToWorld(gridCell); // 방의 중심좌표
-        //            Vector3 addjustedPos = new Vector3(worldPos.x, 0, worldPos.z);
-
-        //            Vector3 spawnPos = GetRandomPositionInCell(addjustedPos, 7);
-
-        //            Instantiate(resourceTileObj[resourceType], spawnPos, Quaternion.identity, ResourceTileBlock); // 프리팹을 adjustedPos월드위치에 생성
-        //        }
-        //    }
-        //}
     }
-
-    /// <summary>
-    /// 잠금타일
-    /// </summary>
+  
     public void SetLockTileMap()
     {
         // 그리드 중심으로부터 범위를 계산
@@ -145,12 +118,7 @@ public class TileManager : Singleton<TileManager>
         }
     }
 
-    /// <summary>
-    /// 일정한 범위 내 랜덤한 위치 생성
-    /// </summary>
-    /// <param name="center"></param>
-    /// <param name="maxOffset"></param>
-    /// <returns></returns>
+    // 일정한 범위 내 랜덤한 위치 생성
     private Vector3 GetRandomPositionInCell(Vector3 center, float maxOffset)
     {
         // 원형 범위 안 랜덤 위치
@@ -160,9 +128,7 @@ public class TileManager : Singleton<TileManager>
     }
 
 
-    /// <summary>
     /// 자금타일 위치확인용 기즈모
-    /// </summary>
     private void OnDrawGizmosSelected()
     {
         int halfGrid = gridCount / 2;

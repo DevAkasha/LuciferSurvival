@@ -31,7 +31,7 @@ public class ProjectileController : MonoBehaviour
     {
         if (other.gameObject.layer == layerMask)
         {
-            other.GetComponent<EnemyEntity>()?.TakeDamaged(projectile.damage);
+            other.GetComponent<AngelEntity>()?.TakeDamaged(projectile.damage);
         }
     }
 
