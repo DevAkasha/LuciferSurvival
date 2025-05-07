@@ -58,14 +58,31 @@ public class EffectManager : Singleton<EffectManager>
                 .Build());
 
         Register(EffectBuilder.DefineModifier(EffectId.Ghost, EffectApplyMode.Timed)
-             .Add("MoveSpeed", ModifierType.Multiplier, 1.8f)
-             .Duration(10f)
-             .Build());
+                .Add("MoveSpeed", ModifierType.Multiplier, 1.8f)
+                .Duration(10f)
+                .Build());
+
+        Register(EffectBuilder.DefineModifier(EffectId.Slow, EffectApplyMode.Timed)
+                .Add("MoveSpeed", ModifierType.Multiplier, 0.5f)
+                .Duration(3f)
+                .Build());
+
+        Register(EffectBuilder.DefineModifier(EffectId.Airborne, EffectApplyMode.Timed)
+                .Add("MoveSpeed", ModifierType.Multiplier, 0f)
+                .Duration(2f)
+                .Build());
     }
 }
 
 public enum EffectId
 {
+    //플레이어 이팩트
     Ghost,
-    Exhaust
+    Exhaust,
+    //상태이상 이팩트
+    Slow,
+    Knockback,
+    Stun,
+    Confusion,
+    Airborne
 }
