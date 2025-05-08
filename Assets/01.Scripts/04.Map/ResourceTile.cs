@@ -1,18 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ResourceTile : MonoBehaviour
+public class ResourceTile : BaseInteractable
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Interact(PlayerEntity player)
     {
-        
+        GatherTile();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GatherTile()
     {
-        
+        RewardManager.Instance.TryGatherResource();
     }
 }
