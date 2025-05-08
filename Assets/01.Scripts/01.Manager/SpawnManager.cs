@@ -1,27 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyGenerate : MonoBehaviour
+public class SpawnManager : Singleton<SpawnManager>
 {
-    [SerializeField] List<GameObject> enemyList;
     [SerializeField] Camera mainCamera;
     [SerializeField] Transform target;
 
     public float SpawnRange = 30f;
 
-    private void Start()
+    void Start()
     {
         target = PlayerManager.Instance.Player.transform;
-        //PoolManager.Instance.Init();
+        mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        PoolManager.Instance.Init();
     }
-    public void EnemySet()
+
+    public void EnemySpawn(string rcode)
     {
-        int RandomEnemy = Random.Range(0, enemyList.Count);
-        var enemy = PoolManager.Instance.Spawn<ObjectPoolBase>(enemyList[RandomEnemy].name.ToString(), SpawnArea());
+        var enemy = PoolManager.Instance.Spawn<ObjectPoolBase>(rcode, SpawnArea());
     }
 
     Vector3 SpawnArea()
@@ -29,17 +27,17 @@ public class EnemyGenerate : MonoBehaviour
         if (mainCamera == null)
         {
             Debug.Log("카메라 없음");
-            return Vector3.zero; 
+            return Vector3.zero;
         }
         if (target == null)
         {
             Debug.Log("플레이어 없음");
-            return Vector3.zero; 
+            return Vector3.zero;
         }
 
         Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(mainCamera);//카메라가 보이는 영역을 평면화
 
-        for(int i =0; i < 100; i++)
+        for (int i = 0; i < 100; i++)
         {
             Vector2 randomXZ = Random.insideUnitCircle.normalized * Random.Range(SpawnRange * 0.5f, SpawnRange);//xz 평면 상의 원 그리기
             Vector3 spawnCircle = new Vector3(randomXZ.x, 0f, randomXZ.y) + new Vector3(target.position.x, 0f, target.position.z);//원의 중심을 정하고 범위 지정
@@ -60,30 +58,5 @@ public class EnemyGenerate : MonoBehaviour
 
         Debug.Log("먼가 없음");
         return Vector3.zero;
-    }
-    private void OnDrawGizmos()
-    {
-        if (target != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(target.position, SpawnRange);
-        }
-    }
-
-}
-[CustomEditor(typeof(EnemyGenerate))]
-public class EnemySpawn : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        if (EditorApplication.isPlaying)
-        {
-            if (GUILayout.Button("적 생성"))
-            {
-                ((EnemyGenerate)target).EnemySet();
-            }
-        }
     }
 }

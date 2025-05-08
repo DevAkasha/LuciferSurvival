@@ -151,6 +151,7 @@ public class AngelEntity : MobileEntity<AngelModel>
     }
     public void OnRelease()
     {
+        WaveManager.Instance.KillCountCheck();
         PoolManager.Instance.Release(this);
     }
 }
