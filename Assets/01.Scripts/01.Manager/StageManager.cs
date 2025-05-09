@@ -12,7 +12,7 @@ public class StageManager : Singleton<StageManager>
     public SummonUnitUI summonUnitUI;
 
     private RxVar<int> soulStone = new RxVar<int>(0);           //게임 내 재화(초기값 : 0)
-    private RxVar<int> rerollCost = new RxVar<int>(3);           //상점 리롤 비용(초기값 : 3)
+    private RxVar<int> rerollCost = new RxVar<int>(3);          //상점 리롤 비용(초기값 : 3)
     private RxVar<int> shopLevel = new RxVar<int>(1);           //상점 레벨(초기값 : 1)
 
     protected override void Awake()
