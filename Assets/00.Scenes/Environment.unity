@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028301, g: 0.22571309, b: 0.30692127, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -449,7 +449,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 801b8bf608d40f2458f9f797fd81a03b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  farmingDataList: []
+  farmingDataList:
+  - {fileID: 11400000, guid: efebf80eaac748348819571f8acc6eeb, type: 2}
+  - {fileID: 11400000, guid: 92e9e71686d94e04aa3a86a1c9e9b517, type: 2}
+  - {fileID: 11400000, guid: 4d6b10d67ac6d9b4d87623ccfe978935, type: 2}
+  - {fileID: 11400000, guid: b7bd98877e072424db0cd6a3c06d8e53, type: 2}
+  - {fileID: 11400000, guid: bd0494899cbd9eb46a29d51a94f549c4, type: 2}
+  - {fileID: 11400000, guid: b1247bf8da3b01d4f98adab0fca0aa23, type: 2}
+  - {fileID: 11400000, guid: daeb2d1c31a5efc40b9166cb6ea5d2d7, type: 2}
+  - {fileID: 11400000, guid: a1052065d8c72eb40a2d2be206397ace, type: 2}
+  - {fileID: 11400000, guid: b500740efa7181e46ada3ad1b7301e62, type: 2}
+  - {fileID: 11400000, guid: d49a06ae410ec194e8a82f511e7798f0, type: 2}
+  - {fileID: 11400000, guid: b439c66aa37dc9e43be2f87edd5ed500, type: 2}
+  - {fileID: 11400000, guid: fd6393040ac7bd3499a66ec8286876b8, type: 2}
+  - {fileID: 11400000, guid: fea71e5ad5f44914c89cdca1fc6a4330, type: 2}
+  - {fileID: 11400000, guid: ed14def34abc59e45809cb670973cf3b, type: 2}
+  - {fileID: 11400000, guid: 199363fbf9db674409a7532ac0156f84, type: 2}
 --- !u!1 &745459427
 GameObject:
   m_ObjectHideFlags: 0
