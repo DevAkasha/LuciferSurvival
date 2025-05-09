@@ -21,6 +21,9 @@ public enum PlayerStateFlag
     Move,
     Roll,       //플레이어 전용
     Attack,
+    Skill1,     //보스 전용
+    Skill2,
+    Skill3,
     Cast,
     Slow,       // FSM 대상 아님
     Confuse     // FSM 대상 아님
