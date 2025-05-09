@@ -27,7 +27,7 @@ public class StageManager : Singleton<StageManager>
         unitSlots[0].count = 3;
         unitSlots[1].count = 3;
         unitSlots[2].count = 3;
-        SoulStone = 100;
+        SoulStone = 9999;
     }
 
     public int SoulStone {
@@ -47,14 +47,22 @@ public class StageManager : Singleton<StageManager>
         set { shopLevel.SetValue(value, this); }
     }
 
+    public int NextShopLevel
+    {
+        get { return shopLevel.Value + 1; }
+    }
+
     //초기화
     public void Init()
     {
         //반응형 이벤트 구독
         soulStone.AddListener(v => summonUnitUI.UpdateSoulStoneText(v));
         rerollCost.AddListener(v => summonUnitUI.UpdateRerollCostText(v));
-        shopLevel.AddListener(v => summonUnitUI.UpdateShopLevelUpCostText(v));
+        shopLevel.AddListener(v => summonUnitUI.UpdateShopLevelUpCostText());
         shopLevel.AddListener(v => summonUnitUI.UpdateShopLevelText(v));
+
+        summonUnitUI.UpdateShopLevelUpCostText();
+        summonUnitUI.UpdateRerollCostText(RerollCost);
 
         //슬롯 UI 초기화
         StageUIManager.Instance.RefreshAllUnitSlots();
@@ -111,6 +119,29 @@ public class StageManager : Singleton<StageManager>
                 return;
             }
         }
+    }
+
+    //유닛 들어갈 수 있는지 체크하는 함수
+    public bool CanAddUnit(UnitModel model)
+    {
+        for (int i = 0; i < unitSlots.Length; i++)
+        {
+            UnitInventory slot = unitSlots[i];
+            if (slot != null && slot.unitModel.rcode == model.rcode && slot.count < 3)
+            {
+                return true;
+            }
+        }
+
+        for (int i = 0; i < unitSlots.Length; i++)
+        {
+            if (unitSlots[i] == null)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     //해당 슬롯 유닛 제거

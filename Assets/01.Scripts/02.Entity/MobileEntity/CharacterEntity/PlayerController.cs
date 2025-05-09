@@ -62,4 +62,13 @@ public abstract class PlayerController : MobileController<PlayerEntity, PlayerMo
             unity.transform.rotation = this.transform.rotation;
         }
     }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        var interactionModule = GetComponentInChildren<PlayerInteractionModule>();
+        if (interactionModule != null)
+        {
+            interactionModule.OnInteractInput(context);
+        }
+    }
 }
