@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using UnityEngine;
+using System.Linq;
 
 public class BossController : MobileController<BossEntity, BossModel>
 {
     [SerializeField] private Animator animator;
     [SerializeField] private bool waitAttackTime = false;
     public bool WaitAttackTime { get; set; }
-    [SerializeField] public bool  attackTime;
+    [SerializeField] public bool attackTime;
 
     private PlayerController player;
     private CancellationTokenSource behaviorCts;
@@ -163,7 +164,7 @@ public class BossController : MobileController<BossEntity, BossModel>
             Entity.StopMove();
             WaitAttackTime = true;
             StartSkillCooldown("Skill1", Entity.Model.Skill1CT.Value).Forget();
-            OnAttackAnimEvent(); // 애니메이션 이벤트 대신 직접호출중
+            OnAttackAnimEvent(ClipLength("Skill1")); // 애니메이션 이벤트 대신 직접호출중
         });
     private RxBehaviorNode Node_Skill2Check() =>
         ConditionAction.Create(() => IsInRange(Entity.Model.Skill2Range.Value) && skillCooldownFlags.GetValueOrDefault("Skill2", true), () =>
@@ -173,7 +174,7 @@ public class BossController : MobileController<BossEntity, BossModel>
             Entity.StopMove();
             WaitAttackTime = true;
             StartSkillCooldown("Skill2", Entity.Model.Skill1CT.Value).Forget();
-            OnAttackAnimEvent(); // 애니메이션 이벤트 대신 직접호출중
+            OnAttackAnimEvent(ClipLength("Skill2")); // 애니메이션 이벤트 대신 직접호출중
         });
     private RxBehaviorNode Node_Skill3Check() =>
         ConditionAction.Create(() => IsInRange(Entity.Model.Skill3Range.Value) && skillCooldownFlags.GetValueOrDefault("Skill3", true), () =>
@@ -183,7 +184,7 @@ public class BossController : MobileController<BossEntity, BossModel>
             Entity.StopMove();
             WaitAttackTime = true;
             StartSkillCooldown("Skill3", Entity.Model.Skill1CT.Value).Forget();
-            OnAttackAnimEvent(); // 애니메이션 이벤트 대신 직접호출중
+            OnAttackAnimEvent(ClipLength("Skill3")); // 애니메이션 이벤트 대신 직접호출중
         });
 
     private RxBehaviorNode Node_AttackCheck() =>
@@ -193,7 +194,7 @@ public class BossController : MobileController<BossEntity, BossModel>
             transform.LookAt(player.transform);
             Entity.StopMove();
             WaitAttackTime = true;
-            OnAttackAnimEvent(); // 애니메이션 이벤트 대신 직접호출중
+            OnAttackAnimEvent(ClipLength("Attack")); // 애니메이션 이벤트 대신 직접호출중
         });
 
     private RxBehaviorNode Node_MoveToPlayer() =>
@@ -213,10 +214,10 @@ public class BossController : MobileController<BossEntity, BossModel>
         return (transform.position - player.transform.position).sqrMagnitude < sqrRange;
     }
 
-    public async void OnAttackAnimEvent()
+    public async void OnAttackAnimEvent(float animaitionTime)
     {
         //애니메이션 이벤트 대신 AtkSpeed만큼 대기
-        await UniTask.Delay(TimeSpan.FromSeconds(Entity.Model.AtkSpeed.Value), DelayType.DeltaTime, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
+        await UniTask.Delay(TimeSpan.FromSeconds(animaitionTime), DelayType.DeltaTime, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
         attackTime = true;
     }
 
@@ -237,6 +238,18 @@ public class BossController : MobileController<BossEntity, BossModel>
         skillCooldownFlags["Skill1"] = true;
         skillCooldownFlags["Skill2"] = true;
         skillCooldownFlags["Skill3"] = true;
+    }
+
+    public float ClipLength(string clipName)
+    {
+        if (animator == null || animator.runtimeAnimatorController == null)
+            return 1f;
+
+        // AnimatorController에 포함된 모든 클립 중에서 이름으로 검색
+        var clip = animator.runtimeAnimatorController.animationClips
+            .FirstOrDefault(c => c.name == clipName);
+
+        return clip != null ? clip.length : 1f;
     }
 
     private void OnDrawGizmosSelected()
