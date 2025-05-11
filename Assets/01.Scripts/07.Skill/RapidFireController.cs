@@ -38,11 +38,11 @@ public class RapidFireController : MonoBehaviour
         if (userTransform == null) return;
 
         // 투사체 생성 위치
-        Vector3 spawnPos = userTransform.position + userTransform.forward * 1f;
+        Vector3 spawnPos = userTransform.position + userTransform.forward * 1f + new Vector3(0f, 1f, 0f);
 
         // 투사체 객체 생성
         GameObject projectileObj = GameObject.Instantiate(
-            Resources.Load<GameObject>("Projectiles/Projectile"),
+            Resources.Load<GameObject>("Projectiles/RapidFireProjectile"),
             spawnPos,
             userTransform.rotation);
 

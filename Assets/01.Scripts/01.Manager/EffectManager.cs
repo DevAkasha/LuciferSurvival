@@ -61,8 +61,9 @@ public class EffectManager : Singleton<EffectManager>
                 .Add("MoveSpeed", ModifierType.Multiplier, 1.8f)
                 .Duration(10f)
                 .Build());
+
         Register(EffectBuilder.DefineModifier(EffectId.Slow, EffectApplyMode.Timed)
-                .Add("MoveSpeed", ModifierType.Multiplier,0.5f)
+                .Add("MoveSpeed", ModifierType.Multiplier,0.2f)
                 .Duration(2f)
                 .Build());
     }

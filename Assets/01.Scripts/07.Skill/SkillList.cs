@@ -12,8 +12,8 @@ public class FleshGrinderSkill : Skill
         id = SkillId.FleshGrinder;
         displayName = "고기 갈기기";
         description = "주변 360도를 공격하는 범위 밀집 공격";
-        cooldown = 20f;
-        damage = 25f;
+        cooldown = 3f;
+        damage = 20000f;
     }
 
     public override void Execute(ISkillUser user)
@@ -24,17 +24,17 @@ public class FleshGrinderSkill : Skill
         user.SetAnimation("Attack");
 
         // 스킬 이펙트 생성
-        Transform userTransform = user.GetTransform();
+        Transform userTransform = user.GetPlayerTransform();
         if (userTransform != null)
         {
             // 원형 이펙트 생성
             GameObject effectObj = GameObject.Instantiate(
-                Resources.Load<GameObject>("Effects/CircleEffect"),
+                Resources.Load<GameObject>("Effects/FleshGrinderEffect"),
                 userTransform.position,
                 Quaternion.identity);
 
             // 이펙트 크기 설정
-            effectObj.transform.localScale = new Vector3(radius, radius, 1f);
+            effectObj.transform.localScale = new Vector3(radius, 1f, radius);
 
             // 일정 시간 후 제거
             GameObject.Destroy(effectObj, 2f);
@@ -60,7 +60,7 @@ public class FleshGrinderSkill : Skill
 public class CrushBreakerSkill : Skill
 {
     private float radius = 4f;
-    private float knockbackPower = 5f;
+    private float knockbackPower = 30f;
     private float angleLimit = 0.5f; // cos(60도) ≈ 0.5, 즉 전방 120도 범위
 
     public CrushBreakerSkill()
@@ -68,8 +68,8 @@ public class CrushBreakerSkill : Skill
         id = SkillId.CrushBreaker;
         displayName = "분쇄 강타";
         description = "무기를 휘두르며 전방 120도 강타";
-        cooldown = 15f;
-        damage = 30f;
+        cooldown = 3f;
+        damage = 30000f;
     }
 
     public override void Execute(ISkillUser user)
@@ -80,7 +80,7 @@ public class CrushBreakerSkill : Skill
         user.SetAnimation("Attack");
 
         // 스킬 이펙트 생성
-        Transform userTransform = user.GetTransform();
+        Transform userTransform = user.GetPlayerTransform();
         if (userTransform != null)
         {
             // 전방 위치 계산
@@ -88,7 +88,7 @@ public class CrushBreakerSkill : Skill
 
             // 전방 이펙트 생성
             GameObject effectObj = GameObject.Instantiate(
-                Resources.Load<GameObject>("Effects/SwingEffect"),
+                Resources.Load<GameObject>("Effects/CrushBreakerEffect"),
                 forwardPos,
                 userTransform.rotation);
 
@@ -134,8 +134,8 @@ public class HellfumeSkill : Skill
         id = SkillId.Hellfume;
         displayName = "지옥분출";
         description = "고정 위치에 장판 공격";
-        cooldown = 30f;
-        damage = 20f;
+        cooldown = 3f;
+        damage = 200000f;
     }
 
     public override void Execute(ISkillUser user)
@@ -146,11 +146,11 @@ public class HellfumeSkill : Skill
         user.SetAnimation("Cast");
 
         // 스킬 이펙트 생성
-        Transform userTransform = user.GetTransform();
+        Transform userTransform = user.GetPlayerTransform();
         if (userTransform != null)
         {
             // 장판 위치 계산 (플레이어 전방)
-            Vector3 groundPos = userTransform.position + userTransform.forward * radius * 1.5f;
+            Vector3 groundPos = userTransform.position + userTransform.forward * radius * 1.5f + new Vector3(0f, 1f, 0f);
 
             // 장판 객체 생성
             GameObject groundEffect = new GameObject("GroundEffect");
@@ -162,7 +162,7 @@ public class HellfumeSkill : Skill
 
             // 시각 이펙트 생성
             GameObject effectObj = GameObject.Instantiate(
-                Resources.Load<GameObject>("Effects/GroundEffect"),
+                Resources.Load<GameObject>("Effects/HellfumeEffect"),
                 groundPos,
                 Quaternion.identity);
 
@@ -181,7 +181,7 @@ public class HellfumeSkill : Skill
 // 추적자: 천공의 창 (관통 투사체 + 에어본)
 public class SkyLanceSkill : Skill
 {
-    private int penetrationCount = 3;
+    private int penetrationCount = 10;
     private float airborneDuration = 2f;
 
     public SkyLanceSkill()
@@ -189,8 +189,8 @@ public class SkyLanceSkill : Skill
         id = SkillId.SkyLance;
         displayName = "천공의 창";
         description = "투사체를 먼 거리로 발사하여 정해진 횟수만큼 관통한다";
-        cooldown = 25f;
-        damage = 35f;
+        cooldown = 3f;
+        damage = 35000f;
     }
 
     public override void Execute(ISkillUser user)
@@ -201,11 +201,11 @@ public class SkyLanceSkill : Skill
         user.SetAnimation("Attack");
 
         // 스킬 이펙트 생성
-        Transform userTransform = user.GetTransform();
+        Transform userTransform = user.GetPlayerTransform();
         if (userTransform != null)
         {
             // 투사체 생성 위치
-            Vector3 spawnPos = userTransform.position + userTransform.forward * 1f;
+            Vector3 spawnPos = userTransform.position + userTransform.forward * 1f + new Vector3(0f, 1f, 0f);
 
             // 투사체 객체 생성
             GameObject projectileObj = GameObject.Instantiate(
@@ -228,14 +228,14 @@ public class SkyLanceSkill : Skill
 public class OrbitOfRuinSkill : Skill
 {
     private int shotCount = 5;
-
+    private float shotAngle = 20f;
     public OrbitOfRuinSkill()
     {
         id = SkillId.OrbitOfRuin;
         displayName = "파멸의 궤도";
         description = "먼거리를 정해진 갯수만큼 동시에 투사체를 발사한다";
-        cooldown = 18f;
-        damage = 15f;
+        cooldown = 2f;
+        damage = 150000f;
     }
 
     public override void Execute(ISkillUser user)
@@ -246,22 +246,19 @@ public class OrbitOfRuinSkill : Skill
         user.SetAnimation("Attack");
 
         // 스킬 이펙트 생성
-        Transform userTransform = user.GetTransform();
+        Transform userTransform = user.GetPlayerTransform();
         if (userTransform != null)
         {
-            // 발사 각도 계산
-            float angleStep = 360f / shotCount;
-
             // 여러 방향으로 투사체 발사
             for (int i = 0; i < shotCount; i++)
             {
-                float angle = i * angleStep;
+                float angle = i * shotAngle;
                 Quaternion rotation = userTransform.rotation * Quaternion.Euler(0, angle, 0);
 
                 // 투사체 생성
                 GameObject projectileObj = GameObject.Instantiate(
                     Resources.Load<GameObject>("Projectiles/Projectile"),
-                    userTransform.position,
+                    userTransform.position + new Vector3(0, 1f, 0),
                     rotation);
 
                 // 투사체 컴포넌트 설정
@@ -286,8 +283,8 @@ public class InfernalVolleySkill : Skill
         id = SkillId.InfernalVolley;
         displayName = "악마의 연타";
         description = "먼 거리의 적까지 빠른 공격속도로 단일 몹 집중 공격";
-        cooldown = 40f;
-        damage = 10f;
+        cooldown = 3f;
+        damage = 100000f;
     }
 
     public override void Execute(ISkillUser user)
@@ -326,8 +323,8 @@ public class HellsnareSkill : Skill
         id = SkillId.Hellsnare;
         displayName = "지옥의 족쇄";
         description = "투사체를 발사하여 원거리 저격";
-        cooldown = 35f;
-        damage = 25f;
+        cooldown = 3f;
+        damage = 20000f;
     }
 
     public override void Execute(ISkillUser user)
@@ -338,15 +335,15 @@ public class HellsnareSkill : Skill
         user.SetAnimation("Attack");
 
         // 스킬 이펙트 생성
-        Transform userTransform = user.GetTransform();
+        Transform userTransform = user.GetPlayerTransform();
         if (userTransform != null)
         {
             // 투사체 생성 위치
-            Vector3 spawnPos = userTransform.position + userTransform.forward * 1f;
+            Vector3 spawnPos = userTransform.position + userTransform.forward * 1f+ new Vector3(0f,1f,0f);
 
             // 투사체 객체 생성
             GameObject projectileObj = GameObject.Instantiate(
-                Resources.Load<GameObject>("Projectiles/Projectile"),
+                Resources.Load<GameObject>("Projectiles/StunProjectile"),
                 spawnPos,
                 userTransform.rotation);
 
@@ -364,16 +361,15 @@ public class HellsnareSkill : Skill
 // 망령술사: 광기의 안개 (광역 혼란)
 public class MistOfMadnessSkill : Skill
 {
-    private float radius = 8f;
-    private float confusionDuration = 5f;
+    private float radius = 5f;
+    private float confusionDuration = 2f;
 
     public MistOfMadnessSkill()
     {
         id = SkillId.MistOfMadness;
         displayName = "광기의 안개";
         description = "플레이어 주변 모든 적을 공격하며 광역 혼란시킨다";
-        cooldown = 45f;
-        damage = 15f;
+        cooldown = 3f;
     }
 
     public override void Execute(ISkillUser user)
@@ -389,7 +385,7 @@ public class MistOfMadnessSkill : Skill
         {
             // 원형 이펙트 생성
             GameObject effectObj = GameObject.Instantiate(
-                Resources.Load<GameObject>("Effects/MistEffect"),
+                Resources.Load<GameObject>("Effects/MistOfMadnessEffect"),
                 userTransform.position,
                 Quaternion.identity);
 
@@ -408,7 +404,6 @@ public class MistOfMadnessSkill : Skill
                 ISkillTarget target = collider.GetComponent<ISkillTarget>();
                 if (target != null)
                 {
-                    ApplyDamage(target, damage);
                     ApplyStatusEffect(target, StatusEffectType.Confusion, confusionDuration);
                 }
             }

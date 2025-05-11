@@ -16,7 +16,7 @@ public class UnitSkillComponent : UnitPart, ISkillUser
 
     // 자동 스킬 사용 설정
     [SerializeField] private bool useAutoSkill = true;
-    [SerializeField] private float detectionRange = 8f; // 적 감지 범위
+    [SerializeField] private float detectionRange = 5f; // 적 감지 범위
     private LayerMask enemyLayer;
 
     // 스킬 UI 데이터

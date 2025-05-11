@@ -146,7 +146,7 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
     public async void OnKnockBack(float KnockBackDistance, Vector3 targetpos)
     {
         IsKnockback = true;
-        Vector3 directionFromTarget = transform.position - targetpos;
+        Vector3 directionFromTarget = targetpos - transform.position;
         Vector3 force = directionFromTarget.normalized * KnockBackDistance;
 
         rigid.velocity = Vector3.zero; // 기존 움직임 제거
@@ -154,6 +154,7 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
         await UniTask.WaitUntil(() => rigid.velocity.magnitude <= 0.01f, cancellationToken: this.GetCancellationTokenOnDestroy());
         IsKnockback = false;
     }
+
     public void OnRelease()
     {
         PoolManager.Instance.Release(this);
@@ -175,7 +176,7 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
 
             case StatusEffectType.Knockback:
                 // 넉백 효과
-                OnKnockBack(power, transform.position - transform.forward * 2);
+                OnKnockBack(power, transform.position - transform.forward);
                 break;
 
             case StatusEffectType.Stun:
