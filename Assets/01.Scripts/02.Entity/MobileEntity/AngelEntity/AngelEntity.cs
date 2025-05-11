@@ -8,7 +8,7 @@ using UnityEngine.AI;
 using static UnityEngine.EventSystems.EventTrigger;
 
 
-public class AngelEntity : MobileEntity<AngelModel>
+public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
 {
     [SerializeField] private string rcode;
 
@@ -53,6 +53,11 @@ public class AngelEntity : MobileEntity<AngelModel>
         set => Model.Flags.SetValue(PlayerStateFlag.Move, value); 
     }
     #endregion
+
+    public Transform GetTransform()
+    {
+        return transform;
+    }
 
     protected override void SetupModel()
     {
@@ -115,8 +120,8 @@ public class AngelEntity : MobileEntity<AngelModel>
 
     private void OnDeath(bool isDead)
     {
-        //if (!isDead) return;
-        //navMesh.isStopped = true;
+        //if (!isDead) return; 
+        //navMesh.isStopped = true;  네브메쉬 에러 있어서 주석처리
     }
 
     public async void OnStun(float delayTime)
@@ -152,5 +157,42 @@ public class AngelEntity : MobileEntity<AngelModel>
     public void OnRelease()
     {
         PoolManager.Instance.Release(this);
+    }
+
+
+    public void ApplyStatusEffect(StatusEffectType effectType, float duration, float power = 1f)
+    {
+        switch (effectType)
+        {
+            case StatusEffectType.Slow:
+                // 슬로우 효과
+                var slowEffect = EffectManager.Instance.GetModifierEffect(EffectId.Slow);
+                if (slowEffect != null)
+                {
+                    new EffectApplier(slowEffect).AddTarget(this).Apply();
+                }
+                break;
+
+            case StatusEffectType.Knockback:
+                // 넉백 효과
+                OnKnockBack(power, transform.position - transform.forward * 2);
+                break;
+
+            case StatusEffectType.Stun:
+                // 스턴 효과
+                OnStun(duration);
+                break;
+
+            case StatusEffectType.Confusion:
+                // 혼란 효과
+                OnConfuse(duration);
+                break;
+
+            case StatusEffectType.Airborne:
+                // 에어본 효과
+                OnStun(duration);
+                OnKnockBack(power, transform.position + Vector3.up * 3);
+                break;
+        }
     }
 }

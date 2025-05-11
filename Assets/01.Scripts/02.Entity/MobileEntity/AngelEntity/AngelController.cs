@@ -12,8 +12,9 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
 
     private PlayerController player;
     private CancellationTokenSource behaviorCts;
+    private RxBehaviorNode behaviorTree;
 
-    private bool IsDontAct => Entity.Model.Flags.AnyActive(PlayerStateFlag.Fall, PlayerStateFlag.Knockback, PlayerStateFlag.Stun, PlayerStateFlag.Death);
+  private bool IsDontAct => Entity.Model.Flags.AnyActive(PlayerStateFlag.Fall, PlayerStateFlag.Knockback, PlayerStateFlag.Stun, PlayerStateFlag.Death);
     private bool IsCastable => false;   //todo.캐스트 가능성 판단 추가해야 함
     private bool IsAttack 
     {
@@ -42,6 +43,7 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         Entity.Model.State.OnEnter(PlayerState.Attack, () => animator.Play("Attack"));
         Entity.Model.State.OnEnter(PlayerState.Cast, () => animator.Play("Cast"));
 
+        behaviorTree = BuildBehaviorTree();
         behaviorCts = new CancellationTokenSource();
         RunBehaviorLoop(behaviorCts.Token).Forget();
     }
@@ -69,9 +71,8 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
             {
                 if (this == null || !this.isActiveAndEnabled)
                     break;
-
-                var bt = BuildBehaviorTree();
-                if (bt.Check()) bt.Run();
+                
+                if (behaviorTree.Check()) behaviorTree.Run();
 
                 await UniTask.Delay(TimeSpan.FromSeconds(0.1f), DelayType.DeltaTime, PlayerLoopTiming.Update, token);
             }

@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 2049425339506457406}
   - component: {fileID: 485689531038112978}
   - component: {fileID: 3776733792834032743}
+  - component: {fileID: -6594543251027985104}
   m_Layer: 0
   m_Name: UNIT0011
   m_TagString: Untagged
@@ -132,6 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1e7431959b544d429c188a27325d71c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnableLifecycle: 1
   entity: {fileID: 3776733792834032743}
 --- !u!114 &3776733792834032743
 MonoBehaviour:
@@ -148,6 +150,20 @@ MonoBehaviour:
   rcode: UNIT0011
   projectile: {fileID: 1389943806437722062, guid: 067f598eff79008469f3de84a5eca632,
     type: 3}
+--- !u!114 &-6594543251027985104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 953417731193832897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e281668488a390419317dbcb77da7b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 0}
+  skillId: 0
 --- !u!1 &1144302706085117341
 GameObject:
   m_ObjectHideFlags: 0

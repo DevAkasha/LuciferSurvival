@@ -531,6 +531,7 @@ GameObject:
   - component: {fileID: 8792742958034181398}
   - component: {fileID: 2626978809377867444}
   - component: {fileID: 5185755546330267060}
+  - component: {fileID: -958236279610175794}
   m_Layer: 0
   m_Name: UNIT0004
   m_TagString: Untagged
@@ -588,6 +589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1e7431959b544d429c188a27325d71c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnableLifecycle: 1
   entity: {fileID: 5185755546330267060}
 --- !u!114 &5185755546330267060
 MonoBehaviour:
@@ -604,6 +606,22 @@ MonoBehaviour:
   rcode: UNIT0005
   projectile: {fileID: 1389943806437722062, guid: 067f598eff79008469f3de84a5eca632,
     type: 3}
+--- !u!114 &-958236279610175794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6903429862546571348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e281668488a390419317dbcb77da7b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 0}
+  skillId: 4
+  useAutoSkill: 1
+  detectionRange: 8
 --- !u!1 &8119003837373127644
 GameObject:
   m_ObjectHideFlags: 0

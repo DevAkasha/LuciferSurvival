@@ -507,6 +507,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7242157551745410787, guid: 67f61368aade54c44891d1f64130799f,
         type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 2074481809}
+    - targetCorrespondingSourceObject: {fileID: 7242157551745410787, guid: 67f61368aade54c44891d1f64130799f,
+        type: 3}
       insertIndex: -1
       addedObject: {fileID: 2074481805}
   m_SourcePrefab: {fileID: 100100000, guid: 67f61368aade54c44891d1f64130799f, type: 3}
@@ -929,6 +933,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 498779668}
   m_CullTransparentMesh: 1
+--- !u!4 &623982005 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 517016019411715492, guid: 67f61368aade54c44891d1f64130799f,
+    type: 3}
+  m_PrefabInstance: {fileID: 416575196}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &734977986
 GameObject:
   m_ObjectHideFlags: 0
@@ -2726,9 +2736,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionRadius: 3
-  interactableLayer:
+  interactableLayers:
     serializedVersion: 2
     m_Bits: 0
+  interactionKey: 101
+  interactionPromptUI: {fileID: 0}
+--- !u!114 &2074481809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074481797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0656ecd42004ced49a614e92f0932d02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitSlots: {fileID: 623982005}
 --- !u!1 &2130860238
 GameObject:
   m_ObjectHideFlags: 0
