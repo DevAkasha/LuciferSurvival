@@ -14,7 +14,6 @@ public enum eUnitGrade
 [CreateAssetMenu(fileName = "UnitDataSO", menuName = "ScriptableObjects/UnitDataSO")]
 public class UnitDataSO : BaseDataSO
 {
-    public int idx;
     public float range;
     public float atk;
     public float atkSpeed;

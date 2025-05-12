@@ -4,6 +4,8 @@ public class UnionCard : MonoBehaviour
 {
     private UnitModel unitModel;
 
+    private UnionTableSO unionData;
+
     private bool favoriteStatus = false;
 
     public void Init()
