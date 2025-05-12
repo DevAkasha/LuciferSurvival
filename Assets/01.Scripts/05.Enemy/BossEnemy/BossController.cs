@@ -164,7 +164,7 @@ public class BossController : MobileController<BossEntity, BossModel>
             Entity.StopMove();
             WaitAttackTime = true;
             StartSkillCooldown("Skill1", Entity.Model.Skill1CT.Value).Forget();
-            OnAttackAnimEvent(ClipLength("Skill1")); // 애니메이션 이벤트 대신 직접호출중
+            OnAttackAnimEvent(GetClipLength("Skill1"));// 애니메이션 이벤트 대신 직접호출중, 한 프레임 후 애니메이션 검출 및 호출
         });
     private RxBehaviorNode Node_Skill2Check() =>
         ConditionAction.Create(() => IsInRange(Entity.Model.Skill2Range.Value) && skillCooldownFlags.GetValueOrDefault("Skill2", true), () =>
@@ -174,7 +174,7 @@ public class BossController : MobileController<BossEntity, BossModel>
             Entity.StopMove();
             WaitAttackTime = true;
             StartSkillCooldown("Skill2", Entity.Model.Skill1CT.Value).Forget();
-            OnAttackAnimEvent(ClipLength("Skill2")); // 애니메이션 이벤트 대신 직접호출중
+            OnAttackAnimEvent(GetClipLength("Skill2"));
         });
     private RxBehaviorNode Node_Skill3Check() =>
         ConditionAction.Create(() => IsInRange(Entity.Model.Skill3Range.Value) && skillCooldownFlags.GetValueOrDefault("Skill3", true), () =>
@@ -184,7 +184,7 @@ public class BossController : MobileController<BossEntity, BossModel>
             Entity.StopMove();
             WaitAttackTime = true;
             StartSkillCooldown("Skill3", Entity.Model.Skill1CT.Value).Forget();
-            OnAttackAnimEvent(ClipLength("Skill3")); // 애니메이션 이벤트 대신 직접호출중
+            OnAttackAnimEvent(GetClipLength("Skill3"));
         });
 
     private RxBehaviorNode Node_AttackCheck() =>
@@ -194,7 +194,7 @@ public class BossController : MobileController<BossEntity, BossModel>
             transform.LookAt(player.transform);
             Entity.StopMove();
             WaitAttackTime = true;
-            OnAttackAnimEvent(ClipLength("Attack")); // 애니메이션 이벤트 대신 직접호출중
+            OnAttackAnimEvent(GetClipLength("Attack"));
         });
 
     private RxBehaviorNode Node_MoveToPlayer() =>
@@ -240,16 +240,15 @@ public class BossController : MobileController<BossEntity, BossModel>
         skillCooldownFlags["Skill3"] = true;
     }
 
-    public float ClipLength(string clipName)
+    public float GetClipLength(string clipName)
     {
         if (animator == null || animator.runtimeAnimatorController == null)
-            return 1f;
+            return 0f;
 
-        // AnimatorController에 포함된 모든 클립 중에서 이름으로 검색
         var clip = animator.runtimeAnimatorController.animationClips
             .FirstOrDefault(c => c.name == clipName);
 
-        return clip != null ? clip.length : 1f;
+        return clip?.length ?? 0f;
     }
 
     private void OnDrawGizmosSelected()
