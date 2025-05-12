@@ -5,6 +5,8 @@ using Cysharp.Threading.Tasks;
 using System.Threading;
 using UnityEngine;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using UnityEditor.Animations;
 
 public class BossController : MobileController<BossEntity, BossModel>
 {
@@ -242,13 +244,21 @@ public class BossController : MobileController<BossEntity, BossModel>
 
     public float GetClipLength(string clipName)
     {
-        if (animator == null || animator.runtimeAnimatorController == null)
-            return 0f;
+        var controller = animator.runtimeAnimatorController as AnimatorController;
+        if (controller == null) return 0f;
 
-        var clip = animator.runtimeAnimatorController.animationClips
-            .FirstOrDefault(c => c.name == clipName);
-
-        return clip?.length ?? 0f;
+        foreach (var layer in controller.layers)
+        {
+            foreach (var state in layer.stateMachine.states)
+            {
+                if (state.state.name == clipName)
+                {
+                    var clip = state.state.motion as AnimationClip;
+                    return clip != null ? clip.length : 0f;
+                }
+            }
+        }
+        return 0f;
     }
 
     private void OnDrawGizmosSelected()
