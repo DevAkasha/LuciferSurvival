@@ -19,6 +19,12 @@ public class HealthBarManager : Singleton<HealthBarManager>
         view.Init(angel);
         view.gameObject.SetActive(true);
     }
+    public void Attach(BossController angel)
+    {
+        var view = Get();
+        view.Init(angel);
+        view.gameObject.SetActive(true);
+    }
 
     public void Detach(HealthBarView view)
     {

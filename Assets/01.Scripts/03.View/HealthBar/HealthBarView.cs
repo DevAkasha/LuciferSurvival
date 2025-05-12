@@ -10,6 +10,7 @@ public class HealthBarView : MonoBehaviour
     [SerializeField] private Vector3 worldOffset;   //몹이 존재하는 월드좌표
 
     private AngelController target;                 //헬스바의 대상
+    private BossController boss;                    //헬스바의 대상
     private Camera cam;                             //헬스바가 표시될 카메라
     private Action<float> hpListener;               //반응형 리스너
 
@@ -23,6 +24,20 @@ public class HealthBarView : MonoBehaviour
         target.Entity.Model.NormalizedHP.AddListener(hpListener);   //HP에 리스너를 등록
                                                                     
         target.Entity.Model.Flags.AddListener(                      //타겟의 상태(플래그)에 대한 접근
+            PlayerStateFlag.Death,                                  //리스너를 등록할 상태를 특정
+            v => { if (v) OnTargetDeath();                          //동작할 콜백을 등록 
+            });
+    }
+    public void Init(BossController angel)
+    {
+        boss = angel;
+        cam = Camera.main;
+        fill.fillAmount = boss.Entity.Model.NormalizedHP.Value;   //fillAmount초기화
+
+        hpListener = v => fill.fillAmount = v;                      //리스너의 콜백을 설정
+        boss.Entity.Model.NormalizedHP.AddListener(hpListener);   //HP에 리스너를 등록
+
+        boss.Entity.Model.Flags.AddListener(                      //타겟의 상태(플래그)에 대한 접근
             PlayerStateFlag.Death,                                  //리스너를 등록할 상태를 특정
             v => { if (v) OnTargetDeath();                          //동작할 콜백을 등록 
             });
