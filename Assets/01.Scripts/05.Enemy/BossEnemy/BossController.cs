@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using System.Threading;
-using UnityEngine;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+using Cysharp.Threading.Tasks;
 using UnityEditor.Animations;
+using UnityEngine;
 
 public class BossController : MobileController<BossEntity, BossModel>
 {
@@ -17,6 +14,7 @@ public class BossController : MobileController<BossEntity, BossModel>
 
     private PlayerController player;
     private CancellationTokenSource behaviorCts;
+    private BehaviorTree behaviorTree;
     [SerializeField] private Dictionary<string, bool> skillCooldownFlags = new();
 
     private bool IsDontAct => Entity.Model.Flags.AnyActive(PlayerStateFlag.Fall, PlayerStateFlag.Knockback, PlayerStateFlag.Stun, PlayerStateFlag.Death);
@@ -69,8 +67,128 @@ public class BossController : MobileController<BossEntity, BossModel>
         Entity.Model.State.OnEnter(BossState.Skill3, () => animator.Play("Skill3"));
         Entity.Model.State.OnEnter(BossState.Cast, () => animator.Play("Cast"));
 
+        // BT 초기화 - 한 번만 구성
+        InitializeBehaviorTree();
+
         behaviorCts = new CancellationTokenSource();
         RunBehaviorLoop(behaviorCts.Token).Forget();
+    }
+
+    private void InitializeBehaviorTree()
+    {
+        // BossEntity에 대한 BT 구성
+        behaviorTree = new BehaviorTree(
+            new Selector(
+                // 1. 행동 불가 상태 체크
+                new Sequence(
+                    new Condition(() => IsDontAct),
+                    new BehaviorAction(() => {
+                        Entity.StopMove();
+                        return NodeStatus.Success;
+                    })
+                ),
+
+                // 2. 공격 대기 상태 체크
+                new Sequence(
+                    new Condition(() => WaitAttackTime),
+                    new BehaviorAction(() => {
+                        if (attackTime)
+                        {
+                            if (IsInRange(Entity.Model.AtkRange.Value))
+                                Entity.OnAttack(player);
+                            WaitAttackTime = false;
+                            attackTime = false;
+                            IsAttack = false;
+                            IsSkill1 = false;
+                            IsSkill2 = false;
+                            IsSkill3 = false;
+                            return NodeStatus.Success;
+                        }
+                        return NodeStatus.Running;
+                    })
+                ),
+
+                // 3. 캐스팅 가능 상태 체크
+                new Sequence(
+                    new Condition(() => IsCastable),
+                    new SetFlagAction<PlayerStateFlag>(Entity.Model.Flags, PlayerStateFlag.Cast, true),
+                    new BehaviorAction(() => {
+                        Entity.StopMove();
+                        return NodeStatus.Success;
+                    })
+                ),
+
+                // 4. 스킬1 체크
+                new Sequence(
+                    new Condition(() => IsInRange(Entity.Model.Skill1Range.Value) && skillCooldownFlags.GetValueOrDefault("Skill1", true)),
+                    new BehaviorAction(() => {
+                        IsSkill1 = true;
+                        transform.LookAt(player.transform);
+                        Entity.StopMove();
+                        WaitAttackTime = true;
+                        StartSkillCooldown("Skill1", Entity.Model.Skill1CT.Value).Forget();
+                        OnAttackAnimEvent(GetClipLength("Skill1"));
+                        return NodeStatus.Success;
+                    })
+                ),
+
+                // 5. 스킬2 체크
+                new Sequence(
+                    new Condition(() => IsInRange(Entity.Model.Skill2Range.Value) && skillCooldownFlags.GetValueOrDefault("Skill2", true)),
+                    new BehaviorAction(() => {
+                        IsSkill2 = true;
+                        transform.LookAt(player.transform);
+                        Entity.StopMove();
+                        WaitAttackTime = true;
+                        StartSkillCooldown("Skill2", Entity.Model.Skill1CT.Value).Forget();
+                        OnAttackAnimEvent(GetClipLength("Skill2"));
+                        return NodeStatus.Success;
+                    })
+                ),
+
+                // 6. 스킬3 체크
+                new Sequence(
+                    new Condition(() => IsInRange(Entity.Model.Skill3Range.Value) && skillCooldownFlags.GetValueOrDefault("Skill3", true)),
+                    new BehaviorAction(() => {
+                        IsSkill3 = true;
+                        transform.LookAt(player.transform);
+                        Entity.StopMove();
+                        WaitAttackTime = true;
+                        StartSkillCooldown("Skill3", Entity.Model.Skill1CT.Value).Forget();
+                        OnAttackAnimEvent(GetClipLength("Skill3"));
+                        return NodeStatus.Success;
+                    })
+                ),
+
+                // 7. 공격 범위 내 체크
+                new Sequence(
+                    new Condition(() => IsInRange(Entity.Model.AtkRange.Value)),
+                    new BehaviorAction(() => {
+                        IsAttack = true;
+                        transform.LookAt(player.transform);
+                        Entity.StopMove();
+                        WaitAttackTime = true;
+                        OnAttackAnimEvent(GetClipLength("Attack"));
+                        return NodeStatus.Success;
+                    })
+                ),
+
+                // 8. 플레이어를 향해 이동
+                new Sequence(
+                    new Condition(() => player != null),
+                    new BehaviorAction(() => {
+                        Entity.MoveTo(player.transform.position);
+                        return NodeStatus.Success;
+                    })
+                ),
+
+                // 9. 기본 상태
+                new BehaviorAction(() => {
+                    Entity.StopMove();
+                    return NodeStatus.Success;
+                })
+            )
+        );
     }
 
     private void Update()
@@ -82,6 +200,7 @@ public class BossController : MobileController<BossEntity, BossModel>
     {
         behaviorCts?.Cancel();
     }
+
     protected override void AtDestroy()
     {
         behaviorCts?.Cancel();
@@ -97,8 +216,8 @@ public class BossController : MobileController<BossEntity, BossModel>
                 if (this == null || !this.isActiveAndEnabled)
                     break;
 
-                var bt = BuildBehaviorTree();
-                if (bt.Check()) bt.Run();
+                // 캐싱된 BT 실행
+                behaviorTree.Update();
 
                 await UniTask.Delay(TimeSpan.FromSeconds(0.1f), DelayType.DeltaTime, PlayerLoopTiming.Update, token);
             }
@@ -112,101 +231,6 @@ public class BossController : MobileController<BossEntity, BossModel>
             Debug.LogError($"BT 루프 오류: {ex.Message}");
         }
     }
-
-    private RxBehaviorNode BuildBehaviorTree()
-    {
-        return new Selector(new[]
-        {
-            Node_DontActCheck(),
-            Node_WaitAttackCheck(),
-            Node_CastableCheck(),
-            Node_Skill1Check(),
-            Node_Skill2Check(),
-            Node_Skill3Check(),
-            Node_AttackCheck(),
-            Node_MoveToPlayer(),
-            Node_StandStill()
-        });
-    }
-
-    private RxBehaviorNode Node_DontActCheck() =>
-        ConditionAction.Create(() => IsDontAct, () =>
-        {
-            Entity.StopMove();
-        });
-
-    private RxBehaviorNode Node_WaitAttackCheck() =>
-        ConditionAction.Create(() => WaitAttackTime, () =>
-        {
-            if (attackTime)
-            {
-                if (IsInRange(Entity.Model.AtkRange.Value))
-                    Entity.OnAttack(player);
-                WaitAttackTime = false;
-                attackTime = false;
-                IsAttack = false;
-                IsSkill1 = false;
-                IsSkill2 = false;
-                IsSkill3 = false;
-            }
-        });
-
-    private RxBehaviorNode Node_CastableCheck() =>
-        ConditionAction.Create(() => IsCastable, () =>
-        {
-            IsCast = true;
-            Entity.StopMove();
-        });
-
-    private RxBehaviorNode Node_Skill1Check() =>
-        ConditionAction.Create(() => IsInRange(Entity.Model.Skill1Range.Value) && skillCooldownFlags.GetValueOrDefault("Skill1", true), () =>
-        {
-            IsSkill1 = true;
-            transform.LookAt(player.transform);
-            Entity.StopMove();
-            WaitAttackTime = true;
-            StartSkillCooldown("Skill1", Entity.Model.Skill1CT.Value).Forget();
-            OnAttackAnimEvent(GetClipLength("Skill1"));// 애니메이션 이벤트 대신 직접호출중, 한 프레임 후 애니메이션 검출 및 호출
-        });
-    private RxBehaviorNode Node_Skill2Check() =>
-        ConditionAction.Create(() => IsInRange(Entity.Model.Skill2Range.Value) && skillCooldownFlags.GetValueOrDefault("Skill2", true), () =>
-        {
-            IsSkill2 = true;
-            transform.LookAt(player.transform);
-            Entity.StopMove();
-            WaitAttackTime = true;
-            StartSkillCooldown("Skill2", Entity.Model.Skill1CT.Value).Forget();
-            OnAttackAnimEvent(GetClipLength("Skill2"));
-        });
-    private RxBehaviorNode Node_Skill3Check() =>
-        ConditionAction.Create(() => IsInRange(Entity.Model.Skill3Range.Value) && skillCooldownFlags.GetValueOrDefault("Skill3", true), () =>
-        {
-            IsSkill3 = true;
-            transform.LookAt(player.transform);
-            Entity.StopMove();
-            WaitAttackTime = true;
-            StartSkillCooldown("Skill3", Entity.Model.Skill1CT.Value).Forget();
-            OnAttackAnimEvent(GetClipLength("Skill3"));
-        });
-
-    private RxBehaviorNode Node_AttackCheck() =>
-        ConditionAction.Create(() => IsInRange(Entity.Model.AtkRange.Value), () =>
-        {
-            IsAttack = true;
-            transform.LookAt(player.transform);
-            Entity.StopMove();
-            WaitAttackTime = true;
-            OnAttackAnimEvent(GetClipLength("Attack"));
-        });
-
-    private RxBehaviorNode Node_MoveToPlayer() =>
-        ConditionAction.Create(() => player != null, () =>
-        {
-            Entity.MoveTo(player.transform.position);
-        });
-
-    private RxBehaviorNode Node_StandStill() =>
-        ConditionAction.Create(() => true, () => { });
 
     public bool IsInRange(float range)
     {
