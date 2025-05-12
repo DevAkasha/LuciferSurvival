@@ -1,126 +1,126 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class RxBehaviorNode // 행동 트리의 기본 노드 클래스
-{
-    public abstract bool Check();
-    public abstract void Run();
-}
+//public abstract class RxBehaviorNode // 행동 트리의 기본 노드 클래스
+//{
+//    public abstract bool Check();
+//    public abstract void Run();
+//}
 
-public class ConditionAction : RxBehaviorNode // 조건이 true일 때 액션 실행
-{
-    private readonly Func<bool> condition;
-    private readonly Action action;
+//public class ConditionAction : RxBehaviorNode // 조건이 true일 때 액션 실행
+//{
+//    private readonly Func<bool> condition;
+//    private readonly Action action;
 
-    public ConditionAction(Func<bool> condition, Action action)
-    {
-        this.condition = condition;
-        this.action = action;
-    }
+//    public ConditionAction(Func<bool> condition, Action action)
+//    {
+//        this.condition = condition;
+//        this.action = action;
+//    }
 
-    public override bool Check() => condition();
-    public override void Run() => action();
+//    public override bool Check() => condition();
+//    public override void Run() => action();
 
-    public static ConditionAction Create(Func<bool> condition, Action action) => new(condition, action);
-}
+//    public static ConditionAction Create(Func<bool> condition, Action action) => new(condition, action);
+//}
 
-public class Selector : RxBehaviorNode // 여러 노드 중 조건을 만족하는 첫 번째 노드 실행
-{
-    private readonly List<RxBehaviorNode> children;
+//public class Selector : RxBehaviorNode // 여러 노드 중 조건을 만족하는 첫 번째 노드 실행
+//{
+//    private readonly List<RxBehaviorNode> children;
 
-    public Selector(IEnumerable<RxBehaviorNode> nodes)
-    {
-        children = new List<RxBehaviorNode>(nodes);
-    }
+//    public Selector(IEnumerable<RxBehaviorNode> nodes)
+//    {
+//        children = new List<RxBehaviorNode>(nodes);
+//    }
 
-    public override bool Check() => children.Exists(c => c.Check());
+//    public override bool Check() => children.Exists(c => c.Check());
 
-    public override void Run()
-    {
-        foreach (var child in children)
-        {
-            if (child.Check())
-            {
-                child.Run();
-                break;
-            }
-        }
-    }
-}
+//    public override void Run()
+//    {
+//        foreach (var child in children)
+//        {
+//            if (child.Check())
+//            {
+//                child.Run();
+//                break;
+//            }
+//        }
+//    }
+//}
 
-public class Sequence : RxBehaviorNode // 모든 노드가 조건을 만족하면 모두 실행
-{
-    private readonly List<RxBehaviorNode> children;
+//public class Sequence : RxBehaviorNode // 모든 노드가 조건을 만족하면 모두 실행
+//{
+//    private readonly List<RxBehaviorNode> children;
 
-    public Sequence(IEnumerable<RxBehaviorNode> nodes) // 모든 노드가 조건을 만족하면 모두 실행
-    {
-        children = new List<RxBehaviorNode>(nodes);
-    }
+//    public Sequence(IEnumerable<RxBehaviorNode> nodes) // 모든 노드가 조건을 만족하면 모두 실행
+//    {
+//        children = new List<RxBehaviorNode>(nodes);
+//    }
 
-    public override bool Check() => children.TrueForAll(c => c.Check());
+//    public override bool Check() => children.TrueForAll(c => c.Check());
 
-    public override void Run()
-    {
-        foreach (var child in children)
-        {
-            if (child.Check())
-                child.Run();
-        }
-    }
-}
+//    public override void Run()
+//    {
+//        foreach (var child in children)
+//        {
+//            if (child.Check())
+//                child.Run();
+//        }
+//    }
+//}
 
-public class Inverter : RxBehaviorNode // 조건을 반전시켜 평가
-{
-    private readonly RxBehaviorNode node;
+//public class Inverter : RxBehaviorNode // 조건을 반전시켜 평가
+//{
+//    private readonly RxBehaviorNode node;
 
-    public Inverter(RxBehaviorNode node) // 조건을 반전시켜 평가
-    {
-        this.node = node;
-    }
+//    public Inverter(RxBehaviorNode node) // 조건을 반전시켜 평가
+//    {
+//        this.node = node;
+//    }
 
-    public override bool Check() => !node.Check();
-    public override void Run() => node.Run();
-}
+//    public override bool Check() => !node.Check();
+//    public override void Run() => node.Run();
+//}
 
-public class AlwaysRunner : RxBehaviorNode // 조건과 관계없이 항상 실행
-{
-    private readonly List<RxBehaviorNode> children;
+//public class AlwaysRunner : RxBehaviorNode // 조건과 관계없이 항상 실행
+//{
+//    private readonly List<RxBehaviorNode> children;
 
-    public AlwaysRunner(IEnumerable<RxBehaviorNode> nodes) // 조건과 관계없이 항상 실행
-    {
-        children = new List<RxBehaviorNode>(nodes);
-    }
+//    public AlwaysRunner(IEnumerable<RxBehaviorNode> nodes) // 조건과 관계없이 항상 실행
+//    {
+//        children = new List<RxBehaviorNode>(nodes);
+//    }
 
-    public override bool Check() => true;
+//    public override bool Check() => true;
 
-    public override void Run()
-    {
-        foreach (var child in children)
-        {
-            if (child.Check())
-                child.Run();
-        }
-    }
-}
+//    public override void Run()
+//    {
+//        foreach (var child in children)
+//        {
+//            if (child.Check())
+//                child.Run();
+//        }
+//    }
+//}
 
-public static class FSMBehaviorExtensions
-{
-    public static FSM<TState> DriveByBehavior<TState>(
-        this FSM<TState> fsm,
-        Func<RxBehaviorNode> tree,
-        float interval = 0.2f)
-        where TState : Enum
-    {
-        UnityTimer.ScheduleRepeating(interval, () =>
-        {
-            var root = tree();
-            if (root.Check())
-                root.Run();
-        });
-        return fsm;
-    }
-}
+//public static class FSMBehaviorExtensions
+//{
+//    public static FSM<TState> DriveByBehavior<TState>(
+//        this FSM<TState> fsm,
+//        Func<RxBehaviorNode> tree,
+//        float interval = 0.2f)
+//        where TState : Enum
+//    {
+//        UnityTimer.ScheduleRepeating(interval, () =>
+//        {
+//            var root = tree();
+//            if (root.Check())
+//                root.Run();
+//        });
+//        return fsm;
+//    }
+//}
 
 // 유니티 타이머 유틸 (MonoBehaviour 없이 처리 가능하도록 별도 구현 필요)
 public static class UnityTimer // MonoBehaviour 없이 타이머 구현
