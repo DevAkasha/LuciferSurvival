@@ -12,6 +12,11 @@ public class WaveManager : Singleton<WaveManager>
 
     public WaveDataSO WaveData;
 
+    private void Start()
+    {
+        SetWave("WAVE0001");
+    }
+
     public void SetWave(string getRcode)
     {
         rcode = getRcode;
@@ -40,8 +45,11 @@ public class WaveManager : Singleton<WaveManager>
     {
         for (int i = 0; i < count; i++)
         {
-            SpawnManager.Instance.EnemySpawn(rcode);
+            if (rcode == null)
+                return;
+
             await UniTask.Delay(TimeSpan.FromSeconds(delay), DelayType.DeltaTime, PlayerLoopTiming.Update);
+            SpawnManager.Instance.EnemySpawn(rcode);
         }
     }
 

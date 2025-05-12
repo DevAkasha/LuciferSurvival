@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class AngelController : MobileController<AngelEntity, AngelModel>
 {
@@ -13,6 +14,7 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
     private PlayerController player;
     private CancellationTokenSource behaviorCts;
     private BehaviorTree behaviorTree;
+    [SerializeField] private Projectile projectile;
 
     private bool IsDontAct => Entity.Model.Flags.AnyActive(PlayerStateFlag.Fall, PlayerStateFlag.Knockback, PlayerStateFlag.Stun, PlayerStateFlag.Death);
     private bool IsCastable => false;   //todo.캐스트 가능성 판단 추가해야 함
@@ -112,7 +114,7 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
 
     private void Update()
     {
-        Entity.TakeDamaged(1f);
+        //Entity.TakeDamaged(1f);
     }
 
     protected override void AtDisable()
@@ -168,6 +170,12 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         //애니메이션 이벤트 대신 0.5초 대기
         await UniTask.Delay(TimeSpan.FromSeconds(0.5f), DelayType.DeltaTime, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
         attackTime = true;
+    }
+
+    public void LongRangeAttack()
+    {
+        Projectile bullet = Instantiate(projectile, transform.position, Quaternion.identity);
+        bullet.Init(3f, 1, Entity.Model.Atk.Value, player.transform);
     }
 
     private void OnDrawGizmosSelected()

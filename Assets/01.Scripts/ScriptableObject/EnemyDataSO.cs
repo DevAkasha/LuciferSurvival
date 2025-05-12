@@ -10,5 +10,5 @@ public class EnemyDataSO : BaseDataSO
     public float moveSpeed;
     public float health;
     public float atkRange;
-
+    public float coolTime;
 }

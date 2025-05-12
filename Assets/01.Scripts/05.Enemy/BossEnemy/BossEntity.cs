@@ -11,6 +11,7 @@ public class BossEntity : MobileEntity<BossModel>
 
     [SerializeField] private NavMeshAgent navMesh;
     [SerializeField] private Rigidbody rigid;
+    [SerializeField] private Projectile projectile;
     public Transform headPivot;
 
     #region ProxyProperty

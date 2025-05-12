@@ -162,6 +162,7 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
         IsKnockback = false;
     }
 
+
     public void OnRelease()
     {
         WaveManager.Instance.KillCountCheck();
