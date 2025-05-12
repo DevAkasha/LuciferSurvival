@@ -108,21 +108,3 @@ public class StayStillAction : ActionNode
         return NodeStatus.Success;
     }
 }
-
-public static class FSMBehaviorExtensions
-{
-    // FSM 상태 전환을 위한 BT 노드
-    public static IBehaviorNode CreateStateTransitionNode<TState>(
-        FSM<TState> fsm,
-        TState targetState,
-        IBehaviorNode condition) where TState : Enum
-    {
-        return new Sequence(
-            condition,
-            new BehaviorAction(() => {
-                fsm.Request(targetState);
-                return NodeStatus.Success;
-            })
-        );
-    }
-}

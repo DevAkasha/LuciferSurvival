@@ -130,6 +130,9 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
     {
         try
         {
+            // 매 프레임 실행 대신 시간 간격으로 실행
+            float updateInterval = 0.1f; // 100ms마다 업데이트
+
             while (!token.IsCancellationRequested)
             {
                 if (this == null || !this.isActiveAndEnabled)
@@ -138,7 +141,8 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
                 // 캐싱된 BT 실행
                 behaviorTree.Update();
 
-                await UniTask.Delay(TimeSpan.FromSeconds(0.1f), DelayType.DeltaTime, PlayerLoopTiming.Update, token);
+                // 시간 간격으로 실행하여 CPU 사용량 감소
+                await UniTask.Delay(TimeSpan.FromSeconds(updateInterval), DelayType.DeltaTime, PlayerLoopTiming.Update, token);
             }
         }
         catch (OperationCanceledException)

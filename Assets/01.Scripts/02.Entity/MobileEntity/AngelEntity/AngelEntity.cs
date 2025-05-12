@@ -93,17 +93,24 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
             return;
 
         IsMove = true;
-        rigid.velocity = Vector3.zero;
-        navMesh.speed = Model.MoveSpeed.Value;
+        if (rigid.velocity.sqrMagnitude > 0.01f)
+            rigid.velocity = Vector3.zero;
 
-        if (IsConfuse)
+        float sqrDistToCurrentTarget = (navMesh.destination - target).sqrMagnitude;
+
+        if (sqrDistToCurrentTarget > 1.0f)
         {
-            Vector3 directionToTarget = target - transform.position;
-            Vector3 reverseTarget = transform.position - directionToTarget; // x, z 반전
-            target = reverseTarget;
-        }
+            navMesh.speed = Model.MoveSpeed.Value;
 
-        navMesh.SetDestination(target);
+            if (IsConfuse)
+            {
+                Vector3 directionToTarget = target - transform.position;
+                Vector3 reverseTarget = transform.position - directionToTarget;
+                target = reverseTarget;
+            }
+
+            navMesh.SetDestination(target);
+        }
     }
 
     public override void TakeDamaged(float damage)
