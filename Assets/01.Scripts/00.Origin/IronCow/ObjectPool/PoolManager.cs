@@ -148,7 +148,7 @@ public class PoolManager : Singleton<PoolManager>
             ObjectPoolData data = new ObjectPoolData
             {
                 prefabName = prefab.name,
-                count = 10
+                count = 1
             };
 
             sheets.Add(data);

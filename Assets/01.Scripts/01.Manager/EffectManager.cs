@@ -58,14 +58,20 @@ public class EffectManager : Singleton<EffectManager>
                 .Build());
 
         Register(EffectBuilder.DefineModifier(EffectId.Ghost, EffectApplyMode.Timed)
-             .Add("MoveSpeed", ModifierType.Multiplier, 1.8f)
-             .Duration(10f)
-             .Build());
+                .Add("MoveSpeed", ModifierType.Multiplier, 1.8f)
+                .Duration(10f)
+                .Build());
+
+        Register(EffectBuilder.DefineModifier(EffectId.Slow, EffectApplyMode.Timed)
+                .Add("MoveSpeed", ModifierType.Multiplier,0.2f)
+                .Duration(2f)
+                .Build());
     }
 }
 
 public enum EffectId
 {
     Ghost,
-    Exhaust
+    Exhaust,
+    Slow
 }

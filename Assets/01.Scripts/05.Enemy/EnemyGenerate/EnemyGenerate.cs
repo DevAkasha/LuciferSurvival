@@ -12,12 +12,11 @@ public class EnemyGenerate : MonoBehaviour
     [SerializeField] Transform target;
 
     public float SpawnRange = 30f;
-    public int Wave = 1;
 
     private void Start()
     {
         target = PlayerManager.Instance.Player.transform;
-        PoolManager.Instance.Init();
+        //PoolManager.Instance.Init();
     }
     public void EnemySet()
     {

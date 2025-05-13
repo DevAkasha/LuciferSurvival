@@ -2905,6 +2905,7 @@ GameObject:
   - component: {fileID: 7931756042359669195}
   - component: {fileID: 3052022509060737594}
   - component: {fileID: 5762440115754101420}
+  - component: {fileID: 8405438509369660058}
   m_Layer: 0
   m_Name: UNIT0010
   m_TagString: Untagged
@@ -2994,6 +2995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1e7431959b544d429c188a27325d71c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnableLifecycle: 1
   entity: {fileID: 5762440115754101420}
 --- !u!114 &5762440115754101420
 MonoBehaviour:
@@ -3010,6 +3012,20 @@ MonoBehaviour:
   rcode: UNIT0010
   projectile: {fileID: 1389943806437722062, guid: 067f598eff79008469f3de84a5eca632,
     type: 3}
+--- !u!114 &8405438509369660058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3542005029416404591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e281668488a390419317dbcb77da7b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 0}
+  skillId: 0
 --- !u!1 &3716788318315484132
 GameObject:
   m_ObjectHideFlags: 0
