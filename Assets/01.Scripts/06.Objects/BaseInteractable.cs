@@ -23,7 +23,7 @@ public abstract class BaseInteractable : WorldObject, IInteractable
     [SerializeField] protected string emissionColorProperty = "_EmissionColor";
     [SerializeField] protected float emissionIntensity = 2f;
 
-    private bool isFocused = false;
+    protected bool isFocused = false;
     private Color originalEmissionColor;
     private bool wasEmissionEnabled = false;
 
@@ -59,7 +59,7 @@ public abstract class BaseInteractable : WorldObject, IInteractable
         return Vector3.Distance(transform.position, position);
     }
 
-    public void OnFocus()
+    public virtual void OnFocus()
     {
         if (!isInteractable || isFocused) return;
 
@@ -89,7 +89,7 @@ public abstract class BaseInteractable : WorldObject, IInteractable
         }
     }
 
-    public void OnLoseFocus()
+    public virtual void OnLoseFocus()
     {
         if (!isFocused) return;
 

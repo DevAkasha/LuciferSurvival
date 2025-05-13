@@ -151,5 +151,8 @@ MonoBehaviour:
   emissionColorProperty: _EmissionColor
   emissionIntensity: 2
   resourceRenderer: {fileID: 0}
-  newBaseMapTexture: {fileID: 10916, guid: 0000000000000000f000000000000000, type: 0}
+  grayTexture: {fileID: 0}
   isGathered: 0
+  gatheredColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  focusColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  OrigenColor: []
