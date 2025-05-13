@@ -127,6 +127,7 @@ public class PoolManager : Singleton<PoolManager>
         item.SetActive(false);
         var data = sheets.Find(obj => obj.prefabName == item.name);
         item.transform.parent = data.parent;
+        item.transform.position = transform.position;
         pools[item.name].Enqueue(item);
     }
 
