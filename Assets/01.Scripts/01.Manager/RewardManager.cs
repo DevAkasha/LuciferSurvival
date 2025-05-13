@@ -89,6 +89,6 @@ public class RewardManager : Singleton<RewardManager>
     /// <param name="amount"></param>
     private void GiveReward(int amount)
     {
-        // 보상 처리
+        StageManager.Instance.SoulStone += amount;
     }
 }

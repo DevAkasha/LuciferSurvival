@@ -40,8 +40,14 @@ public class TimeManager : Singleton<TimeManager>
     public float battleScreenMinAlpha = 0.2f; // 최소 투명도
     public float battleScreenMaxAlpha = 0.3f; // 최대 투명도
 
+    [Header("Night Duration Settings")]
+    [SerializeField] private bool enableNightTimer = true; // 밤->낮 타이머 활성화 여부
+    [SerializeField] private float nightDuration = 30f; // 밤 지속 시간(초)
+
     private Coroutine transitionRoutine; // 전환 코루틴
     private Coroutine battleScreenRoutine; // 배틀스크린 깜빡임 코루틴
+
+    private bool isNightTimerSet = false; // 타이머 관련 변수
 
     private void Start()
     {
@@ -53,6 +59,12 @@ public class TimeManager : Singleton<TimeManager>
         if (battleScreen != null)
         {
             battleScreen.color = Color.clear;
+        }
+
+        // 밤->낮 자동 전환 타이머 활성화
+        if (enableNightTimer)
+        {
+            SetNightTimer();
         }
     }
 
@@ -95,8 +107,38 @@ public class TimeManager : Singleton<TimeManager>
         {
             currentTimeState = TimeState.Night;
             StartLightingTransition();
-
             UpdateBattleScreenState();
+
+            // 밤으로 전환됐으므로 밤->낮 타이머 설정
+            if (enableNightTimer)
+            {
+                SetNightTimer();
+            }
+        }
+
+        //if (currentTimeState != TimeState.Night)
+        //{
+        //    currentTimeState = TimeState.Night;
+        //    StartLightingTransition();
+
+        //    UpdateBattleScreenState();
+        //}
+    }
+
+    private void SetNightTimer()
+    {
+        if (!isNightTimerSet && currentTimeState == TimeState.Night)
+        {
+            isNightTimerSet = true;
+            UnityTimer.ScheduleRepeating(nightDuration, () =>
+            {
+                // 타이머가 완료되면 낮으로 전환
+                if (currentTimeState == TimeState.Night)
+                {
+                    SetDay();
+                }
+                isNightTimerSet = false;
+            });
         }
     }
 
