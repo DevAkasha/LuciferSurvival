@@ -19,6 +19,7 @@ public class HealthBarManager : Singleton<HealthBarManager>
         view.Init(angel);
         view.gameObject.SetActive(true);
     }
+
     public void Attach(BossController angel)
     {
         var view = Get();
@@ -36,6 +37,7 @@ public class HealthBarManager : Singleton<HealthBarManager>
         if (pool.Count > 0) return pool.Dequeue();
         return Instantiate(prefab, healthbarCanvas.transform);
     }
+
     private void Return(HealthBarView view)
     {
         view.gameObject.SetActive(false);

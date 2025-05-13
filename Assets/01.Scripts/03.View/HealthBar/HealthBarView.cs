@@ -9,8 +9,8 @@ public class HealthBarView : MonoBehaviour
     [SerializeField] private Image fill;            //체력을 표시하기 위해 조정하는 이미지
     [SerializeField] private Vector3 worldOffset;   //몹이 존재하는 월드좌표
 
-    private AngelController target;                 //헬스바의 대상
-    private BossController boss;                    //헬스바의 대상
+    [SerializeField] private AngelController target;                 //헬스바의 대상
+    [SerializeField] private BossController boss;                    //헬스바의 대상
     private Camera cam;                             //헬스바가 표시될 카메라
     private Action<float> hpListener;               //반응형 리스너
 
@@ -47,6 +47,8 @@ public class HealthBarView : MonoBehaviour
     {
         if (target!=null) 
             transform.position = cam.WorldToScreenPoint(target.Entity.headPivot.position + worldOffset);
+        if (boss != null)
+            transform.position = cam.WorldToScreenPoint(boss.Entity.headPivot.position + worldOffset);
     }
 
     private void OnDisable()
@@ -55,6 +57,12 @@ public class HealthBarView : MonoBehaviour
         {
             target.Entity.Model.NormalizedHP.RemoveListener(hpListener);
             target = null;
+        }
+
+        if (boss != null)
+        {
+            boss.Entity.Model.NormalizedHP.RemoveListener(hpListener);
+            boss = null;
         }
     }
 
