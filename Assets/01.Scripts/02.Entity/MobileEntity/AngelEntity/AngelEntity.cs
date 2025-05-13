@@ -113,6 +113,24 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
         }
     }
 
+    public void DeshTo(Vector3 target, float Speed)
+    {
+        if (navMesh == null || !navMesh.enabled || !navMesh.isOnNavMesh)
+            return;
+
+        IsMove = false;
+        if (rigid.velocity.sqrMagnitude > 0.01f)
+            rigid.velocity = Vector3.zero;
+
+        float sqrDistToCurrentTarget = (navMesh.destination - target).sqrMagnitude;
+
+        if (sqrDistToCurrentTarget > 1.0f)
+        {
+            navMesh.speed = Speed;
+            navMesh.SetDestination(target);
+        }
+    }
+
     public override void TakeDamaged(float damage)
     {
         base.TakeDamaged(damage);

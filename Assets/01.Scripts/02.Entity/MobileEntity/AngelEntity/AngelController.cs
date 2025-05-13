@@ -67,7 +67,8 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
                 // 2. 공격 대기 상태 체크
                 new Sequence(
                     new Condition(() => WaitAttackTime),
-                    new BehaviorAction(() => {
+                    new BehaviorAction(() =>
+                    {
                         if (attackTime)
                         {
                             if (IsInRange(Entity.Model.Range.Value))
@@ -91,8 +92,19 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
                 // 4. 공격 범위 내 체크
                 new Sequence(
                     new IsEnemyInRangeCondition(Entity, player?.transform, Entity.Model.Range.Value),
-                    new BehaviorAction(() => {
+                    new BehaviorAction(() =>
+                    {
                         IsAttack = true;
+
+                        if (Entity.Model.AtkType == AtkType.dasher)
+                        {
+                            transform.LookAt(player.transform);
+                            Entity.DeshTo(player.transform.position, (Entity.Model.MoveSpeed.Value) * 100);
+                            WaitAttackTime = true;
+                            OnAttackAnimEvent(GetClipLength("Attack") + 2f);
+                            return NodeStatus.Success;
+                        }
+
                         transform.LookAt(player.transform);
                         Entity.StopMove();
                         WaitAttackTime = true;
