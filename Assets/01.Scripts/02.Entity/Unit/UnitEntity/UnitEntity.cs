@@ -12,7 +12,12 @@ public class UnitEntity : BaseEntity<UnitModel>
 
     private Collider[] colliders = new Collider[10];
 
-    private Transform curTarget;
+    public Transform? curTarget;
+
+    public Transform? GetCurrentTarget()
+    {
+        return curTarget;
+    }
 
     protected override void SetupModel()
     {

@@ -94,8 +94,16 @@ public class UnitSkillComponent : UnitPart, ISkillUser
             return;
         }
 
-        // 스킬 실행
-        skill.Execute(this);
+        Transform target = Entity.GetCurrentTarget();
+
+        if (skill is ITargetedSkill targetedSkill && target != null)
+        {
+            targetedSkill.ExecuteWithTarget(this, target);
+        }
+        else
+        {
+            skill.Execute(this);
+        }
 
         // 쿨다운 설정
         cooldownRemaining = skill.cooldown;
