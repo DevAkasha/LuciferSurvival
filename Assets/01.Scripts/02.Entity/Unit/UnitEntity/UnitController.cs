@@ -20,7 +20,7 @@ public class UnitController: BaseController<UnitEntity,UnitModel>
         }
         else if(state == eUnitState.Attack)
         {
-            if (attackDelay >= (1f / Entity.Model.atkSpeed))
+            if (attackDelay >= (1f / Entity.Model.atkCoolTime))
             {
                 Entity.AttackEnemy();
                 attackDelay = 0f;

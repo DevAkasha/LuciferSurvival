@@ -5,7 +5,7 @@ using UnityEngine;
 public class UnionTableList : MonoBehaviour
 {
     [SerializeField]
-    private GameObject unionCardPrefab;
+    private UnionCard unionCardPrefab;
 
     [SerializeField]
     private Transform listTransform;
@@ -15,13 +15,13 @@ public class UnionTableList : MonoBehaviour
     private void OnEnable()
     {
         unionTables = DataManager.Instance.GetDatas<UnionTableSO>();
-        if (listTransform.GetComponentsInChildren<UnionCard>().Length > 0)
+        if (listTransform.GetComponentsInChildren<UnionCard>().Length == 0)
         {
-            //이미 값이 있는경우
-        }
-        else
-        {
-            
+            for (int i = 0; i < unionTables.Count; i++)
+            {
+                UnionCard card = Instantiate(unionCardPrefab, listTransform);
+                card.SetUnionModel(unionTables[i].rcode);
+            }
         }
     }
 

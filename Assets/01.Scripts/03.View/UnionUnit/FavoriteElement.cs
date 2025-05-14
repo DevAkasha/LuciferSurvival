@@ -12,16 +12,16 @@ public class FavoriteElement : MonoBehaviour
     [SerializeField]
     private Sprite offSprite;
 
-    private bool favoriteStatus = false;
+    private bool isFavorite = false;
 
     public bool Favorite
     {
-        get { return favoriteStatus; }
+        get { return isFavorite; }
     }
 
     public void TriggerFavoriteStatus()
     {
-        favoriteStatus = !favoriteStatus;
-        icon.sprite = favoriteStatus ? onSprite : offSprite;
+        isFavorite = !isFavorite;
+        icon.sprite = isFavorite ? onSprite : offSprite;
     }
 }
