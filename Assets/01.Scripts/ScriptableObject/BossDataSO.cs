@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BossDataSO : BaseDataSO
 {
-    public int idx;
     public float moveSpeed;
     public float health;
     public float atk;
