@@ -21,5 +21,9 @@ public class WaveDataSO : BaseDataSO
 
     public string enemy4rcode;
     public int enemy4Count;
-    public float enemy4Sec;
+    public float enemy4Sec; 
+    
+    public string bossrcode;
+    public int bossCount;
+    public float bossDelaySec;
 }

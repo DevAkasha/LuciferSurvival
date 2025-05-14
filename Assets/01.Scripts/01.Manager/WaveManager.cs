@@ -12,6 +12,11 @@ public class WaveManager : Singleton<WaveManager>
 
     public WaveDataSO WaveData;
 
+    private void Start()
+    {
+        SetWave("WAVE0001");
+    }
+
     public void SetWave(string getRcode)
     {
         rcode = getRcode;
@@ -25,9 +30,9 @@ public class WaveManager : Singleton<WaveManager>
         if (WaveData == null)
             return;
 
-        string[] spawnRcode = { WaveData.enemy1rcode, WaveData.enemy2rcode, WaveData.enemy3rcode, WaveData.enemy4rcode };
-        float[] spawnDelays = { WaveData.enemy1Sec, WaveData.enemy2Sec, WaveData.enemy3Sec, WaveData.enemy4Sec };
-        int[] spawnCounts = { WaveData.enemy1Count, WaveData.enemy2Count, WaveData.enemy3Count, WaveData.enemy4Count };
+        string[] spawnRcode = { WaveData.enemy1rcode, WaveData.enemy2rcode, WaveData.enemy3rcode, WaveData.enemy4rcode, WaveData.bossrcode };
+        float[] spawnDelays = { WaveData.enemy1Sec, WaveData.enemy2Sec, WaveData.enemy3Sec, WaveData.enemy4Sec, WaveData.bossDelaySec };
+        int[] spawnCounts = { WaveData.enemy1Count, WaveData.enemy2Count, WaveData.enemy3Count, WaveData.enemy4Count, WaveData.bossCount };
 
         for (int i = 0; i < spawnDelays.Length; i++)
         {
@@ -40,8 +45,11 @@ public class WaveManager : Singleton<WaveManager>
     {
         for (int i = 0; i < count; i++)
         {
-            SpawnManager.Instance.EnemySpawn(rcode);
+            if (rcode == null)
+                return;
+
             await UniTask.Delay(TimeSpan.FromSeconds(delay), DelayType.DeltaTime, PlayerLoopTiming.Update);
+            SpawnManager.Instance.EnemySpawn(rcode);
         }
     }
 
@@ -84,9 +92,9 @@ public class WaveSeter : Editor
             {
                 ((WaveManager)target).SetWave("WAVE0001");
             }
-            if (GUILayout.Button("WAVE0004 초기화"))
+            if (GUILayout.Button("WAVE0005 초기화"))
             {
-                ((WaveManager)target).SetWave("WAVE0004");
+                ((WaveManager)target).SetWave("WAVE0005");
             }
             if (GUILayout.Button("웨이브 시작"))
             {

@@ -173,9 +173,11 @@ GameObject:
   - component: {fileID: 7559429107033972396}
   - component: {fileID: 3210702826217001144}
   - component: {fileID: 3974270798249946378}
+  - component: {fileID: 10861112511971253}
   - component: {fileID: 6564937081725769909}
   - component: {fileID: 4987724745762102699}
   - component: {fileID: 7868430529771463299}
+  - component: {fileID: 5531194215996025948}
   m_Layer: 3
   m_Name: Lucifer
   m_TagString: Player
@@ -297,6 +299,19 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &10861112511971253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7242157551745410787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0656ecd42004ced49a614e92f0932d02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitSlots: {fileID: 517016019411715492}
 --- !u!114 &6564937081725769909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,6 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f78f4ff152f37642b51b2e7af404044, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnableLifecycle: 1
   entity: {fileID: 0}
   animator: {fileID: 2342665960039391520}
   unitSlots: {fileID: 517016019411715492}
@@ -356,6 +372,24 @@ MonoBehaviour:
   BarrierCount: 0
   isStopMove: 0
   moveInput: {x: 0, y: 0}
+--- !u!114 &5531194215996025948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7242157551745410787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6048ec06f09e94d8d5e1905ea658af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionRadius: 3
+  interactableLayers:
+    serializedVersion: 2
+    m_Bits: 768
+  interactionKey: 101
+  interactionPromptUI: {fileID: 0}
 --- !u!1 &8125330268357453833
 GameObject:
   m_ObjectHideFlags: 0

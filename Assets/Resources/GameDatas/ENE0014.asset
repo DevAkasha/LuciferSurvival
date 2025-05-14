@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: ENE0014
   m_EditorClassIdentifier: 
   thumbnail: {fileID: 0}
-  idx: 100014
   rcode: ENE0014
   displayName: "\uAC80\uC815\uC18C"
   description: 
-  atk: 40
+  idx: 100014
+  atkType: 3
+  atk: 30
   moveSpeed: 4
   health: 400
   atkRange: 4
+  coolTime: 0.5

@@ -1,7 +1,9 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
+using UnityEditor.Animations;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class AngelController : MobileController<AngelEntity, AngelModel>
 {
@@ -13,6 +15,7 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
     private PlayerController player;
     private CancellationTokenSource behaviorCts;
     private BehaviorTree behaviorTree;
+    [SerializeField] private Projectile projectile;
 
     private bool IsDontAct => Entity.Model.Flags.AnyActive(PlayerStateFlag.Fall, PlayerStateFlag.Knockback, PlayerStateFlag.Stun, PlayerStateFlag.Death);
     private bool IsCastable => false;   //todo.캐스트 가능성 판단 추가해야 함
@@ -64,7 +67,8 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
                 // 2. 공격 대기 상태 체크
                 new Sequence(
                     new Condition(() => WaitAttackTime),
-                    new BehaviorAction(() => {
+                    new BehaviorAction(() =>
+                    {
                         if (attackTime)
                         {
                             if (IsInRange(Entity.Model.Range.Value))
@@ -88,12 +92,23 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
                 // 4. 공격 범위 내 체크
                 new Sequence(
                     new IsEnemyInRangeCondition(Entity, player?.transform, Entity.Model.Range.Value),
-                    new BehaviorAction(() => {
+                    new BehaviorAction(() =>
+                    {
                         IsAttack = true;
+
+                        if (Entity.Model.AtkType == AtkType.dasher)
+                        {
+                            transform.LookAt(player.transform);
+                            Entity.DeshTo(player.transform.position, (Entity.Model.MoveSpeed.Value) * 100);
+                            WaitAttackTime = true;
+                            OnAttackAnimEvent(GetClipLength("Attack") + 2f);
+                            return NodeStatus.Success;
+                        }
+
                         transform.LookAt(player.transform);
                         Entity.StopMove();
                         WaitAttackTime = true;
-                        OnAttackAnimEvent();
+                        OnAttackAnimEvent(GetClipLength("Attack"));
                         return NodeStatus.Success;
                     })
                 ),
@@ -112,7 +127,7 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
 
     private void Update()
     {
-        Entity.TakeDamaged(1f);
+        //Entity.TakeDamaged(1f);
     }
 
     protected override void AtDisable()
@@ -163,11 +178,36 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         return (transform.position - player.transform.position).sqrMagnitude < sqrRange;
     }
 
-    public async void OnAttackAnimEvent()
+    public async void OnAttackAnimEvent(float animaitionTime)
     {
         //애니메이션 이벤트 대신 0.5초 대기
-        await UniTask.Delay(TimeSpan.FromSeconds(0.5f), DelayType.DeltaTime, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
+        await UniTask.Delay(TimeSpan.FromSeconds(animaitionTime), DelayType.DeltaTime, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
         attackTime = true;
+    }
+
+    public void LongRangeAttack()
+    {
+        Projectile bullet = Instantiate(projectile, transform.position, Quaternion.identity);
+        bullet.Init(3f, 1, Entity.Model.Atk.Value, player.transform);
+    }
+
+    public float GetClipLength(string clipName)
+    {
+        var controller = animator.runtimeAnimatorController as AnimatorController;
+        if (controller == null) return 0f;
+
+        foreach (var layer in controller.layers)
+        {
+            foreach (var state in layer.stateMachine.states)
+            {
+                if (state.state.name == clipName)
+                {
+                    var clip = state.state.motion as AnimationClip;
+                    return clip != null ? clip.length : 0f;
+                }
+            }
+        }
+        return 0f;
     }
 
     private void OnDrawGizmosSelected()

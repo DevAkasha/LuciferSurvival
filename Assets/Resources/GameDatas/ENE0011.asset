@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: ENE0011
   m_EditorClassIdentifier: 
   thumbnail: {fileID: 0}
-  idx: 100011
   rcode: ENE0011
   displayName: "\uD770\uB0A0\uAC1C"
   description: 
+  idx: 100011
+  atkType: 1
   atk: 30
   moveSpeed: 2
   health: 1200
   atkRange: 4
+  coolTime: 2

@@ -175,10 +175,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eeca04890a81ac4b9bdda055b63a323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnableLifecycle: 1
   entity: {fileID: 0}
   animator: {fileID: 0}
   waitAttackTime: 0
   attackTime: 0
+  projectile: {fileID: 2275484749694511227, guid: 4e54ca552fc54814db3b9cd65a44ec3b,
+    type: 3}
 --- !u!114 &4735884169122801822
 MonoBehaviour:
   m_ObjectHideFlags: 0

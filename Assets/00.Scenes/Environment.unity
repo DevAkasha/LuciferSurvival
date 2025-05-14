@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028301, g: 0.22571309, b: 0.30692127, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -405,6 +405,66 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &668653940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 668653941}
+  - component: {fileID: 668653942}
+  m_Layer: 0
+  m_Name: RewardManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &668653941
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668653940}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &668653942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668653940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 801b8bf608d40f2458f9f797fd81a03b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  farmingDataList:
+  - {fileID: 11400000, guid: efebf80eaac748348819571f8acc6eeb, type: 2}
+  - {fileID: 11400000, guid: 92e9e71686d94e04aa3a86a1c9e9b517, type: 2}
+  - {fileID: 11400000, guid: 4d6b10d67ac6d9b4d87623ccfe978935, type: 2}
+  - {fileID: 11400000, guid: b7bd98877e072424db0cd6a3c06d8e53, type: 2}
+  - {fileID: 11400000, guid: bd0494899cbd9eb46a29d51a94f549c4, type: 2}
+  - {fileID: 11400000, guid: b1247bf8da3b01d4f98adab0fca0aa23, type: 2}
+  - {fileID: 11400000, guid: daeb2d1c31a5efc40b9166cb6ea5d2d7, type: 2}
+  - {fileID: 11400000, guid: a1052065d8c72eb40a2d2be206397ace, type: 2}
+  - {fileID: 11400000, guid: b500740efa7181e46ada3ad1b7301e62, type: 2}
+  - {fileID: 11400000, guid: d49a06ae410ec194e8a82f511e7798f0, type: 2}
+  - {fileID: 11400000, guid: b439c66aa37dc9e43be2f87edd5ed500, type: 2}
+  - {fileID: 11400000, guid: fd6393040ac7bd3499a66ec8286876b8, type: 2}
+  - {fileID: 11400000, guid: fea71e5ad5f44914c89cdca1fc6a4330, type: 2}
+  - {fileID: 11400000, guid: ed14def34abc59e45809cb670973cf3b, type: 2}
+  - {fileID: 11400000, guid: 199363fbf9db674409a7532ac0156f84, type: 2}
 --- !u!1 &745459427
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,8 +629,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7242157551745410787, guid: 67f61368aade54c44891d1f64130799f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 863377991}
   m_SourcePrefab: {fileID: 100100000, guid: 67f61368aade54c44891d1f64130799f, type: 3}
+--- !u!1 &863377990 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7242157551745410787, guid: 67f61368aade54c44891d1f64130799f,
+    type: 3}
+  m_PrefabInstance: {fileID: 863377989}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &863377991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863377990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6048ec06f09e94d8d5e1905ea658af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionRadius: 3
+  interactableLayers:
+    serializedVersion: 2
+    m_Bits: 768
+  interactionKey: 101
+  interactionPromptUI: {fileID: 0}
 --- !u!1 &1016419883
 GameObject:
   m_ObjectHideFlags: 0
@@ -1316,3 +1404,4 @@ SceneRoots:
   - {fileID: 1847777275}
   - {fileID: 1991441222}
   - {fileID: 863377989}
+  - {fileID: 668653941}

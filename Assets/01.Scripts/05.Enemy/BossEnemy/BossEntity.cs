@@ -5,12 +5,13 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BossEntity : MobileEntity<BossModel>
+public class BossEntity : MobileEntity<BossModel>, ISkillTarget
 {
     [SerializeField] private string rcode;
 
     [SerializeField] private NavMeshAgent navMesh;
     [SerializeField] private Rigidbody rigid;
+    [SerializeField] private Projectile projectile;
     public Transform headPivot;
 
     #region ProxyProperty
@@ -151,4 +152,46 @@ public class BossEntity : MobileEntity<BossModel>
         WaveManager.Instance.KillCountCheck();
         PoolManager.Instance.Release(this);
     }
+
+    public Transform GetTransform()
+    {
+        return transform;
+    }
+
+    public void ApplyStatusEffect(StatusEffectType effectType, float duration, float power)
+    {
+        switch (effectType)
+        {
+            case StatusEffectType.Slow:
+                // 슬로우 효과
+                var slowEffect = EffectManager.Instance.GetModifierEffect(EffectId.Slow);
+                if (slowEffect != null)
+                {
+                    new EffectApplier(slowEffect).AddTarget(this).Apply();
+                }
+                break;
+
+            case StatusEffectType.Knockback:
+                // 넉백 효과
+                OnKnockBack(power, transform.position - transform.forward);
+                break;
+
+            case StatusEffectType.Stun:
+                // 스턴 효과
+                OnStun(duration);
+                break;
+
+            case StatusEffectType.Confusion:
+                // 혼란 효과
+                OnConfuse(duration);
+                break;
+
+            case StatusEffectType.Airborne:
+                // 에어본 효과
+                OnStun(duration);
+                OnKnockBack(power, transform.position + Vector3.up * 3);
+                break;
+        }
+    }
 }
+
