@@ -13,23 +13,23 @@ MonoBehaviour:
   m_Name: WAVE0035
   m_EditorClassIdentifier: 
   thumbnail: {fileID: 0}
+  idx: 600020
   rcode: WAVE0035
   displayName: 
   description: 
-  idx: 600020
   Stage: 4
-  enemy1rcode: ENE0013
+  enemy1rcode: ENE0016
   enemy1Count: 100
   enemy1Sec: 0.5
-  enemy2rcode: ENE0014
+  enemy2rcode: ENE0003
   enemy2Count: 10
   enemy2Sec: 3
-  enemy3rcode: ENE0015
+  enemy3rcode: ENE0005
   enemy3Count: 5
   enemy3Sec: 6
   enemy4rcode: ENE0016
-  enemy4Count: 3
-  enemy4Sec: 10
+  enemy4Count: -1
+  enemy4Sec: -1
   bossrcode: BOSS0001
   bossCount: 1
   bossDelaySec: 15
