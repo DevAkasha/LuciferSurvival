@@ -14,16 +14,22 @@ public class UnionTableList : MonoBehaviour
 
     private void OnEnable()
     {
-        unionTables = DataManager.Instance.GetDatas<UnionTableSO>();
-        if (listTransform.GetComponentsInChildren<UnionCard>().Length == 0)
-        {
-            for (int i = 0; i < unionTables.Count; i++)
-            {
-                UnionCard card = Instantiate(unionCardPrefab, listTransform);
-                card.SetUnionModel(unionTables[i].rcode);
-            }
-        }
+        RefreshList();
     }
 
+    public void RefreshList()
+    {
+        foreach (Transform child in listTransform)
+            Destroy(child.gameObject);
 
+        unionTables = DataManager.Instance.GetDatas<UnionTableSO>();
+
+        for (int i = 0; i < unionTables.Count; i++)
+        {
+            var table = unionTables[i];
+            UnionCard card = Instantiate(unionCardPrefab, listTransform);
+            card.SetUnionData(table.rcode);
+            card.SetCompletionRate(StageManager.Instance.CalculateCompletionRate(table));
+        }
+    }
 }
