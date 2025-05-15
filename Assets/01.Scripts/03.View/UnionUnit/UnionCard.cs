@@ -16,24 +16,15 @@ public class UnionCard : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI completionRateText;
 
-    private float completionRate;
-
-    private UnitModel unitModel;
-
     private UnionTableSO unionData;
 
-    public void SetUnionModel(string rcode)
+    public void SetUnionData(string rcode)
     {
         unionData = DataManager.Instance.GetData<UnionTableSO>(rcode);
-        unitModel = new UnitModel(DataManager.Instance.GetData<UnitDataSO>(unionData.unitRcode));
     }
 
-    public void SetDetailCard()
-    {
-
-    }
-
-    public void SetCompletionRate()
+    //조합률 표시(유닛 이름과 위치가 겹쳐 둘중 하나만 사용할 필요가 있음)
+    public void SetCompletionRate(int completionRate)
     {
         if (completionRateText != null)
         {
@@ -41,6 +32,7 @@ public class UnionCard : MonoBehaviour
         }
     }
 
+    //유닛 이름 표시(조합률과 위치가 겹쳐 둘중 하나만 사용할 필요가 있음)
     public void SetUnitName(string name)
     {
         if (unitName != null)
