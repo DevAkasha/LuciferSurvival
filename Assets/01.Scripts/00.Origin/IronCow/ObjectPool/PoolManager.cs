@@ -7,13 +7,13 @@ public class PoolManager : Singleton<PoolManager>
     Dictionary<string, Queue<ObjectPoolBase>> pools = new Dictionary<string, Queue<ObjectPoolBase>>();
     public bool isInit = false;
 
-    public void Init()
+    public void Init(string resourceType)
     {
         SheetsInfo();
 
         foreach (var data in sheets) 
         {
-            data.prefab = ResourceManager.Instance.LoadAsset<ObjectPoolBase>(data.prefabName, ResourceType.Enemy);//Resources폴더의 바로 하위에 가져올 폴더를 생성해야한다.
+            data.prefab = ResourceManager.Instance.LoadAsset<ObjectPoolBase>(data.prefabName, resourceType);//Resources폴더의 바로 하위에 가져올 폴더를 생성해야한다.
             data.parent = new GameObject(data.prefabName + "parent").transform;
             data.parent.position = transform.position;
             data.parent.parent = transform;
