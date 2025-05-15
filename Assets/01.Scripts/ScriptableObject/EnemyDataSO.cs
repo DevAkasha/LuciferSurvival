@@ -14,7 +14,7 @@ public enum EnemyType
 [CreateAssetMenu(fileName = "EnemyDataSO", menuName = "ScriptableObjects/EnemyDataSO")]
 public class EnemyDataSO : BaseDataSO
 {
-    public int idx;
+
     public EnemyType enemyType;
     public float atk;
     public float moveSpeed;

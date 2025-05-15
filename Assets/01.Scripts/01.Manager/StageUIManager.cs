@@ -21,7 +21,11 @@ public class StageUIManager : Singleton<StageUIManager>
 
     public UnitManageUI unitManageUI;
 
+    private HashSet<string> unionFavoriteSet = new HashSet<string>();
+
     public UnitInfo UnitInfo { get { return unitInfo; } }
+
+    public HashSet<string> UnionFavoriteSet { get { return unionFavoriteSet; } }
 
     protected override void Awake()
     {

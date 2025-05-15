@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67f10056fd11af24b8f234951993a59c, type: 3}
   m_Name: UNIT0003
   m_EditorClassIdentifier: 
-  thumbnail: {fileID: 21300000, guid: 16360759e2578420b825206ef0938f92, type: 3}
+  thumbnail: {fileID: 0}
+  idx: 300003
   rcode: UNIT0003
   displayName: "\uADF8\uB9BC\uC790 \uCD94\uC801\uC790"
   description: "\uD558\uB298\uC744 \uCC22\uACE0 \uB0A0\uC544\uB4DC\uB294 \uCC3D.
     \uC9C1\uC120\uC0C1\uC758 \uC801\uC744 \uAFF0\uB6AB\uC5B4 \uC9C0\uB098\uAC11\uB2C8\uB2E4"
-  idx: 300003
+  skillName: 
   range: 10
   atk: 50
-  atkSpeed: 1
+  atkSpeed: 0
   criticalDamage: 150
   criticalChance: 5
   cost: 3
   grade: 1
+  atkRange: 0
