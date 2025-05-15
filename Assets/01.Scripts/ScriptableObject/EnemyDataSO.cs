@@ -2,19 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AtkType
+public enum EnemyType
 {
     standard,
     tank,
     dasher,
     rusher,
-    shooter
+    shooter,
+    boss
 }
 [CreateAssetMenu(fileName = "EnemyDataSO", menuName = "ScriptableObjects/EnemyDataSO")]
 public class EnemyDataSO : BaseDataSO
 {
     public int idx;
-    public AtkType atkType;
+    public EnemyType enemyType;
     public float atk;
     public float moveSpeed;
     public float health;

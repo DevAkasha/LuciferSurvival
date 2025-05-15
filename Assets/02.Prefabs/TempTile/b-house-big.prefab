@@ -125,7 +125,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 4.7720003, y: 5.018, z: 3.7640002}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.0050000004, y: 5.018, z: 0.19700001}
   m_TimeToStationary: 0.5
@@ -147,5 +147,8 @@ MonoBehaviour:
   emissionColorProperty: _EmissionColor
   emissionIntensity: 2
   resourceRenderer: {fileID: 0}
-  newBaseMapTexture: {fileID: 10916, guid: 0000000000000000f000000000000000, type: 0}
+  grayTexture: {fileID: 0}
   isGathered: 0
+  gatheredColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  focusColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  OrigenColor: []

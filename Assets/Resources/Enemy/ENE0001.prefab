@@ -179,7 +179,7 @@ MonoBehaviour:
   entity: {fileID: 0}
   animator: {fileID: 0}
   waitAttackTime: 0
-  attackTime: 0
+  attackTime: 1
   projectile: {fileID: 2275484749694511227, guid: 4e54ca552fc54814db3b9cd65a44ec3b,
     type: 3}
 --- !u!114 &4735884169122801822
@@ -198,6 +198,7 @@ MonoBehaviour:
   navMesh: {fileID: 0}
   rigid: {fileID: 0}
   headPivot: {fileID: 2974946496923121064}
+  AttackCoolTime: 0
 --- !u!1 &1205543110585070514
 GameObject:
   m_ObjectHideFlags: 0

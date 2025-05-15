@@ -94,22 +94,26 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
                     new IsEnemyInRangeCondition(Entity, player?.transform, Entity.Model.Range.Value),
                     new BehaviorAction(() =>
                     {
-                        IsAttack = true;
-
-                        if (Entity.Model.AtkType == AtkType.dasher)
+                        if (Entity.AttackCoolTime)
                         {
+                            IsAttack = true;
+
+                            if (Entity.Model.EnemyType == EnemyType.dasher)
+                            {
+                                transform.LookAt(player.transform);
+                                UniTaskVoid uniTaskVoid = Entity.DeshTo(player.transform.position);
+                                WaitAttackTime = true;
+                                OnAttackAnimEvent(GetClipLength("Attack") + 1.5f);
+                                return NodeStatus.Success;
+                            }
+
                             transform.LookAt(player.transform);
-                            Entity.DeshTo(player.transform.position, (Entity.Model.MoveSpeed.Value) * 100);
+                            Entity.StopMove();
                             WaitAttackTime = true;
-                            OnAttackAnimEvent(GetClipLength("Attack") + 2f);
+                            OnAttackAnimEvent(GetClipLength("Attack"));
                             return NodeStatus.Success;
                         }
-
-                        transform.LookAt(player.transform);
-                        Entity.StopMove();
-                        WaitAttackTime = true;
-                        OnAttackAnimEvent(GetClipLength("Attack"));
-                        return NodeStatus.Success;
+                        return NodeStatus.Running;
                     })
                 ),
 
@@ -180,7 +184,7 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
 
     public async void OnAttackAnimEvent(float animaitionTime)
     {
-        //애니메이션 이벤트 대신 0.5초 대기
+        //애니메이션 이벤트 대신 animaitionTime만큼 대기
         await UniTask.Delay(TimeSpan.FromSeconds(animaitionTime), DelayType.DeltaTime, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
         attackTime = true;
     }
