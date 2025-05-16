@@ -157,7 +157,7 @@ public class BossEntity : MobileEntity<BossModel>, ISkillTarget
     {
         return transform;
     }
-    public AtkType GetAtkType()
+    public EnemyType GetEnemyType()
     {
         return Model.atkType;
     }

@@ -34,7 +34,7 @@ public class BossModel : BaseModel
     public RxModFloat Skill3CT;
 
     public RxVar<float> NormalizedHP;
-    public AtkType atkType = AtkType.boss;
+    public EnemyType atkType = EnemyType.boss;
     public RxStateFlagSet<PlayerStateFlag> Flags;
     public FSM<BossState> State;
 

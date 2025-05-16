@@ -6,14 +6,14 @@ public class RapidFireController : MonoBehaviour
 {
     private Transform userTransform;
     private Transform targetTransform;
-    private AtkType tagetType = AtkType.none;
+    private EnemyType tagetType = EnemyType.none;
     private float damage;
     private int shotCount;
     private float fireInterval;
     private int currentShot = 0;
     private float timer = 0f;
     
-    public void InitializeWithTarget(Transform userTransform, Transform targetTransform, float damage, int shotCount, float fireInterval, AtkType tagetType)
+    public void InitializeWithTarget(Transform userTransform, Transform targetTransform, float damage, int shotCount, float fireInterval, EnemyType tagetType)
     {
         this.userTransform = userTransform;
         this.targetTransform = targetTransform;

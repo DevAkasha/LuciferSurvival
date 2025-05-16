@@ -7,7 +7,7 @@ public class PenetrationProjectile : SkillProjectile
     private int currentPenetrations = 0;
     private HashSet<Collider> hitColliders = new HashSet<Collider>();
 
-    public void Initialize(float damage, float speed, int penetrationCount, bool usePriority, AtkType targetPriority = AtkType.standard)
+    public void Initialize(float damage, float speed, int penetrationCount, bool usePriority, EnemyType targetPriority = EnemyType.standard)
     {
         base.Initialize(damage, speed, usePriority, targetPriority);
         this.penetrationCount = penetrationCount;

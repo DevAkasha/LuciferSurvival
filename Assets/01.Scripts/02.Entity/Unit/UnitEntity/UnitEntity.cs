@@ -13,7 +13,7 @@ public class UnitEntity : BaseEntity<UnitModel>
     private Collider[] colliders = new Collider[10];
 
     public Transform? curTarget;
-    public AtkType curTargetType;
+    public EnemyType curTargetType;
 
     protected override void SetupModel()
     {
@@ -26,7 +26,7 @@ public class UnitEntity : BaseEntity<UnitModel>
         int count = 0;
         float closestDist = float.MaxValue;
         Transform closest = null;
-        AtkType closestType = AtkType.none;
+        EnemyType closestType = EnemyType.none;
 
         // 현재 타겟 유효성 체크
         if (curTarget != null)
@@ -35,7 +35,7 @@ public class UnitEntity : BaseEntity<UnitModel>
             if (sqrDist < Model.range * Model.range) return;
 
             curTarget = null; // 범위 벗어남 → 무효 처리
-            curTargetType = AtkType.none;
+            curTargetType = EnemyType.none;
         }
 
         // 실제 탐색
@@ -49,7 +49,7 @@ public class UnitEntity : BaseEntity<UnitModel>
         if (count == 0)
         {
             curTarget = null;
-            curTargetType = AtkType.none;
+            curTargetType = EnemyType.none;
             return;
         }
 
@@ -68,19 +68,19 @@ public class UnitEntity : BaseEntity<UnitModel>
             // 우선순위 기반 타겟팅 사용 시
             if (usePriority)
             {
-                // 적의 AtkType 가져오기
+                // 적의 EnemyType 가져오기
                 AngelEntity angelEnemy = col.GetComponent<AngelEntity>();
                 BossEntity bossEnemy = col.GetComponent<BossEntity>();
 
-                AtkType enemyType = AtkType.standard; // 기본값
+                EnemyType enemyType = EnemyType.standard; // 기본값
 
                 if (angelEnemy != null && angelEnemy.Model != null)
                 {
-                    enemyType = angelEnemy.Model.atkType;
+                    enemyType = angelEnemy.Model.EnemyType;
                 }
                 else if (bossEnemy != null)
                 {
-                    enemyType = AtkType.boss; // 보스는 항상 보스 타입
+                    enemyType = EnemyType.boss; // 보스는 항상 보스 타입
                 }
 
                 int enemyPriority = EnemyPrioritySystem.GetPriority(enemyType);

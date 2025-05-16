@@ -193,7 +193,7 @@ public class SkyLanceSkill : TargetedSkill
         damage = 35000f;
     }
 
-    public override void ExecuteWithTarget(ISkillUser user, Transform target, AtkType targetType)
+    public override void ExecuteWithTarget(ISkillUser user, Transform target, EnemyType targetType)
     {
         if (user == null || target == null) return;
 
@@ -243,7 +243,7 @@ public class OrbitOfRuinSkill : TargetedSkill
         damage = 150000f;
     }
 
-    public override void ExecuteWithTarget(ISkillUser user, Transform target, AtkType targetType)
+    public override void ExecuteWithTarget(ISkillUser user, Transform target, EnemyType targetType)
     {
         if (user == null || target == null) return;
 
@@ -302,7 +302,7 @@ public class InfernalVolleySkill : TargetedSkill
         damage = 100000f;
     }
 
-    public override void ExecuteWithTarget(ISkillUser user, Transform target, AtkType targetType)
+    public override void ExecuteWithTarget(ISkillUser user, Transform target, EnemyType targetType)
     {
         if (user == null) return;
 
@@ -345,7 +345,7 @@ public class HellsnareSkill : TargetedSkill
         damage = 20000f;
     }
 
-    public override void ExecuteWithTarget(ISkillUser user, Transform target, AtkType targetType)
+    public override void ExecuteWithTarget(ISkillUser user, Transform target, EnemyType targetType)
     {
         if (user == null || target == null) return;
 

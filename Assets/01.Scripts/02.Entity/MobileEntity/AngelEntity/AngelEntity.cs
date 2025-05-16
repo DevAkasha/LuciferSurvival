@@ -62,9 +62,9 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
     {
         return transform;
     }
-    public AtkType GetAtkType()
+    public EnemyType GetEnemyType()
     {
-        return Model.atkType;
+        return Model.EnemyType;
     }
 
     protected override void SetupModel()

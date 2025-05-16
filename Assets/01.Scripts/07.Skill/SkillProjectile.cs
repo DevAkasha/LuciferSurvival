@@ -14,9 +14,9 @@ public class SkillProjectile : MonoBehaviour
     private float timer = 0f;
 
     protected bool usePriority = false; // 우선순위 적용 여부
-    protected AtkType targetPriority = AtkType.standard; // 대상 우선순위
+    protected EnemyType targetPriority = EnemyType.standard; // 대상 우선순위
 
-    public virtual void Initialize(float damage, float speed, bool usePriority, AtkType targetPriority = AtkType.standard)
+    public virtual void Initialize(float damage, float speed, bool usePriority, EnemyType targetPriority = EnemyType.standard)
     {
         this.damage = damage;
         this.speed = speed;
@@ -30,7 +30,7 @@ public class SkillProjectile : MonoBehaviour
         this.statusDuration = duration;
         this.statusPower = power;
     }
-    public void SetPriorityTargeting(bool respect, AtkType targetType)
+    public void SetPriorityTargeting(bool respect, EnemyType targetType)
     {
         usePriority = respect;
         targetPriority = targetType;
@@ -79,7 +79,7 @@ public class SkillProjectile : MonoBehaviour
         AngelEntity angelEnemy = other.GetComponent<AngelEntity>();
         if (angelEnemy != null && angelEnemy.Model != null)
         {
-            AtkType enemyType = angelEnemy.Model.atkType;
+            EnemyType enemyType = angelEnemy.Model.EnemyType;
             // 투사체의 대상 우선순위보다 적의 우선순위가 높으면 데미지 적용하지 않음
             return EnemyPrioritySystem.HasHigherPriority(enemyType, targetPriority);
         }
@@ -89,7 +89,7 @@ public class SkillProjectile : MonoBehaviour
         if (bossEnemy != null)
         {
             // 보스는 항상 boss 타입으로 간주
-            return EnemyPrioritySystem.HasHigherPriority(AtkType.boss, targetPriority);
+            return EnemyPrioritySystem.HasHigherPriority(EnemyType.boss, targetPriority);
         }
 
         // 타입을 확인할 수 없으면 기본적으로 데미지 적용
