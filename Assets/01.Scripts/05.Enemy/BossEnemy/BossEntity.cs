@@ -159,7 +159,7 @@ public class BossEntity : MobileEntity<BossModel>, ISkillTarget
     }
     public EnemyType GetEnemyType()
     {
-        return Model.atkType;
+        return Model.EnemyType;
     }
     public void ApplyStatusEffect(StatusEffectType effectType, float duration, float power)
     {

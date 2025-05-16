@@ -34,7 +34,7 @@ public class BossModel : BaseModel
     public RxModFloat Skill3CT;
 
     public RxVar<float> NormalizedHP;
-    public EnemyType atkType = EnemyType.boss;
+    public EnemyType EnemyType = EnemyType.boss;
     public RxStateFlagSet<PlayerStateFlag> Flags;
     public FSM<BossState> State;
 
@@ -56,7 +56,7 @@ public class BossModel : BaseModel
         MaxHealth = new(bossDataSO.health, nameof(MaxHealth), this);
         CurHealth = new(MaxHealth.Value, nameof(CurHealth), this);
         NormalizedHP = new(1f, this);
-        //atkType = bossDataSO.atkType; 추가해야함
+        //EnemyType = bossDataSO.atkType; 추가해야함
 
         Action<float> recalc = _ => NormalizedHP.SetValue(CurHealth.Value / MaxHealth.Value, this);
         CurHealth.AddListener(recalc);
