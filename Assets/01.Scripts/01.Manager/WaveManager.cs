@@ -12,11 +12,6 @@ public class WaveManager : Singleton<WaveManager>
 
     public WaveDataSO WaveData;
 
-    private void Start()
-    {
-        SetWave("WAVE0001");
-    }
-
     public void SetWave(string getRcode)
     {
         rcode = getRcode;
