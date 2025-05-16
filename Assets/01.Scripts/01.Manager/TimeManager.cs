@@ -58,6 +58,7 @@ public class TimeManager : Singleton<TimeManager>
 
     private void Start()
     {
+        WaveManager.Instance.SetWave("WAVE0001");
         // 초기값 설정
         nightDuration = defaultNightDuration;
 
@@ -70,15 +71,6 @@ public class TimeManager : Singleton<TimeManager>
         {
             battleScreen.color = Color.clear;
         }
-
-        // 데이터테이블에서 nightTime 값 가져오기 (Start에서는 생략, 첫 웨이브는 기본값 사용)
-        // 실제 웨이브가 시작되면 UpdateNightDurationFromWaveData()가 호출됨
-
-        // 밤->낮 자동 전환 타이머 활성화
-        //if (enableNightTimer)
-        //{
-        //    SetNightTimer();
-        //}
     }
 
     private void OnEnable()
@@ -130,14 +122,12 @@ public class TimeManager : Singleton<TimeManager>
         }
     }
 
-
-
     private void SetNightTimer()
     {
         if (!isNightTimerSet && currentTimeState == TimeState.Night)
         {
             isNightTimerSet = true;
-                Debug.Log($"{WaveManager.Instance.WaveData.nightTime}초 타이머 시작");
+            //Debug.Log($"{WaveManager.Instance.WaveData.nightTime}초 타이머 시작");
             UnityTimer.ScheduleRepeating(WaveManager.Instance.WaveData.nightTime, () =>
             {
                 // 타이머가 완료되면 낮으로 전환
@@ -150,6 +140,9 @@ public class TimeManager : Singleton<TimeManager>
         }
     }
 
+    /// <summary>
+    /// 낮/전투시 효과 - 나중에 BattleScreen쪽으로 분리예정
+    /// </summary>
     private void UpdateBattleScreenState()
     {
         if (battleScreen == null) return;
