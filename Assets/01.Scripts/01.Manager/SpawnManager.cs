@@ -14,7 +14,6 @@ public class SpawnManager : Singleton<SpawnManager>
     {
         target = PlayerManager.Instance.Player.transform;
         mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        PoolManager.Instance.Init(ResourceType.Enemy);
     }
 
     public void EnemySpawn(string rcode)

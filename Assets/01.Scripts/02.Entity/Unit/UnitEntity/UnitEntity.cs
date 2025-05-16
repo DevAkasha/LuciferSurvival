@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 using static UnityEngine.GraphicsBuffer;
 
 public class UnitEntity : BaseEntity<UnitModel>
@@ -138,7 +139,12 @@ public class UnitEntity : BaseEntity<UnitModel>
 
     public void Shoot(Transform target)
     {
-        Projectile bullet = Instantiate(projectile, transform.position, Quaternion.identity);
-        bullet.Init(1f, 1, Model.atk, target);
+        var bullet = PoolManager.Instance.Spawn<ObjectPoolBase>("Projectile", transform.position);
+        var projectile = bullet as Projectile;
+
+        if (projectile != null)
+        {
+            projectile.Init(1f, 1, Model.atk, target);
+        }
     }
 }

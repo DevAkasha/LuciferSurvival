@@ -12,6 +12,7 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         WaveDataSet("STG0001");//테스트 용
+        PoolManager.Instance.Init(ResourceType.Enemy);
     }
 
     public void WaveDataSet(string getRcode)

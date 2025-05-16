@@ -9,7 +9,7 @@ public class PoolManager : Singleton<PoolManager>
 
     public void Init(string resourceType)
     {
-        SheetsInfo();
+        SheetsInfo(resourceType);
 
         foreach (var data in sheets) 
         {
@@ -131,12 +131,12 @@ public class PoolManager : Singleton<PoolManager>
         pools[item.name].Enqueue(item);
     }
 
-    public void SheetsInfo()
+    public void SheetsInfo(string resourceType)
     {
         sheets.Clear();
 
         // Resources/Prefabs 폴더에서 모든 프리팹을 불러오기
-        var prefabs = Resources.LoadAll<GameObject>("Enemy");
+        var prefabs = Resources.LoadAll<GameObject>(resourceType);
 
         foreach (var prefab in prefabs)
         {
