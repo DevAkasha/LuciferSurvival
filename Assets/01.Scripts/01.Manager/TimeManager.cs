@@ -125,9 +125,6 @@ public class TimeManager : Singleton<TimeManager>
             StartLightingTransition();
             UpdateBattleScreenState();
 
-            // 데이터테이블에서 nightTime 값 갱신
-            UpdateNightDurationFromWaveData();
-
             // 밤으로 전환됐으므로 밤->낮 타이머 설정
             if (enableNightTimer)
             {
@@ -136,48 +133,7 @@ public class TimeManager : Singleton<TimeManager>
         }
     }
 
-    /// <summary>
-    /// WaveDataSO에서 현재 스테이지와 웨이브에 맞는 nightTime 값을 가져옴
-    /// </summary>
-    private void UpdateNightDurationFromWaveData()
-    {
-        try
-        {
-            // 현재 웨이브에 맞는 RCODE 생성 (예: "WAVE0001" for Stage 1, Wave 1)
-            string waveRcode = $"WAVE{currentStage:D2}{currentWaveCount + 1:D2}";
-
-            // 만약 해당 RCODE가 없다면, 기본 RCODE로 시도 (WAVE0001)
-            WaveDataSO waveData = DataManager.Instance.GetData<WaveDataSO>(waveRcode);
-
-            if (waveData != null)
-            {
-                nightDuration = waveData.nightTime;
-                Debug.Log($"Night duration set to {nightDuration} seconds from wave data: {waveRcode}");
-            }
-            else
-            {
-                // 첫 번째 웨이브 데이터라도 시도
-                waveData = DataManager.Instance.GetData<WaveDataSO>("WAVE0001");
-                if (waveData != null)
-                {
-                    nightDuration = waveData.nightTime;
-                    Debug.Log($"Using default WAVE0001 data for night duration: {nightDuration} seconds");
-                }
-                else
-                {
-                    // 그래도 실패하면 기본값 사용
-                    nightDuration = defaultNightDuration;
-                    Debug.LogWarning($"Failed to load any wave data, using default night duration: {nightDuration}");
-                }
-            }
-        }
-        catch (System.Exception ex)
-        {
-            // 예외처리: 모든 경우에 기본값 사용
-            nightDuration = defaultNightDuration;
-            Debug.LogError($"Error loading wave data: {ex.Message}. Using default night duration: {nightDuration}");
-        }
-    }
+   
 
     /// <summary>
     /// 전투 종료 처리 메서드 (WaveManager에서 호출)
@@ -205,7 +161,7 @@ public class TimeManager : Singleton<TimeManager>
         if (!isNightTimerSet && currentTimeState == TimeState.Night)
         {
             isNightTimerSet = true;
-            UnityTimer.ScheduleRepeating(nightDuration, () =>
+            UnityTimer.ScheduleRepeating(WaveManager.Instance.WaveData.nightTime, () =>
             {
                 // 타이머가 완료되면 낮으로 전환
                 if (currentTimeState == TimeState.Night)
