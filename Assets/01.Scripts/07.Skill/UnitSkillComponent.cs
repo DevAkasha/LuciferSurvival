@@ -94,11 +94,11 @@ public class UnitSkillComponent : UnitPart, ISkillUser
             return;
         }
 
-        Transform target = Entity.GetCurrentTarget();
+        Transform target = Entity.curTarget;
 
         if (skill is ITargetedSkill targetedSkill && target != null)
         {
-            targetedSkill.ExecuteWithTarget(this, target);
+            targetedSkill.ExecuteWithTarget(this, Entity.curTarget, Entity.curTargetType);
         }
         else
         {

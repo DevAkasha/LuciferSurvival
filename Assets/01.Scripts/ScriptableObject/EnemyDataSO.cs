@@ -8,7 +8,9 @@ public enum AtkType
     tank,
     dasher,
     rusher,
-    shooter
+    shooter,
+    boss,
+    none
 }
 [CreateAssetMenu(fileName = "EnemyDataSO", menuName = "ScriptableObjects/EnemyDataSO")]
 public class EnemyDataSO : BaseDataSO

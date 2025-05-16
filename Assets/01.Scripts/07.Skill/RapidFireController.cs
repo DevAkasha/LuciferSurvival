@@ -6,19 +6,21 @@ public class RapidFireController : MonoBehaviour
 {
     private Transform userTransform;
     private Transform targetTransform;
+    private AtkType tagetType = AtkType.none;
     private float damage;
     private int shotCount;
     private float fireInterval;
     private int currentShot = 0;
     private float timer = 0f;
-
-    public void InitializeWithTarget(Transform userTransform, Transform targetTransform, float damage, int shotCount, float fireInterval)
+    
+    public void InitializeWithTarget(Transform userTransform, Transform targetTransform, float damage, int shotCount, float fireInterval, AtkType tagetType)
     {
         this.userTransform = userTransform;
         this.targetTransform = targetTransform;
         this.damage = damage;
         this.shotCount = shotCount;
         this.fireInterval = fireInterval;
+        this.tagetType = tagetType;
     }
 
     private void Update()
@@ -58,7 +60,7 @@ public class RapidFireController : MonoBehaviour
         SkillProjectile projectile = projectileObj.GetComponent<SkillProjectile>();
         if (projectile != null)
         {
-            projectile.Initialize(damage, 20f);
+            projectile.Initialize(damage, 20f,true, tagetType);
         }
     }
 }

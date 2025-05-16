@@ -248,6 +248,8 @@ MonoBehaviour:
   rcode: UNIT0001
   projectile: {fileID: 1389943806437722062, guid: 067f598eff79008469f3de84a5eca632,
     type: 3}
+  curTarget: {fileID: 0}
+  curTargetType: 0
 --- !u!114 &3157896462308783061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,7 +263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
-  skillId: 1
+  skillId: 5
   useAutoSkill: 1
   detectionRange: 5
 --- !u!1 &2989354334173462115

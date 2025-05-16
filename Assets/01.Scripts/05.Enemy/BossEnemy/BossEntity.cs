@@ -157,7 +157,10 @@ public class BossEntity : MobileEntity<BossModel>, ISkillTarget
     {
         return transform;
     }
-
+    public AtkType GetAtkType()
+    {
+        return Model.atkType;
+    }
     public void ApplyStatusEffect(StatusEffectType effectType, float duration, float power)
     {
         switch (effectType)

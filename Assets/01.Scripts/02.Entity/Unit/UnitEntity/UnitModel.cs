@@ -32,6 +32,7 @@ public class UnitModel : BaseModel
     public int cost;
     public eUnitGrade grade;
     public eUnitState unitState = eUnitState.Stay;
+    public bool usePriorityTargeting = true;
 
     public UnitModel(UnitDataSO unitDataSO)
     {
@@ -47,6 +48,7 @@ public class UnitModel : BaseModel
         criticalChance = unitDataSO.criticalChance;
         cost = unitDataSO.cost;
         grade = unitDataSO.grade;
+        // usePriorityTargeting = unitDataSO.usePriorityTargeting; 우선도 적용여부 bool값 초기화, 추가해야함
     }
 
     public override IEnumerable<IModifiable> GetModifiables()

@@ -6,7 +6,7 @@ using System;
 public class AngelModel : BaseModel
 {
     public int idx;
-    public AtkType AtkType;
+    public AtkType atkType;
 
     public RxModFloat Atk;
     public RxModFloat MoveSpeed;
@@ -22,7 +22,7 @@ public class AngelModel : BaseModel
     public AngelModel(EnemyDataSO enemyDataSO)
     {
         idx = enemyDataSO.idx;
-        AtkType = enemyDataSO.atkType;
+        atkType = enemyDataSO.atkType;
 
         Atk = new(enemyDataSO.atk, nameof(Atk), this);
         MoveSpeed = new(enemyDataSO.moveSpeed, nameof(MoveSpeed), this);

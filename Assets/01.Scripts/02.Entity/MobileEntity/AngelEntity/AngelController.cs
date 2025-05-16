@@ -96,7 +96,7 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
                     {
                         IsAttack = true;
 
-                        if (Entity.Model.AtkType == AtkType.dasher)
+                        if (Entity.Model.atkType == AtkType.dasher)
                         {
                             transform.LookAt(player.transform);
                             Entity.DeshTo(player.transform.position, (Entity.Model.MoveSpeed.Value) * 100);

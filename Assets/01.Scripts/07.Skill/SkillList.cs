@@ -193,7 +193,7 @@ public class SkyLanceSkill : TargetedSkill
         damage = 35000f;
     }
 
-    public override void ExecuteWithTarget(ISkillUser user, Transform target)
+    public override void ExecuteWithTarget(ISkillUser user, Transform target, AtkType targetType)
     {
         if (user == null || target == null) return;
 
@@ -222,7 +222,7 @@ public class SkyLanceSkill : TargetedSkill
             PenetrationProjectile projectile = projectileObj.GetComponent<PenetrationProjectile>();
             if (projectile != null)
             {
-                projectile.Initialize(damage, 20f, penetrationCount);
+                projectile.Initialize(damage, 20f, penetrationCount, false, targetType);
                 projectile.SetStatusEffect(StatusEffectType.Airborne, airborneDuration);
             }
         }
@@ -243,7 +243,7 @@ public class OrbitOfRuinSkill : TargetedSkill
         damage = 150000f;
     }
 
-    public override void ExecuteWithTarget(ISkillUser user, Transform target)
+    public override void ExecuteWithTarget(ISkillUser user, Transform target, AtkType targetType)
     {
         if (user == null || target == null) return;
 
@@ -280,7 +280,7 @@ public class OrbitOfRuinSkill : TargetedSkill
                 SkillProjectile projectile = projectileObj.GetComponent<SkillProjectile>();
                 if (projectile != null)
                 {
-                    projectile.Initialize(damage, 15f);
+                    projectile.Initialize(damage, 15f,true);
                 }
             }
         }
@@ -302,7 +302,7 @@ public class InfernalVolleySkill : TargetedSkill
         damage = 100000f;
     }
 
-    public override void ExecuteWithTarget(ISkillUser user, Transform target)
+    public override void ExecuteWithTarget(ISkillUser user, Transform target, AtkType targetType)
     {
         if (user == null) return;
 
@@ -323,7 +323,7 @@ public class InfernalVolleySkill : TargetedSkill
 
             // 연속 발사 컴포넌트 추가
             RapidFireController rapidFire = rapidFireObj.AddComponent<RapidFireController>();
-            rapidFire.InitializeWithTarget(userTransform, target, damage, shotCount, fireInterval);
+            rapidFire.InitializeWithTarget(userTransform, target, damage, shotCount, fireInterval, targetType);
 
             // 모든 발사 완료 후 객체 제거
             GameObject.Destroy(rapidFireObj, shotCount * fireInterval + 0.5f);
@@ -345,7 +345,7 @@ public class HellsnareSkill : TargetedSkill
         damage = 20000f;
     }
 
-    public override void ExecuteWithTarget(ISkillUser user, Transform target)
+    public override void ExecuteWithTarget(ISkillUser user, Transform target, AtkType targetType)
     {
         if (user == null || target == null) return;
 
@@ -374,7 +374,7 @@ public class HellsnareSkill : TargetedSkill
             SkillProjectile projectile = projectileObj.GetComponent<SkillProjectile>();
             if (projectile != null)
             {
-                projectile.Initialize(damage, 15f);
+                projectile.Initialize(damage, 15f,true, targetType);
                 projectile.SetStatusEffect(StatusEffectType.Stun, stunDuration);
             }
         }

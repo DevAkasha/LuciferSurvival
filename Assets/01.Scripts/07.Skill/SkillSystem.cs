@@ -34,13 +34,14 @@ public interface ISkillUser
 public interface ISkillTarget
 {
     Transform GetTransform();
+    AtkType GetAtkType();
     void TakeDamaged(float damage);
     void ApplyStatusEffect(StatusEffectType effectType, float duration, float power);
 }
 
 public interface ITargetedSkill
 {
-    void ExecuteWithTarget(ISkillUser user, Transform target);
+    void ExecuteWithTarget(ISkillUser user, Transform target, AtkType targetType);
 }
 
 public abstract class Skill
@@ -51,6 +52,9 @@ public abstract class Skill
     public string description { get; protected set; }
     public float cooldown { get; protected set; }
     public float damage { get; protected set; }
+
+    public bool usePriorityTargeting { get; protected set; } = false;
+    public AtkType priorityType { get; protected set; } = AtkType.standard;
 
     public virtual bool RequiresTarget => false;
     
@@ -87,7 +91,7 @@ public abstract class TargetedSkill : Skill, ITargetedSkill
     }
 
     // 타겟과 함께 실행하는 메서드
-    public abstract void ExecuteWithTarget(ISkillUser user, Transform target);
+    public abstract void ExecuteWithTarget(ISkillUser user, Transform target, AtkType targetType);
 }
 
 public static class SkillFactory
