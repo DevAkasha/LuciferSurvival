@@ -26,11 +26,12 @@ public class GameManager : Singleton<GameManager>
     {
         if (gameWave == null)
             return;
+
         if (WaveRound < 0 || WaveRound > gameWave.Count)
             WaveRound = 0;
 
-        TimeManager.Instance.SetNight();
         WaveManager.Instance.SetWave(gameWave[WaveRound]);
+        TimeManager.Instance.SetNight();
     }
 
     public void ExhangeToDay()//낮으로 전환. 웨이브 시작
@@ -45,14 +46,14 @@ public class GameManager : Singleton<GameManager>
 
     public void WaveTheEnd()
     {
-        if(WaveRound < gameWave.Count)
+        if (WaveRound < gameWave.Count)
         {
             ExhangeToNight();
             Debug.Log("다음 웨이브 준비");
         }
         else
         {
-            //
+            Debug.Log("스테이지 클리어!");
         }
     }
 }

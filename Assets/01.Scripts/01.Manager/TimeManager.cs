@@ -62,7 +62,7 @@ public class TimeManager : Singleton<TimeManager>
         nightDuration = defaultNightDuration;
 
         // 시작 초기값은 밤
-        currentTimeState = TimeState.Night;
+        currentTimeState = TimeState.Day;
         ApplyLightingInstant();
 
         // 배틀스크린 초기화
