@@ -34,8 +34,14 @@ public interface ISkillUser
 public interface ISkillTarget
 {
     Transform GetTransform();
+    EnemyType GetEnemyType();
     void TakeDamaged(float damage);
     void ApplyStatusEffect(StatusEffectType effectType, float duration, float power);
+}
+
+public interface ITargetedSkill
+{
+    void ExecuteWithTarget(ISkillUser user, Transform target, EnemyType targetType);
 }
 
 public abstract class Skill
@@ -47,6 +53,11 @@ public abstract class Skill
     public float cooldown { get; protected set; }
     public float damage { get; protected set; }
 
+    public bool usePriorityTargeting { get; protected set; } = false;
+    public EnemyType priorityType { get; protected set; } = EnemyType.standard;
+
+    public virtual bool RequiresTarget => false;
+    
     // 스킬 실행 메서드
     public abstract void Execute(ISkillUser user);
 
@@ -67,6 +78,20 @@ public abstract class Skill
             target.ApplyStatusEffect(effectType, duration, power);
         }
     }
+}
+
+public abstract class TargetedSkill : Skill, ITargetedSkill
+{
+    public override bool RequiresTarget => true;
+
+    // 타겟 없이 실행 시 에러 로그 출력
+    public override void Execute(ISkillUser user)
+    {
+        Debug.LogWarning($"Skill {this.GetType().Name} requires a target!");
+    }
+
+    // 타겟과 함께 실행하는 메서드
+    public abstract void ExecuteWithTarget(ISkillUser user, Transform target, EnemyType targetType);
 }
 
 public static class SkillFactory

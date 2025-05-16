@@ -62,6 +62,10 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
     {
         return transform;
     }
+    public EnemyType GetEnemyType()
+    {
+        return Model.EnemyType;
+    }
 
     protected override void SetupModel()
     {

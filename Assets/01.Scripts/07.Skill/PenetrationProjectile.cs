@@ -7,9 +7,9 @@ public class PenetrationProjectile : SkillProjectile
     private int currentPenetrations = 0;
     private HashSet<Collider> hitColliders = new HashSet<Collider>();
 
-    public void Initialize(float damage, float speed, int penetrationCount)
+    public void Initialize(float damage, float speed, int penetrationCount, bool usePriority, EnemyType targetPriority = EnemyType.standard)
     {
-        base.Initialize(damage, speed);
+        base.Initialize(damage, speed, usePriority, targetPriority);
         this.penetrationCount = penetrationCount;
     }
 
@@ -21,6 +21,12 @@ public class PenetrationProjectile : SkillProjectile
         ISkillTarget target = other.GetComponent<ISkillTarget>();
         if (target != null)
         {
+            // 우선순위 기반 충돌 처리 (옵션)
+            if (usePriority && !ShouldDamageTarget(other))
+            {
+                return; // 우선순위가 더 낮은 대상은 무시
+            }
+
             // 타격 목록에 추가
             hitColliders.Add(other);
 

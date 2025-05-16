@@ -22,6 +22,11 @@ public class ProjectileController : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        projectile.OnRelease();
+    }
+
     void Update()
     {
         ProjectileMove();

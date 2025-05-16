@@ -12,21 +12,13 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         WaveDataSet("STG0001");//테스트 용
+        PoolManager.Instance.Init(ResourceType.Enemy);
     }
 
     public void WaveDataSet(string getRcode)
     {
         StageData = DataManager.Instance.GetData<StageDataSO>(getRcode);
         gameWave.AddRange(new[] { StageData.wave1, StageData.wave2, StageData.wave3, StageData.wave4, StageData.wave5 });
-    }
-
-    public void ExhangeToDay()//낮으로 전환. 웨이브 시작
-    {
-        Debug.Log($"{WaveRound + 1}웨이브 시작");
-        TimeManager.Instance.SetDay();
-        WaveManager.Instance.WaveGenerate();
-
-        WaveRound++;
     }
 
     public void ExhangeToNight()//밤으로 전환, 다음 라운드로 Data 변경
@@ -39,6 +31,16 @@ public class GameManager : Singleton<GameManager>
         TimeManager.Instance.SetNight();
         WaveManager.Instance.SetWave(gameWave[WaveRound]);
     }
+
+    public void ExhangeToDay()//낮으로 전환. 웨이브 시작
+    {
+        Debug.Log($"{WaveRound + 1}웨이브 시작");
+        TimeManager.Instance.SetDay();
+        WaveManager.Instance.WaveGenerate();
+
+        WaveRound++;
+    }
+
 
     public void WaveTheEnd()
     {

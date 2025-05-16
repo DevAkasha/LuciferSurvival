@@ -191,8 +191,13 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
 
     public void LongRangeAttack()
     {
-        Projectile bullet = Instantiate(projectile, transform.position, Quaternion.identity);
-        bullet.Init(3f, 1, Entity.Model.Atk.Value, player.transform);
+        var bullet = PoolManager.Instance.Spawn<ObjectPoolBase>("AttackBody", transform.position);
+        var projectile = bullet as Projectile;
+        
+        if (projectile != null)
+        {
+            projectile.Init(3f, 1, Entity.Model.Atk.Value, player.transform);
+        }
     }
 
     public float GetClipLength(string clipName)
