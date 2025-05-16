@@ -59,7 +59,7 @@ public class WaveManager : Singleton<WaveManager>
 
         if(killCount > EnemyCount())
         {
-            //웨이브 종료 메서드
+            GameManager.Instance.WaveTheEnd();
         }
     }
 
