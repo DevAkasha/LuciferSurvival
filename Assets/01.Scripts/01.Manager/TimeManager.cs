@@ -133,29 +133,6 @@ public class TimeManager : Singleton<TimeManager>
         }
     }
 
-   
-
-    /// <summary>
-    /// 전투 종료 처리 메서드 (WaveManager에서 호출)
-    /// </summary>
-    public void OnBattleCompleted()
-    {
-        currentWaveCount++;
-
-        if (currentWaveCount >= maxWaveCount)
-        {
-            // 스테이지의 모든 웨이브가 끝나면 다음 스테이지로
-            currentStage++;
-            currentWaveCount = 0;
-            Debug.Log($"Advanced to Stage {currentStage}");
-        }
-
-        // 전투가 끝나면 밤으로 전환
-        SetNight();
-
-        Debug.Log($"Battle completed. Current Stage: {currentStage}, Wave: {currentWaveCount}");
-    }
-
     private void SetNightTimer()
     {
         if (!isNightTimerSet && currentTimeState == TimeState.Night)
@@ -323,12 +300,6 @@ public class TimeChanger : Editor
             if (GUILayout.Button("밤바뀜"))
             {
                 ((TimeManager)target).SetNight();
-            }
-
-            // 전투 종료 시뮬레이션 버튼 추가
-            if (GUILayout.Button("전투 종료 시뮬레이션"))
-            {
-                ((TimeManager)target).OnBattleCompleted();
             }
         }
     }
