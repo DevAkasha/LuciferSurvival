@@ -179,7 +179,7 @@ public class HellfumeSkill : Skill
 }
 
 // 추적자: 천공의 창 (관통 투사체 + 에어본)
-public class SkyLanceSkill : Skill
+public class SkyLanceSkill : TargetedSkill
 {
     private int penetrationCount = 10;
     private float airborneDuration = 2f;
@@ -193,31 +193,36 @@ public class SkyLanceSkill : Skill
         damage = 35000f;
     }
 
-    public override void Execute(ISkillUser user)
+    public override void ExecuteWithTarget(ISkillUser user, Transform target, EnemyType targetType)
     {
-        if (user == null) return;
+        if (user == null || target == null) return;
 
         // 애니메이션 설정
         user.SetAnimation("Attack");
 
         // 스킬 이펙트 생성
-        Transform userTransform = user.GetPlayerTransform();
+        Transform userTransform = user.GetTransform();
         if (userTransform != null)
         {
             // 투사체 생성 위치
             Vector3 spawnPos = userTransform.position + userTransform.forward * 1f + new Vector3(0f, 1f, 0f);
 
+            Vector3 directionToTarget = target.position - userTransform.position;
+            if (directionToTarget == Vector3.zero) return;
+
+            Quaternion rotation = Quaternion.LookRotation(directionToTarget);
+
             // 투사체 객체 생성
             GameObject projectileObj = GameObject.Instantiate(
                 Resources.Load<GameObject>("Projectiles/PenetrationProjectile"),
                 spawnPos,
-                userTransform.rotation);
+                rotation);
 
             // 관통 투사체 컴포넌트 설정
             PenetrationProjectile projectile = projectileObj.GetComponent<PenetrationProjectile>();
             if (projectile != null)
             {
-                projectile.Initialize(damage, 20f, penetrationCount);
+                projectile.Initialize(damage, 20f, penetrationCount, false, targetType);
                 projectile.SetStatusEffect(StatusEffectType.Airborne, airborneDuration);
             }
         }
@@ -225,7 +230,7 @@ public class SkyLanceSkill : Skill
 }
 
 // 파편사: 파멸의 궤도 (멀티샷)
-public class OrbitOfRuinSkill : Skill
+public class OrbitOfRuinSkill : TargetedSkill
 {
     private int shotCount = 5;
     private float shotAngle = 20f;
@@ -238,34 +243,44 @@ public class OrbitOfRuinSkill : Skill
         damage = 150000f;
     }
 
-    public override void Execute(ISkillUser user)
+    public override void ExecuteWithTarget(ISkillUser user, Transform target, EnemyType targetType)
     {
-        if (user == null) return;
+        if (user == null || target == null) return;
 
         // 애니메이션 설정
         user.SetAnimation("Attack");
 
-        // 스킬 이펙트 생성
-        Transform userTransform = user.GetPlayerTransform();
+        Transform userTransform = user.GetTransform();
         if (userTransform != null)
         {
+            // 타겟 방향 계산
+            Vector3 directionToTarget = target.position - userTransform.position;
+            if (directionToTarget == Vector3.zero) return;
+
+            // 기본 방향 설정
+            Quaternion baseRotation = Quaternion.LookRotation(directionToTarget);
+
             // 여러 방향으로 투사체 발사
             for (int i = 0; i < shotCount; i++)
             {
-                float angle = i * shotAngle;
-                Quaternion rotation = userTransform.rotation * Quaternion.Euler(0, angle, 0);
+                // 기본 각도를 중심으로 -shotAngle*2 ~ +shotAngle*2 범위에 분포
+                float angle = -shotAngle * (shotCount - 1) / 2 + i * shotAngle;
+                Quaternion rotation = baseRotation * Quaternion.Euler(0, angle, 0);
+
+                // 발사 위치
+                Vector3 spawnPos = userTransform.position + Vector3.up * 1f;
 
                 // 투사체 생성
                 GameObject projectileObj = GameObject.Instantiate(
                     Resources.Load<GameObject>("Projectiles/Projectile"),
-                    userTransform.position + new Vector3(0, 1f, 0),
+                    spawnPos,
                     rotation);
 
                 // 투사체 컴포넌트 설정
                 SkillProjectile projectile = projectileObj.GetComponent<SkillProjectile>();
                 if (projectile != null)
                 {
-                    projectile.Initialize(damage, 15f);
+                    projectile.Initialize(damage, 15f,true);
                 }
             }
         }
@@ -273,7 +288,7 @@ public class OrbitOfRuinSkill : Skill
 }
 
 // 속사수: 악마의 연타 (속사)
-public class InfernalVolleySkill : Skill
+public class InfernalVolleySkill : TargetedSkill
 {
     private int shotCount = 10;
     private float fireInterval = 0.1f;
@@ -287,7 +302,7 @@ public class InfernalVolleySkill : Skill
         damage = 100000f;
     }
 
-    public override void Execute(ISkillUser user)
+    public override void ExecuteWithTarget(ISkillUser user, Transform target, EnemyType targetType)
     {
         if (user == null) return;
 
@@ -301,11 +316,14 @@ public class InfernalVolleySkill : Skill
             // 연속 발사 객체 생성
             GameObject rapidFireObj = new GameObject("RapidFire");
             rapidFireObj.transform.position = userTransform.position;
-            rapidFireObj.transform.rotation = userTransform.rotation;
+
+            Vector3 direction = target.position - userTransform.position;
+            if (direction != Vector3.zero)
+                rapidFireObj.transform.rotation = Quaternion.LookRotation(direction);
 
             // 연속 발사 컴포넌트 추가
             RapidFireController rapidFire = rapidFireObj.AddComponent<RapidFireController>();
-            rapidFire.Initialize(userTransform, damage, shotCount, fireInterval);
+            rapidFire.InitializeWithTarget(userTransform, target, damage, shotCount, fireInterval, targetType);
 
             // 모든 발사 완료 후 객체 제거
             GameObject.Destroy(rapidFireObj, shotCount * fireInterval + 0.5f);
@@ -314,7 +332,7 @@ public class InfernalVolleySkill : Skill
 }
 
 // 처형자: 지옥의 족쇄 (단일 투사체 + 스턴)
-public class HellsnareSkill : Skill
+public class HellsnareSkill : TargetedSkill
 {
     private float stunDuration = 3f;
 
@@ -327,9 +345,9 @@ public class HellsnareSkill : Skill
         damage = 20000f;
     }
 
-    public override void Execute(ISkillUser user)
+    public override void ExecuteWithTarget(ISkillUser user, Transform target, EnemyType targetType)
     {
-        if (user == null) return;
+        if (user == null || target == null) return;
 
         // 애니메이션 설정
         user.SetAnimation("Attack");
@@ -339,19 +357,24 @@ public class HellsnareSkill : Skill
         if (userTransform != null)
         {
             // 투사체 생성 위치
-            Vector3 spawnPos = userTransform.position + userTransform.forward * 1f+ new Vector3(0f,1f,0f);
+            Vector3 direction = target.position - userTransform.position;
+            if (direction == Vector3.zero) return;
 
+            Quaternion rotation = Quaternion.LookRotation(direction);
+
+            Vector3 spawnPos = userTransform.position + direction.normalized * 1f + new Vector3(0f, 1f, 0f);
             // 투사체 객체 생성
             GameObject projectileObj = GameObject.Instantiate(
-                Resources.Load<GameObject>("Projectiles/StunProjectile"),
-                spawnPos,
-                userTransform.rotation);
+                       Resources.Load<GameObject>("Projectiles/StunProjectile"),
+                       spawnPos,
+                       rotation);
+
 
             // 투사체 컴포넌트 설정
             SkillProjectile projectile = projectileObj.GetComponent<SkillProjectile>();
             if (projectile != null)
             {
-                projectile.Initialize(damage, 15f);
+                projectile.Initialize(damage, 15f,true, targetType);
                 projectile.SetStatusEffect(StatusEffectType.Stun, stunDuration);
             }
         }
