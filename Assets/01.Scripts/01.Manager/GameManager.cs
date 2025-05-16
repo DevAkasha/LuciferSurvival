@@ -20,15 +20,6 @@ public class GameManager : Singleton<GameManager>
         gameWave.AddRange(new[] { StageData.wave1, StageData.wave2, StageData.wave3, StageData.wave4, StageData.wave5 });
     }
 
-    public void ExhangeToDay()//낮으로 전환. 웨이브 시작
-    {
-        Debug.Log($"{WaveRound + 1}웨이브 시작");
-        TimeManager.Instance.SetDay();
-        WaveManager.Instance.WaveGenerate();
-
-        WaveRound++;
-    }
-
     public void ExhangeToNight()//밤으로 전환, 다음 라운드로 Data 변경
     {
         if (gameWave == null)
@@ -39,6 +30,16 @@ public class GameManager : Singleton<GameManager>
         TimeManager.Instance.SetNight();
         WaveManager.Instance.SetWave(gameWave[WaveRound]);
     }
+
+    public void ExhangeToDay()//낮으로 전환. 웨이브 시작
+    {
+        Debug.Log($"{WaveRound + 1}웨이브 시작");
+        TimeManager.Instance.SetDay();
+        WaveManager.Instance.WaveGenerate();
+
+        WaveRound++;
+    }
+
 
     public void WaveTheEnd()
     {

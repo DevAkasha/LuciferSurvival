@@ -19,6 +19,7 @@ public enum BossState
 public class BossModel : BaseModel
 {
     public int idx;
+    public EnemyType EnemyType;
 
     public RxModFloat Atk;
     public RxModFloat MoveSpeed;
@@ -41,6 +42,7 @@ public class BossModel : BaseModel
     public BossModel(BossDataSO bossDataSO)
     {
         idx = bossDataSO.idx;
+        EnemyType = bossDataSO.enemyType;
 
         Atk = new(bossDataSO.atk, nameof(Atk), this);
         MoveSpeed = new(bossDataSO.moveSpeed, nameof(MoveSpeed), this);

@@ -37,7 +37,7 @@ public class SpawnManager : Singleton<SpawnManager>
 
         Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(mainCamera);//카메라가 보이는 영역을 평면화
 
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 200; i++)
         {
             Vector2 randomXZ = Random.insideUnitCircle.normalized * Random.Range(SpawnRange * 0.5f, SpawnRange);//xz 평면 상의 원 그리기
             Vector3 spawnCircle = new Vector3(randomXZ.x, 0f, randomXZ.y) + new Vector3(target.position.x, 0f, target.position.z);//원의 중심을 정하고 범위 지정

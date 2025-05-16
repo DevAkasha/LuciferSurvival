@@ -130,14 +130,12 @@ public class TimeManager : Singleton<TimeManager>
         }
     }
 
-
-
     private void SetNightTimer()
     {
         if (!isNightTimerSet && currentTimeState == TimeState.Night)
         {
             isNightTimerSet = true;
-                Debug.Log($"{WaveManager.Instance.WaveData.nightTime}초 타이머 시작");
+            Debug.Log($"{WaveManager.Instance.WaveData.nightTime}초 타이머 시작");
             UnityTimer.ScheduleRepeating(WaveManager.Instance.WaveData.nightTime, () =>
             {
                 // 타이머가 완료되면 낮으로 전환
