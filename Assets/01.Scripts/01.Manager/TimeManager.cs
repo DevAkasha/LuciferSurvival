@@ -200,12 +200,12 @@ public class TimeManager : Singleton<TimeManager>
         Debug.Log($"Battle completed. Current Stage: {currentStage}, Wave: {currentWaveCount}");
     }
 
-    private void SetNightTimer()
+    public void SetNightTimer()
     {
         if (!isNightTimerSet && currentTimeState == TimeState.Night)
         {
             isNightTimerSet = true;
-            UnityTimer.ScheduleRepeating(nightDuration, () =>
+            UnityTimer.ScheduleRepeating(WaveManager.Instance.WaveData.nightTime, () =>
             {
                 // 타이머가 완료되면 낮으로 전환
                 if (currentTimeState == TimeState.Night)
