@@ -236,10 +236,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eeca04890a81ac4b9bdda055b63a323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnableLifecycle: 1
   entity: {fileID: 0}
   animator: {fileID: 0}
   waitAttackTime: 0
-  attackTime: 0
+  attackTime: 1
+  projectile: {fileID: 0}
 --- !u!114 &2693319940001265456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +258,7 @@ MonoBehaviour:
   navMesh: {fileID: 0}
   rigid: {fileID: 0}
   headPivot: {fileID: 1511466210434428973}
+  AttackCoolTime: 0
 --- !u!1 &1243986431991746630
 GameObject:
   m_ObjectHideFlags: 0

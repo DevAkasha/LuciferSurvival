@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StageManager : Singleton<StageManager>
@@ -12,7 +13,7 @@ public class StageManager : Singleton<StageManager>
     public SummonUnitUI summonUnitUI;
 
     private RxVar<int> soulStone = new RxVar<int>(0);           //게임 내 재화(초기값 : 0)
-    private RxVar<int> rerollCost = new RxVar<int>(3);           //상점 리롤 비용(초기값 : 3)
+    private RxVar<int> rerollCost = new RxVar<int>(3);          //상점 리롤 비용(초기값 : 3)
     private RxVar<int> shopLevel = new RxVar<int>(1);           //상점 레벨(초기값 : 1)
 
     protected override void Awake()
@@ -21,13 +22,13 @@ public class StageManager : Singleton<StageManager>
         ClearAllSlots();
 
         //테스트용 코드
-        unitSlots[0] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0001")));
-        unitSlots[1] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0002")));
-        unitSlots[2] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0003")));
+        unitSlots[0] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0014")));
+        unitSlots[1] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0025")));
+        unitSlots[2] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0034")));
         unitSlots[0].count = 3;
         unitSlots[1].count = 3;
         unitSlots[2].count = 3;
-        SoulStone = 9999;
+        SoulStone = 9;
     }
 
     public int SoulStone {
@@ -200,5 +201,155 @@ public class StageManager : Singleton<StageManager>
 
             Debug.Log($"슬롯 {i}: {item.unitModel.displayName}({item.count}개)");
         }
+    }
+
+    public bool CheckUnit(string rcode, int count = 1)
+    {
+        int findCount = 0;
+
+        for (int i = 0; i < unitSlots.Length; i++)
+        {
+            if (unitSlots[i] != null && unitSlots[i].unitModel.rcode.Equals(rcode))
+            {
+                findCount++;
+            }
+
+            if (findCount >= count)
+            {
+                return true;
+            }
+        }
+
+        for (int i = 0; i < equippedUnits.Length; i++)
+        {
+            if (equippedUnits[i] != null && equippedUnits[i].rcode.Equals(rcode))
+            {
+                findCount++;
+            }
+
+            if (findCount >= count)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int CalculateCompletionRate(UnionTableSO table)
+    {
+        //Linq를 사용하여 unit4의 값이 없으면 unit4를 제거
+        List<string> codes = new List<string> { table.unit1, table.unit2, table.unit3, table.unit4 }
+                              .Where(code => !string.IsNullOrEmpty(code))
+                              .ToList();
+
+        int totalGrade = 0;
+        int ownedGrade = 0;
+
+        foreach (string code in codes)
+        {
+            UnitDataSO data = DataManager.Instance.GetData<UnitDataSO>(code);
+            int grade = (int)data.grade;  // 예: UnitDataSO.grade
+            totalGrade += grade;
+
+            if (CheckUnit(code))
+                ownedGrade += grade;
+        }
+
+        if (totalGrade <= 0f)
+            return 0;
+
+        float rawRate = (float)ownedGrade / totalGrade * 100f;
+        return Mathf.RoundToInt(rawRate);
+    }
+
+    // 현재 인벤토리에서 존재하는 유닛의 수를 확인하는 함수
+    public int GetUnitCount(string rcode)
+    {
+        int total = 0;
+        foreach (UnitInventory slot in unitSlots)
+        {
+            if (slot != null && slot.unitModel.rcode == rcode)
+                total += slot.count;
+        }
+
+        foreach (UnitModel slot in equippedUnits)
+        {
+            if (slot != null && slot.rcode == rcode)
+                total++;
+        }
+        return total;
+    }
+
+    // 인벤토리에서 rcode 유닛을 count만큼 소비
+    private bool ConsumeUnit(string rcode, int count)
+    {
+        int remaining = count;
+        for (int i = 0; i < unitSlots.Length && remaining > 0; i++)
+        {
+            var slot = unitSlots[i];
+            if (slot != null && slot.unitModel.rcode == rcode)
+            {
+                int remove = Mathf.Min(slot.count, remaining);
+                // slot.RemoveCount()를 count만큼 호출
+                for (int k = 0; k < remove; k++)
+                    RemoveUnit(i);
+                remaining -= remove;
+            }
+        }
+        return remaining == 0;
+    }
+
+    //유닛을 조합하기 전 인벤토리 공간 체크
+    private bool CheckSlot(string rcode)
+    {
+        
+        foreach (var slot in unitSlots)
+        {
+            if (slot != null && slot.unitModel.rcode == rcode)
+                return true;
+        }
+        
+        foreach (var slot in unitSlots)
+        {
+            if (slot == null || slot.unitModel == null)
+                return true;
+        }
+        
+        return false;
+    }
+
+    // 조합 실행 함수
+    public bool CombineUnit(UnionTableSO tableSO)
+    {
+        if (!CheckSlot(tableSO.unitRcode))
+            return false;
+
+        //뽑으려는 유닛 정보
+        UnitDataSO unitData = DataManager.Instance.GetData<UnitDataSO>(tableSO.unitRcode);
+        List<string> reqs = new List<string>();
+        if (!string.IsNullOrEmpty(tableSO.unit1)) reqs.Add(tableSO.unit1);
+        if (!string.IsNullOrEmpty(tableSO.unit2)) reqs.Add(tableSO.unit2);
+        if (!string.IsNullOrEmpty(tableSO.unit3)) reqs.Add(tableSO.unit3);
+        if (!string.IsNullOrEmpty(tableSO.unit4)) reqs.Add(tableSO.unit4);
+
+        foreach (var rcode in reqs)
+        {
+            if (GetUnitCount(rcode) < 1)
+                return false;
+        }
+
+        if (!UseSoulStone(unitData.cost))
+        {
+            return false;
+        }
+
+        foreach (var rcode in reqs)
+        {
+            ConsumeUnit(rcode, 1);
+        }
+
+        AddUnit(new UnitModel(unitData));
+
+        return true;
     }
 }

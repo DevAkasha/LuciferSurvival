@@ -20,10 +20,10 @@ public class UnitInfo : MonoBehaviour
     public void SetUnitInfo(UnitModel model)
     {
         unitImage.sprite = model.thumbnail;
-        unitInfoText.text = $"{model.displayName}\n공격력: {model.atk}\n사거리: {model.range}\n{model.atkSpeed}/s";
+        unitInfoText.text = $"{model.displayName}\n공격력: {model.atk}\n사거리: {model.range}\n{model.atkCoolTime}초";
     }
 
-    public void SetUnitSkillInfo()  //스킬관련 정보 받는거는 잠시 보류
+    public void SetUnitSkillInfo(UnitModel model)  //스킬관련 정보 받는거는 잠시 보류
     {
         //skillImage.sprite =                       //이미지 작업 필요
         //skillTitleText.text =                     //스킬 제목

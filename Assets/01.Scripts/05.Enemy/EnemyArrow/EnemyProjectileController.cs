@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class EnemyProjectileController : MonoBehaviour
@@ -19,6 +22,11 @@ public class EnemyProjectileController : MonoBehaviour
             direction = (projectile.Target.position - transform.position).normalized;
             direction.y = 0f;
         }
+    }
+
+    private void OnEnable()
+    {
+        projectile.OnRelease();
     }
 
     void Update()

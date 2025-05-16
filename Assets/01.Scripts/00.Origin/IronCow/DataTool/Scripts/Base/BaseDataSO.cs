@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +7,7 @@ using UnityEngine;
 public class BaseDataSO: ScriptableObject
 {
     [SerializeField] public Sprite thumbnail;
+    public int idx;
     public string rcode;
     public string displayName;
     public string description;

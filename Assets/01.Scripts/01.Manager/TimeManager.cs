@@ -42,7 +42,14 @@ public class TimeManager : Singleton<TimeManager>
 
     [Header("Night Duration Settings")]
     [SerializeField] private bool enableNightTimer = true; // 밤->낮 타이머 활성화 여부
-    [SerializeField] private float nightDuration = 30f; // 밤 지속 시간(초)
+    [SerializeField] private float defaultNightDuration = 30f; // 데이터가 없을 경우 사용할 기본값
+    private float nightDuration; // 실제 사용할 밤 지속 시간(초), 데이터테이블에서 가져옴
+
+    // 스테이지와 웨이브 추적 변수 추가
+    [Header("Wave Tracking")]
+    [SerializeField] private int currentStage = 1;
+    [SerializeField] private int currentWaveCount = 0;
+    [SerializeField] private int maxWaveCount = 5; // 총 5번의 전투
 
     private Coroutine transitionRoutine; // 전환 코루틴
     private Coroutine battleScreenRoutine; // 배틀스크린 깜빡임 코루틴
@@ -51,6 +58,9 @@ public class TimeManager : Singleton<TimeManager>
 
     private void Start()
     {
+        // 초기값 설정
+        nightDuration = defaultNightDuration;
+
         // 시작 초기값은 밤
         currentTimeState = TimeState.Night;
         ApplyLightingInstant();
@@ -61,11 +71,14 @@ public class TimeManager : Singleton<TimeManager>
             battleScreen.color = Color.clear;
         }
 
+        // 데이터테이블에서 nightTime 값 가져오기 (Start에서는 생략, 첫 웨이브는 기본값 사용)
+        // 실제 웨이브가 시작되면 UpdateNightDurationFromWaveData()가 호출됨
+
         // 밤->낮 자동 전환 타이머 활성화
-        if (enableNightTimer)
-        {
-            SetNightTimer();
-        }
+        //if (enableNightTimer)
+        //{
+        //    SetNightTimer();
+        //}
     }
 
     private void OnEnable()
@@ -115,27 +128,22 @@ public class TimeManager : Singleton<TimeManager>
                 SetNightTimer();
             }
         }
-
-        //if (currentTimeState != TimeState.Night)
-        //{
-        //    currentTimeState = TimeState.Night;
-        //    StartLightingTransition();
-
-        //    UpdateBattleScreenState();
-        //}
     }
+
+
 
     private void SetNightTimer()
     {
         if (!isNightTimerSet && currentTimeState == TimeState.Night)
         {
             isNightTimerSet = true;
-            UnityTimer.ScheduleRepeating(nightDuration, () =>
+                Debug.Log($"{WaveManager.Instance.WaveData.nightTime}초 타이머 시작");
+            UnityTimer.ScheduleRepeating(WaveManager.Instance.WaveData.nightTime, () =>
             {
                 // 타이머가 완료되면 낮으로 전환
                 if (currentTimeState == TimeState.Night)
                 {
-                    SetDay();
+                    GameManager.Instance.ExhangeToDay();
                 }
                 isNightTimerSet = false;
             });
