@@ -17,13 +17,6 @@ public class GameManager : Singleton<GameManager>
     public void ExhangeToDay()
     {
         TimeManager.Instance.SetDay();
-
-        if (gameWave == null)  
-            return;
-        if (WaveRound < 0 || WaveRound > gameWave.Count)
-            WaveRound = 0;
-
-        WaveManager.Instance.SetWave(gameWave[WaveRound]);
         WaveManager.Instance.WaveGenerate();
 
         WaveRound++;
@@ -31,8 +24,13 @@ public class GameManager : Singleton<GameManager>
 
     public void ExhangeToNight()
     {
+        if (gameWave == null)
+            return;
+        if (WaveRound < 0 || WaveRound > gameWave.Count)
+            WaveRound = 0;
+
         TimeManager.Instance.SetNight();
-        //타이머 초기화
+        WaveManager.Instance.SetWave(gameWave[WaveRound]);
     }
 
     public void WaveTheEnd()
@@ -43,7 +41,7 @@ public class GameManager : Singleton<GameManager>
         }
         else
         {
-
+            //
         }
     }
 }
