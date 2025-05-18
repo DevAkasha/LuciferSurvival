@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 
 internal class UIEditor : Editor
@@ -7,6 +7,6 @@ internal class UIEditor : Editor
     {
         if (GameObject.Find("UIManager")) return;
         var obj = new GameObject("UIManager");
-        obj.AddComponent<UIManager>();
+        obj.AddComponent<UIManager1>();
     }
 }
