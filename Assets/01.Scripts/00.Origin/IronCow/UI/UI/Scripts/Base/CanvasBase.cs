@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,7 +22,7 @@ public class CanvasBase : MonoBehaviour, ICanvasOption
     void Awake()
     {
 #endif
-        if (parents.Count > 0) UIManager.SetParents(parents);
+        if (parents.Count > 0) UIManager1.SetParents(parents);
         for (int i = 0; i < parents.Count; i++)
         {
             var rectTransform = parents[i] as RectTransform;
