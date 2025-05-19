@@ -47,8 +47,9 @@ public class ResourceTile : BaseInteractable
             Debug.Log("이미 채취한 자원입니다.");
             return;
         }
-        
+        Debug.Log("채취전 영혼석: " + StageManager.Instance.SoulStone);
         GatherTile();
+        Debug.Log("채취후 영혼석: " + StageManager.Instance.SoulStone);
     }
 
     public void GatherTile()

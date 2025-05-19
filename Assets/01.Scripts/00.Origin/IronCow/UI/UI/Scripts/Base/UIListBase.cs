@@ -1,9 +1,9 @@
-﻿
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class UIListBase<T> : UIBase, IUIList<T> where T : MonoBehaviour
+public abstract class UIListBase<T> : UIBase1, IUIList<T> where T : MonoBehaviour
 {
     [SerializeField] protected Transform listParent;
     [SerializeField] protected T itemPrefab;

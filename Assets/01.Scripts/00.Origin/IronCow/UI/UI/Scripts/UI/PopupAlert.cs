@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -9,7 +9,7 @@ using System;
 /// <summary>
 /// 매개변수 순서 : 제목, 메세지내용, OKbtn문구, Cancelbtn문구, OKAction, CancleAction, Image, 1 or 2(이미지최상단or최하단)
 /// </summary>
-public class PopupAlert : UIBase
+public class PopupAlert : UIBase1
 {
     [SerializeField]
     private TMP_Text titleText;
@@ -48,7 +48,7 @@ public class PopupAlert : UIBase
     public override void Opened(object[] param)
     {
         // 이미 열려있는게 똑같은 alert인 경우 스킵.
-        if (UIManager.IsOpened<PopupAlert>())
+        if (UIManager1.IsOpened<PopupAlert>())
         {
             if (descText.text == (string)param[0] && titleText.text == (string)param[1])
             {
@@ -135,7 +135,7 @@ public class PopupAlert : UIBase
         {
             okInputCallback?.Invoke(inputField.text);
         }
-        UIManager.HideAlert();
+        UIManager1.HideAlert();
     }
 
     public void OnClickCancel()
@@ -144,11 +144,11 @@ public class PopupAlert : UIBase
         {
             cancelCallback.Invoke();
         }
-        UIManager.HideAlert();
+        UIManager1.HideAlert();
     }
 
     public override void HideDirect()
     {
-        UIManager.HideAlert();
+        UIManager1.HideAlert();
     }
 }
