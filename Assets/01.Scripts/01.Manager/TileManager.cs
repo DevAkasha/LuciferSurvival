@@ -17,7 +17,12 @@ public class TileManager : Singleton<TileManager>
     [SerializeField] private List<GameObject> resourceTileObj;  // 자원타일 프리펩 리스트
     [SerializeField] private Grid grid;
     [SerializeField] private List<Vector2Int> excludedCells;    // 제외할 셀 좌표 리스트
-    [SerializeField] private List<GameObject> environmentTemplate;
+    [SerializeField] private List<GameObject> environmentTemplate; // 추후 사용, 환경 등 변화에 대한 리스트
+
+    [SerializeField] private float hexagonRadius = 7f;          // 6각형 타일의 반지름
+    [SerializeField] private float resourceMinDistance = 3.0f;  // 자원 간 최소 거리
+
+    private Dictionary<Vector2Int, List<Vector3>> cellResources = new Dictionary<Vector2Int, List<Vector3>>();
 
     private void Start()
     {
@@ -92,7 +97,7 @@ public class TileManager : Singleton<TileManager>
             }
         }
     }
-  
+
     public void SetLockTileMap()
     {
         // 그리드 중심으로부터 범위를 계산
@@ -128,7 +133,7 @@ public class TileManager : Singleton<TileManager>
     }
 
 
-    /// 자금타일 위치확인용 기즈모
+    // 위치확인용 기즈모
     private void OnDrawGizmosSelected()
     {
         int halfGrid = gridCount / 2;
