@@ -5,31 +5,36 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    [SerializeField] private List<string> gameWave;
-    public StageDataSO StageData;
+    private List<StageModel> gameWave = new();
+    private StageModel thisStage;
     public int WaveRound;
+
+    public int EssenceOfRuin;
 
     private void Start()
     {
-        WaveDataSet("STG0001");//테스트 용
+        WaveDataInfo();
+        WaveDataSet(1);//테스트 용
         PoolManager.Instance.Init(ResourceType.Enemy);
+        PoolManager.Instance.Init(ResourceType.Projectile);
+        ExhangeToNight();
     }
 
-    public void WaveDataSet(string getRcode)
+    public void WaveDataSet(int i)
     {
-        StageData = DataManager.Instance.GetData<StageDataSO>(getRcode);
-        gameWave.AddRange(new[] { StageData.wave1, StageData.wave2, StageData.wave3, StageData.wave4, StageData.wave5 });
+        thisStage = gameWave[i];
     }
 
     public void ExhangeToNight()//밤으로 전환, 다음 라운드로 Data 변경
     {
-        if (gameWave == null)
+        if (thisStage == null)
             return;
-        if (WaveRound < 0 || WaveRound > gameWave.Count)
+
+        if (WaveRound < 0 || WaveRound > thisStage.StageData.Count)
             WaveRound = 0;
 
+        WaveManager.Instance.SetWave(thisStage.StageData[WaveRound]);
         TimeManager.Instance.SetNight();
-        WaveManager.Instance.SetWave(gameWave[WaveRound]);
     }
 
     public void ExhangeToDay()//낮으로 전환. 웨이브 시작
@@ -41,17 +46,31 @@ public class GameManager : Singleton<GameManager>
         WaveRound++;
     }
 
-
     public void WaveTheEnd()
     {
-        if(WaveRound < gameWave.Count)
+        if (WaveRound < gameWave.Count)
         {
             ExhangeToNight();
             Debug.Log("다음 웨이브 준비");
         }
         else
         {
-            //
+            Debug.Log("스테이지 클리어!");
+        }
+    }
+
+    public void WaveDataInfo()
+    {
+        for (int i = 1; i < 8; i++)
+        {
+            StageDataSO StageData = DataManager.Instance.GetData<StageDataSO>($"STG000{i}");
+
+            if (StageData == null)
+            {
+                continue;
+            }
+
+            gameWave.Add(new StageModel(StageData));
         }
     }
 }

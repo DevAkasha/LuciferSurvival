@@ -453,7 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3699f3a9a7e412c4096e767893c1cc8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTimeState: 1
+  currentTimeState: 0
   sun: {fileID: 1726227248}
   dayLightIntensity: 1
   moon: {fileID: 167086470}
@@ -1483,6 +1483,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b29a5c70a0f7c314e980a2f524978828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  url: 
+  sheets: []
 --- !u!4 &1055225187
 Transform:
   m_ObjectHideFlags: 0
