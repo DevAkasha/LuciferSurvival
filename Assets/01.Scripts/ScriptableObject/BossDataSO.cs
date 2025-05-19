@@ -16,4 +16,5 @@ public class BossDataSO : BaseDataSO
     public float skill1CT;
     public float skill2CT;
     public float skill3CT;
+    public int rewardCount;
 }

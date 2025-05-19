@@ -8,19 +8,12 @@ using UnityEngine;
 public class WaveManager : Singleton<WaveManager>
 {
     [SerializeField] private int killCount;
-    [SerializeField] private string rcode;//들어간 SO 확인용
 
-    public WaveDataSO WaveData;
+    public WaveModel WaveData;
 
-    private void Start()
+    public void SetWave(WaveModel waveData)
     {
-        SetWave("WAVE0001");
-    }
-
-    public void SetWave(string getRcode)
-    {
-        rcode = getRcode;
-        WaveData = DataManager.Instance.GetData<WaveDataSO>(rcode);
+        WaveData = waveData;
         
         killCount = 0;
     }
@@ -30,13 +23,9 @@ public class WaveManager : Singleton<WaveManager>
         if (WaveData == null)
             return;
 
-        string[] spawnRcode = { WaveData.enemy1rcode, WaveData.enemy2rcode, WaveData.enemy3rcode, WaveData.enemy4rcode, WaveData.bossrcode };
-        float[] spawnDelays = { WaveData.enemy1Sec, WaveData.enemy2Sec, WaveData.enemy3Sec, WaveData.enemy4Sec, WaveData.bossDelaySec };
-        int[] spawnCounts = { WaveData.enemy1Count, WaveData.enemy2Count, WaveData.enemy3Count, WaveData.enemy4Count, WaveData.bossCount };
-
-        for (int i = 0; i < spawnDelays.Length; i++)
+        for (int i = 0; i < WaveData.EnemyData.Count; i++)
         {
-            SpawnLoop(spawnRcode[i],spawnDelays[i], spawnCounts[i]).Forget();
+            SpawnLoop(WaveData.EnemyData[i], WaveData.EnemySec[i], WaveData.EnemyCount[i]).Forget();
         }
 
     }
@@ -67,41 +56,15 @@ public class WaveManager : Singleton<WaveManager>
     public int EnemyCount()
     {
         int CountArray = 0;
-        int[] spawnCounts = { WaveData.enemy1Count, WaveData.enemy2Count, WaveData.enemy3Count, WaveData.enemy4Count };
 
-        for (int i = 0; i < spawnCounts.Length; i++)
+        for (int i = 0; i < WaveData.EnemyCount.Count; i++)
         {
-            if (spawnCounts[i] > 0)
+            if (WaveData.EnemyCount[i] > 0)
             { 
-                CountArray += spawnCounts[i]; 
+                CountArray += WaveData.EnemyCount[i]; 
             }
         }
 
         return CountArray;
-    }
-}
-[CustomEditor(typeof(WaveManager))]
-public class WaveSeter : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        if (EditorApplication.isPlaying)
-        {
-            if (GUILayout.Button("WAVE0001 초기화"))
-            {
-                ((WaveManager)target).SetWave("WAVE0001");
-            }
-            if (GUILayout.Button("WAVE0005 초기화"))
-            {
-                ((WaveManager)target).SetWave("WAVE0005");
-            }
-            if (GUILayout.Button("웨이브 시작"))
-            {
-                ((WaveManager)target).WaveGenerate();
-            }
-
-        }
     }
 }

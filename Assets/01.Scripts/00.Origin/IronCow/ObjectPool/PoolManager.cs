@@ -13,6 +13,12 @@ public class PoolManager : Singleton<PoolManager>
 
         foreach (var data in sheets) 
         {
+            string parentName = data.prefabName + "parent";
+            if (transform.Find(parentName) != null)
+            {
+                continue;
+            }
+
             data.prefab = ResourceManager.Instance.LoadAsset<ObjectPoolBase>(data.prefabName, resourceType);//Resources폴더의 바로 하위에 가져올 폴더를 생성해야한다.
             data.parent = new GameObject(data.prefabName + "parent").transform;
             data.parent.position = transform.position;
@@ -133,7 +139,7 @@ public class PoolManager : Singleton<PoolManager>
 
     public void SheetsInfo(string resourceType)
     {
-        sheets.Clear();
+        //sheets.Clear();
 
         // Resources/Prefabs 폴더에서 모든 프리팹을 불러오기
         var prefabs = Resources.LoadAll<GameObject>(resourceType);
