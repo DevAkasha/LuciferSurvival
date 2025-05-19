@@ -17,9 +17,10 @@ MonoBehaviour:
   rcode: BOSS0001
   displayName: "\uBC14\uC0AC\uB9AC\uC544"
   description: 
+  enemyType: 5
   moveSpeed: 1.5
   health: 4000000
-  atk: 75
+  atk: 50
   atkSpeed: 1
   atkRange: 4
   skill1Range: 5
@@ -28,3 +29,4 @@ MonoBehaviour:
   skill1CT: 10
   skill2CT: 15
   skill3CT: -1
+  rewardCount: 1

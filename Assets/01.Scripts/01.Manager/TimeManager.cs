@@ -62,7 +62,7 @@ public class TimeManager : Singleton<TimeManager>
         nightDuration = defaultNightDuration;
 
         // 시작 초기값은 밤
-        currentTimeState = TimeState.Night;
+        currentTimeState = TimeState.Day;
         ApplyLightingInstant();
 
         // 배틀스크린 초기화
@@ -130,15 +130,13 @@ public class TimeManager : Singleton<TimeManager>
         }
     }
 
-
-
     private void SetNightTimer()
     {
         if (!isNightTimerSet && currentTimeState == TimeState.Night)
         {
             isNightTimerSet = true;
-                Debug.Log($"{WaveManager.Instance.WaveData.nightTime}초 타이머 시작");
-            UnityTimer.ScheduleRepeating(WaveManager.Instance.WaveData.nightTime, () =>
+            Debug.Log($"{WaveManager.Instance.WaveData.NightTime}초 타이머 시작");
+            UnityTimer.ScheduleRepeating(WaveManager.Instance.WaveData.NightTime, () =>
             {
                 // 타이머가 완료되면 낮으로 전환
                 if (currentTimeState == TimeState.Night)

@@ -19,8 +19,8 @@ public class Projectile : ProjectileBase
     public async void OnRelease()
     {
         await UniTask.Delay(TimeSpan.FromSeconds(8), DelayType.DeltaTime, PlayerLoopTiming.Update);
-        //PoolManager.Instance.Release(this);
-        Destroy(gameObject);
+        PoolManager.Instance.Release(this);
+        //Destroy(gameObject);
     }
 
     public void OnShoot()

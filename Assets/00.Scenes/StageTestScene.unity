@@ -453,7 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3699f3a9a7e412c4096e767893c1cc8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTimeState: 1
+  currentTimeState: 0
   sun: {fileID: 1726227248}
   dayLightIntensity: 1
   moon: {fileID: 167086470}
@@ -1483,20 +1483,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b29a5c70a0f7c314e980a2f524978828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: https://docs.google.com/spreadsheets/d/12fHdjZZQ7cL0xARX6AbQV_d08fnGQ6NqpUhi-ePcUbs/
-  sheets:
-  - className: UnitDataSO
-    sheetId: 930551064
-    key: 
-    isUpdate: 0
-  - className: EnemyDataSO
-    sheetId: 1576224224
-    key: 
-    isUpdate: 0
-  - className: UnionTableSO
-    sheetId: 1480292564
-    key: 
-    isUpdate: 0
+  url: 
+  sheets: []
 --- !u!4 &1055225187
 Transform:
   m_ObjectHideFlags: 0
@@ -1741,7 +1729,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1289800420
 Light:
   m_ObjectHideFlags: 0
@@ -2167,59 +2155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996c3f918587bc0418112cd03a168a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sheets:
-  - prefabName: ENE0001
-    count: 10
-    prefab: {fileID: 0}
-    parent: {fileID: 0}
-  - prefabName: ENE0002
-    count: 10
-    prefab: {fileID: 0}
-    parent: {fileID: 0}
-  - prefabName: ENE0003
-    count: 10
-    prefab: {fileID: 0}
-    parent: {fileID: 0}
-  - prefabName: ENE0004
-    count: 10
-    prefab: {fileID: 0}
-    parent: {fileID: 0}
-  - prefabName: ENE0005
-    count: 10
-    prefab: {fileID: 0}
-    parent: {fileID: 0}
-  - prefabName: ENE0006
-    count: 10
-    prefab: {fileID: 0}
-    parent: {fileID: 0}
-  - prefabName: ENE0007
-    count: 10
-    prefab: {fileID: 0}
-    parent: {fileID: 0}
-  - prefabName: ENE0008
-    count: 10
-    prefab: {fileID: 0}
-    parent: {fileID: 0}
-  - prefabName: ENE0009
-    count: 10
-    prefab: {fileID: 0}
-    parent: {fileID: 0}
-  - prefabName: ENE0010
-    count: 10
-    prefab: {fileID: 0}
-    parent: {fileID: 0}
-  - prefabName: ENE0011
-    count: 10
-    prefab: {fileID: 0}
-    parent: {fileID: 0}
-  - prefabName: ENE0012
-    count: 10
-    prefab: {fileID: 0}
-    parent: {fileID: 0}
-  - prefabName: ENE0016
-    count: 10
-    prefab: {fileID: 0}
-    parent: {fileID: 0}
+  sheets: []
   isInit: 0
 --- !u!4 &1576382385
 Transform:
