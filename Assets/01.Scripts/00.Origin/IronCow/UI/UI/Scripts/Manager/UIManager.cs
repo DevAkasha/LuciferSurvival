@@ -15,7 +15,7 @@ public class UIManager : Singleton<UIManager>
 
     public static void Hide(UIBase ui, params object[] param)
     {
-        ui.gameObject.SetActive(true);
+        Destroy(ui.gameObject);
         ui.closed?.Invoke(param);
     }
 }

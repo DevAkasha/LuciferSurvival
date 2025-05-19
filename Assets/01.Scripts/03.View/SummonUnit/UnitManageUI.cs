@@ -37,4 +37,14 @@ public class UnitManageUI : UIBase
         StageUIManager.Instance.RegisterEquipSlots();
         StageUIManager.Instance.InitPreviewImage();
     }
+
+    public override void Closed(object[] param)
+    {
+        StageManager.Instance.OnPopupClose();
+    }
+
+    public void OnManageUIClose()
+    {
+        UIManager.Hide(this);
+    }
 }
