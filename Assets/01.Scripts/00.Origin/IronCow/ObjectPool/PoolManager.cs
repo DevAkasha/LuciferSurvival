@@ -13,6 +13,13 @@ public class PoolManager : Singleton<PoolManager>
 
         foreach (var data in sheets) 
         {
+            string parentName = data.prefabName + "parent";
+            if (transform.Find(parentName) != null)
+            {
+                Debug.LogWarning($"이미 {parentName}이(가) 존재하여 생성을 건너뜁니다.");
+                continue;
+            }
+
             data.prefab = ResourceManager.Instance.LoadAsset<ObjectPoolBase>(data.prefabName, resourceType);//Resources폴더의 바로 하위에 가져올 폴더를 생성해야한다.
             data.parent = new GameObject(data.prefabName + "parent").transform;
             data.parent.position = transform.position;

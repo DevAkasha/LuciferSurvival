@@ -6,13 +6,14 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private List<string> gameWave;
-    [SerializeField] public StageDataSO StageData;
+    public StageDataSO StageData;
     public int WaveRound;
 
     private void Start()
     {
         WaveDataSet("STG0001");//테스트 용
         PoolManager.Instance.Init(ResourceType.Enemy);
+        PoolManager.Instance.Init(ResourceType.Projectile);
         ExhangeToNight();
     }
 
