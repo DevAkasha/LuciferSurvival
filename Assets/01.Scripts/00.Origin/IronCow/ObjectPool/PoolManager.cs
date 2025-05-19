@@ -16,7 +16,6 @@ public class PoolManager : Singleton<PoolManager>
             string parentName = data.prefabName + "parent";
             if (transform.Find(parentName) != null)
             {
-                Debug.LogWarning($"이미 {parentName}이(가) 존재하여 생성을 건너뜁니다.");
                 continue;
             }
 
@@ -140,7 +139,7 @@ public class PoolManager : Singleton<PoolManager>
 
     public void SheetsInfo(string resourceType)
     {
-        sheets.Clear();
+        //sheets.Clear();
 
         // Resources/Prefabs 폴더에서 모든 프리팹을 불러오기
         var prefabs = Resources.LoadAll<GameObject>(resourceType);

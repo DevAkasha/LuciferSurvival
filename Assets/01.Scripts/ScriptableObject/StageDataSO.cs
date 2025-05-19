@@ -9,4 +9,11 @@ public class StageDataSO : BaseDataSO
     public string wave3;
     public string wave4;
     public string wave5;
+    
+    public string enemyType1;
+    public string enemyType2;
+    public string enemyType3;
+
+    public string reward1;
+    public int reward1Count;
 }
