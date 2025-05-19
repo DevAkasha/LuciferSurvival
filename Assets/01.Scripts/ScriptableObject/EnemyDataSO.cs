@@ -15,11 +15,11 @@ public enum EnemyType
 [CreateAssetMenu(fileName = "EnemyDataSO", menuName = "ScriptableObjects/EnemyDataSO")]
 public class EnemyDataSO : BaseDataSO
 {
-
     public EnemyType enemyType;
     public float atk;
     public float moveSpeed;
     public float health;
     public float atkRange;
     public float coolTime;
+    public int rewardCount;
 }
