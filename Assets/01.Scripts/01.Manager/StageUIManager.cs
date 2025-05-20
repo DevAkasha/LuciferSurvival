@@ -73,7 +73,7 @@ public class StageUIManager : Singleton<StageUIManager>
 
     public void RefreshAllUnitSlots()
     {
-        UnitInventory[] unitSlots = StageManager.Instance.unitSlots;
+        StackableUnitModel[] unitSlots = StageManager.Instance.unitSlots;
 
         for (int i = 0; i < unitSlotUIs.Length; i++)
         {
@@ -86,7 +86,7 @@ public class StageUIManager : Singleton<StageUIManager>
 
     public void RefreshUnitSlot(int index)
     {
-        UnitInventory[] unitSlots = StageManager.Instance.unitSlots;
+        StackableUnitModel[] unitSlots = StageManager.Instance.unitSlots;
 
         if (index < 0 || index >= unitSlotUIs.Length)
             return;

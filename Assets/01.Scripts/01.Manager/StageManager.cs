@@ -6,7 +6,7 @@ using UnityEngine;
 public class StageManager : Singleton<StageManager>
 {
     //유닛 인벤토리
-    public UnitInventory[] unitSlots = new UnitInventory[8];
+    public StackableUnitModel[] unitSlots = new StackableUnitModel[8];
     //유닛 장착 슬롯
     public UnitModel[] equippedUnits = new UnitModel[6];
 
@@ -22,9 +22,9 @@ public class StageManager : Singleton<StageManager>
         ClearAllSlots();
 
         //테스트용 코드
-        unitSlots[0] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0014")));
-        unitSlots[1] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0025")));
-        unitSlots[2] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0034")));
+        unitSlots[0] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0014")));
+        unitSlots[1] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0025")));
+        unitSlots[2] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0034")));
         unitSlots[0].count = 3;
         unitSlots[1].count = 3;
         unitSlots[2].count = 3;
@@ -104,7 +104,7 @@ public class StageManager : Singleton<StageManager>
     {
         for (int i = 0; i < unitSlots.Length; i++)
         {
-            UnitInventory item = unitSlots[i];
+            StackableUnitModel item = unitSlots[i];
             if (item != null && item.unitModel.rcode == unit.rcode && item.count < 3)
             {
                 item.AddCount();
@@ -116,7 +116,7 @@ public class StageManager : Singleton<StageManager>
         {
             if (unitSlots[i] == null)
             {
-                unitSlots[i] = new UnitInventory(unit);
+                unitSlots[i] = new StackableUnitModel(unit);
                 return;
             }
         }
@@ -127,7 +127,7 @@ public class StageManager : Singleton<StageManager>
     {
         for (int i = 0; i < unitSlots.Length; i++)
         {
-            UnitInventory slot = unitSlots[i];
+            StackableUnitModel slot = unitSlots[i];
             if (slot != null && slot.unitModel.rcode == model.rcode && slot.count < 3)
             {
                 return true;
@@ -154,7 +154,7 @@ public class StageManager : Singleton<StageManager>
             return;
         }
 
-        UnitInventory item = unitSlots[slotIndex];
+        StackableUnitModel item = unitSlots[slotIndex];
 
         if (item == null)
         {
@@ -192,7 +192,7 @@ public class StageManager : Singleton<StageManager>
     {
         for (int i = 0; i < unitSlots.Length; i++)
         {
-            UnitInventory item = unitSlots[i];
+            StackableUnitModel item = unitSlots[i];
             if (item == null)
             {
                 Debug.Log($"슬롯 {i}: (비어있음)");
@@ -266,7 +266,7 @@ public class StageManager : Singleton<StageManager>
     public int GetUnitCount(string rcode)
     {
         int total = 0;
-        foreach (UnitInventory slot in unitSlots)
+        foreach (StackableUnitModel slot in unitSlots)
         {
             if (slot != null && slot.unitModel.rcode == rcode)
                 total += slot.count;

@@ -2,19 +2,19 @@ using UnityEngine;
 
 public abstract class UnitSlotBase : MonoBehaviour
 {
-    protected UnitInventory unitInventory;
+    protected StackableUnitModel stackableUnit;
     protected int slotIndex;
 
-    public virtual void SetSlot(UnitInventory inventory, int index)
+    public virtual void SetSlot(StackableUnitModel unitModel, int index)
     {
-        unitInventory = inventory;
+        stackableUnit = unitModel;
         slotIndex = index;
         UpdateSlotUI();
     }
 
     public virtual void ClearSlot()
     {
-        unitInventory = null;
+        stackableUnit = null;
         UpdateSlotUI();
     }
 
