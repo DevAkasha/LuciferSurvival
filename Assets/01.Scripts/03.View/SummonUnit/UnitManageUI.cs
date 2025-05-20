@@ -41,6 +41,7 @@ public class UnitManageUI : UIBase
     public override void Closed(object[] param)
     {
         StageManager.Instance.OnPopupClose();
+        GameManager.Instance.PauseReleaseGame();
     }
 
     public void OnManageUIClose()
