@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 [AddComponentMenu("Camera-Control/Mouse Orbit with zoom")]
@@ -16,7 +16,7 @@ public class MouseOrbitImproved : MonoBehaviour
     public float distanceMin = .5f;
     public float distanceMax = 15f;
 
-    private Rigidbody rigidbody;
+    private Rigidbody rigidbodys;
 
     float x = 0.0f;
     float y = 0.0f;
@@ -28,12 +28,12 @@ public class MouseOrbitImproved : MonoBehaviour
         x = angles.y;
         y = angles.x;
 
-        rigidbody = GetComponent<Rigidbody>();
+        rigidbodys = GetComponent<Rigidbody>();
 
         // Make the rigid body not change rotation
-        if (rigidbody != null)
+        if (GetComponent<Rigidbody>() != null)
         {
-            rigidbody.freezeRotation = true;
+            GetComponent<Rigidbody>().freezeRotation = true;
         }
     }
 

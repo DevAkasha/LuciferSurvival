@@ -131,7 +131,7 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
 
     private void Update()
     {
-        //Entity.TakeDamaged(1f);
+        Entity.TakeDamaged(0.1f);
     }
 
     protected override void AtDisable()

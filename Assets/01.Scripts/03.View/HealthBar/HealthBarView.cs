@@ -65,6 +65,5 @@ public class HealthBarView : MonoBehaviour
             boss = null;
         }
     }
-
     private void OnTargetDeath() => HealthBarManager.Instance.Detach(this);
 }
