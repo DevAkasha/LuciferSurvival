@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,9 +18,7 @@ public class GameManager : Singleton<GameManager>
     {
         WaveDataInfo();
         WaveDataSet(1);//테스트 용
-        //PoolManager.Instance.Init(ResourceType.Enemy);
-        PoolManager.Instance.Init(ResourceType.Projectile);
-        //ExhangeToNight();
+        
     }
 
     public void WaveDataSet(int i)
@@ -88,8 +89,9 @@ public class GameManager : Singleton<GameManager>
         EssenceOfRuin -= Essence;
     }
 
-    public void PauseGame()
+    public async void PauseGame()
     {
+        await UniTask.Delay(TimeSpan.FromSeconds(0.1f), DelayType.DeltaTime, PlayerLoopTiming.Update);
         Time.timeScale = 0f;
         Debug.Log("일시 정지");
     }

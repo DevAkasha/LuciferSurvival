@@ -11,6 +11,12 @@ public class WaveManager : Singleton<WaveManager>
 
     public WaveModel WaveData;
 
+    private void Start()
+    {
+        PoolManager.Instance.Init(ResourceType.Enemy);
+        PoolManager.Instance.Init(ResourceType.Projectile);
+        GameManager.Instance.ExhangeToNight();
+    }
     public void SetWave(WaveModel waveData)
     {
         WaveData = waveData;
