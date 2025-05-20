@@ -33,9 +33,9 @@ public class UnitCard : MonoBehaviour
     //카드 클릭시 팝업 생성
     public void OnClcickCard()
     {
-        //    detailPrefab.SetUnitInfo(unitData);
-        //    detailPrefab.SetUnitSkillInfo(unitData);
-        //    UIManager.Show(detailPrefab, detailTransform);
+        detailPrefab.SetUnitInfo(unitData);
+        detailPrefab.SetUnitSkillInfo(unitData);
+        UIManager.Show(detailPrefab, detailTransform);
     }
 
     public void SetDetailTransform(Transform parent)
