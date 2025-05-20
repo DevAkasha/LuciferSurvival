@@ -73,6 +73,27 @@ public class GameManager : Singleton<GameManager>
             gameWave.Add(new StageModel(StageData));
         }
     }
+
+    public void GetEssence(int Essence)
+    {
+        EssenceOfRuin += Essence;
+    }
+
+    public void LessEssence(int Essence)
+    {
+        EssenceOfRuin -= Essence;
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+        Debug.Log("일시 정지");
+    }
+    public void PauseReleaseGame()
+    {
+        Time.timeScale = 1f;
+        Debug.Log("일시 정지 해제");
+    }
 }
 [CustomEditor(typeof(GameManager))]
 public class GameEditor : Editor
