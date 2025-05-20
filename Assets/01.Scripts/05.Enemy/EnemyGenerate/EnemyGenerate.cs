@@ -51,7 +51,7 @@ public class EnemyGenerate : MonoBehaviour
 
                 //카메라 시야 밖 여부 확인
                 Bounds bounds = new Bounds(navPos + Vector3.up * 1f, Vector3.one);
-                if (!GeometryUtility.TestPlanesAABB(frustumPlanes, bounds))
+                if (GeometryUtility.TestPlanesAABB(frustumPlanes, bounds))
                 {
                     return navPos;
                 }
@@ -70,20 +70,4 @@ public class EnemyGenerate : MonoBehaviour
         }
     }
 
-}
-[CustomEditor(typeof(EnemyGenerate))]
-public class EnemySpawn : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        if (EditorApplication.isPlaying)
-        {
-            if (GUILayout.Button("적 생성"))
-            {
-                ((EnemyGenerate)target).EnemySet();
-            }
-        }
-    }
 }
