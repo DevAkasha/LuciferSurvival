@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEditor;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    private List<StageModel> gameWave = new();
+    public List<StageModel> gameWave = new();
     private StageModel thisStage;
     public int WaveRound;
 
@@ -15,14 +18,16 @@ public class GameManager : Singleton<GameManager>
     {
         WaveDataInfo();
         WaveDataSet(1);//테스트 용
-        PoolManager.Instance.Init(ResourceType.Enemy);
-        PoolManager.Instance.Init(ResourceType.Projectile);
-        ExhangeToNight();
+        
     }
 
     public void WaveDataSet(int i)
     {
+        if (0 > i || i > gameWave.Count)
+            return;
+
         thisStage = gameWave[i];
+        Debug.Log($"스테이지{i+1} 설정");
     }
 
     public void ExhangeToNight()//밤으로 전환, 다음 라운드로 Data 변경
@@ -84,8 +89,9 @@ public class GameManager : Singleton<GameManager>
         EssenceOfRuin -= Essence;
     }
 
-    public void PauseGame()
+    public async void PauseGame()
     {
+        await UniTask.Delay(TimeSpan.FromSeconds(0.1f), DelayType.DeltaTime, PlayerLoopTiming.Update);
         Time.timeScale = 0f;
         Debug.Log("일시 정지");
     }
