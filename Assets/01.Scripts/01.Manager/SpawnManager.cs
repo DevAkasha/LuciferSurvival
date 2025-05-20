@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -42,7 +43,7 @@ public class SpawnManager : Singleton<SpawnManager>
             Vector3 spawnCircle = new Vector3(randomXZ.x, 0f, randomXZ.y) + new Vector3(target.position.x, 0f, target.position.z);//원의 중심을 정하고 범위 지정
 
             // NavMesh 위 확인
-            if (NavMesh.SamplePosition(spawnCircle, out NavMeshHit hit, 2, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(spawnCircle, out NavMeshHit hit, 0.1f, NavMesh.AllAreas))
             {
                 Vector3 navPos = hit.position;
 
@@ -50,7 +51,7 @@ public class SpawnManager : Singleton<SpawnManager>
                 Bounds bounds = new Bounds(navPos + Vector3.up * 1f, Vector3.one);
                 if (!GeometryUtility.TestPlanesAABB(frustumPlanes, bounds))
                 {
-                    Debug.Log($"{navPos}");
+                    //Debug.Log($"{navPos}");
                     return navPos;
                 }
             }
@@ -58,5 +59,21 @@ public class SpawnManager : Singleton<SpawnManager>
 
         Debug.Log("먼가 없음");
         return new Vector3(50, 0, 50);
+    }
+}
+[CustomEditor(typeof(SpawnManager))]
+public class EnemySpawn : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        if (EditorApplication.isPlaying)
+        {
+            if (GUILayout.Button("적 생성"))
+            {
+                ((SpawnManager)target).EnemySpawn("ENE0001");
+            }
+        }
     }
 }
