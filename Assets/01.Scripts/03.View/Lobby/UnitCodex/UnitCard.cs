@@ -15,19 +15,31 @@ public class UnitCard : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI unitNameText;
 
-    //[SerializeField] 유닛 상세정보 작성 필요
-    
+    [SerializeField]
+    private UnitCodexDetail detailPrefab;
 
-    public void SetUnitCard(Sprite sprite, int grade, string unitName)
+    private UnitDataSO unitData;
+
+    private Transform detailTransform;
+
+    public void SetUnitCard(UnitDataSO data)
     {
-        unitImage.sprite = sprite;
-        gradeText.text = grade.ToString();
-        unitNameText.text = unitName;
+        unitData = data;
+        unitImage.sprite = data.thumbnail;
+        gradeText.text = ((int)data.grade).ToString();  
+        unitNameText.text = data.displayName;
     }
 
     //카드 클릭시 팝업 생성
-    public void OnCardClick()
+    public void OnClcickCard()
     {
+        //    detailPrefab.SetUnitInfo(unitData);
+        //    detailPrefab.SetUnitSkillInfo(unitData);
+        //    UIManager.Show(detailPrefab, detailTransform);
+    }
 
+    public void SetDetailTransform(Transform parent)
+    {
+        detailTransform = parent;
     }
 }
