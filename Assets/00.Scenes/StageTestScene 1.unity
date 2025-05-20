@@ -1182,9 +1182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16cff25f0e37c514e8ca6756fb376b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameWave: []
-  StageData: {fileID: 0}
   WaveRound: 0
+  EssenceOfRuin: 0
 --- !u!4 &802261284
 Transform:
   m_ObjectHideFlags: 0
@@ -2265,6 +2264,10 @@ MonoBehaviour:
   - {x: 7, y: 8}
   - {x: 6, y: 8}
   environmentTemplate: []
+  hexagonRadius: 7
+  resourceMinDistance: 3
+  soulAltarPrefab: {fileID: 3118581538944598953, guid: 03a5331808f24d844b75b1d8c16614c5,
+    type: 3}
 --- !u!4 &1676123043
 Transform:
   m_ObjectHideFlags: 0
@@ -2472,8 +2475,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   killCount: 0
-  rcode: 
-  WaveData: {fileID: 0}
 --- !u!4 &1801128532
 Transform:
   m_ObjectHideFlags: 0

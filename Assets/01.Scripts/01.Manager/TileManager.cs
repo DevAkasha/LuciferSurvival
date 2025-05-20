@@ -24,10 +24,13 @@ public class TileManager : Singleton<TileManager>
 
     private Dictionary<Vector2Int, List<Vector3>> cellResources = new Dictionary<Vector2Int, List<Vector3>>();
 
+    [SerializeField] private GameObject soulAltarPrefab; // 영혼의제단
+
     private void Start()
     {
         SetResourceTileMap();
         SetLockTileMap();
+        SetSoulAltar();
     }
 
     public void SetEnviroment()
@@ -132,6 +135,21 @@ public class TileManager : Singleton<TileManager>
         return new Vector3(center.x + offset2D.x, 0, center.z + offset2D.y);
     }
 
+    // 영혼석 소환
+    public void SetSoulAltar()
+    {
+        int halfGrid = gridCount / 2;
+
+        Vector2Int centerCell = new Vector2Int(halfGrid, halfGrid);
+        Vector3Int gridCell = new Vector3Int(0, 0, 0);
+        Vector3 worldPos = grid.CellToWorld(gridCell);
+        Vector3 altarPos = new Vector3(worldPos.x, 0f, worldPos.z + -1.5f);
+
+        if (soulAltarPrefab != null)
+        {
+            Instantiate(soulAltarPrefab, altarPos, Quaternion.identity, ResourceTileBlock);
+        }
+    }
 
     // 위치확인용 기즈모
     private void OnDrawGizmosSelected()
