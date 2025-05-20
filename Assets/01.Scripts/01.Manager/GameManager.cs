@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    private List<StageModel> gameWave = new();
+    public List<StageModel> gameWave = new();
     private StageModel thisStage;
     public int WaveRound;
 
@@ -15,14 +15,18 @@ public class GameManager : Singleton<GameManager>
     {
         WaveDataInfo();
         WaveDataSet(1);//테스트 용
-        PoolManager.Instance.Init(ResourceType.Enemy);
+        //PoolManager.Instance.Init(ResourceType.Enemy);
         PoolManager.Instance.Init(ResourceType.Projectile);
-        ExhangeToNight();
+        //ExhangeToNight();
     }
 
     public void WaveDataSet(int i)
     {
+        if (0 > i || i > gameWave.Count)
+            return;
+
         thisStage = gameWave[i];
+        Debug.Log($"스테이지{i+1} 설정");
     }
 
     public void ExhangeToNight()//밤으로 전환, 다음 라운드로 Data 변경
