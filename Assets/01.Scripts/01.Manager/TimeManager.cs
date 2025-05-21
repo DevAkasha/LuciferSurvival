@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
+
 // 상태 enum
 public enum TimeState
 {
@@ -18,7 +19,7 @@ public class TimeManager : Singleton<TimeManager>
 
     [Header("Sun")]
     public Light sun; // 태양
-    //public Color dayLightColor; // 태양 밝기, 쓸모없으면 나중에 제외
+    //public Color dayLightColor; // 태양 밝기
     public float dayLightIntensity = 1.0f; // 빛의 세기
 
     [Header("Moon")]
@@ -84,7 +85,7 @@ public class TimeManager : Singleton<TimeManager>
         if (currentTimeState != TimeState.Night)
         {
             currentTimeState = TimeState.Night;
-            StartLightingTransition(); 
+            StartLightingTransition();
             if (battleScreen != null && battleScreen.gameObject.activeInHierarchy)
                 battleScreen.UpdateBattleScreenState();
 
