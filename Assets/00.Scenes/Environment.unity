@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028301, g: 0.22571309, b: 0.30692127, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -509,6 +509,11 @@ MonoBehaviour:
   battleScreenBlinkInterval: 0.5
   battleScreenMinAlpha: 0.2
   battleScreenMaxAlpha: 0.3
+  enableNightTimer: 1
+  defaultNightDuration: 30
+  currentStage: 1
+  currentWaveCount: 0
+  maxWaveCount: 5
 --- !u!4 &745459429
 Transform:
   m_ObjectHideFlags: 0
@@ -1379,6 +1384,10 @@ MonoBehaviour:
   - {x: 7, y: 8}
   - {x: 6, y: 8}
   environmentTemplate: []
+  hexagonRadius: 7
+  resourceMinDistance: 3
+  soulAltarPrefab: {fileID: 3118581538944598953, guid: 03a5331808f24d844b75b1d8c16614c5,
+    type: 3}
 --- !u!4 &1991441222
 Transform:
   m_ObjectHideFlags: 0

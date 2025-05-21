@@ -7,6 +7,7 @@ public class StageModel : BaseModel
     public List<WaveModel> StageData = new();
     public List<string> StageEnemyType = new();
 
+    public string Title;
     public string Reward1;
     public int Reward1Count;
 
@@ -14,6 +15,7 @@ public class StageModel : BaseModel
     {
         StageEnemyType.AddRange(new[] {stageDataSO.enemyType1, stageDataSO.enemyType2, stageDataSO.enemyType3 });
 
+        Title = stageDataSO.displayName;
         Reward1 = stageDataSO.reward1;
         Reward1Count = stageDataSO.reward1Count;
 

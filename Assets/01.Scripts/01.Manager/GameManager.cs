@@ -5,11 +5,13 @@ using Cysharp.Threading.Tasks;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
     public List<StageModel> gameWave = new();
-    private StageModel thisStage;
+    public StageModel thisStage;
+    public int StageNumber;
     public int WaveRound;
 
     public int EssenceOfRuin;
@@ -17,8 +19,7 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         WaveDataInfo();
-        WaveDataSet(1);//테스트 용
-        
+        WaveDataSet(0);//테스트 용
     }
 
     public void WaveDataSet(int i)
@@ -26,8 +27,10 @@ public class GameManager : Singleton<GameManager>
         if (0 > i || i > gameWave.Count)
             return;
 
-        thisStage = gameWave[i];
-        Debug.Log($"스테이지{i+1} 설정");
+        WaveRound = 0;
+        StageNumber = i;
+        thisStage = gameWave[StageNumber];
+        Debug.Log($"스테이지{StageNumber + 1} 준비");
     }
 
     public void ExhangeToNight()//밤으로 전환, 다음 라운드로 Data 변경
@@ -53,13 +56,14 @@ public class GameManager : Singleton<GameManager>
 
     public void WaveTheEnd()
     {
-        if (WaveRound < gameWave.Count)
+        if (WaveRound < thisStage.StageData.Count)
         {
             ExhangeToNight();
             Debug.Log("다음 웨이브 준비");
         }
         else
         {
+            StageUIManager.Instance.OnStageCleatWindow();
             Debug.Log("스테이지 클리어!");
         }
     }
@@ -74,7 +78,6 @@ public class GameManager : Singleton<GameManager>
             {
                 continue;
             }
-
             gameWave.Add(new StageModel(StageData));
         }
     }
@@ -89,9 +92,9 @@ public class GameManager : Singleton<GameManager>
         EssenceOfRuin -= Essence;
     }
 
-    public async void PauseGame()
+    public async void PauseGame(float delayTime)
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(0.1f), DelayType.DeltaTime, PlayerLoopTiming.Update);
+        await UniTask.Delay(TimeSpan.FromSeconds(delayTime), DelayType.DeltaTime, PlayerLoopTiming.Update);
         Time.timeScale = 0f;
         Debug.Log("일시 정지");
     }
@@ -112,7 +115,7 @@ public class GameEditor : Editor
         {
             if (GUILayout.Button("전투 시작"))
             {
-                ((GameManager)target).ExhangeToDay();
+                GameManager.Instance.ExhangeToDay();
             }
 
         }
