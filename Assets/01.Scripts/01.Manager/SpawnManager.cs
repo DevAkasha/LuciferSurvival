@@ -43,7 +43,7 @@ public class SpawnManager : Singleton<SpawnManager>
             Vector3 spawnCircle = new Vector3(randomXZ.x, 0f, randomXZ.y) + new Vector3(target.position.x, 0f, target.position.z);//원의 중심을 정하고 범위 지정
 
             // NavMesh 위 확인
-            if (NavMesh.SamplePosition(spawnCircle, out NavMeshHit hit, 0.1f, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(spawnCircle, out NavMeshHit hit, 2f, NavMesh.AllAreas))
             {
                 Vector3 navPos = hit.position;
 
