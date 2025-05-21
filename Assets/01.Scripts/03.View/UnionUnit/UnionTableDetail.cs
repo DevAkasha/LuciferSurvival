@@ -65,6 +65,6 @@ public class UnionTableDetail : MonoBehaviour
 
     public void SetBtnText(int cost)
     {
-        unionBtnText.text = "합성(비용 : " + cost + ")";
+        unionBtnText.text = "합성(비용 : " + cost + " / " + StageManager.Instance.SoulStone + ")";
     }
 }
