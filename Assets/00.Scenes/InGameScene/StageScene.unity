@@ -971,8 +971,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 498779674}
-        m_TargetAssemblyTypeName: UnitManageButton, Assembly-CSharp
-        m_MethodName: OnUnitManageOpen
+        m_TargetAssemblyTypeName: SummonUnitButton, Assembly-CSharp
+        m_MethodName: OpenSummonUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1029,11 +1029,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 498779668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2987ddb5005584849a0c4227bcd9bc30, type: 3}
+  m_Script: {fileID: 11500000, guid: 275d165a53e56ae4995332638c6d1b4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 1299108146}
-  ui: {fileID: 2727425071797321499, guid: 08635d314f842cf42a665bcbbe7f9817, type: 3}
+  manageUI: {fileID: 2727425071797321499, guid: 08635d314f842cf42a665bcbbe7f9817,
+    type: 3}
 --- !u!1 &734977986
 GameObject:
   m_ObjectHideFlags: 0
