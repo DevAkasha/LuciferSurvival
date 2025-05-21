@@ -464,15 +464,12 @@ MonoBehaviour:
   dayReflectionIntensity: 1
   nightReflectionIntensity: 0.4
   transitionDuration: 2
-  battleScreen: {fileID: 0}
-  battleScreenBlinkInterval: 0.5
-  battleScreenMinAlpha: 0.2
-  battleScreenMaxAlpha: 0.3
   enableNightTimer: 1
   defaultNightDuration: 30
   currentStage: 1
   currentWaveCount: 0
   maxWaveCount: 5
+  battleScreen: {fileID: 0}
 --- !u!4 &314857907
 Transform:
   m_ObjectHideFlags: 0
@@ -1182,9 +1179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16cff25f0e37c514e8ca6756fb376b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameWave: []
-  StageData: {fileID: 0}
   WaveRound: 0
+  EssenceOfRuin: 0
 --- !u!4 &802261284
 Transform:
   m_ObjectHideFlags: 0
@@ -1483,20 +1479,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b29a5c70a0f7c314e980a2f524978828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: https://docs.google.com/spreadsheets/d/12fHdjZZQ7cL0xARX6AbQV_d08fnGQ6NqpUhi-ePcUbs/
-  sheets:
-  - className: UnitDataSO
-    sheetId: 930551064
-    key: 
-    isUpdate: 0
-  - className: EnemyDataSO
-    sheetId: 1576224224
-    key: 
-    isUpdate: 0
-  - className: UnionTableSO
-    sheetId: 1480292564
-    key: 
-    isUpdate: 0
 --- !u!4 &1055225187
 Transform:
   m_ObjectHideFlags: 0
@@ -2331,6 +2313,10 @@ MonoBehaviour:
   - {x: 7, y: 8}
   - {x: 6, y: 8}
   environmentTemplate: []
+  hexagonRadius: 7
+  resourceMinDistance: 3
+  soulAltarPrefab: {fileID: 3118581538944598953, guid: 03a5331808f24d844b75b1d8c16614c5,
+    type: 3}
 --- !u!4 &1676123043
 Transform:
   m_ObjectHideFlags: 0
@@ -2538,8 +2524,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   killCount: 0
-  rcode: 
-  WaveData: {fileID: 0}
 --- !u!4 &1801128532
 Transform:
   m_ObjectHideFlags: 0
