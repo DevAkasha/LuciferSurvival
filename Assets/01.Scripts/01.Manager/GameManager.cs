@@ -78,7 +78,6 @@ public class GameManager : Singleton<GameManager>
             {
                 continue;
             }
-
             gameWave.Add(new StageModel(StageData));
         }
     }
@@ -93,9 +92,9 @@ public class GameManager : Singleton<GameManager>
         EssenceOfRuin -= Essence;
     }
 
-    public async void PauseGame()
+    public async void PauseGame(float delayTime)
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(0.1f), DelayType.DeltaTime, PlayerLoopTiming.Update);
+        await UniTask.Delay(TimeSpan.FromSeconds(delayTime), DelayType.DeltaTime, PlayerLoopTiming.Update);
         Time.timeScale = 0f;
         Debug.Log("일시 정지");
     }

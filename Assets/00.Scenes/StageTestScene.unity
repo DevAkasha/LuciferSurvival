@@ -464,15 +464,12 @@ MonoBehaviour:
   dayReflectionIntensity: 1
   nightReflectionIntensity: 0.4
   transitionDuration: 2
-  battleScreen: {fileID: 0}
-  battleScreenBlinkInterval: 0.5
-  battleScreenMinAlpha: 0.2
-  battleScreenMaxAlpha: 0.3
   enableNightTimer: 1
   defaultNightDuration: 30
   currentStage: 1
   currentWaveCount: 0
   maxWaveCount: 5
+  battleScreen: {fileID: 0}
 --- !u!4 &314857907
 Transform:
   m_ObjectHideFlags: 0
@@ -990,18 +987,6 @@ MonoBehaviour:
       - m_Target: {fileID: 498779670}
         m_TargetAssemblyTypeName: Ricimi.PopupOpener, Assembly-CSharp
         m_MethodName: OpenPopup
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 802261283}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: PauseGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2218,6 +2203,9 @@ MonoBehaviour:
   - {x: 7, y: 8}
   - {x: 6, y: 8}
   environmentTemplate: []
+  hexagonRadius: 7
+  resourceMinDistance: 3
+  soulAltarPrefab: {fileID: 0}
 --- !u!4 &1676123043
 Transform:
   m_ObjectHideFlags: 0

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class StageSelectArea : MonoBehaviour
@@ -12,12 +14,16 @@ public class StageSelectArea : MonoBehaviour
         SetStageCard();
     }
 
-    public void SetStageCard()
+    public async void SetStageCard()
     {
         if (GameManager.Instance.gameWave == null)
+        {
             return;
+        }
 
-        for(int i = 0; i < GameManager.Instance.gameWave.Count; i++)
+        await UniTask.Delay(TimeSpan.FromSeconds(0.1f), DelayType.DeltaTime, PlayerLoopTiming.Update);
+
+        for (int i = 0; i < GameManager.Instance.gameWave.Count; i++)
         {
             StageCard NextStageCard = Instantiate(stageCard, content);
             NextStageCard.GetStageInfo(i);
