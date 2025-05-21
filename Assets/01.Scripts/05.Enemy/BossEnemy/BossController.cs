@@ -82,7 +82,8 @@ public class BossController : MobileController<BossEntity, BossModel>
                 // 1. 행동 불가 상태 체크
                 new Sequence(
                     new Condition(() => IsDontAct),
-                    new BehaviorAction(() => {
+                    new BehaviorAction(() =>
+                    {
                         Entity.StopMove();
                         return NodeStatus.Success;
                     })
@@ -91,7 +92,8 @@ public class BossController : MobileController<BossEntity, BossModel>
                 // 2. 공격 대기 상태 체크
                 new Sequence(
                     new Condition(() => WaitAttackTime),
-                    new BehaviorAction(() => {
+                    new BehaviorAction(() =>
+                    {
                         if (attackTime)
                         {
                             if (IsInRange(Entity.Model.AtkRange.Value))
@@ -112,7 +114,8 @@ public class BossController : MobileController<BossEntity, BossModel>
                 new Sequence(
                     new Condition(() => IsCastable),
                     new SetFlagAction<PlayerStateFlag>(Entity.Model.Flags, PlayerStateFlag.Cast, true),
-                    new BehaviorAction(() => {
+                    new BehaviorAction(() =>
+                    {
                         Entity.StopMove();
                         return NodeStatus.Success;
                     })
@@ -121,7 +124,8 @@ public class BossController : MobileController<BossEntity, BossModel>
                 // 4. 스킬1 체크
                 new Sequence(
                     new Condition(() => IsInRange(Entity.Model.Skill1Range.Value) && skillCooldownFlags.GetValueOrDefault("Skill1", true)),
-                    new BehaviorAction(() => {
+                    new BehaviorAction(() =>
+                    {
                         IsSkill1 = true;
                         transform.LookAt(player.transform);
                         Entity.StopMove();
@@ -135,7 +139,8 @@ public class BossController : MobileController<BossEntity, BossModel>
                 // 5. 스킬2 체크
                 new Sequence(
                     new Condition(() => IsInRange(Entity.Model.Skill2Range.Value) && skillCooldownFlags.GetValueOrDefault("Skill2", true)),
-                    new BehaviorAction(() => {
+                    new BehaviorAction(() =>
+                    {
                         IsSkill2 = true;
                         transform.LookAt(player.transform);
                         Entity.StopMove();
@@ -149,7 +154,8 @@ public class BossController : MobileController<BossEntity, BossModel>
                 // 6. 스킬3 체크
                 new Sequence(
                     new Condition(() => IsInRange(Entity.Model.Skill3Range.Value) && skillCooldownFlags.GetValueOrDefault("Skill3", true)),
-                    new BehaviorAction(() => {
+                    new BehaviorAction(() =>
+                    {
                         IsSkill3 = true;
                         transform.LookAt(player.transform);
                         Entity.StopMove();
@@ -163,7 +169,8 @@ public class BossController : MobileController<BossEntity, BossModel>
                 // 7. 공격 범위 내 체크
                 new Sequence(
                     new Condition(() => IsInRange(Entity.Model.AtkRange.Value)),
-                    new BehaviorAction(() => {
+                    new BehaviorAction(() =>
+                    {
                         IsAttack = true;
                         transform.LookAt(player.transform);
                         Entity.StopMove();
@@ -176,14 +183,16 @@ public class BossController : MobileController<BossEntity, BossModel>
                 // 8. 플레이어를 향해 이동
                 new Sequence(
                     new Condition(() => player != null),
-                    new BehaviorAction(() => {
+                    new BehaviorAction(() =>
+                    {
                         Entity.MoveTo(player.transform.position);
                         return NodeStatus.Success;
                     })
                 ),
 
                 // 9. 기본 상태
-                new BehaviorAction(() => {
+                new BehaviorAction(() =>
+                {
                     Entity.StopMove();
                     return NodeStatus.Success;
                 })
