@@ -73,4 +73,5 @@ public class WaveManager : Singleton<WaveManager>
 
         return CountArray;
     }
+
 }

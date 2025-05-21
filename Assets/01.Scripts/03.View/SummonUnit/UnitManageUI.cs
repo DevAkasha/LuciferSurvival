@@ -47,4 +47,5 @@ public class UnitManageUI : UIBase
     {
         UIManager.Hide(this);
     }
+
 }

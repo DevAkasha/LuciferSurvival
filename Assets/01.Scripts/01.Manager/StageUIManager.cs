@@ -27,6 +27,8 @@ public class StageUIManager : Singleton<StageUIManager>
 
     public HashSet<string> UnionFavoriteSet { get { return unionFavoriteSet; } }
 
+    [SerializeField] private GameObject StageCleatWindow;
+
     protected override void Awake()
     {
         base.Awake();
@@ -146,5 +148,10 @@ public class StageUIManager : Singleton<StageUIManager>
         {
             RefreshEquipSlot(i);
         }
+    }
+
+    public void OnStageCleatWindow()
+    {
+        var StageSlear = Instantiate(StageCleatWindow, canvas.transform);
     }
 }

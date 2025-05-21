@@ -999,6 +999,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 802261283}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: PauseGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &498779672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1182,6 +1194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16cff25f0e37c514e8ca6756fb376b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StageNumber: 0
   WaveRound: 0
   EssenceOfRuin: 0
 --- !u!4 &802261284
@@ -2814,6 +2827,8 @@ MonoBehaviour:
   slotPrefab: {fileID: 4775101306020985681, guid: 7f446c1a35fc8bf4592c61ed4a393bfa,
     type: 3}
   unitManageUI: {fileID: 0}
+  StageCleatWindow: {fileID: 3303692191186795091, guid: 74b3d8da0107c5e498044b0d43f4dacd,
+    type: 3}
 --- !u!4 &2130860240
 Transform:
   m_ObjectHideFlags: 0

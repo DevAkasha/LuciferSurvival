@@ -193,7 +193,7 @@ public class BossController : MobileController<BossEntity, BossModel>
 
     private void Update()
     {
-        Entity.TakeDamaged(1f);
+        Entity.TakeDamaged(1000f);
     }
 
     protected override void AtDisable()
