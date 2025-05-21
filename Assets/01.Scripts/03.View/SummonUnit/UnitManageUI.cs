@@ -36,6 +36,7 @@ public class UnitManageUI : UIBase
         StageUIManager.Instance.RegisterUnitSlots();
         StageUIManager.Instance.RegisterEquipSlots();
         StageUIManager.Instance.InitPreviewImage();
+        GameManager.Instance.PauseGame(0.2f);
     }
 
     public override void Closed(object[] param)
@@ -48,4 +49,5 @@ public class UnitManageUI : UIBase
     {
         UIManager.Hide(this);
     }
+
 }

@@ -5,6 +5,13 @@ using Cysharp.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
+public enum EnemyTypes
+{
+    Unknown,
+    Boss,
+    Enemy
+}
+
 public class WaveManager : Singleton<WaveManager>
 {
     [SerializeField] private int killCount;
@@ -45,6 +52,9 @@ public class WaveManager : Singleton<WaveManager>
 
             await UniTask.Delay(TimeSpan.FromSeconds(delay), DelayType.DeltaTime, PlayerLoopTiming.Update);
             SpawnManager.Instance.EnemySpawn(rcode);
+
+            if (GetEnemyTypes(rcode) == EnemyTypes.Boss)
+                StageUIManager.Instance.OnBossWarning();
         }
     }
 
@@ -72,5 +82,19 @@ public class WaveManager : Singleton<WaveManager>
         }
 
         return CountArray;
+    }
+
+    public EnemyTypes GetEnemyTypes(string rcode)
+    {
+        if (string.IsNullOrEmpty(rcode))
+            return EnemyTypes.Unknown;
+
+        if (rcode.StartsWith("BOSS"))
+            return EnemyTypes.Boss;
+
+        if (rcode.StartsWith("ENE"))
+            return EnemyTypes.Enemy;
+
+        return EnemyTypes.Unknown;
     }
 }
