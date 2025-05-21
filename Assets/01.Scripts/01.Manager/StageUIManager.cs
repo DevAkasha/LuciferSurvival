@@ -29,6 +29,8 @@ public class StageUIManager : Singleton<StageUIManager>
 
     [SerializeField] private GameObject StageCleatWindow;
 
+    [SerializeField] private GameObject BossWarningView;
+
     protected override void Awake()
     {
         base.Awake();
@@ -153,5 +155,10 @@ public class StageUIManager : Singleton<StageUIManager>
     public void OnStageCleatWindow()
     {
         var StageSlear = Instantiate(StageCleatWindow, canvas.transform);
+    }
+    
+    public void OnBossWarning()
+    { 
+        var StageSlear = Instantiate(BossWarningView, canvas.transform);
     }
 }
