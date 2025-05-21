@@ -17,12 +17,20 @@ public class TileManager : Singleton<TileManager>
     [SerializeField] private List<GameObject> resourceTileObj;  // 자원타일 프리펩 리스트
     [SerializeField] private Grid grid;
     [SerializeField] private List<Vector2Int> excludedCells;    // 제외할 셀 좌표 리스트
-    [SerializeField] private List<GameObject> environmentTemplate;
+    [SerializeField] private List<GameObject> environmentTemplate; // 추후 사용, 환경 등 변화에 대한 리스트
+
+    [SerializeField] private float hexagonRadius = 7f;          // 6각형 타일의 반지름
+    [SerializeField] private float resourceMinDistance = 3.0f;  // 자원 간 최소 거리
+
+    private Dictionary<Vector2Int, List<Vector3>> cellResources = new Dictionary<Vector2Int, List<Vector3>>();
+
+    [SerializeField] private GameObject soulAltarPrefab; // 영혼의제단
 
     private void Start()
     {
         SetResourceTileMap();
         SetLockTileMap();
+        SetSoulAltar();
     }
 
     public void SetEnviroment()
@@ -92,7 +100,7 @@ public class TileManager : Singleton<TileManager>
             }
         }
     }
-  
+
     public void SetLockTileMap()
     {
         // 그리드 중심으로부터 범위를 계산
@@ -127,8 +135,23 @@ public class TileManager : Singleton<TileManager>
         return new Vector3(center.x + offset2D.x, 0, center.z + offset2D.y);
     }
 
+    // 영혼석 소환
+    public void SetSoulAltar()
+    {
+        int halfGrid = gridCount / 2;
 
-    /// 자금타일 위치확인용 기즈모
+        Vector2Int centerCell = new Vector2Int(halfGrid, halfGrid);
+        Vector3Int gridCell = new Vector3Int(0, 0, 0);
+        Vector3 worldPos = grid.CellToWorld(gridCell);
+        Vector3 altarPos = new Vector3(worldPos.x, 0f, worldPos.z + -1.5f);
+
+        if (soulAltarPrefab != null)
+        {
+            Instantiate(soulAltarPrefab, altarPos, Quaternion.identity, ResourceTileBlock);
+        }
+    }
+
+    // 위치확인용 기즈모
     private void OnDrawGizmosSelected()
     {
         int halfGrid = gridCount / 2;

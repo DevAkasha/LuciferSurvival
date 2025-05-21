@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitInventory
+public class StackableUnitModel
 {
     public UnitModel unitModel;
     public int count;
 
-    public UnitInventory(UnitModel model)
+    public StackableUnitModel(UnitModel model)
     {
         unitModel = model;
         count = 1;

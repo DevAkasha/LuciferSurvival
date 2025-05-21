@@ -464,15 +464,12 @@ MonoBehaviour:
   dayReflectionIntensity: 1
   nightReflectionIntensity: 0.4
   transitionDuration: 2
-  battleScreen: {fileID: 0}
-  battleScreenBlinkInterval: 0.5
-  battleScreenMinAlpha: 0.2
-  battleScreenMaxAlpha: 0.3
   enableNightTimer: 1
   defaultNightDuration: 30
   currentStage: 1
   currentWaveCount: 0
   maxWaveCount: 5
+  battleScreen: {fileID: 0}
 --- !u!4 &314857907
 Transform:
   m_ObjectHideFlags: 0
@@ -901,7 +898,7 @@ GameObject:
   - component: {fileID: 498779673}
   - component: {fileID: 498779672}
   - component: {fileID: 498779671}
-  - component: {fileID: 498779670}
+  - component: {fileID: 498779674}
   m_Layer: 5
   m_Name: UnitManagerButton
   m_TagString: Untagged
@@ -929,20 +926,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 1, y: 1}
---- !u!114 &498779670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 498779668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 606828f3686ee4f0289cece909531556, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  popupPrefab: {fileID: 5819678475188948927, guid: 08635d314f842cf42a665bcbbe7f9817,
-    type: 3}
 --- !u!114 &498779671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -987,9 +970,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 498779670}
-        m_TargetAssemblyTypeName: Ricimi.PopupOpener, Assembly-CSharp
-        m_MethodName: OpenPopup
+      - m_Target: {fileID: 498779674}
+        m_TargetAssemblyTypeName: SummonUnitButton, Assembly-CSharp
+        m_MethodName: OpenSummonUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1037,6 +1020,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 498779668}
   m_CullTransparentMesh: 1
+--- !u!114 &498779674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498779668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 275d165a53e56ae4995332638c6d1b4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manageUI: {fileID: 2727425071797321499, guid: 08635d314f842cf42a665bcbbe7f9817,
+    type: 3}
 --- !u!1 &734977986
 GameObject:
   m_ObjectHideFlags: 0
@@ -1482,20 +1479,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b29a5c70a0f7c314e980a2f524978828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: https://docs.google.com/spreadsheets/d/12fHdjZZQ7cL0xARX6AbQV_d08fnGQ6NqpUhi-ePcUbs/
-  sheets:
-  - className: UnitDataSO
-    sheetId: 930551064
-    key: 
-    isUpdate: 0
-  - className: EnemyDataSO
-    sheetId: 1576224224
-    key: 
-    isUpdate: 0
-  - className: UnionTableSO
-    sheetId: 1480292564
-    key: 
-    isUpdate: 0
 --- !u!4 &1055225187
 Transform:
   m_ObjectHideFlags: 0
@@ -2490,6 +2473,10 @@ MonoBehaviour:
   - {x: 7, y: 8}
   - {x: 6, y: 8}
   environmentTemplate: []
+  hexagonRadius: 7
+  resourceMinDistance: 3
+  soulAltarPrefab: {fileID: 3118581538944598953, guid: 03a5331808f24d844b75b1d8c16614c5,
+    type: 3}
 --- !u!4 &1676123043
 Transform:
   m_ObjectHideFlags: 0
