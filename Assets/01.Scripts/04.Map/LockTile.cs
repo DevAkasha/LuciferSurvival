@@ -5,13 +5,12 @@ using UnityEngine;
 // 프리펩에 붙일 스크립트
 public class LockTile : BaseInteractable
 {
-    [SerializeField] private int unlockCost = 5; // 기본값 5로 설정, Inspector에서 조정 가능
+    [SerializeField] private int unlockCost = 5; // 기본값 5로 설정, Cost부분은 나중에 수정 혹은 삭제예정
 
     public override void Interact(PlayerEntity player)
     {
         if (StageManager.Instance.UseSoulStone(unlockCost))
         {
-            // 재화가 충분하면 타일 제거
             RemoveTile();
         }
         else
