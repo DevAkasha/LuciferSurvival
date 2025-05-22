@@ -37,7 +37,7 @@ public class UnionTableMain : MonoBehaviour
 
     public void OnClickCombine()
     {
-        bool success = StageManager.Instance.CombineUnit(unionTableDetail.CurTable);
+        bool success = UnitManager.Instance.CombineUnit(unionTableDetail.CurTable);
 
         if (success)
         {

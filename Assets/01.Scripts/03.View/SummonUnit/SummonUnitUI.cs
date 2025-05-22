@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using Ricimi;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
@@ -40,6 +41,55 @@ public class SummonUnitUI : MonoBehaviour
 
     private SummonSlot[] curSlots;
 
+    private void OnSoulStoneChanged(int value) => UpdateSoulStoneText(value);
+    private void OnRerollCostChanged(int value) => UpdateRerollCostText(value);
+    private void OnShopLevelChanged(int value) => UpdateShopLevelUpCostText();
+    private void OnShopLevelUpCostChanged(int value) => UpdateShopLevelUpCostText();
+
+    private int SoulStone 
+    {
+        get => StageManager.Instance.SoulStone;
+        set => StageManager.Instance.SoulStone = value;
+    }
+    private int RerollCost
+    {
+        get => UnitManager.Instance.RerollCost;
+        set => UnitManager.Instance.RerollCost = value;
+    }
+    private int ShopLevel
+    {
+        get => UnitManager.Instance.ShopLevel;
+        set => UnitManager.Instance.ShopLevel = value;
+    }
+    private int NextShopLevel
+    {
+        get => UnitManager.Instance.NextShopLevel;
+    }
+    //초기화
+    public void Init()//Ui 프레젠터로 이동
+    {
+        //반응형 이벤트 구독 
+        StageManager.Instance.soulStone.AddListener(OnSoulStoneChanged);
+        UnitManager.Instance.rerollCost.AddListener(OnRerollCostChanged);
+        UnitManager.Instance.shopLevel.AddListener(OnShopLevelChanged);
+        UnitManager.Instance.shopLevel.AddListener(OnShopLevelUpCostChanged);
+
+        UpdateShopLevelUpCostText();
+        UpdateRerollCostText(UnitManager.Instance.RerollCost);
+
+        //슬롯 UI 초기화
+        StageUIManager.Instance.RefreshAllUnitSlots();
+        StageUIManager.Instance.RefreshAllEquipSlots();
+    }
+
+    public void OnPopupClose() //Ui 프레젠터로 이동 리무브리스너형태로
+    {
+        StageManager.Instance.soulStone.RemoveListener(OnSoulStoneChanged);
+        UnitManager.Instance.rerollCost.RemoveListener(OnRerollCostChanged);
+        UnitManager.Instance.shopLevel.RemoveListener(OnShopLevelChanged);
+        UnitManager.Instance.shopLevel.RemoveListener(OnShopLevelUpCostChanged);
+    }
+
     private void Start()
     {
         curSlots = summonSlotLayout.GetComponentsInChildren<SummonSlot>();
@@ -50,18 +100,18 @@ public class SummonUnitUI : MonoBehaviour
     public void OnclickShopLevelUp()
     {
         //현재 상점 레벨 체크 후 레벨업이 가능한 재화이면 레벨업
-        if (SummonTableUtil.CanLevelUp(StageManager.Instance.NextShopLevel))
+        if (SummonTableUtil.CanLevelUp(NextShopLevel))
         {
-            if (StageManager.Instance.ReduceSoulStone(SummonTableUtil.GetSummonTable(StageManager.Instance.NextShopLevel).cost))
+            if (StageManager.Instance.ReduceSoulStone(SummonTableUtil.GetSummonTable(NextShopLevel).cost))
             {
-                StageManager.Instance.ShopLevel = StageManager.Instance.NextShopLevel;
+                ShopLevel = NextShopLevel;
             }
         }
     }
 
     public void OnclickRerollUnit()
     {
-        if (StageManager.Instance.ReduceSoulStone(StageManager.Instance.RerollCost))
+        if (StageManager.Instance.ReduceSoulStone(RerollCost))
         {
             SetRandomUnit();
         }
@@ -77,7 +127,7 @@ public class SummonUnitUI : MonoBehaviour
                 rerollIndices.Add(i);
         }
 
-        List<UnitDataSO> rerollUnits = SummonTableUtil.RerollShop(StageManager.Instance.ShopLevel, rerollIndices.Count);
+        List<UnitDataSO> rerollUnits = SummonTableUtil.RerollShop(ShopLevel, rerollIndices.Count);
 
         for (int i = 0; i < rerollIndices.Count; i++)
         {
@@ -88,7 +138,7 @@ public class SummonUnitUI : MonoBehaviour
 
     public bool CheckRerollCost()
     {
-        if (StageManager.Instance.SoulStone >= StageManager.Instance.RerollCost)
+        if (SoulStone >= RerollCost)
         {
             RerollButtonEnable();
             return true;
@@ -133,9 +183,9 @@ public class SummonUnitUI : MonoBehaviour
 
     public void UpdateShopLevelUpCostText()
     {
-        if (SummonTableUtil.CanLevelUp(StageManager.Instance.NextShopLevel))
+        if (SummonTableUtil.CanLevelUp(NextShopLevel))
         {
-            shopLevelUpCostText.text = SummonTableUtil.GetSummonTable(StageManager.Instance.NextShopLevel).cost.ToString();
+            shopLevelUpCostText.text = SummonTableUtil.GetSummonTable(NextShopLevel).cost.ToString();
         }
     }
 

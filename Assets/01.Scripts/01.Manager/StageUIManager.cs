@@ -54,7 +54,7 @@ public class StageUIManager : Singleton<StageUIManager>
 
         for (int i = 0; i < equipSlotUIs.Length; i++)
         {
-            equipSlotUIs[i].SetSlot(StageManager.Instance.GetEquippedUnit(i));
+            equipSlotUIs[i].SetSlot(UnitManager.Instance.GetEquippedUnit(i));
         }
         RefreshAllEquipSlots();
     }
@@ -77,7 +77,7 @@ public class StageUIManager : Singleton<StageUIManager>
 
     public void RefreshAllUnitSlots()
     {
-        StackableUnitModel[] unitSlots = StageManager.Instance.curUnitArray;
+        StackableUnitModel[] unitSlots = UnitManager.Instance.curUnitArray;
 
         for (int i = 0; i < unitSlotUIs.Length; i++)
         {
@@ -90,7 +90,7 @@ public class StageUIManager : Singleton<StageUIManager>
 
     public void RefreshUnitSlot(int index)
     {
-        StackableUnitModel[] unitSlots = StageManager.Instance.curUnitArray;
+        StackableUnitModel[] unitSlots = UnitManager.Instance.curUnitArray;
 
         if (index < 0 || index >= unitSlotUIs.Length)
             return;
@@ -140,7 +140,7 @@ public class StageUIManager : Singleton<StageUIManager>
         if (equipSlotUIs[index] == null)
             return;
 
-        UnitModel unit = StageManager.Instance.GetEquippedUnit(index);
+        UnitModel unit = UnitManager.Instance.GetEquippedUnit(index);
         equipSlots[index].SetSlot(unit);
     }
 

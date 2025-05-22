@@ -39,10 +39,10 @@ public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(StageManager.Instance.curUnitArray[slotIndex] != null)
+        if(UnitManager.Instance.curUnitArray[slotIndex] != null)
         {
             ActiveSlot();
-            StageUIManager.Instance.UnitInfo.SetUnitInfo(StageManager.Instance.curUnitArray[slotIndex].unitModel);
+            StageUIManager.Instance.UnitInfo.SetUnitInfo(UnitManager.Instance.curUnitArray[slotIndex].unitModel);
         }
     }
 
@@ -94,8 +94,8 @@ public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler
             return;
         }
 
-        var draggedStackableModel = StageManager.Instance.curUnitArray[draggingSlotIndex];
-        var targetStackableModel = StageManager.Instance.curUnitArray[slotIndex];
+        var draggedStackableModel = UnitManager.Instance.curUnitArray[draggingSlotIndex];
+        var targetStackableModel = UnitManager.Instance.curUnitArray[slotIndex];
 
         if (draggedStackableModel == null)
         {
@@ -104,13 +104,13 @@ public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler
 
         if (targetStackableModel == null)
         {
-            StageManager.Instance.curUnitArray[slotIndex] = draggedStackableModel;
-            StageManager.Instance.curUnitArray[draggingSlotIndex] = null;
+            UnitManager.Instance.curUnitArray[slotIndex] = draggedStackableModel;
+            UnitManager.Instance.curUnitArray[draggingSlotIndex] = null;
         }
         else
         {
-            StageManager.Instance.curUnitArray[draggingSlotIndex] = targetStackableModel;
-            StageManager.Instance.curUnitArray[slotIndex] = draggedStackableModel;
+            UnitManager.Instance.curUnitArray[draggingSlotIndex] = targetStackableModel;
+            UnitManager.Instance.curUnitArray[slotIndex] = draggedStackableModel;
         }
 
         StageUIManager.Instance.RefreshUnitSlot(draggingSlotIndex);
