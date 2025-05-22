@@ -107,25 +107,25 @@ public class UIManager1 : ManagerBase<UIManager1>
     }
     public static void ShowAlert(string desc, string title = "", string okBtn = "OK", string cancelBtn = "Cancel", UnityAction okCallback = null, UnityAction cancelCallback = null)
     {
-        Show<PopupAlert>(desc, title, okBtn, cancelBtn, okCallback, cancelCallback);
+        //Show<PopupAlert>(desc, title, okBtn, cancelBtn, okCallback, cancelCallback);
     }
 
 
     public static void ShowAlert<T>(string desc, string title = "", string okBtn = "OK", string cancelBtn = "Cancel", UnityAction okCallback = null, UnityAction cancelCallback = null, T image = default)
     {
-        Show<PopupAlert>(desc, title, okBtn, cancelBtn, okCallback, cancelCallback, image);
+        //Show<PopupAlert>(desc, title, okBtn, cancelBtn, okCallback, cancelCallback, image);
     }
 
     public static void ShowInputAlert(string desc, string title = "", UnityAction<string> okCallback = null, UnityAction cancelCallback = null, string okBtn = "", string cancelBtn = "")
     {
-        Show<PopupAlert>(desc, title, okBtn, cancelBtn, okCallback, cancelCallback);
+        //Show<PopupAlert>(desc, title, okBtn, cancelBtn, okCallback, cancelCallback);
     }
 
 
 
     public static void HideAlert()
     {
-        Hide<PopupAlert>();
+        //Hide<PopupAlert>();
     }
 }
 
