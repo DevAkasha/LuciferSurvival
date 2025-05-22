@@ -5,7 +5,7 @@ using UnityEngine;
 public class SoulAltar : BaseInteractable
 {
     [SerializeField] private UnitManageUI manageUI;
-
+    [SerializeField] private Transform canvas;
     [Header("나침반")]
     [SerializeField] private CompassArrow compassArrow;
     
@@ -16,14 +16,11 @@ public class SoulAltar : BaseInteractable
 
     private void Start()
     {
-        if (compassArrow != null)
-        {
-            compassArrow.SetTarget(this.transform);
-        }
+        compassArrow.SetTarget(this.gameObject.transform);
     }
 
     public void OpenSummonUI()
     {
-        UIManager.Show(manageUI, transform.parent);
+        UIManager.Show(manageUI, canvas);
     }
 }
