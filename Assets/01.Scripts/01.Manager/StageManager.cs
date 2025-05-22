@@ -178,6 +178,27 @@ public class StageManager : Singleton<StageManager>
         return equippedUnits[index];
     }
 
+    public bool UnequipUnit(int equipIndex)
+    {
+        if (equipIndex < 0 || equipIndex >= equippedUnits.Length)
+            return false;
+
+        UnitModel unit = equippedUnits[equipIndex];
+        if (unit == null)
+            return false;
+
+        AddUnit(unit);
+
+        PlayerManager.Instance.Player.RemoveUnitTransform(equipIndex);
+
+        equippedUnits[equipIndex] = null;
+
+        StageUIManager.Instance.RefreshEquipSlot(equipIndex);
+        StageUIManager.Instance.RefreshAllUnitSlots();
+
+        return true;
+    }
+
     //모든 슬롯 초기화
     public void ClearAllSlots()
     {
@@ -290,7 +311,6 @@ public class StageManager : Singleton<StageManager>
             if (slot != null && slot.unitModel.rcode == rcode)
             {
                 int remove = Mathf.Min(slot.count, remaining);
-                // slot.RemoveCount()를 count만큼 호출
                 for (int k = 0; k < remove; k++)
                     RemoveUnit(i);
                 remaining -= remove;
