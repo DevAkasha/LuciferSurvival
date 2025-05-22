@@ -22,7 +22,7 @@ public class WaveManager : Singleton<WaveManager>
     {
         PoolManager.Instance.Init(ResourceType.Enemy, true);
         PoolManager.Instance.Init(ResourceType.Projectile);
-        GameManager.Instance.ChangeToNight();
+        StageManager.Instance.ChangeToNight();
     }
 
     public void SetWave(WaveModel waveData)
@@ -66,7 +66,7 @@ public class WaveManager : Singleton<WaveManager>
         if(killCount >= CalculateEnemyCount())
         {
             Debug.Log("웨이브 종료");
-            GameManager.Instance.OnWaveEnd();
+            StageManager.Instance.OnWaveEnd();
         }
     }
 
@@ -85,7 +85,7 @@ public class WaveManager : Singleton<WaveManager>
         return enemyCount;
     }
 
-    public EnemyTypes GetEnemyTypes(string rcode) //static으로 전환
+    public EnemyTypes GetEnemyTypes(string rcode) //필요시 static 전환하면 좋음
     {
         if (string.IsNullOrEmpty(rcode))
             return EnemyTypes.Unknown;

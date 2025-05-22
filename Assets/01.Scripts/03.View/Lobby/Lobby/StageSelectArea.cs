@@ -16,14 +16,14 @@ public class StageSelectArea : MonoBehaviour
 
     public async void SetStageCard()
     {
-        if (GameManager.Instance.allStageList == null)
+        if (StageManager.Instance.allStageList == null)
         {
             return;
         }
 
         await UniTask.Delay(TimeSpan.FromSeconds(0.1f), DelayType.DeltaTime, PlayerLoopTiming.Update);
 
-        for (int i = 0; i < GameManager.Instance.allStageList.Count; i++)
+        for (int i = 0; i < StageManager.Instance.allStageList.Count; i++)
         {
             StageCard NextStageCard = Instantiate(stageCard, content);
             NextStageCard.GetStageInfo(i);

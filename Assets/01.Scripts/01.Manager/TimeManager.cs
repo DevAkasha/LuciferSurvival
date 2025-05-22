@@ -108,7 +108,7 @@ public class TimeManager : Singleton<TimeManager>
                 // 타이머가 완료되면 낮으로 전환
                 if (currentTimeState == TimeState.Night)
                 {
-                    GameManager.Instance.ChangeToDay();
+                    StageManager.Instance.ChangeToDay();
                 }
                 isNightTimerSet = false;
             });

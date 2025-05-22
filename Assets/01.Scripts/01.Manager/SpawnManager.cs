@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class SpawnManager : Singleton<SpawnManager> //WaveManager와 통합
+public class SpawnManager : Singleton<SpawnManager>
 {
     [SerializeField] Camera mainCamera;
     [SerializeField] Transform target;
