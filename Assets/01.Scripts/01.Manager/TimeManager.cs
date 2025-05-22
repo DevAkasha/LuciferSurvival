@@ -191,7 +191,7 @@ public class TimeManager : Singleton<TimeManager>
         RenderSettings.reflectionIntensity = (currentTimeState == TimeState.Day) ? dayReflectionIntensity : nightReflectionIntensity;
     }
 }
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(TimeManager))]
 public class TimeChanger : Editor
 {
@@ -213,3 +213,4 @@ public class TimeChanger : Editor
         }
     }
 }
+#endif
