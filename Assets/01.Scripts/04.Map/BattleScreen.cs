@@ -8,8 +8,8 @@ public class BattleScreen : MonoBehaviour
     [Header("Battle Screen Settings")]
     public Image battleScreen;
     public float battleScreenBlinkInterval = 0.5f; // 깜빡임 간격
-    public float battleScreenMinAlpha = 0.2f; // 최소 투명도
-    public float battleScreenMaxAlpha = 0.3f; // 최대 투명도
+    public float battleScreenMinAlpha = 0.1f; // 최소 투명도
+    public float battleScreenMaxAlpha = 0.5f; // 최대 투명도
 
     private Coroutine battleScreenRoutine; // 배틀스크린 깜빡임 코루틴
 
@@ -62,7 +62,7 @@ public class BattleScreen : MonoBehaviour
         float alpha = battleScreenMinAlpha;
         float direction = 1f; // 1이면 증가, -1이면 감소
 
-        Color baseColor = new Color(1f, 0f, 0f);
+        Color baseColor = Color.white; 
 
         while (TimeManager.Instance.currentTimeState == TimeState.Day)
         {
@@ -81,7 +81,7 @@ public class BattleScreen : MonoBehaviour
                 direction = 1f;
             }
 
-            battleScreen.color = new Color(baseColor.r, baseColor.g, baseColor.b, alpha);
+            battleScreen.color = new Color(1f, 1f ,1f , alpha);
             yield return null; // 매 프레임 갱신
         }
 
