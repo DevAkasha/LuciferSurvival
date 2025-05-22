@@ -31,7 +31,8 @@ public class StageManager : Singleton<StageManager>
         SoulStone = 9;
     }
 
-    public int SoulStone {
+    public int SoulStone 
+    {
         get { return soulStone.Value; }
         set { soulStone.SetValue(value, this); }
     }
