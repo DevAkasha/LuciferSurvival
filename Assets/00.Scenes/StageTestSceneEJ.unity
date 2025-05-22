@@ -695,6 +695,7 @@ MonoBehaviour:
   resourceMinDistance: 3
   soulAltarPrefab: {fileID: 7747054384080733629, guid: d6c1b2343f6d7ce4299d064a6f3da531,
     type: 3}
+  compassArrow: {fileID: 1659223116}
 --- !u!4 &457474281
 Transform:
   m_ObjectHideFlags: 0
@@ -1078,6 +1079,12 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!4 &608922809 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1187385898704480141, guid: 67f61368aade54c44891d1f64130799f,
+    type: 3}
+  m_PrefabInstance: {fileID: 416575196}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &734977986
 GameObject:
   m_ObjectHideFlags: 0
@@ -1995,6 +2002,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1299108146}
     m_Modifications:
+    - target: {fileID: 4232754701978399462, guid: 054fa2d55ab3bf8439a486ab0bc0189f,
+        type: 3}
+      propertyPath: playerTransform
+      value: 
+      objectReference: {fileID: 608922809}
     - target: {fileID: 6977017012361949892, guid: 054fa2d55ab3bf8439a486ab0bc0189f,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2526,6 +2538,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1101715689}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1659223116 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4232754701978399462, guid: 054fa2d55ab3bf8439a486ab0bc0189f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1474383498}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39a54ff7d0ff719429aee783872b5e7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1731358322
 GameObject:
   m_ObjectHideFlags: 0
