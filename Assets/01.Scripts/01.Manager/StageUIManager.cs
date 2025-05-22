@@ -161,4 +161,9 @@ public class StageUIManager : Singleton<StageUIManager>
     { 
         var StageSlear = Instantiate(BossWarningView, canvas.transform);
     }
+
+    public Transform GetCanvasTransform()
+    {
+        return canvas.transform;
+    }
 }

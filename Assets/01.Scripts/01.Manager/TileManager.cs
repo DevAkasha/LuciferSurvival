@@ -25,6 +25,7 @@ public class TileManager : Singleton<TileManager>
     private Dictionary<Vector2Int, List<Vector3>> cellResources = new Dictionary<Vector2Int, List<Vector3>>();
 
     [SerializeField] private GameObject soulAltarPrefab; // 영혼의제단
+    [SerializeField] private CompassArrow compassArrow; // 나침반
 
     private void Start()
     {
@@ -147,7 +148,8 @@ public class TileManager : Singleton<TileManager>
 
         if (soulAltarPrefab != null)
         {
-            Instantiate(soulAltarPrefab, altarPos, Quaternion.identity, ResourceTileBlock);
+            GameObject go = Instantiate(soulAltarPrefab, altarPos, Quaternion.identity, ResourceTileBlock);
+            compassArrow.SetTarget(go.transform);
         }
     }
 
