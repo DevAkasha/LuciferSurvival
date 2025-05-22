@@ -47,6 +47,7 @@ public class ResourceTile : BaseInteractable
             Debug.Log("이미 채취한 자원입니다.");
             return;
         }
+        // 영혼석 ui 추가 후 Debug.Log 전부 빼기
         Debug.Log("채취전 영혼석: " + StageManager.Instance.SoulStone);
         GatherTile();
         Debug.Log("채취후 영혼석: " + StageManager.Instance.SoulStone);
@@ -75,10 +76,6 @@ public class ResourceTile : BaseInteractable
             // 변경된 머테리얼 배열을 다시 적용
             resourceRenderer.materials = materials;
         }
-        else
-        {
-            Debug.LogWarning("MeshRenderer를 찾을 수 없습니다.");
-        }
     }
 
     private void ChangeAllMaterialsColor(Color[] color)
@@ -93,10 +90,6 @@ public class ResourceTile : BaseInteractable
 
             // 변경된 머테리얼 배열을 다시 적용
             resourceRenderer.materials = materials;
-        }
-        else
-        {
-            Debug.LogWarning("MeshRenderer를 찾을 수 없습니다.");
         }
     }
 }
