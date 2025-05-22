@@ -5,25 +5,16 @@ using UnityEngine;
 public class SoulAltar : BaseInteractable
 {
     [SerializeField] private UnitManageUI manageUI;
-
-    [Header("나침반")]
-    [SerializeField] private CompassArrow compassArrow;
+    [SerializeField] private Transform canvas;
     
     public override void Interact(PlayerEntity player)
     {
         OpenSummonUI();
     }
 
-    private void Start()
-    {
-        if (compassArrow != null)
-        {
-            compassArrow.SetTarget(this.transform);
-        }
-    }
-
     public void OpenSummonUI()
-    {
-        UIManager.Show(manageUI, transform.parent);
+    { 
+        canvas = StageUIManager.Instance.GetCanvasTransform();
+        UIManager.Show(manageUI, canvas);
     }
 }
