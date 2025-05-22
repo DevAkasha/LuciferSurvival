@@ -102,13 +102,13 @@ public class TimeManager : Singleton<TimeManager>
         if (!isNightTimerSet && currentTimeState == TimeState.Night)
         {
             isNightTimerSet = true;
-            Debug.Log($"{WaveManager.Instance.WaveData.NightTime}초 타이머 시작");
-            UnityTimer.ScheduleRepeating(WaveManager.Instance.WaveData.NightTime, () =>
+            Debug.Log($"{WaveManager.Instance.curWave.NightTime}초 타이머 시작");
+            UnityTimer.ScheduleRepeating(WaveManager.Instance.curWave.NightTime, () =>
             {
                 // 타이머가 완료되면 낮으로 전환
                 if (currentTimeState == TimeState.Night)
                 {
-                    GameManager.Instance.ExhangeToDay();
+                    GameManager.Instance.ChangeToDay();
                 }
                 isNightTimerSet = false;
             });

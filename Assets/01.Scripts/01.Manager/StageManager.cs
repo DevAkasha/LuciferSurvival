@@ -5,29 +5,29 @@ using UnityEngine;
 
 public class StageManager : Singleton<StageManager>
 {
-    //유닛 인벤토리
-    public StackableUnitModel[] unitSlots = new StackableUnitModel[8];
-    //유닛 장착 슬롯
-    public UnitModel[] equippedUnits = new UnitModel[6];
+    //보유중인 유닛어레이
+    public StackableUnitModel[] curUnitArray = new StackableUnitModel[8]; //@um
+    //장착중인 유닛어레이
+    public UnitModel[] equippedUnitArray = new UnitModel[6];//@um
 
-    public SummonUnitUI summonUnitUI;
+    public SummonUnitUI summonUnitUI;//@um
 
-    private RxVar<int> soulStone = new RxVar<int>(0);           //게임 내 재화(초기값 : 0)
-    private RxVar<int> rerollCost = new RxVar<int>(3);          //상점 리롤 비용(초기값 : 3)
-    private RxVar<int> shopLevel = new RxVar<int>(1);           //상점 레벨(초기값 : 1)
+    private RxVar<int> soulStone = new RxVar<int>(0); //@SM           //게임 내 재화(초기값 : 0)
+    private RxVar<int> rerollCost = new RxVar<int>(3); //@um         //상점 리롤 비용(초기값 : 3)
+    private RxVar<int> shopLevel = new RxVar<int>(1); //@um        //상점 레벨(초기값 : 1)
 
     protected override void Awake()
     {
         base.Awake();
-        ClearAllSlots();
+        ClearCurUnitArray();
 
         //테스트용 코드
-        unitSlots[0] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0014")));
-        unitSlots[1] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0025")));
-        unitSlots[2] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0034")));
-        unitSlots[0].count = 3;
-        unitSlots[1].count = 3;
-        unitSlots[2].count = 3;
+        curUnitArray[0] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0014")));
+        curUnitArray[1] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0025")));
+        curUnitArray[2] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0034")));
+        curUnitArray[0].count = 3;
+        curUnitArray[1].count = 3;
+        curUnitArray[2].count = 3;
         SoulStone = 9;
     }
 
@@ -54,9 +54,9 @@ public class StageManager : Singleton<StageManager>
     }
 
     //초기화
-    public void Init()
+    public void Init()//Ui 프레젠터로 이동
     {
-        //반응형 이벤트 구독
+        //반응형 이벤트 구독 
         soulStone.AddListener(v => summonUnitUI.UpdateSoulStoneText(v));
         rerollCost.AddListener(v => summonUnitUI.UpdateRerollCostText(v));
         shopLevel.AddListener(v => summonUnitUI.UpdateShopLevelUpCostText());
@@ -70,7 +70,7 @@ public class StageManager : Singleton<StageManager>
         StageUIManager.Instance.RefreshAllEquipSlots();
     }
 
-    public void OnPopupClose()
+    public void OnPopupClose() //Ui 프레젠터로 이동 리무브리스너형태로
     {
         soulStone.ClearRelation();
         rerollCost.ClearRelation();
@@ -78,20 +78,20 @@ public class StageManager : Singleton<StageManager>
         shopLevel.ClearRelation();
     }
 
-    public bool UseSoulStone(int cost)
+    public bool ReduceSoulStone(int amount)
     {
-        if (soulStone.Value >= cost)
+        if (soulStone.Value >= amount)
         {
-            SoulStone -= cost;
+            SoulStone -= amount;
             return true;
         }
         return false;
     }
 
-    //유닛 인벤토리 초기화
-    public void InitializeInventory(UnitModel[] initialUnits)
+    //유닛어레이 초기화
+    public void InitializeUnitArray(UnitModel[] initialUnits)
     {
-        ClearAllSlots();
+        ClearCurUnitArray();
 
         foreach (UnitModel unit in initialUnits)
         {
@@ -99,12 +99,12 @@ public class StageManager : Singleton<StageManager>
         }
     }
 
-    //인벤토리에 유닛 추가
+    //유닛어레이 유닛 추가
     public void AddUnit(UnitModel unit)
     {
-        for (int i = 0; i < unitSlots.Length; i++)
+        for (int i = 0; i < curUnitArray.Length; i++)
         {
-            StackableUnitModel item = unitSlots[i];
+            StackableUnitModel item = curUnitArray[i];
             if (item != null && item.unitModel.rcode == unit.rcode && item.count < 3)
             {
                 item.AddCount();
@@ -112,11 +112,11 @@ public class StageManager : Singleton<StageManager>
             }
         }
 
-        for (int i = 0; i < unitSlots.Length; i++)
+        for (int i = 0; i < curUnitArray.Length; i++)
         {
-            if (unitSlots[i] == null)
+            if (curUnitArray[i] == null)
             {
-                unitSlots[i] = new StackableUnitModel(unit);
+                curUnitArray[i] = new StackableUnitModel(unit);
                 return;
             }
         }
@@ -125,18 +125,18 @@ public class StageManager : Singleton<StageManager>
     //유닛 들어갈 수 있는지 체크하는 함수
     public bool CanAddUnit(UnitModel model)
     {
-        for (int i = 0; i < unitSlots.Length; i++)
+        for (int i = 0; i < curUnitArray.Length; i++)
         {
-            StackableUnitModel slot = unitSlots[i];
+            StackableUnitModel slot = curUnitArray[i];
             if (slot != null && slot.unitModel.rcode == model.rcode && slot.count < 3)
             {
                 return true;
             }
         }
 
-        for (int i = 0; i < unitSlots.Length; i++)
+        for (int i = 0; i < curUnitArray.Length; i++)
         {
-            if (unitSlots[i] == null)
+            if (curUnitArray[i] == null)
             {
                 return true;
             }
@@ -145,16 +145,16 @@ public class StageManager : Singleton<StageManager>
         return false;
     }
 
-    //해당 슬롯 유닛 제거
+    //해당인덱스 유닛 제거
     public void RemoveUnit(int slotIndex)
     {   
         //슬롯 범위 체크(예외처리)
-        if (slotIndex < 0 || slotIndex >= unitSlots.Length)
+        if (slotIndex < 0 || slotIndex >= curUnitArray.Length)
         {
             return;
         }
 
-        StackableUnitModel item = unitSlots[slotIndex];
+        StackableUnitModel item = curUnitArray[slotIndex];
 
         if (item == null)
         {
@@ -165,7 +165,7 @@ public class StageManager : Singleton<StageManager>
 
         if (item.count <= 0)
         {
-            unitSlots[slotIndex] = null;
+            curUnitArray[slotIndex] = null;
         }
 
         StageUIManager.Instance.RefreshUnitSlot(slotIndex);
@@ -174,25 +174,25 @@ public class StageManager : Singleton<StageManager>
     //장착 유닛 모델값 출력
     public UnitModel GetEquippedUnit(int index)
     {
-        if (index < 0 || index >= equippedUnits.Length) return null;
-        return equippedUnits[index];
+        if (index < 0 || index >= equippedUnitArray.Length) return null;
+        return equippedUnitArray[index];
     }
 
     //모든 슬롯 초기화
-    public void ClearAllSlots()
+    public void ClearCurUnitArray()
     {
-        for (int i = 0; i < unitSlots.Length; i++)
+        for (int i = 0; i < curUnitArray.Length; i++)
         {
-            unitSlots[i] = null;
+            curUnitArray[i] = null;
         }
     }
 
     //테스트용 유닛 출력 장치
     public void PrintInventory()
     {
-        for (int i = 0; i < unitSlots.Length; i++)
+        for (int i = 0; i < curUnitArray.Length; i++)
         {
-            StackableUnitModel item = unitSlots[i];
+            StackableUnitModel item = curUnitArray[i];
             if (item == null)
             {
                 Debug.Log($"슬롯 {i}: (비어있음)");
@@ -207,9 +207,9 @@ public class StageManager : Singleton<StageManager>
     {
         int findCount = 0;
 
-        for (int i = 0; i < unitSlots.Length; i++)
+        for (int i = 0; i < curUnitArray.Length; i++)
         {
-            if (unitSlots[i] != null && unitSlots[i].unitModel.rcode.Equals(rcode))
+            if (curUnitArray[i] != null && curUnitArray[i].unitModel.rcode.Equals(rcode))
             {
                 findCount++;
             }
@@ -220,9 +220,9 @@ public class StageManager : Singleton<StageManager>
             }
         }
 
-        for (int i = 0; i < equippedUnits.Length; i++)
+        for (int i = 0; i < equippedUnitArray.Length; i++)
         {
-            if (equippedUnits[i] != null && equippedUnits[i].rcode.Equals(rcode))
+            if (equippedUnitArray[i] != null && equippedUnitArray[i].rcode.Equals(rcode))
             {
                 findCount++;
             }
@@ -266,13 +266,13 @@ public class StageManager : Singleton<StageManager>
     public int GetUnitCount(string rcode)
     {
         int total = 0;
-        foreach (StackableUnitModel slot in unitSlots)
+        foreach (StackableUnitModel slot in curUnitArray)
         {
             if (slot != null && slot.unitModel.rcode == rcode)
                 total += slot.count;
         }
 
-        foreach (UnitModel slot in equippedUnits)
+        foreach (UnitModel slot in equippedUnitArray)
         {
             if (slot != null && slot.rcode == rcode)
                 total++;
@@ -284,9 +284,9 @@ public class StageManager : Singleton<StageManager>
     private bool ConsumeUnit(string rcode, int count)
     {
         int remaining = count;
-        for (int i = 0; i < unitSlots.Length && remaining > 0; i++)
+        for (int i = 0; i < curUnitArray.Length && remaining > 0; i++)
         {
-            var slot = unitSlots[i];
+            var slot = curUnitArray[i];
             if (slot != null && slot.unitModel.rcode == rcode)
             {
                 int remove = Mathf.Min(slot.count, remaining);
@@ -303,13 +303,13 @@ public class StageManager : Singleton<StageManager>
     private bool CheckSlot(string rcode)
     {
         
-        foreach (var slot in unitSlots)
+        foreach (var slot in curUnitArray)
         {
             if (slot != null && slot.unitModel.rcode == rcode)
                 return true;
         }
         
-        foreach (var slot in unitSlots)
+        foreach (var slot in curUnitArray)
         {
             if (slot == null || slot.unitModel == null)
                 return true;
@@ -338,7 +338,7 @@ public class StageManager : Singleton<StageManager>
                 return false;
         }
 
-        if (!UseSoulStone(unitData.cost))
+        if (!ReduceSoulStone(unitData.cost))
         {
             return false;
         }

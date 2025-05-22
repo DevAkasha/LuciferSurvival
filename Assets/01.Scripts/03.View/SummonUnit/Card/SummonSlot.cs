@@ -40,7 +40,7 @@ public class SummonSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (StageManager.Instance.CanAddUnit(unitModel) && StageManager.Instance.UseSoulStone(unitModel.cost))
+        if (StageManager.Instance.CanAddUnit(unitModel) && StageManager.Instance.ReduceSoulStone(unitModel.cost))
         {
             StageManager.Instance.AddUnit(unitModel);
             soldImage.gameObject.SetActive(true);

@@ -22,7 +22,7 @@ public class EquipSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandle
     public void SetSlot(UnitModel unit)
     {
         equippedUnit = unit;
-        StageManager.Instance.equippedUnits[transformIndex] = unit;
+        StageManager.Instance.equippedUnitArray[transformIndex] = unit;
 
         if (unit != null)
         {
@@ -91,7 +91,7 @@ public class EquipSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandle
     {
         if (UnitSlot.draggingSlotIndex != -1)
         {
-            var draggedInventory = StageManager.Instance.unitSlots[UnitSlot.draggingSlotIndex];
+            var draggedInventory = StageManager.Instance.curUnitArray[UnitSlot.draggingSlotIndex];
             if (draggedInventory == null) return;
 
             UnitModel draggedUnit = draggedInventory.unitModel;
@@ -106,7 +106,7 @@ public class EquipSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandle
             }
             else
             {
-                StageManager.Instance.unitSlots[UnitSlot.draggingSlotIndex] = null;
+                StageManager.Instance.curUnitArray[UnitSlot.draggingSlotIndex] = null;
             }
 
             SetSlot(draggedUnit); // 장착

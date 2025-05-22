@@ -1,64 +1,66 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
-    public List<StageModel> gameWave = new();
-    public StageModel thisStage;
-    public int StageNumber;
-    public int WaveRound;
+    public List<StageModel> allStageList = new(); //@sm GameStageList 모든 스테이지 정보
+    public StageModel thisStage;//@sm
+    public int stageNumber;//@sm
+    public int waveRound;//@sm
 
-    public int EssenceOfRuin;
+    public RxVar<int> essenceOfRuin;
+
+    public int EssenceOfRuin
+    {
+        get => essenceOfRuin.Value;
+        set => essenceOfRuin.SetValue(value, this);
+    }
 
     private void Start()
     {
-        WaveDataInfo();
-        WaveDataSet(0);//테스트 용
+        Init();
+        SetStage(0);//테스트 용
     }
 
-    public void WaveDataSet(int i)
+    public void SetStage(int stageIndex)//@sm
     {
-        if (0 > i || i > gameWave.Count)
+        if (0 > stageIndex || stageIndex > allStageList.Count)
             return;
 
-        WaveRound = 0;
-        StageNumber = i;
-        thisStage = gameWave[StageNumber];
-        Debug.Log($"스테이지{StageNumber + 1} 준비");
+        waveRound = 0;
+        thisStage = allStageList[stageIndex];
+        Debug.Log($"스테이지{stageIndex + 1} 준비");
     }
 
-    public void ExhangeToNight()//밤으로 전환, 다음 라운드로 Data 변경
+    public void ChangeToNight()//@sm 밤으로 전환, 다음 라운드로 Data 변경
     {
         if (thisStage == null)
             return;
 
-        if (WaveRound < 0 || WaveRound > thisStage.StageData.Count)
-            WaveRound = 0;
+        if (waveRound < 0 || waveRound > thisStage.StageData.Count)
+            waveRound = 0;
 
-        WaveManager.Instance.SetWave(thisStage.StageData[WaveRound]);
+        WaveManager.Instance.SetWave(thisStage.StageData[waveRound]);
         TimeManager.Instance.SetNight();
     }
 
-    public void ExhangeToDay()//낮으로 전환. 웨이브 시작
+    public void ChangeToDay()//@sm 낮으로 전환. 웨이브 시작
     {
-        Debug.Log($"{WaveRound + 1}웨이브 시작");
+        Debug.Log($"{waveRound + 1}웨이브 시작");
         TimeManager.Instance.SetDay();
-        WaveManager.Instance.WaveGenerate();
+        WaveManager.Instance.GenerateWave();
 
-        WaveRound++;
+        waveRound++;
     }
 
-    public void WaveTheEnd()
+    public void OnWaveEnd()//@sm
     {
-        if (WaveRound < thisStage.StageData.Count)
+        if (waveRound < thisStage.StageData.Count)
         {
-            ExhangeToNight();
+            ChangeToNight();
             Debug.Log("다음 웨이브 준비");
         }
         else
@@ -68,7 +70,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public void WaveDataInfo()
+    public void Init() //@sm
     {
         for (int i = 1; i < 8; i++)
         {
@@ -78,18 +80,20 @@ public class GameManager : Singleton<GameManager>
             {
                 continue;
             }
-            gameWave.Add(new StageModel(StageData));
+            allStageList.Add(new StageModel(StageData));
         }
     }
 
-    public void GetEssence(int Essence)
+    public void AddEssence(int essence)
     {
-        EssenceOfRuin += Essence;
+        EssenceOfRuin += essence;
     }
 
-    public void LessEssence(int Essence)
+    public bool ReduceEssence(int essence)
     {
-        EssenceOfRuin -= Essence;
+        if (EssenceOfRuin - essence < 0) return false;
+            EssenceOfRuin -= essence;
+        return true;
     }
 
     public async void PauseGame(float delayTime)
@@ -98,14 +102,16 @@ public class GameManager : Singleton<GameManager>
         Time.timeScale = 0f;
         Debug.Log("일시 정지");
     }
+
     public void PauseReleaseGame()
     {
         Time.timeScale = 1f;
         Debug.Log("일시 정지 해제");
     }
 }
-#if UNITY_EDITOR
-[CustomEditor(typeof(GameManager))]
+
+#if UNITY_EDITOR //@sm 
+[CustomEditor(typeof(GameManager))] 
 public class GameEditor : Editor
 {
     public override void OnInspectorGUI()
@@ -116,7 +122,7 @@ public class GameEditor : Editor
         {
             if (GUILayout.Button("전투 시작"))
             {
-                GameManager.Instance.ExhangeToDay();
+                GameManager.Instance.ChangeToDay();
             }
 
         }

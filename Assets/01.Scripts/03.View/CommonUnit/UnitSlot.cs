@@ -39,10 +39,10 @@ public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(StageManager.Instance.unitSlots[slotIndex] != null)
+        if(StageManager.Instance.curUnitArray[slotIndex] != null)
         {
             ActiveSlot();
-            StageUIManager.Instance.UnitInfo.SetUnitInfo(StageManager.Instance.unitSlots[slotIndex].unitModel);
+            StageUIManager.Instance.UnitInfo.SetUnitInfo(StageManager.Instance.curUnitArray[slotIndex].unitModel);
         }
     }
 
@@ -94,8 +94,8 @@ public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler
             return;
         }
 
-        var draggedStackableModel = StageManager.Instance.unitSlots[draggingSlotIndex];
-        var targetStackableModel = StageManager.Instance.unitSlots[slotIndex];
+        var draggedStackableModel = StageManager.Instance.curUnitArray[draggingSlotIndex];
+        var targetStackableModel = StageManager.Instance.curUnitArray[slotIndex];
 
         if (draggedStackableModel == null)
         {
@@ -104,13 +104,13 @@ public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler
 
         if (targetStackableModel == null)
         {
-            StageManager.Instance.unitSlots[slotIndex] = draggedStackableModel;
-            StageManager.Instance.unitSlots[draggingSlotIndex] = null;
+            StageManager.Instance.curUnitArray[slotIndex] = draggedStackableModel;
+            StageManager.Instance.curUnitArray[draggingSlotIndex] = null;
         }
         else
         {
-            StageManager.Instance.unitSlots[draggingSlotIndex] = targetStackableModel;
-            StageManager.Instance.unitSlots[slotIndex] = draggedStackableModel;
+            StageManager.Instance.curUnitArray[draggingSlotIndex] = targetStackableModel;
+            StageManager.Instance.curUnitArray[slotIndex] = draggedStackableModel;
         }
 
         StageUIManager.Instance.RefreshUnitSlot(draggingSlotIndex);
