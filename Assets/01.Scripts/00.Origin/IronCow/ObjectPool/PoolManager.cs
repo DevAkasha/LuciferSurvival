@@ -7,14 +7,24 @@ public class PoolManager : Singleton<PoolManager>
     Dictionary<string, Queue<ObjectPoolBase>> pools = new Dictionary<string, Queue<ObjectPoolBase>>();
     public bool isInit = false;
 
-    public void Init(string resourceType)
+    public void Init(string resourceType, bool clear = false)
     {
+        if (clear)
+            sheets.Clear();
+
         SheetsInfo(resourceType);
 
-        foreach (var data in sheets) 
+        var PoolParent = GameObject.Find("PoolParent");
+
+        if (PoolParent == null)
+        {
+            PoolParent = new GameObject("PoolParent");
+        }
+
+        foreach (var data in sheets)
         {
             string parentName = data.prefabName + "parent";
-            if (transform.Find(parentName) != null)
+            if (PoolParent.transform.Find(parentName) != null)
             {
                 continue;
             }
@@ -22,8 +32,8 @@ public class PoolManager : Singleton<PoolManager>
             data.prefab = ResourceManager.Instance.LoadAsset<ObjectPoolBase>(data.prefabName, resourceType);//Resources폴더의 바로 하위에 가져올 폴더를 생성해야한다.
             data.parent = new GameObject(data.prefabName + "parent").transform;
             data.parent.position = transform.position;
-            data.parent.parent = transform;
-     
+            data.parent.parent = PoolParent.transform;
+
             Queue<ObjectPoolBase> queue = new Queue<ObjectPoolBase>();
             pools.Add(data.prefabName, queue);
             for (int i = 0; i < data.count; i++)
@@ -162,5 +172,5 @@ public class PoolManager : Singleton<PoolManager>
         }
     }
 
-   
+
 }

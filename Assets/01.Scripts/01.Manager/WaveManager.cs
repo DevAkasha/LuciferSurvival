@@ -20,7 +20,7 @@ public class WaveManager : Singleton<WaveManager>
 
     private void Start()
     {
-        PoolManager.Instance.Init(ResourceType.Enemy);
+        PoolManager.Instance.Init(ResourceType.Enemy, true);
         PoolManager.Instance.Init(ResourceType.Projectile);
         GameManager.Instance.ExhangeToNight();
     }

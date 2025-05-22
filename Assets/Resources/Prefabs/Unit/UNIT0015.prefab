@@ -141,7 +141,7 @@ Animator:
   m_GameObject: {fileID: 1488860511821075596}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ee1f45d64ed588644bac8d57e71fda5d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -181,6 +181,8 @@ MonoBehaviour:
   rcode: UNIT0015
   projectile: {fileID: 1389943806437722062, guid: 067f598eff79008469f3de84a5eca632,
     type: 3}
+  curTarget: {fileID: 0}
+  curTargetType: 0
 --- !u!114 &-6837867595029037809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,6 +197,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
   skillId: 0
+  useAutoSkill: 1
+  detectionRange: 5
 --- !u!1 &1515625553664307732
 GameObject:
   m_ObjectHideFlags: 0
