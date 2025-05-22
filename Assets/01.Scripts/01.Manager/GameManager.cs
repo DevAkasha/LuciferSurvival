@@ -104,6 +104,7 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("일시 정지 해제");
     }
 }
+#if UNITY_EDITOR
 [CustomEditor(typeof(GameManager))]
 public class GameEditor : Editor
 {
@@ -121,4 +122,4 @@ public class GameEditor : Editor
         }
     }
 }
-
+#endif

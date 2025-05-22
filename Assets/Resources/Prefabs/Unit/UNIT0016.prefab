@@ -508,7 +508,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5.4999995, y: 5.4999995, z: 5.4999995}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2919874940240847297}
@@ -525,7 +525,7 @@ Animator:
   m_GameObject: {fileID: 2241377559982677416}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 42cb6a460d656374083dd2414d416fc2, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 830dfd39b6cd9644188e800dd8c7a6e7, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -565,6 +565,8 @@ MonoBehaviour:
   rcode: UNIT0016
   projectile: {fileID: 1389943806437722062, guid: 067f598eff79008469f3de84a5eca632,
     type: 3}
+  curTarget: {fileID: 0}
+  curTargetType: 0
 --- !u!114 &-383881370701457697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -579,6 +581,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
   skillId: 0
+  useAutoSkill: 1
+  detectionRange: 5
 --- !u!1 &2418454425622552363
 GameObject:
   m_ObjectHideFlags: 0
