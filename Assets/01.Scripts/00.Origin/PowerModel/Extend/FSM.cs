@@ -148,11 +148,11 @@ public partial class FSM<TState> : RxBase where TState : Enum
         RequestByPriority(next);
     }
 }
-
+#if UNITY_EDITOR
 // FSM partial class implementation to add IRxInspectable interface
 public partial class FSM<TState> : IRxInspectable where TState : Enum
 {
-#if UNITY_EDITOR
+
     public void DrawDebugInspector()
     {
         TState currentState = Value;
@@ -201,5 +201,6 @@ public partial class FSM<TState> : IRxInspectable where TState : Enum
 
         EditorGUILayout.EndVertical();
     }
-#endif
+
 }
+#endif

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 64591148080394960}
   - component: {fileID: 5465685642847197475}
   m_Layer: 8
-  m_Name: Hex22
+  m_Name: LockTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,3 +119,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238e3c12a85370345bf644a7c4e7c5e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInteractable: 1
+  targetRenderer: {fileID: 0}
+  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  emissionColorProperty: _EmissionColor
+  emissionIntensity: 2
+  unlockCost: 5

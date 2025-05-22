@@ -135,7 +135,7 @@ public class TileManager : Singleton<TileManager>
         return new Vector3(center.x + offset2D.x, 0, center.z + offset2D.y);
     }
 
-    // 영혼석 소환
+    // 영혼의 제단 소환
     public void SetSoulAltar()
     {
         int halfGrid = gridCount / 2;

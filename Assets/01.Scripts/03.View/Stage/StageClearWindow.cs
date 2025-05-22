@@ -26,7 +26,7 @@ public class StageClearWindow : MonoBehaviour
 
     public void ToLobby()
     {
-        //씬이동
+        SceneManager.LoadScene(SceneName.LobbyScene.ToString());
     }
 
     public void Retry()

@@ -29,8 +29,8 @@ public class TimeManager : Singleton<TimeManager>
 
     public float dayAmbientIntensity = 1.0f; // 낮 주변광, RenderSettings.ambientIntensity에 반영
     public float nightAmbientIntensity = 0.4f; // 밤 주변광
-    public float dayReflectionIntensity = 1.0f; // 낮 반사광 ?
-    public float nightReflectionIntensity = 0.4f; // 밤 반사광 ?
+    public float dayReflectionIntensity = 1.0f; // 낮 반사광
+    public float nightReflectionIntensity = 0.4f; // 밤 반사광
 
     [Header("Transition Settings")]
     public float transitionDuration = 2.0f; // 상태 전환에 걸리는 시간
@@ -191,7 +191,7 @@ public class TimeManager : Singleton<TimeManager>
         RenderSettings.reflectionIntensity = (currentTimeState == TimeState.Day) ? dayReflectionIntensity : nightReflectionIntensity;
     }
 }
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(TimeManager))]
 public class TimeChanger : Editor
 {
@@ -213,3 +213,4 @@ public class TimeChanger : Editor
         }
     }
 }
+#endif

@@ -1,9 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
-using UnityEditor.Animations;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class AngelController : MobileController<AngelEntity, AngelModel>
 {
@@ -202,20 +200,19 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
 
     public float GetClipLength(string clipName)
     {
-        var controller = animator.runtimeAnimatorController as AnimatorController;
-        if (controller == null) return 0f;
+        if (animator?.runtimeAnimatorController == null) return 0f;
 
-        foreach (var layer in controller.layers)
+        // RuntimeAnimatorController의 animationClips 배열에서 직접 검색
+        var clips = animator.runtimeAnimatorController.animationClips;
+
+        foreach (var clip in clips)
         {
-            foreach (var state in layer.stateMachine.states)
+            if (clip.name == clipName)
             {
-                if (state.state.name == clipName)
-                {
-                    var clip = state.state.motion as AnimationClip;
-                    return clip != null ? clip.length : 0f;
-                }
+                return clip.length;
             }
         }
+
         return 0f;
     }
 
