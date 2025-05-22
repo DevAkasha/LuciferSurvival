@@ -5,37 +5,43 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/00.Scenes/SettingScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/99.ExternalSources/GUIPack-Clean&Minimalist/Demo/Scenes/Demo/Demo.unity
     guid: d82d5deb2fb554889b365029cce103fb
-  - enabled: 1
+  - enabled: 0
     path: Assets/99.ExternalSources/GUIPack-Clean&Minimalist/Demo/Scenes/Themes/Dark/Dark
       - Game.unity
     guid: 3e961f553cad04680b4e67a97dbaf86a
-  - enabled: 1
+  - enabled: 0
     path: Assets/99.ExternalSources/GUIPack-Clean&Minimalist/Demo/Scenes/Themes/Dark/Dark
       - Home.unity
     guid: 68c3b27ea42954caab63ca4b921ad14d
-  - enabled: 1
+  - enabled: 0
     path: Assets/99.ExternalSources/GUIPack-Clean&Minimalist/Demo/Scenes/Themes/Light/Light
       - Game.unity
     guid: ed69d3f9b5a8e446896934f79e173d08
-  - enabled: 1
+  - enabled: 0
     path: Assets/99.ExternalSources/GUIPack-Clean&Minimalist/Demo/Scenes/Themes/Light/Light
       - Home.unity
     guid: 99f809d9248fc47a89ada8356ab3acbb
-  - enabled: 1
+  - enabled: 0
     path: Assets/99.ExternalSources/GUIPack-Clean&Minimalist/Demo/Scenes/UI Elements/Buttons.unity
     guid: 62ffc7e5ced894be88bc1351fad4dc72
-  - enabled: 1
+  - enabled: 0
     path: Assets/99.ExternalSources/GUIPack-Clean&Minimalist/Demo/Scenes/UI Elements/Icon
       Buttons.unity
     guid: fe72ec13900874be09164522383fccb5
-  - enabled: 1
+  - enabled: 0
     path: Assets/99.ExternalSources/GUIPack-Clean&Minimalist/Demo/Scenes/UI Elements/UI
       Elements.unity
     guid: 2251e98a2b6884910a270fcf7501d12d
+  - enabled: 1
+    path: Assets/00.Scenes/LobbyScene.unity
+    guid: 465905b1a2bd6ed498a950617013fad9
+  - enabled: 1
+    path: Assets/00.Scenes/InGameScene/StageScene.unity
+    guid: ee62c21f9476f0d4ab03aa309838a7f9
   m_configObjects: {}

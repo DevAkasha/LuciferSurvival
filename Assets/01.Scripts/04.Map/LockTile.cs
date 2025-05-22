@@ -9,14 +9,16 @@ public class LockTile : BaseInteractable
 
     public override void Interact(PlayerEntity player)
     {
-        if (StageManager.Instance.UseSoulStone(unlockCost))
-        {
-            RemoveTile();
-        }
-        else
-        {
-            Debug.Log("영혼석 부족");
-        }
+        // 영혼석이 아닌 영혼핵으로 변경하기 - 몬스터 처치 시 획득하는 재화
+
+        //if (StageManager.Instance.UseSoulStone(unlockCost))
+        //{
+        //    RemoveTile();
+        //}
+        //else
+        //{
+        //    Debug.Log("영혼석 부족");
+        //}
     }
 
     // 파괴
