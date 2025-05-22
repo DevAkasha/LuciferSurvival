@@ -61,6 +61,8 @@ public class SpawnManager : Singleton<SpawnManager>
         return new Vector3(50, 0, 50);
     }
 }
+
+#if UNITY_EDITOR
 [CustomEditor(typeof(SpawnManager))]
 public class EnemySpawn : Editor
 {
@@ -77,3 +79,4 @@ public class EnemySpawn : Editor
         }
     }
 }
+#endif
