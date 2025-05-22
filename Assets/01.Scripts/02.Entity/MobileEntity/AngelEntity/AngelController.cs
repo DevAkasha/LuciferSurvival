@@ -1,41 +1,40 @@
 using Cysharp.Threading.Tasks;
 using System;
-using DG.Tweening;
+using System.Threading;
+using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public class AngelController : MobileController<AngelEntity, AngelModel>
 {
     [SerializeField] private Animator animator;
-
-    private PlayerController player;
-
-    private bool IsDontAct => Entity.Model.Flags.AnyActive(PlayerStateFlag.Fall, PlayerStateFlag.Knockback, PlayerStateFlag.Stun, PlayerStateFlag.Death);
-    private bool IsCastable => false;   //todo.캐스트 가능성 판단 추가해야 함
-    private bool IsAttack 
-    {
-        get => Entity.Model.Flags.GetValue(PlayerStateFlag.Attack); 
-        set => Entity.Model.Flags.SetValue(PlayerStateFlag.Attack, value); 
-    }
-
-    private bool IsCast 
-    { 
-        get => Entity.Model.Flags.GetValue(PlayerStateFlag.Cast); 
-        set => Entity.Model.Flags.SetValue(PlayerStateFlag.Cast, value); 
-    }
-    
     [SerializeField] private bool waitAttackTime = false;
-
     public bool WaitAttackTime { get; set; }
     [SerializeField] public bool attackTime;
 
-    protected override void OnInit()
+    private PlayerController player;
+    private CancellationTokenSource behaviorCts;
+    private BehaviorTree behaviorTree;
+    [SerializeField] private Projectile projectile;
+
+    private bool IsDontAct => Entity.Model.Flags.AnyActive(PlayerStateFlag.Fall, PlayerStateFlag.Knockback, PlayerStateFlag.Stun, PlayerStateFlag.Death);
+    private bool IsCastable => false;   //todo.캐스트 가능성 판단 추가해야 함
+    private bool IsAttack
     {
-        animator = GetComponent<Animator>();
+        get => Entity.Model.Flags.GetValue(PlayerStateFlag.Attack);
+        set => Entity.Model.Flags.SetValue(PlayerStateFlag.Attack, value);
     }
 
-    private void Start()
+    private bool IsCast
     {
+        get => Entity.Model.Flags.GetValue(PlayerStateFlag.Cast);
+        set => Entity.Model.Flags.SetValue(PlayerStateFlag.Cast, value);
+    }
+
+    protected override void AtInit()
+    {
+        animator = GetComponent<Animator>();
+
         player = PlayerManager.Instance.Player;
         HealthBarManager.Instance.Attach(this);
 
@@ -46,81 +45,134 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         Entity.Model.State.OnEnter(PlayerState.Roll, () => animator.Play("Roll"));
         Entity.Model.State.OnEnter(PlayerState.Attack, () => animator.Play("Attack"));
         Entity.Model.State.OnEnter(PlayerState.Cast, () => animator.Play("Cast"));
-        Entity.Model.State.OnEnter(PlayerState.Death, () => animator.Play("Death"));
 
-        RunBehaviorLoop().Forget(); // UniTask를 무시하고 실행
+        // BT 초기화 - 한 번만 구성
+        InitializeBehaviorTree();
+
+        behaviorCts = new CancellationTokenSource();
+        RunBehaviorLoop(behaviorCts.Token).Forget();
     }
 
-    private async UniTaskVoid RunBehaviorLoop()
+    private void InitializeBehaviorTree()
     {
-        var token = this.GetCancellationTokenOnDestroy();
+        // AngelEntity에 대한 BT 구성
+        behaviorTree = new BehaviorTree(
+            new Selector(
+                // 1. 행동 불가 상태 체크
+                new Sequence(
+                    new Condition(() => IsDontAct),
+                    new StayStillAction(Entity)
+                ),
 
-        while (!token.IsCancellationRequested)
+                // 2. 공격 대기 상태 체크
+                new Sequence(
+                    new Condition(() => WaitAttackTime),
+                    new BehaviorAction(() =>
+                    {
+                        if (attackTime)
+                        {
+                            if (IsInRange(Entity.Model.Range.Value))
+                                Entity.OnAttack(player);
+                            WaitAttackTime = false;
+                            attackTime = false;
+                            IsAttack = false;
+                            return NodeStatus.Success;
+                        }
+                        return NodeStatus.Running;
+                    })
+                ),
+
+                // 3. 캐스팅 가능 상태 체크
+                new Sequence(
+                    new Condition(() => IsCastable),
+                    new SetFlagAction<PlayerStateFlag>(Entity.Model.Flags, PlayerStateFlag.Cast, true),
+                    new StayStillAction(Entity)
+                ),
+
+                // 4. 공격 범위 내 체크
+                new Sequence(
+                    new IsEnemyInRangeCondition(Entity, player?.transform, Entity.Model.Range.Value),
+                    new BehaviorAction(() =>
+                    {
+                        if (Entity.AttackCoolTime)
+                        {
+                            IsAttack = true;
+
+                            if (Entity.Model.EnemyType == EnemyType.dasher)
+                            {
+                                transform.LookAt(player.transform);
+                                UniTaskVoid uniTaskVoid = Entity.DeshTo(player.transform.position);
+                                WaitAttackTime = true;
+                                OnAttackAnimEvent(GetClipLength("Attack") + 1.5f);
+                                return NodeStatus.Success;
+                            }
+
+                            transform.LookAt(player.transform);
+                            Entity.StopMove();
+                            WaitAttackTime = true;
+                            OnAttackAnimEvent(GetClipLength("Attack"));
+                            return NodeStatus.Success;
+                        }
+                        return NodeStatus.Running;
+                    })
+                ),
+
+                // 5. 플레이어를 향해 이동
+                new Sequence(
+                    new Condition(() => player != null),
+                    new MoveToPlayerAction(Entity, player?.transform)
+                ),
+
+                // 6. 기본 상태
+                new StayStillAction(Entity)
+            )
+        );
+    }
+
+    private void Update()
+    {
+        Entity.TakeDamaged(1f);
+    }
+
+    protected override void AtDisable()
+    {
+        behaviorCts?.Cancel();
+    }
+
+    protected override void AtDestroy()
+    {
+        behaviorCts?.Cancel();
+        behaviorCts = null;
+    }
+
+    private async UniTaskVoid RunBehaviorLoop(CancellationToken token)
+    {
+        try
         {
-            var bt = BuildBehaviorTree();
-            if (bt.Check()) bt.Run();
+            // 매 프레임 실행 대신 시간 간격으로 실행
+            float updateInterval = 0.1f; // 100ms마다 업데이트
 
-            await UniTask.Delay(TimeSpan.FromSeconds(0.1f), DelayType.DeltaTime, PlayerLoopTiming.Update, token);
+            while (!token.IsCancellationRequested)
+            {
+                if (this == null || !this.isActiveAndEnabled)
+                    break;
+
+                // 캐싱된 BT 실행
+                behaviorTree.Update();
+
+                // 시간 간격으로 실행하여 CPU 사용량 감소
+                await UniTask.Delay(TimeSpan.FromSeconds(updateInterval), DelayType.DeltaTime, PlayerLoopTiming.Update, token);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // 취소 처리 - 정상
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"BT 루프 오류: {ex.Message}");
         }
     }
-
-    private RxBehaviorNode BuildBehaviorTree()
-    {
-        return new Selector(new[]
-        {
-            Node_DontActCheck(),
-            Node_WaitAttackCheck(),
-            Node_CastableCheck(),
-            Node_AttackCheck(),
-            Node_MoveToPlayer(),
-            Node_StandStill()
-        });
-    }
-
-    private RxBehaviorNode Node_DontActCheck() =>
-        ConditionAction.Create(() => IsDontAct, () =>
-        { 
-            Entity.StopMove(); 
-        });
-
-    private RxBehaviorNode Node_WaitAttackCheck() =>
-        ConditionAction.Create(() => WaitAttackTime, () =>
-        {
-            if (attackTime)
-            {
-                if (IsInRange(Entity.Model.Range.Value))
-                    Entity.OnAttack(player);
-                WaitAttackTime = false;
-                attackTime = false;
-                IsAttack = false;
-            }
-        });
-
-    private RxBehaviorNode Node_CastableCheck() =>
-        ConditionAction.Create(() => IsCastable, () =>
-        {
-            IsCast = true;
-            Entity.StopMove();
-        });
-
-    private RxBehaviorNode Node_AttackCheck() =>
-        ConditionAction.Create(() => IsInRange(Entity.Model.Range.Value), () =>
-        {
-            IsAttack = true;
-            transform.LookAt(player.transform);
-            Entity.StopMove();
-            WaitAttackTime = true;
-            OnAttackAnimEvent(); // 애니메이션 이벤트 대신 직접호출중
-        });
-
-    private RxBehaviorNode Node_MoveToPlayer() =>
-        ConditionAction.Create(() => player != null, () =>
-        {
-            Entity.MoveTo(player.transform.position);
-        });
-
-    private RxBehaviorNode Node_StandStill() =>
-        ConditionAction.Create(() => true, () => { });
 
     public bool IsInRange(float range)
     {
@@ -130,16 +182,41 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         return (transform.position - player.transform.position).sqrMagnitude < sqrRange;
     }
 
-    public async void OnAttackAnimEvent()
+    public async void OnAttackAnimEvent(float animaitionTime)
     {
-        //애니메이션 이벤트 대신 0.5초 대기
-        await UniTask.Delay(TimeSpan.FromSeconds(0.5f), DelayType.DeltaTime, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
+        //애니메이션 이벤트 대신 animaitionTime만큼 대기
+        await UniTask.Delay(TimeSpan.FromSeconds(animaitionTime), DelayType.DeltaTime, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
         attackTime = true;
     }
 
-    private void Update()
+    public void LongRangeAttack()
     {
-        Entity.TakeDamaged(10f);
+        var bullet = PoolManager.Instance.Spawn<ObjectPoolBase>("AttackBody", transform.position);
+        var projectile = bullet as Projectile;
+        
+        if (projectile != null)
+        {
+            projectile.Init(3f, 1, Entity.Model.Atk.Value, player.transform);
+        }
+    }
+
+    public float GetClipLength(string clipName)
+    {
+        var controller = animator.runtimeAnimatorController as AnimatorController;
+        if (controller == null) return 0f;
+
+        foreach (var layer in controller.layers)
+        {
+            foreach (var state in layer.stateMachine.states)
+            {
+                if (state.state.name == clipName)
+                {
+                    var clip = state.state.motion as AnimationClip;
+                    return clip != null ? clip.length : 0f;
+                }
+            }
+        }
+        return 0f;
     }
 
     private void OnDrawGizmosSelected()
@@ -147,5 +224,4 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, 3.0f); // 공격 범위 디버그
     }
-
 }

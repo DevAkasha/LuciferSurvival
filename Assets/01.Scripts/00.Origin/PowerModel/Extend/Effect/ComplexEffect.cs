@@ -15,7 +15,7 @@ public class ComplexEffect : BaseEffect
         return this;
     }
 
-    public override void ApplyTo(IBaseEntity target)
+    public override void ApplyTo(IModelOwner target)
     {
         foreach (var effect in effects)
         {
@@ -23,7 +23,7 @@ public class ComplexEffect : BaseEffect
         }
     }
 
-    public override void RemoveFrom(IBaseEntity target)
+    public override void RemoveFrom(IModelOwner target)
     {
         // 역순으로 제거 (마지막에 추가된 효과부터)
         for (int i = effects.Count - 1; i >= 0; i--)

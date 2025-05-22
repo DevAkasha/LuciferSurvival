@@ -89,7 +89,7 @@ public class ModifierEffect : BaseEffect
         return this;
     }
 
-    public override void ApplyTo(IBaseEntity target)
+    public override void ApplyTo(IModelOwner target)
     {
         var modifiableTarget = target.GetBaseModel() as IModifiableTarget;
         if (modifiableTarget == null)
@@ -138,7 +138,7 @@ public class ModifierEffect : BaseEffect
         }
     }
 
-    public override void RemoveFrom(IBaseEntity target)
+    public override void RemoveFrom(IModelOwner target)
     {
         var modifiableTarget = target.GetBaseModel() as IModifiableTarget;
         if (modifiableTarget == null)
@@ -158,5 +158,21 @@ public class ModifierEffect : BaseEffect
                 Debug.LogError($"[ModifierEffect] Failed to remove modifier: {e.Message}");
             }
         }
+    }
+}
+
+public enum EffectApplyMode { Passive, Manual, Timed } // modifier 적용 방식 (수동, 자동, 시간제한)
+
+public readonly struct FieldModifier // 필드에 적용할 modifier 정보를 담는 구조체
+{
+    public readonly string FieldName;
+    public readonly ModifierType Type;
+    public readonly object Value;
+
+    public FieldModifier(string fieldName, ModifierType type, object value)
+    {
+        FieldName = fieldName;
+        Type = type;
+        Value = value;
     }
 }

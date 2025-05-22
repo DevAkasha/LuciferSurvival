@@ -1,30 +1,32 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using Debug = UnityEngine.Debug;
 
 public sealed class RxVar<T> : RxBase, IRxReadable<T>
 {
     private T value;
     private readonly List<Action<T>> listeners = new();
 
-    public RxVar(T initialValue = default, object owner = null)
+    public RxVar(T initialValue = default, IRxOwner owner = null)
     {
         value = initialValue;
-        if (owner is ITrackableRxModel model)
-        {
-            model.RegisterRx(this); // Rx 필드를 모델에 등록
-        }
-
-#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
-        // Auto-register with memory tracker
-        RxMemoryTracker.TrackObject(this, $"RxVar<{typeof(T).Name}> owned by {owner?.GetType().Name ?? "unknown"}");
-#endif
+        owner?.RegisterRx(this);
     }
 
     public T Value => value;
 
-    public void SetValue(T newValue) // 값 설정
+    public void SetValue(T newValue, IRxCaller caller) // 값 설정
+    {
+        if (!caller.IsMultiRolesCaller)
+            throw new InvalidOperationException($"An invalid caller({caller}) has accessed.");
+
+        if (!EqualityComparer<T>.Default.Equals(value, newValue))
+        {
+            value = newValue;
+            NotifyAll();
+        }
+    }
+
+    public void Set(T newValue) // 값 설정
     {
         if (!EqualityComparer<T>.Default.Equals(value, newValue))
         {
@@ -37,17 +39,6 @@ public sealed class RxVar<T> : RxBase, IRxReadable<T>
     {
         if (listener != null)
         {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
-            // Check for self-subscription which can cause infinite loops
-            if (listener.Target == this)
-            {
-                Debug.LogWarning($"[RxVar] Self-subscription detected in {this}! This may cause infinite loops.");
-            }
-
-            // Record the subscription for debugging
-            this.RecordSubscription(listener.Target);
-#endif
-
             listeners.Add(listener);
             listener(value);
         }
@@ -57,10 +48,6 @@ public sealed class RxVar<T> : RxBase, IRxReadable<T>
     {
         if (listener != null)
         {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
-            // Remove subscription tracking
-            this.RemoveSubscriptionRecord(listener.Target);
-#endif
             listeners.Remove(listener);
         }
     }
@@ -72,43 +59,7 @@ public sealed class RxVar<T> : RxBase, IRxReadable<T>
 
     private void NotifyAll()
     {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
-        // Start performance measurement
-        RxDebugger.BeginNotification();
-        RxPerformanceMonitor.StartMeasurement();
-#endif
-
-        // Cache the list count since listeners may change during notification
-        int listenerCount = listeners.Count;
-
-        // Take a snapshot of the current listeners to avoid modification issues
-        var currentListeners = new Action<T>[listenerCount];
-        listeners.CopyTo(currentListeners);
-
-        // Notify all listeners
-        foreach (var listener in currentListeners)
-        {
-            if (listener != null) // Check in case it was removed during iteration
-            {
-                try
-                {
-                    listener(value);
-                }
-                catch (Exception ex)
-                {
-                    Debug.LogError($"[RxVar] Exception in listener: {ex.Message}\n{ex.StackTrace}");
-                }
-            }
-        }
-
-#if UNITY_EDITOR || DEVELOPMENT_BUILD || RXDEBUG
-        // End performance measurement
-        RxDebugger.RecordNotification(this, 0, listenerCount); // Duration is calculated by RxPerformanceMonitor
-#endif
-    }
-
-    public override string ToString()
-    {
-        return $"RxVar<{typeof(T).Name}>({value})";
+        foreach (var listener in listeners)
+            listener(value);
     }
 }

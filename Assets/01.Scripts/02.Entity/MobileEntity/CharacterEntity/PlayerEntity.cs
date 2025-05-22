@@ -28,13 +28,13 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
     protected override float CurHealth
     {
         get => Model.CurHealth.Value;
-        set => Model.CurHealth.SetValue(value);
+        set => Model.CurHealth.SetValue(value, this);
     }
 
     public float MoveSpeed
     {
         get => Model.MoveSpeed.Value;
-        set => Model.MoveSpeed.SetValue(value);
+        set => Model.MoveSpeed.SetValue(value, this);
     }
 
     private bool IsMove
@@ -47,7 +47,7 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
         get => Model.Flags.GetValue(PlayerStateFlag.Death);
         set => Model.Flags.SetValue(PlayerStateFlag.Death, value);
     }
-    protected override void OnInit()
+    protected override void AtInit()
     {
         rigid = GetComponent<Rigidbody>();
     }

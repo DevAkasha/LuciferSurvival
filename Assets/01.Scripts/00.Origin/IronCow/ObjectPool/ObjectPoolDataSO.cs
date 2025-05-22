@@ -5,8 +5,8 @@ using UnityEngine;
 public class ObjectPoolData
 {
     public string prefabName;
-    public int count = 50;
-    public int velocity = 25;
+    public int count = 1;
+    //public int velocity = 25;
     [HideInInspector] public ObjectPoolBase prefab;
     [HideInInspector] public Transform parent;
 }

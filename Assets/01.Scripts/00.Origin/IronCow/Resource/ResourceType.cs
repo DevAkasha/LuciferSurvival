@@ -8,4 +8,6 @@ public partial class ResourceType
     public const string Scene = "Scene";
     public const string UI = "UI";
     public const string GameDatas = "GameDatas";
+    public const string Enemy = "Enemy";
+    public const string Projectile = "Projectile";
 }

@@ -13,16 +13,20 @@ public sealed class RxModInt : RxModBase<int>
     private int sum, addMul, mul, postAdd;
     private bool isNegative;
 
-    public RxModInt(int origin = 0, string fieldName = null, object owner = null)
+    public RxModInt(int origin = 0, string fieldName = null, IRxOwner owner = null)
     {
+        if (!owner.IsRxAllOwner)
+            throw new InvalidOperationException($"An invalid owner({owner}) has accessed.");
         this.origin = origin;
         cachedValue = origin;
 
         if (!string.IsNullOrEmpty(fieldName))
             FieldName = fieldName;
 
-        if (owner is ITrackableRxModel model)
+        if (owner is IRxOwner model)
             model.RegisterRx(this);
+
+        Recalculate();
     }
 
     // 실제 계산 구현

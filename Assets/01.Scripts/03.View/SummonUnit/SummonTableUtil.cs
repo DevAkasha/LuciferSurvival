@@ -86,16 +86,17 @@ public static class SummonTableUtil
 
     public static SummonTableSO GetSummonTable(int shopLevel)
     {
-        if (summonTableDict[shopLevel] != null)
+        SummonTableSO outValue = null;
+        if (GetSummonTableDict().TryGetValue(shopLevel, out outValue))
         {
-            return summonTableDict[shopLevel];
+            return outValue;
         }
         return null;
     }
 
     public static bool CanLevelUp(int level)
     {
-        if (summonTableDict[level + 1] != null)
+        if (GetSummonTable(level) != null)
         {
             return true;
         }

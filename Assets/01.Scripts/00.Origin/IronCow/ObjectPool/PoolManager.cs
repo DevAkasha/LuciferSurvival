@@ -7,13 +7,23 @@ public class PoolManager : Singleton<PoolManager>
     Dictionary<string, Queue<ObjectPoolBase>> pools = new Dictionary<string, Queue<ObjectPoolBase>>();
     public bool isInit = false;
 
-    public void Init()
+    public void Init(string resourceType)
     {
-        foreach (var data in sheets) //(var data in ObjectPoolDataSO.Instance.objectPoolDatas)
+        SheetsInfo(resourceType);
+
+        foreach (var data in sheets) 
         {
-            data.prefab = ResourceManager.Instance.LoadAsset<ObjectPoolBase>(data.prefabName, ResourceType.Prefabs);
+            string parentName = data.prefabName + "parent";
+            if (transform.Find(parentName) != null)
+            {
+                continue;
+            }
+
+            data.prefab = ResourceManager.Instance.LoadAsset<ObjectPoolBase>(data.prefabName, resourceType);//Resources폴더의 바로 하위에 가져올 폴더를 생성해야한다.
             data.parent = new GameObject(data.prefabName + "parent").transform;
+            data.parent.position = transform.position;
             data.parent.parent = transform;
+     
             Queue<ObjectPoolBase> queue = new Queue<ObjectPoolBase>();
             pools.Add(data.prefabName, queue);
             for (int i = 0; i < data.count; i++)
@@ -35,7 +45,8 @@ public class PoolManager : Singleton<PoolManager>
             for (int i = 0; i < data.count; i++)
             {
                 var obj = Instantiate(data.prefab, data.parent);
-                obj.name.Replace("(Clone)", "");
+                obj.name = obj.name.Replace("(Clone)", "");
+                obj.SetActive(false);
                 pools[rcode].Enqueue(obj);
             }
         }
@@ -93,6 +104,13 @@ public class PoolManager : Singleton<PoolManager>
         return obj;
     }
 
+    public T Spawn<T>(string rcode, Vector3 position) where T : ObjectPoolBase
+    {
+        var obj = Spawn<T>(rcode);
+        obj.transform.position = position;
+        return obj;
+    }
+
     public T SpawnAudioSource<T>() where T : ObjectPoolBase
     {
         if (pools["AudioSource"].Count == 0)
@@ -115,6 +133,34 @@ public class PoolManager : Singleton<PoolManager>
         item.SetActive(false);
         var data = sheets.Find(obj => obj.prefabName == item.name);
         item.transform.parent = data.parent;
+        item.transform.position = transform.position;
         pools[item.name].Enqueue(item);
     }
+
+    public void SheetsInfo(string resourceType)
+    {
+        //sheets.Clear();
+
+        // Resources/Prefabs 폴더에서 모든 프리팹을 불러오기
+        var prefabs = Resources.LoadAll<GameObject>(resourceType);
+
+        foreach (var prefab in prefabs)
+        {
+            var poolComponent = prefab.GetComponent<ObjectPoolBase>();
+            if (poolComponent == null)
+            {
+                continue;
+            }
+
+            ObjectPoolData data = new ObjectPoolData
+            {
+                prefabName = prefab.name,
+                count = 1
+            };
+
+            sheets.Add(data);
+        }
+    }
+
+   
 }

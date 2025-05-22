@@ -4,7 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerDataSO", menuName = "ScriptableObjects/PlayerDataSO")]
 public class PlayerDataSO : BaseDataSO
 {
-    public int idx;
     public float moveSpeed;
     public float health;
 }

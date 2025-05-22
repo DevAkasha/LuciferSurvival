@@ -13,14 +13,18 @@ MonoBehaviour:
   m_Name: UNIT0014
   m_EditorClassIdentifier: 
   thumbnail: {fileID: 0}
+  idx: 300012
   rcode: UNIT0014
-  displayName: "\uACE0\uC704\uAC04\uBD80 \uC18C\uD658\uC0AC"
-  description: 
-  idx: 300015
-  range: 4
-  atk: 750
-  atkSpeed: 2
+  displayName: "\uD0C0\uB77D \uD30C\uD3B8\uC0AC"
+  description: "\uBE5B\uCC98\uB7FC \uB0A0\uC544\uB4DC\uB294 \uD30C\uD3B8\uC774 \uB2E4\uC218\uC758
+    \uC801\uC744 \uB3D9\uC2DC \uD0C0\uACA9\uD569\uB2C8\uB2E4. \uD53C\uD560 \uC218
+    \uC5C6\uB294 \uADA4\uC801"
+  skillName: 
+  range: 10
+  atk: 100
+  atkCoolTime: 2
   criticalDamage: 150
   criticalChance: 5
-  cost: 14
-  grade: 3
+  cost: 6
+  grade: 2
+  atkRange: 0
