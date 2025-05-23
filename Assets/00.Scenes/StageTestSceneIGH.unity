@@ -685,11 +685,16 @@ MonoBehaviour:
   - {x: 7, y: 6}
   - {x: 7, y: 8}
   - {x: 6, y: 8}
-  environmentTemplate: []
+  environmentTemplate:
+  - {fileID: 3154011194434551800, guid: 5f4f833cfa443224c8c2c4b0faa0381e, type: 3}
+  - {fileID: 5937520304283531491, guid: 6e996cbe3d79e224bafbe9c4016372d2, type: 3}
+  - {fileID: 5924215589157404117, guid: 955e1272b305db0499ddac069ef45897, type: 3}
+  - {fileID: 3232706516556923062, guid: ecc6d88c10b357a4f8971ff37b6b5bcd, type: 3}
   hexagonRadius: 7
   resourceMinDistance: 3
-  soulAltarPrefab: {fileID: 3118581538944598953, guid: 03a5331808f24d844b75b1d8c16614c5,
+  soulAltarPrefab: {fileID: 7747054384080733629, guid: d6c1b2343f6d7ce4299d064a6f3da531,
     type: 3}
+  compassArrow: {fileID: 1474383502}
 --- !u!4 &457474281
 Transform:
   m_ObjectHideFlags: 0
@@ -1351,9 +1356,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16cff25f0e37c514e8ca6756fb376b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StageNumber: 0
-  WaveRound: 0
-  EssenceOfRuin: 0
 --- !u!4 &802261284
 Transform:
   m_ObjectHideFlags: 0
@@ -2277,6 +2279,18 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   targetTransform: {fileID: 0}
   arrowImage: {fileID: 0}
+--- !u!114 &1474383502 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4232754701978399462, guid: 054fa2d55ab3bf8439a486ab0bc0189f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1474383498}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474383500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39a54ff7d0ff719429aee783872b5e7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1500174719
 GameObject:
   m_ObjectHideFlags: 0
@@ -3168,7 +3182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba954f7b207f5c646a7228b57dbe336e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  summonUnitUI: {fileID: 0}
+  stageNumber: 0
+  waveRound: 0
 --- !u!4 &1926934301
 Transform:
   m_ObjectHideFlags: 0

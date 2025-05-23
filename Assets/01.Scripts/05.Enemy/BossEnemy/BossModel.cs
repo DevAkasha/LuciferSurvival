@@ -32,6 +32,7 @@ public class BossModel : BaseModel
     public RxModFloat Skill1CT;
     public RxModFloat Skill2CT;
     public RxModFloat Skill3CT;
+    public RxModInt RewardCount;
 
     public RxVar<float> NormalizedHP;
     public EnemyType EnemyType = EnemyType.boss;
@@ -52,6 +53,7 @@ public class BossModel : BaseModel
         Skill1CT = new(bossDataSO.skill1CT, nameof(Skill1CT), this);
         Skill2CT = new(bossDataSO.skill2CT, nameof(Skill2CT), this);
         Skill3CT = new(bossDataSO.skill3CT, nameof(Skill3CT), this);
+        RewardCount = new(bossDataSO.rewardCount, nameof(RewardCount), this);
 
         MaxHealth = new(bossDataSO.health, nameof(MaxHealth), this);
         CurHealth = new(MaxHealth.Value, nameof(CurHealth), this);
