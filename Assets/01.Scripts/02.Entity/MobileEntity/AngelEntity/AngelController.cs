@@ -13,7 +13,6 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
     private PlayerController player;
     private CancellationTokenSource behaviorCts;
     private BehaviorTree behaviorTree;
-    [SerializeField] private Projectile projectile;
 
     private bool IsDontAct => Entity.Model.Flags.AnyActive(PlayerStateFlag.Fall, PlayerStateFlag.Knockback, PlayerStateFlag.Stun, PlayerStateFlag.Death);
     private bool IsCastable => false;   //todo.캐스트 가능성 판단 추가해야 함

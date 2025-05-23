@@ -43,6 +43,6 @@ public class StageCard : MonoBehaviour
 
     public void WaveDataSet()
     {
-        StageManager.Instance.SetStage(StageNumber);
+        GameManager.Instance.stageNumber = StageNumber;
     }
 }

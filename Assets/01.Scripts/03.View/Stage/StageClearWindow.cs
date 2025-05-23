@@ -41,8 +41,7 @@ public class StageClearWindow : MonoBehaviour
     
     public void NextStage()
     {
-        int nextStageNumber = StageManager.Instance.stageNumber + 1;
-        StageManager.Instance.SetStage(nextStageNumber);
+        GameManager.Instance.stageNumber += 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Destroy(gameObject);
     }

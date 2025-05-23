@@ -25,6 +25,6 @@ public class Projectile : ProjectileBase
 
     public void OnShoot()
     {
-        
+
     }
 }
