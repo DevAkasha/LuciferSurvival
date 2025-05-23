@@ -29,4 +29,9 @@ public class UnitCodexUI : UIBase
             card.SetDetailTransform(transform.parent);
         }
     }
+
+    public void Hided()
+    {
+        UIManager.Hide(this);
+    }
 }
