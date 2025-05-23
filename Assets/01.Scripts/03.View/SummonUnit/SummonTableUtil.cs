@@ -6,7 +6,7 @@ public static class SummonTableUtil
 {
     private static Dictionary<int, List<UnitDataSO>> unitDict = new Dictionary<int, List<UnitDataSO>>();
     private static Dictionary<int, SummonTableSO> summonTableDict = new Dictionary<int, SummonTableSO>();
-    private static List<UnitDataSO> shopUnits { get; } = new List<UnitDataSO>();
+    public static List<UnitDataSO> shopUnits { get; } = new List<UnitDataSO>();
 
     private static Dictionary<int, List<UnitDataSO>> GetUnitDict()
     {
@@ -37,8 +37,10 @@ public static class SummonTableUtil
         return summonTableDict;
     }
 
-    public static List<UnitDataSO> RerollShop(int shopLevel, int summonCount)
+    public static List<UnitDataSO> RerollShop(int shopLevel, int summonCount, bool isReroll = false)
     {
+        if (!isReroll && shopUnits.Count != 0) 
+            return shopUnits;
         shopUnits.Clear();
 
         // 확률표 가져오기

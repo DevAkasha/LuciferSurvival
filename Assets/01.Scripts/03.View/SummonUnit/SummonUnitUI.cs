@@ -116,11 +116,11 @@ public class SummonUnitUI : MonoBehaviour
     {
         if (StageManager.Instance.ReduceSoulStone(RerollCost))
         {
-            SetRandomUnit();
+            SetRandomUnit(true);
         }
     }
 
-    private void SetRandomUnit()
+    private void SetRandomUnit(bool isReroll = false)
     {
         List<int> rerollIndices = new();
 
@@ -130,7 +130,7 @@ public class SummonUnitUI : MonoBehaviour
                 rerollIndices.Add(i);
         }
 
-        List<UnitDataSO> rerollUnits = SummonTableUtil.RerollShop(ShopLevel, rerollIndices.Count);
+        List<UnitDataSO> rerollUnits = SummonTableUtil.RerollShop(ShopLevel, rerollIndices.Count, isReroll);
 
         for (int i = 0; i < rerollIndices.Count; i++)
         {

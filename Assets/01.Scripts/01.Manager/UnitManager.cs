@@ -36,15 +36,6 @@ public class UnitManager : Singleton<UnitManager>
     {
         base.Awake();
         ClearCurUnitArray();
-
-        //테스트용 코드
-        curUnitArray[0] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0014")));
-        curUnitArray[1] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0025")));
-        curUnitArray[2] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0034")));
-        curUnitArray[0].count = 3;
-        curUnitArray[1].count = 3;
-        curUnitArray[2].count = 3;
-
     }
 
     //유닛어레이 초기화
