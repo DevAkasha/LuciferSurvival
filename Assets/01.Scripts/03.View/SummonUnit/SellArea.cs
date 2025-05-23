@@ -24,5 +24,6 @@ public class SellArea : MonoBehaviour, IDropHandler
         // 3) 드래그 성공 플래그 & 인덱스 초기화
         UnitSlot.isDropComplete = true;
         UnitSlot.draggingSlotIndex = -1;
+        StageUIManager.Instance.HideDragPreview();
     }
 }
