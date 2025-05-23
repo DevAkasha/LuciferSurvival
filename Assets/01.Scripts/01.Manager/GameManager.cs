@@ -7,11 +7,30 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     public RxVar<int> essenceOfRuin;
-
+    public List<StageModel> allStageList = new();// GameStageList 모든 스테이지 정보
     public int EssenceOfRuin
     {
         get => essenceOfRuin.Value;
         set => essenceOfRuin.SetValue(value, this);
+    }
+
+    private void Start()
+    {
+        Init();
+    }
+
+    public void Init()
+    {
+        for (int i = 1; i < 8; i++)
+        {
+            StageDataSO StageData = DataManager.Instance.GetData<StageDataSO>($"STG000{i}");
+
+            if (StageData == null)
+            {
+                continue;
+            }
+            allStageList.Add(new StageModel(StageData));
+        }
     }
 
     public void AddEssence(int essence)

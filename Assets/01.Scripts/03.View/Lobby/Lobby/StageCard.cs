@@ -19,7 +19,7 @@ public class StageCard : MonoBehaviour
     {
         StageNumber = stageNumber;
 
-        stageModel = StageManager.Instance.allStageList[StageNumber];
+        stageModel = GameManager.Instance.allStageList[StageNumber];
         whatStageText.text = $"스테이지{StageNumber + 1}";
         WriteEnemyType();
         rewardCountText.text = stageModel.Reward1Count.ToString();
