@@ -121,9 +121,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isInteractable: 1
   targetRenderer: {fileID: 0}
-  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 0}
   emissionColorProperty: _EmissionColor
-  emissionIntensity: 2
+  emissionIntensity: 0
   manageUI: {fileID: 2727425071797321499, guid: 08635d314f842cf42a665bcbbe7f9817,
     type: 3}
   canvas: {fileID: 0}
