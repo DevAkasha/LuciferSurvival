@@ -490,7 +490,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6402392596298973980
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1488,8 +1488,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC601\uD63C\uD575\uC744 \uC774\uC6A9\uD574 \uC7A0\uAE34 \uD0C0\uC77C\uC744
-    \uD574\uAE08\uD558\uC5EC \n\uC601\uC5ED\uC744 \uB113\uD790 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+  m_text: "\uD544\uB4DC\uC5D0 \uC704\uCE58\uD55C \uAC74\uBB3C\uC5D0\uC11C \uC601\uD63C\uC11D\uC744
+    \uD68D\uB4DD\uD560 \uC788\uC2B5\uB2C8\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8523c67b1a3a4054a8a74ab690934b4b, type: 2}
   m_sharedMaterial: {fileID: 5302314191017785305, guid: 8523c67b1a3a4054a8a74ab690934b4b,
@@ -2160,6 +2160,81 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &4172813899287985828
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2701289522472051212}
+  - component: {fileID: 5330235710109491430}
+  - component: {fileID: 8419310563815589069}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2701289522472051212
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4172813899287985828}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8567799787590615454}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -537, y: -0.000019073}
+  m_SizeDelta: {x: 604.481, y: 360.2213}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5330235710109491430
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4172813899287985828}
+  m_CullTransparentMesh: 1
+--- !u!114 &8419310563815589069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4172813899287985828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: a61baa93abd4b4d42b5c1a0f769cb41e, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4336555220477377593
 GameObject:
   m_ObjectHideFlags: 0
@@ -2814,10 +2889,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC601\uD63C\uC758 \uC81C\uB2E8\uACFC \uC0C1\uD638\uC791\uC6A9\uD558\uC5EC
-    \uC0C1\uC810\uC5D0\uC11C \uC720\uB2DB \uAD6C\uB9E4 \uBC0F \uD310\uB9E4\uAC00
-    \uAC00\uB2A5\uD569\uB2C8\uB2E4.\n\uC81C\uB2E8 \uC704\uCE58\uB294 \uC88C\uCE21
-    \uC0C1\uB2E8 \uB098\uCE68\uBC18\uC73C\uB85C \uD655\uC778 \uAC00\uB2A5\uD569\uB2C8\uB2E4."
+  m_text: "\uD68D\uB4DD\uD55C \uC601\uD63C\uC11D\uC740 \uC601\uD63C\uC758 \uC81C\uB2E8\uC5D0\uC11C
+    \uC720\uB2DB \uC18C\uD658 \uBC0F \uD310\uB9E4\uAC00 \uAC00\uB2A5\uD569\uB2C8\uB2E4.\r\n\uC81C\uB2E8
+    \uC704\uCE58\uB294 \uC88C\uCE21 \uC0C1\uB2E8 \uB098\uCE68\uBC18\uC73C\uB85C \uD655\uC778
+    \uAC00\uB2A5\uD569\uB2C8\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8523c67b1a3a4054a8a74ab690934b4b, type: 2}
   m_sharedMaterial: {fileID: 5302314191017785305, guid: 8523c67b1a3a4054a8a74ab690934b4b,
@@ -4442,6 +4517,7 @@ RectTransform:
   m_Children:
   - {fileID: 8675964776756036636}
   - {fileID: 6124077648860900410}
+  - {fileID: 2701289522472051212}
   - {fileID: 8689615196475486028}
   - {fileID: 7884678591494398980}
   m_Father: {fileID: 4521688293545888607}
