@@ -86,7 +86,7 @@ public class DataTool : EditorWindow
                 if (texture == null)
                 {
                     field.SetValue(asset, AssetDatabase.LoadAssetAtPath(path, field.FieldType) as Sprite);
-                    asset.SetDirty();
+                    EditorUtility.SetDirty(asset);
                 }
             }
         }
