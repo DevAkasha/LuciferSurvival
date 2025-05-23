@@ -31,8 +31,6 @@ public class UnitManager : Singleton<UnitManager>
         get { return shopLevel.Value + 1; }
     }
 
-    public bool isShopCached = false;
-
     protected override void Awake()
     {
         base.Awake();

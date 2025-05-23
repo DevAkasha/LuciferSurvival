@@ -7,6 +7,7 @@ public static class SummonTableUtil
     private static Dictionary<int, List<UnitDataSO>> unitDict = new Dictionary<int, List<UnitDataSO>>();
     private static Dictionary<int, SummonTableSO> summonTableDict = new Dictionary<int, SummonTableSO>();
     public static List<UnitDataSO> shopUnits { get; } = new List<UnitDataSO>();
+    public static bool[] purchaseList = new bool[5];
 
     private static Dictionary<int, List<UnitDataSO>> GetUnitDict()
     {
@@ -42,6 +43,7 @@ public static class SummonTableUtil
         if (!isReroll && shopUnits.Count != 0) 
             return shopUnits;
         shopUnits.Clear();
+        System.Array.Clear(purchaseList, 0, purchaseList.Length);
 
         // 확률표 가져오기
         int[] tierChances = GetSummonTableDict()[shopLevel].summonRate;

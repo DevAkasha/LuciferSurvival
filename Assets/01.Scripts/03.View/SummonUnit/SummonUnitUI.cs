@@ -41,6 +41,8 @@ public class SummonUnitUI : MonoBehaviour
 
     private SummonSlot[] curSlots;
 
+    
+
     private void OnSoulStoneChanged(int value) => UpdateSoulStoneText(value);
     private void OnRerollCostChanged(int value) => UpdateRerollCostText(value);
     private void OnShopLevelChanged(int value) => UpdateShopLevelUpCostText();
@@ -84,9 +86,6 @@ public class SummonUnitUI : MonoBehaviour
 
     public void InitShop()
     {
-        if (UnitManager.Instance.isShopCached) return;     // 이미 초기화했으면 리턴
-        UnitManager.Instance.isShopCached = true;
-
         curSlots = summonSlotLayout.GetComponentsInChildren<SummonSlot>();
         SetRandomUnit();
         CheckRerollCost();
@@ -135,7 +134,7 @@ public class SummonUnitUI : MonoBehaviour
         for (int i = 0; i < rerollIndices.Count; i++)
         {
             int index = rerollIndices[i];
-            curSlots[index].SetSlot(rerollUnits[i]);
+            curSlots[index].SetSlot(rerollUnits[i], i, SummonTableUtil.purchaseList[i]);
         }
     }
 
