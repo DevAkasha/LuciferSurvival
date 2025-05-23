@@ -48,12 +48,17 @@ public class SummonSlot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (UnitManager.Instance.CanAddUnit(unitModel) && StageManager.Instance.ReduceSoulStone(unitModel.cost))
+        //구매 여부 체크
+        if (SummonTableUtil.purchaseList[slotIndex] == false)
         {
-            SummonTableUtil.purchaseList[slotIndex] = true;
-            UnitManager.Instance.AddUnit(unitModel);
-            soldImage.gameObject.SetActive(true);
-            StageUIManager.Instance.RefreshAllUnitSlots();
+            //구매가능 체크
+            if (UnitManager.Instance.CanAddUnit(unitModel) && StageManager.Instance.ReduceSoulStone(unitModel.cost))
+            {
+                SummonTableUtil.purchaseList[slotIndex] = true;
+                UnitManager.Instance.AddUnit(unitModel);
+                soldImage.gameObject.SetActive(true);
+                StageUIManager.Instance.RefreshAllUnitSlots();
+            }
         }
     }
 }
