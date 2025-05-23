@@ -16,16 +16,16 @@ public class StageClearWindow : MonoBehaviour
 
     private void GetTitle()
     {
-        if (GameManager.Instance.thisStage == null)
+        if (StageManager.Instance.thisStage == null)
             return;
         if(titleText ==null)
             return;
         if(rewardText == null)
             return;
 
-        titleText.text = $"{GameManager.Instance.thisStage.Title} 격파";
-        rewardText.text = $"{GameManager.Instance.thisStage.Reward1}을/를 {GameManager.Instance.thisStage.Reward1Count}개 획득하셨습니다";
-        GameManager.Instance.GetEssence(GameManager.Instance.thisStage.Reward1Count);
+        titleText.text = $"{StageManager.Instance.thisStage.Title} 격파";
+        rewardText.text = $"{StageManager.Instance.thisStage.Reward1}을/를 {StageManager.Instance.thisStage.Reward1Count}개 획득하셨습니다";
+        GameManager.Instance.AddEssence(StageManager.Instance.thisStage.Reward1Count);
     }
 
     public void ToLobby()
@@ -41,8 +41,8 @@ public class StageClearWindow : MonoBehaviour
     
     public void NextStage()
     {
-        int nextStageNumber = GameManager.Instance.StageNumber + 1;
-        GameManager.Instance.WaveDataSet(nextStageNumber);
+        int nextStageNumber = StageManager.Instance.stageNumber + 1;
+        StageManager.Instance.SetStage(nextStageNumber);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Destroy(gameObject);
     }

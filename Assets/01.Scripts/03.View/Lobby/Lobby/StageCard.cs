@@ -19,7 +19,7 @@ public class StageCard : MonoBehaviour
     {
         StageNumber = stageNumber;
 
-        stageModel = GameManager.Instance.gameWave[StageNumber];
+        stageModel = StageManager.Instance.allStageList[StageNumber];
         whatStageText.text = $"스테이지{StageNumber + 1}";
         WriteEnemyType();
         rewardCountText.text = stageModel.Reward1Count.ToString();
@@ -43,6 +43,6 @@ public class StageCard : MonoBehaviour
 
     public void WaveDataSet()
     {
-        GameManager.Instance.WaveDataSet(StageNumber);
+        StageManager.Instance.SetStage(StageNumber);
     }
 }

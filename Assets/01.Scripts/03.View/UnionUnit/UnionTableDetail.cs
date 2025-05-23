@@ -59,7 +59,7 @@ public class UnionTableDetail : MonoBehaviour
             MaterialCard card = Instantiate(materialPrefab, materialTransform);
             UnitDataSO materialData = DataManager.Instance.GetData<UnitDataSO>(unitList[i]);
             card.SetUnitImage(materialData.thumbnail);
-            card.SetIsOwned(StageManager.Instance.CheckUnit(unitList[i]));
+            card.SetIsOwned(UnitManager.Instance.CheckUnit(unitList[i]));
         }
     }
 

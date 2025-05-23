@@ -16,11 +16,11 @@ public class InventoryTest : MonoBehaviour
             testUnits[i].displayName = $"유닛_{i}";
         }
 
-        StageManager.Instance.AddUnit(testUnits[0]);
-        StageManager.Instance.AddUnit(testUnits[0]);
-        StageManager.Instance.AddUnit(testUnits[0]);
-        StageManager.Instance.AddUnit(testUnits[0]);
-        StageManager.Instance.AddUnit(testUnits[0]);
-        StageManager.Instance.PrintInventory();
+        UnitManager.Instance.AddUnit(testUnits[0]);
+        UnitManager.Instance.AddUnit(testUnits[0]);
+        UnitManager.Instance.AddUnit(testUnits[0]);
+        UnitManager.Instance.AddUnit(testUnits[0]);
+        UnitManager.Instance.AddUnit(testUnits[0]);
+        UnitManager.Instance.PrintInventory();
     }
 }

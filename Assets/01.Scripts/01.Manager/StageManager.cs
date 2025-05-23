@@ -1,34 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
+using UnityEditor;
 using UnityEngine;
 
 public class StageManager : Singleton<StageManager>
 {
-    //유닛 인벤토리
-    public StackableUnitModel[] unitSlots = new StackableUnitModel[8];
-    //유닛 장착 슬롯
-    public UnitModel[] equippedUnits = new UnitModel[6];
+    public List<StageModel> allStageList = new(); //@sm GameStageList 모든 스테이지 정보
+    public StageModel thisStage;//@sm
+    public int stageNumber;//@sm
+    public int waveRound;//@sm
 
-    public SummonUnitUI summonUnitUI;
+    public RxVar<int> soulStone = new RxVar<int>(0); //@SM           //게임 내 재화(초기값 : 0)
 
-    private RxVar<int> soulStone = new RxVar<int>(0);           //게임 내 재화(초기값 : 0)
-    private RxVar<int> rerollCost = new RxVar<int>(3);          //상점 리롤 비용(초기값 : 3)
-    private RxVar<int> shopLevel = new RxVar<int>(1);           //상점 레벨(초기값 : 1)
+    private void Start()
+    {
+        Init();
+        SetStage(0);//테스트 용
+    }
 
     protected override void Awake()
     {
         base.Awake();
-        ClearAllSlots();
-
-        //테스트용 코드
-        unitSlots[0] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0014")));
-        unitSlots[1] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0025")));
-        unitSlots[2] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0034")));
-        unitSlots[0].count = 3;
-        unitSlots[1].count = 3;
-        unitSlots[2].count = 3;
-        SoulStone = 9;
+        SoulStone = 9; //테스트 코드인가요?
     }
 
     public int SoulStone 
@@ -37,146 +32,44 @@ public class StageManager : Singleton<StageManager>
         set { soulStone.SetValue(value, this); }
     }
 
-    public int RerollCost
+    public bool ReduceSoulStone(int amount)
     {
-        get { return rerollCost.Value; }
-        set { rerollCost.SetValue(value, this); }
-    }
-
-    public int ShopLevel
-    {
-        get { return shopLevel.Value; }
-        set { shopLevel.SetValue(value, this); }
-    }
-
-    public int NextShopLevel
-    {
-        get { return shopLevel.Value + 1; }
-    }
-
-    //초기화
-    public void Init()
-    {
-        //반응형 이벤트 구독
-        soulStone.AddListener(v => summonUnitUI.UpdateSoulStoneText(v));
-        rerollCost.AddListener(v => summonUnitUI.UpdateRerollCostText(v));
-        shopLevel.AddListener(v => summonUnitUI.UpdateShopLevelUpCostText());
-        shopLevel.AddListener(v => summonUnitUI.UpdateShopLevelText(v));
-
-        summonUnitUI.UpdateShopLevelUpCostText();
-        summonUnitUI.UpdateRerollCostText(RerollCost);
-
-        //슬롯 UI 초기화
-        StageUIManager.Instance.RefreshAllUnitSlots();
-        StageUIManager.Instance.RefreshAllEquipSlots();
-    }
-
-    public void OnPopupClose()
-    {
-        soulStone.ClearRelation();
-        rerollCost.ClearRelation();
-        shopLevel.ClearRelation();
-        shopLevel.ClearRelation();
-    }
-
-    public bool UseSoulStone(int cost)
-    {
-        if (soulStone.Value >= cost)
+        if (soulStone.Value >= amount)
         {
-            SoulStone -= cost;
+            SoulStone -= amount;
             return true;
         }
         return false;
     }
-
-    //유닛 인벤토리 초기화
-    public void InitializeInventory(UnitModel[] initialUnits)
+    public void SetStage(int stageIndex)//@sm
     {
-        ClearAllSlots();
-
-        foreach (UnitModel unit in initialUnits)
-        {
-            AddUnit(unit);
-        }
-    }
-
-    //인벤토리에 유닛 추가
-    public void AddUnit(UnitModel unit)
-    {
-        for (int i = 0; i < unitSlots.Length; i++)
-        {
-            StackableUnitModel item = unitSlots[i];
-            if (item != null && item.unitModel.rcode == unit.rcode && item.count < 3)
-            {
-                item.AddCount();
-                return;
-            }
-        }
-
-        for (int i = 0; i < unitSlots.Length; i++)
-        {
-            if (unitSlots[i] == null)
-            {
-                unitSlots[i] = new StackableUnitModel(unit);
-                return;
-            }
-        }
-    }
-
-    //유닛 들어갈 수 있는지 체크하는 함수
-    public bool CanAddUnit(UnitModel model)
-    {
-        for (int i = 0; i < unitSlots.Length; i++)
-        {
-            StackableUnitModel slot = unitSlots[i];
-            if (slot != null && slot.unitModel.rcode == model.rcode && slot.count < 3)
-            {
-                return true;
-            }
-        }
-
-        for (int i = 0; i < unitSlots.Length; i++)
-        {
-            if (unitSlots[i] == null)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    //해당 슬롯 유닛 제거
-    public void RemoveUnit(int slotIndex)
-    {   
-        //슬롯 범위 체크(예외처리)
-        if (slotIndex < 0 || slotIndex >= unitSlots.Length)
-        {
+        if (0 > stageIndex || stageIndex > allStageList.Count)
             return;
-        }
 
-        StackableUnitModel item = unitSlots[slotIndex];
-
-        if (item == null)
-        {
-            return;
-        }
-
-        item.RemoveCount();
-
-        if (item.count <= 0)
-        {
-            unitSlots[slotIndex] = null;
-        }
-
-        StageUIManager.Instance.RefreshUnitSlot(slotIndex);
+        waveRound = 0;
+        thisStage = allStageList[stageIndex];
+        Debug.Log($"스테이지{stageIndex + 1} 준비");
     }
 
-    //장착 유닛 모델값 출력
-    public UnitModel GetEquippedUnit(int index)
+    public void ChangeToNight()//@sm 밤으로 전환, 다음 라운드로 Data 변경
     {
-        if (index < 0 || index >= equippedUnits.Length) return null;
-        return equippedUnits[index];
+        if (thisStage == null)
+            return;
+
+        if (waveRound < 0 || waveRound > thisStage.StageData.Count)
+            waveRound = 0;
+
+        WaveManager.Instance.SetWave(thisStage.StageData[waveRound]);
+        TimeManager.Instance.SetNight();
+    }
+
+    public void ChangeToDay()//@sm 낮으로 전환. 웨이브 시작
+    {
+        Debug.Log($"{waveRound + 1}웨이브 시작");
+        TimeManager.Instance.SetDay();
+        WaveManager.Instance.GenerateWave();
+
+        waveRound++;
     }
 
     public bool UnequipUnit(int equipIndex)
@@ -200,31 +93,34 @@ public class StageManager : Singleton<StageManager>
         return true;
     }
 
-    //모든 슬롯 초기화
-    public void ClearAllSlots()
+    public void OnWaveEnd()//@sm
     {
-        for (int i = 0; i < unitSlots.Length; i++)
+        if (waveRound < thisStage.StageData.Count)
         {
-            unitSlots[i] = null;
+            ChangeToNight();
+            Debug.Log("다음 웨이브 준비");
+        }
+        else
+        {
+            StageUIManager.Instance.OnStageCleatWindow();
+            Debug.Log("스테이지 클리어!");
         }
     }
 
-    //테스트용 유닛 출력 장치
-    public void PrintInventory()
+    public void Init() //@sm
     {
-        for (int i = 0; i < unitSlots.Length; i++)
+        for (int i = 1; i < 8; i++)
         {
-            StackableUnitModel item = unitSlots[i];
-            if (item == null)
+            StageDataSO StageData = DataManager.Instance.GetData<StageDataSO>($"STG000{i}");
+
+            if (StageData == null)
             {
-                Debug.Log($"슬롯 {i}: (비어있음)");
                 continue;
             }
-
-            Debug.Log($"슬롯 {i}: {item.unitModel.displayName}({item.count}개)");
+            allStageList.Add(new StageModel(StageData));
         }
     }
-
+    
     public bool CheckUnit(string rcode, int count = 1)
     {
         int findCount = 0;
@@ -403,3 +299,22 @@ public class StageManager : Singleton<StageManager>
         return Mathf.RoundToInt(cost * 2f / 3f);
     }
 }
+#if UNITY_EDITOR //@sm 
+[CustomEditor(typeof(StageManager))]
+public class StageEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        if (EditorApplication.isPlaying)
+        {
+            if (GUILayout.Button("전투 시작"))
+            {
+                StageManager.Instance.ChangeToDay();
+            }
+
+        }
+    }
+}
+#endif

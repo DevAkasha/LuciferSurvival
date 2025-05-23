@@ -149,7 +149,7 @@ public class BossEntity : MobileEntity<BossModel>, ISkillTarget
     }
     public void OnRelease()
     {
-        WaveManager.Instance.KillCountCheck();
+        WaveManager.Instance.CheckKillCount();
         PoolManager.Instance.Release(this);
     }
 
