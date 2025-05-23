@@ -30,6 +30,8 @@ public class UnitManager : Singleton<UnitManager>
         get { return shopLevel.Value + 1; }
     }
 
+    public bool isShopCached = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -340,4 +342,24 @@ public class UnitManager : Singleton<UnitManager>
         return Mathf.RoundToInt(cost * 2f / 3f);
     }
 
+    public bool UnequipUnit(int equipIndex)
+    {
+        if (equipIndex < 0 || equipIndex >= equippedUnitArray.Length)
+            return false;
+
+        UnitModel unit = equippedUnitArray[equipIndex];
+        if (unit == null)
+            return false;
+
+        AddUnit(unit);
+
+        PlayerManager.Instance.Player.RemoveUnitTransform(equipIndex);
+
+        equippedUnitArray[equipIndex] = null;
+
+        StageUIManager.Instance.RefreshEquipSlot(equipIndex);
+        StageUIManager.Instance.RefreshAllUnitSlots();
+
+        return true;
+    }
 }

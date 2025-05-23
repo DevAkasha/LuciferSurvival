@@ -66,7 +66,7 @@ public class SummonUnitUI : MonoBehaviour
         get => UnitManager.Instance.NextShopLevel;
     }
     //초기화
-    public void Init()//Ui 프레젠터로 이동
+    public void InitUI()//Ui 프레젠터로 이동
     {
         //반응형 이벤트 구독 
         StageManager.Instance.soulStone.AddListener(OnSoulStoneChanged);
@@ -82,19 +82,22 @@ public class SummonUnitUI : MonoBehaviour
         StageUIManager.Instance.RefreshAllEquipSlots();
     }
 
+    public void InitShop()
+    {
+        if (UnitManager.Instance.isShopCached) return;     // 이미 초기화했으면 리턴
+        UnitManager.Instance.isShopCached = true;
+
+        curSlots = summonSlotLayout.GetComponentsInChildren<SummonSlot>();
+        SetRandomUnit();
+        CheckRerollCost();
+    }
+
     public void OnPopupClose() //Ui 프레젠터로 이동 리무브리스너형태로
     {
         StageManager.Instance.soulStone.RemoveListener(OnSoulStoneChanged);
         UnitManager.Instance.rerollCost.RemoveListener(OnRerollCostChanged);
         UnitManager.Instance.shopLevel.RemoveListener(OnShopLevelChanged);
         UnitManager.Instance.shopLevel.RemoveListener(OnShopLevelUpCostChanged);
-    }
-
-    private void Start()
-    {
-        curSlots = summonSlotLayout.GetComponentsInChildren<SummonSlot>();
-        SetRandomUnit();
-        CheckRerollCost();
     }
 
     public void OnclickShopLevelUp()
