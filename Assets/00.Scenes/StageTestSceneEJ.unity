@@ -1235,9 +1235,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16cff25f0e37c514e8ca6756fb376b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StageNumber: 0
-  WaveRound: 0
-  EssenceOfRuin: 0
 --- !u!4 &802261284
 Transform:
   m_ObjectHideFlags: 0
@@ -1994,6 +1991,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tutorial
+      objectReference: {fileID: 0}
+    - target: {fileID: 216250793974281789, guid: 792b9a31e64b01d4d94a09fb7ae2c6d1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 553984258337714781, guid: 792b9a31e64b01d4d94a09fb7ae2c6d1,
         type: 3}
@@ -3202,7 +3204,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba954f7b207f5c646a7228b57dbe336e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  summonUnitUI: {fileID: 0}
+  stageNumber: 0
+  waveRound: 0
 --- !u!4 &1926934301
 Transform:
   m_ObjectHideFlags: 0
