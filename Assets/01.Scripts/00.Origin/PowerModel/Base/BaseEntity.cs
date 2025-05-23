@@ -21,7 +21,7 @@ public abstract class BaseEntity<M> : BaseEntity, IModelOwner<M> where M : BaseM
     public override BaseModel GetBaseModel() => Model;
 
     public M GetModel() => Model;
-    
+
     public void CallInit()
     {
         SetupModel();
@@ -54,9 +54,18 @@ public abstract class BaseEntity<M> : BaseEntity, IModelOwner<M> where M : BaseM
         AtDestroy();
     }
 
+    public void CallDeinit()
+    {
+        foreach (BasePart part in partList)
+        {
+            part.CallDeinit();
+        }
+        AtDeinit();
+    }
+
     protected abstract void SetupModel();
     protected virtual void AtInit() { }
     public virtual void AtDisable() { }
     public virtual void AtDestroy() { }
-
+    public virtual void AtDeinit() { }
 }

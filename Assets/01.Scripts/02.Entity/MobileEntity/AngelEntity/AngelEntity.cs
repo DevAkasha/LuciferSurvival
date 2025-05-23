@@ -177,8 +177,8 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
 
     private void OnDeath(bool isDead)
     {
-        //if (!isDead) return; 
-        //navMesh.isStopped = true;  네브메쉬 에러 있어서 주석처리
+        if (!isDead) return; 
+            navMesh.isStopped = true;
     }
 
     public async void OnStun(float delayTime)

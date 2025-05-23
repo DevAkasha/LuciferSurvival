@@ -1,108 +1,169 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Json;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class HealthBarView : MonoBehaviour
 {
-    [SerializeField] private Image fill;            //체력을 표시하기 위해 조정하는 이미지
-    [SerializeField] private Vector3 worldOffset;   //몹이 존재하는 월드좌표
+    [SerializeField] private Image fill;
+    [SerializeField] private Vector3 worldOffset;
+    [SerializeField] private AngelController target;
+    [SerializeField] private BossController bossTarget;
+    [SerializeField] private GameObject targetGO;
+    [SerializeField] private GameObject healthBar;
 
-    [SerializeField] private AngelController target;                 //헬스바의 대상
-    [SerializeField] private BossController bossTarget;                    //헬스바의 대상
-    
-    [SerializeField] private GameObject healthBar;           //헬스바자식
-
-    private Camera cam;                             //헬스바가 표시될 카메라
-    private Action<float> hpListener;               //반응형 리스너
+    [SerializeField] private bool targetDying;
+    private Camera cam;
+    private Action<float> hpListener;
+    private Action<bool> deathListener;
 
     public void Init(AngelController angel)
     {
-        healthBar.SetActive(true);
+        // 기존 연결 정리
+        CleanupListeners();
         target = angel;
+        bossTarget = null;
+        targetGO = target.gameObject;
         cam = Camera.main;
-        fill.fillAmount = target.Entity.Model.NormalizedHP.Value;   //fillAmount초기화
 
-        hpListener = v => fill.fillAmount = v;                      //리스너의 콜백을 설정
-        target.Entity.Model.NormalizedHP.AddListener(hpListener);   //HP에 리스너를 등록
-                                                                    
-        target.Entity.Model.Flags.AddListener(                      //타겟의 상태(플래그)에 대한 접근
-            PlayerStateFlag.Death,                                  //리스너를 등록할 상태를 특정
-            v => { if (v) OnTargetDeath();                          //동작할 콜백을 등록 
-            });
+        // HealthBar 활성화
+        healthBar.SetActive(true);
+
+        // HP 초기화 및 리스너 등록
+        SetupHealthListeners();
     }
 
     public void Init(BossController boss)
     {
-        healthBar.SetActive(true);
+        // 기존 연결 정리
+        CleanupListeners();
         bossTarget = boss;
+        target = null;
+        targetGO = bossTarget.gameObject;
         cam = Camera.main;
-        fill.fillAmount = bossTarget.Entity.Model.NormalizedHP.Value;   //fillAmount초기화
 
-        hpListener = v => fill.fillAmount = v;                      //리스너의 콜백을 설정
-        bossTarget.Entity.Model.NormalizedHP.AddListener(hpListener);   //HP에 리스너를 등록
+        // HealthBar 활성화
+        healthBar.SetActive(true);
 
-        bossTarget.Entity.Model.Flags.AddListener(                      //타겟의 상태(플래그)에 대한 접근
-            PlayerStateFlag.Death,                                  //리스너를 등록할 상태를 특정
-            v => { if (v) OnTargetDeath();                          //동작할 콜백을 등록 
-            });
+        // HP 초기화 및 리스너 등록
+        SetupHealthListeners();
+    }
+
+    private void SetupHealthListeners()
+    {
+        if (target != null)
+        {
+            fill.fillAmount = target.Entity.Model.NormalizedHP.Value;
+            hpListener = v => fill.fillAmount = v;
+            target.Entity.Model.NormalizedHP.AddListener(hpListener);
+
+            deathListener = isDead => { if (isDead) OnTargetDeath(); };
+            target.Entity.Model.Flags.AddListener(PlayerStateFlag.Death, deathListener);
+        }
+        else if (bossTarget != null)
+        {
+            fill.fillAmount = bossTarget.Entity.Model.NormalizedHP.Value;
+            hpListener = v => fill.fillAmount = v;
+            bossTarget.Entity.Model.NormalizedHP.AddListener(hpListener);
+
+            deathListener = isDead => { if (isDead) OnTargetDeath(); };
+            bossTarget.Entity.Model.Flags.AddListener(PlayerStateFlag.Death, deathListener);
+        }
     }
 
     private void LateUpdate()
     {
+        // 타겟 유효성 검사 및 처리
         if (target != null)
         {
-            transform.position = cam.WorldToScreenPoint(target.Entity.headPivot.position + worldOffset);
-            if (target.gameObject.activeSelf && !healthBar.activeSelf)
+            HandleAngelTarget();
+        }
+        else if (bossTarget != null)
+        {
+            HandleBossTarget();
+        }
+    }
+
+    private void HandleAngelTarget()
+    {
+        // 월드 좌표를 스크린 좌표로 변환
+        transform.position = cam.WorldToScreenPoint(target.Entity.headPivot.position + worldOffset);
+
+        // 타겟이 비활성화된 경우 헬스바도 비활성화
+        if (!targetGO.activeSelf && healthBar.activeSelf )
+        {
+            Detach();
+        }
+        else if (targetGO.activeSelf && healthBar.activeSelf)
+        {
+            healthBar.SetActive(true);
+            CleanupListeners();
+            SetupHealthListeners();
+        }
+    }
+
+    private void HandleBossTarget()
+    {
+        // 월드 좌표를 스크린 좌표로 변환
+        transform.position = cam.WorldToScreenPoint(bossTarget.Entity.headPivot.position + worldOffset);
+
+        // 타겟이 비활성화된 경우 헬스바도 비활성화
+        if (!targetGO.activeSelf && healthBar.activeSelf)
+        {
+            Detach();
+        }
+        else if(targetGO.activeSelf && !healthBar.activeSelf)
+        {
+            healthBar.SetActive(true);
+            CleanupListeners();
+            SetupHealthListeners();
+        }
+    }
+
+    private void CleanupListeners()
+    {
+        if (hpListener != null)
+        {
+            if (target != null)
             {
-                Init(target);
-
-                if (!target.gameObject.activeSelf && healthBar.activeSelf)
-                {
-                    healthBar.SetActive(false);
-                }
+                target.Entity.Model.NormalizedHP.RemoveListener(hpListener);
+                target.Entity.Model.Flags.RemoveListener(PlayerStateFlag.Death, deathListener);
             }
-
             if (bossTarget != null)
             {
-                transform.position = cam.WorldToScreenPoint(bossTarget.Entity.headPivot.position + worldOffset);
-                if (bossTarget.gameObject.activeSelf && !healthBar.activeSelf)
-                {
-                    Init(bossTarget);
-                }
-                if (!bossTarget.gameObject.activeSelf && healthBar.activeSelf)
-                {
-                    healthBar.SetActive(false);
-                }
+                bossTarget.Entity.Model.NormalizedHP.RemoveListener(hpListener);
+                bossTarget.Entity.Model.Flags.RemoveListener(PlayerStateFlag.Death, deathListener);
             }
+            hpListener = null;
+            deathListener = null;
         }
     }
 
     private void OnDisable()
     {
-        if (target != null)
-        {
-            target.Entity.Model.NormalizedHP.RemoveListener(hpListener);
-            target = null;
-        }
-
-        if (bossTarget != null)
-        {
-            bossTarget.Entity.Model.NormalizedHP.RemoveListener(hpListener);
-            bossTarget = null;
-        }
+        CleanupListeners();
     }
 
     private void OnTargetDeath()
     {
-        UnityTimer.ScheduleRepeating(1.5f, Detach);
+        targetDying = true;
+        this.DelayedCall(1.5f, TryDetach);
     }
-
-    public void Detach() 
+    public void TryDetach()
+    {  
+        if (targetDying) Detach();
+        targetDying = false;
+    }
+    public void Detach()
     {
+        CleanupListeners();
         healthBar.SetActive(false);
+        target = null;
+        bossTarget = null;
+        targetGO = null;
+        targetDying = false;
         HealthBarManager.Instance.Detach(this);
     }
 }

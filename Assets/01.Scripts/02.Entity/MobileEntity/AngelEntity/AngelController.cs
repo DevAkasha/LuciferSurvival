@@ -130,14 +130,9 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
     {
         Entity.TakeDamaged(1f);
     }
-
-    protected override void AtDisable()
+    protected override void AtDeinit()
     {
-        behaviorCts?.Cancel();
-    }
-
-    protected override void AtDestroy()
-    {
+        base.AtDeinit();
         behaviorCts?.Cancel();
         behaviorCts = null;
     }
