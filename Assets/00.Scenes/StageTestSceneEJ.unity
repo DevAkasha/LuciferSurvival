@@ -642,6 +642,9 @@ MonoBehaviour:
   target: {fileID: 0}
   offset: {x: 0, y: 10, z: -7.1}
   fixedRotation: {x: 60, y: 0, z: 0}
+  zoomSpeed: 2
+  minZoom: 8
+  maxZoom: 22
 --- !u!1 &457474279
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,8 +694,8 @@ MonoBehaviour:
   - {x: 7, y: 8}
   - {x: 6, y: 8}
   environmentTemplate: []
-  hexagonRadius: 7
-  resourceMinDistance: 3
+  hexagonRadius: 6
+  resourceMinDistance: 6
   soulAltarPrefab: {fileID: 7747054384080733629, guid: d6c1b2343f6d7ce4299d064a6f3da531,
     type: 3}
   compassArrow: {fileID: 1659223116}

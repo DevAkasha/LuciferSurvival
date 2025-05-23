@@ -14,19 +14,22 @@ public class StageSelectArea : MonoBehaviour
         SetStageCard();
     }
 
-    public async void SetStageCard()
+    public void SetStageCard()
     {
         if (GameManager.Instance.allStageList == null)
         {
             return;
         }
 
-        await UniTask.Delay(TimeSpan.FromSeconds(0.1f), DelayType.DeltaTime, PlayerLoopTiming.Update);
-
         for (int i = 0; i < GameManager.Instance.allStageList.Count; i++)
         {
             StageCard NextStageCard = Instantiate(stageCard, content);
             NextStageCard.GetStageInfo(i);
         }
+    }
+
+    public void QuitWindow()
+    {
+        Destroy(gameObject);
     }
 }

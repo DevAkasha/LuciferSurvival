@@ -190,8 +190,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4284440415
+  m_fontColor: {r: 0.37254903, g: 0.37254903, b: 0.37254903, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -342,13 +342,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 727871895}
+        m_TargetAssemblyTypeName: LobbyButton, Assembly-CSharp
+        m_MethodName: OpenStageSelectWindow
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -541,6 +541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16cff25f0e37c514e8ca6756fb376b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stageNumber: 0
 --- !u!4 &425181883
 Transform:
   m_ObjectHideFlags: 0
@@ -635,6 +636,7 @@ GameObject:
   - component: {fileID: 727871892}
   - component: {fileID: 727871893}
   - component: {fileID: 727871894}
+  - component: {fileID: 727871895}
   m_Layer: 5
   m_Name: ButtonArea
   m_TagString: Untagged
@@ -707,6 +709,21 @@ MonoBehaviour:
   codexPrefab: {fileID: 8324311865740119136, guid: 2b54d4a55d49dca4982f164f4f47ddb4,
     type: 3}
   codexTransform: {fileID: 8091540828326873778}
+--- !u!114 &727871895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727871891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d048a0e0f55103d468f5ea721610b6f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageSelectWindow: {fileID: 2939885658911608836, guid: 191e68d06e477fc43bea573f473f5c37,
+    type: 3}
+  canvas: {fileID: 305999058}
 --- !u!1 &745611030
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,7 +806,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 745611033}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 727871895}
+        m_TargetAssemblyTypeName: LobbyButton, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &745611033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1084,7 +1113,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -170.65088, w: 0}
+  m_margin: {x: 0, y: -181.5, z: -170.65088, w: 71.03125}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1241,8 +1270,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4284440415
+  m_fontColor: {r: 0.37254903, g: 0.37254903, b: 0.37254903, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

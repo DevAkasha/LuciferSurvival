@@ -35,15 +35,6 @@ public class UnitManager : Singleton<UnitManager>
     {
         base.Awake();
         ClearCurUnitArray();
-
-        //테스트용 코드
-        curUnitArray[0] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0014")));
-        curUnitArray[1] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0025")));
-        curUnitArray[2] = new StackableUnitModel(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0034")));
-        curUnitArray[0].count = 3;
-        curUnitArray[1].count = 3;
-        curUnitArray[2].count = 3;
-
     }
 
     //유닛어레이 초기화
@@ -341,4 +332,24 @@ public class UnitManager : Singleton<UnitManager>
         return Mathf.RoundToInt(cost * 2f / 3f);
     }
 
+    public bool UnequipUnit(int equipIndex)
+    {
+        if (equipIndex < 0 || equipIndex >= equippedUnitArray.Length)
+            return false;
+
+        UnitModel unit = equippedUnitArray[equipIndex];
+        if (unit == null)
+            return false;
+
+        AddUnit(unit);
+
+        PlayerManager.Instance.Player.RemoveUnitTransform(equipIndex);
+
+        equippedUnitArray[equipIndex] = null;
+
+        StageUIManager.Instance.RefreshEquipSlot(equipIndex);
+        StageUIManager.Instance.RefreshAllUnitSlots();
+
+        return true;
+    }
 }
