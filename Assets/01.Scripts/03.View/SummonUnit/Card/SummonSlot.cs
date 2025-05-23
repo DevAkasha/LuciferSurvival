@@ -31,6 +31,7 @@ public class SummonSlot : MonoBehaviour, IPointerClickHandler
 
     public void SetSlot(UnitDataSO unitDataSO)
     {
+        unitSprite.sprite = unitDataSO.thumbnail;  
         soldImage.gameObject.SetActive(false);
         unitModel = new UnitModel(unitDataSO);
         //유닛, 등급 이미지를 아직 구하지 않아 생성자에 적용할지 확인이 필요함
