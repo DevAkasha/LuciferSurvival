@@ -27,4 +27,9 @@ public class StageSelectArea : MonoBehaviour
             NextStageCard.GetStageInfo(i);
         }
     }
+
+    public void QuitWindow()
+    {
+        Destroy(gameObject);
+    }
 }

@@ -29,14 +29,14 @@ public class UnitManageUI : UIBase
 
     public override void Opened(object[] param)
     {
-        summonUnitUI = GetComponent<UnitManageUI>().SummonUnitUI;
         StageUIManager.Instance.unitManageUI = GetComponent<UnitManageUI>();
         StageUIManager.Instance.unitInfo = GetComponent<UnitManageUI>().UnitInfo;
-        SummonUnitUI.Init();
+        SummonUnitUI.InitUI();
         StageUIManager.Instance.RegisterUnitSlots();
         StageUIManager.Instance.RegisterEquipSlots();
         StageUIManager.Instance.InitPreviewImage();
         GameManager.Instance.PauseGame(0.2f);
+        summonUnitUI.InitShop();
     }
 
     public override void Closed(object[] param)

@@ -30,6 +30,7 @@ public class UnionTableList : MonoBehaviour
             UnionCard card = Instantiate(unionCardPrefab, listTransform);
             card.SetUnionData(table.rcode);
             card.SetCompletionRate(UnitManager.Instance.CalculateCompletionRate(table));
+            card.SetUnitImage(DataManager.Instance.GetData<UnitDataSO>(table.unitRcode).thumbnail);
         }
     }
 }
