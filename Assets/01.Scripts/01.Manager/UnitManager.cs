@@ -313,5 +313,33 @@ public class UnitManager : Singleton<UnitManager>
     }
 
 
+    public bool SellUnit(int slotIndex)
+    {
+        if (slotIndex < 0 || slotIndex >= curUnitArray.Length)
+        {
+            return false;
+        }
+
+        StackableUnitModel item = curUnitArray[slotIndex];
+
+        if ((int)item.unitModel.grade == 5)
+        {
+            return false;
+        }
+
+        StageManager.Instance.SoulStone += CalculateCost(item.unitModel.cost);
+
+        RemoveUnit(slotIndex);
+
+        StageUIManager.Instance.RefreshUnitSlot(slotIndex);
+
+        return true;
+    }
+
+    //판매금액 계산
+    public int CalculateCost(int cost)
+    {
+        return Mathf.RoundToInt(cost * 2f / 3f);
+    }
 
 }
