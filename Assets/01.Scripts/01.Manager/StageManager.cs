@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -10,6 +10,7 @@ public class StageManager : Singleton<StageManager>
     public int waveRound;
 
     public RxVar<int> soulStone = new RxVar<int>(0); //게임 내 재화(초기값 : 0)
+    public RxVar<int> soulCore = new RxVar<int>(0); //게임 내 재화(초기값 : 0)
 
     private void Start()
     {
@@ -28,6 +29,12 @@ public class StageManager : Singleton<StageManager>
         set { soulStone.SetValue(value, this); }
     }
 
+    public int SoulCore
+    {
+        get { return soulCore.Value; }
+        set { soulCore.SetValue(value, this); }
+    }
+
     public bool ReduceSoulStone(int amount)
     {
         if (soulStone.Value >= amount)
@@ -37,6 +44,22 @@ public class StageManager : Singleton<StageManager>
         }
         return false;
     }
+    public bool ReduceSoulCore(int amount)
+    {
+        if (soulCore.Value >= amount)
+        {
+            SoulCore -= amount;
+            return true;
+        }
+        return false;
+    }
+
+    public void AddSoulCore(int amount)
+    {
+        SoulCore += amount;
+        Debug.Log($"영혹핵 {amount}개 획득");
+    }
+
     public void SetStage(int stageIndex)
     {
         if (0 > stageIndex || stageIndex > GameManager.Instance.allStageList.Count)
