@@ -41,6 +41,8 @@ public class SummonUnitUI : MonoBehaviour
 
     private SummonSlot[] curSlots;
 
+    
+
     private void OnSoulStoneChanged(int value) => UpdateSoulStoneText(value);
     private void OnRerollCostChanged(int value) => UpdateRerollCostText(value);
     private void OnShopLevelChanged(int value) => UpdateShopLevelUpCostText();
@@ -66,7 +68,7 @@ public class SummonUnitUI : MonoBehaviour
         get => UnitManager.Instance.NextShopLevel;
     }
     //초기화
-    public void Init()//Ui 프레젠터로 이동
+    public void InitUI()//Ui 프레젠터로 이동
     {
         //반응형 이벤트 구독 
         StageManager.Instance.soulStone.AddListener(OnSoulStoneChanged);
@@ -82,19 +84,19 @@ public class SummonUnitUI : MonoBehaviour
         StageUIManager.Instance.RefreshAllEquipSlots();
     }
 
+    public void InitShop()
+    {
+        curSlots = summonSlotLayout.GetComponentsInChildren<SummonSlot>();
+        SetRandomUnit();
+        CheckRerollCost();
+    }
+
     public void OnPopupClose() //Ui 프레젠터로 이동 리무브리스너형태로
     {
         StageManager.Instance.soulStone.RemoveListener(OnSoulStoneChanged);
         UnitManager.Instance.rerollCost.RemoveListener(OnRerollCostChanged);
         UnitManager.Instance.shopLevel.RemoveListener(OnShopLevelChanged);
         UnitManager.Instance.shopLevel.RemoveListener(OnShopLevelUpCostChanged);
-    }
-
-    private void Start()
-    {
-        curSlots = summonSlotLayout.GetComponentsInChildren<SummonSlot>();
-        SetRandomUnit();
-        CheckRerollCost();
     }
 
     public void OnclickShopLevelUp()
@@ -113,11 +115,11 @@ public class SummonUnitUI : MonoBehaviour
     {
         if (StageManager.Instance.ReduceSoulStone(RerollCost))
         {
-            SetRandomUnit();
+            SetRandomUnit(true);
         }
     }
 
-    private void SetRandomUnit()
+    private void SetRandomUnit(bool isReroll = false)
     {
         List<int> rerollIndices = new();
 
@@ -127,12 +129,12 @@ public class SummonUnitUI : MonoBehaviour
                 rerollIndices.Add(i);
         }
 
-        List<UnitDataSO> rerollUnits = SummonTableUtil.RerollShop(ShopLevel, rerollIndices.Count);
+        List<UnitDataSO> rerollUnits = SummonTableUtil.RerollShop(ShopLevel, rerollIndices.Count, isReroll);
 
         for (int i = 0; i < rerollIndices.Count; i++)
         {
             int index = rerollIndices[i];
-            curSlots[index].SetSlot(rerollUnits[i]);
+            curSlots[index].SetSlot(rerollUnits[i], i, SummonTableUtil.purchaseList[i]);
         }
     }
 
