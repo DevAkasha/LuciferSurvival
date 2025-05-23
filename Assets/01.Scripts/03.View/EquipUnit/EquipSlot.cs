@@ -78,7 +78,7 @@ public class EquipSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandle
     {
         if (draggingEquipSlot == this)
         {
-            StageManager.Instance.UnequipUnit(transformIndex);
+            UnitManager.Instance.RemoveUnit(transformIndex);
         }
 
         draggingEquipSlot = null;

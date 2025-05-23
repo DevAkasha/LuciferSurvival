@@ -29,7 +29,7 @@ public class UnitManageUI : UIBase
 
     public override void Opened(object[] param)
     {
-        UnitManager.Instance.summonUnitUI = GetComponent<UnitManageUI>().SummonUnitUI;
+        summonUnitUI = GetComponent<UnitManageUI>().SummonUnitUI;
         StageUIManager.Instance.unitManageUI = GetComponent<UnitManageUI>();
         StageUIManager.Instance.unitInfo = GetComponent<UnitManageUI>().UnitInfo;
         SummonUnitUI.Init();

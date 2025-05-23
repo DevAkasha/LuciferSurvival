@@ -15,7 +15,7 @@ public class SellArea : MonoBehaviour, IDropHandler
             return;
         }
 
-        bool sold = StageManager.Instance.SellUnit(idx);
+        bool sold = UnitManager.Instance.SellUnit(idx);
         if (!sold)
         {
             Debug.Log("[SellArea] 판매 실패: 슬롯이 비었거나 인덱스 오류");
