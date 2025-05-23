@@ -50,7 +50,7 @@ public class UnionTableDetail : MonoBehaviour
     public void RefreshMaterials()
     {
         string[] unitList = { curTableData.unit1, curTableData.unit2, curTableData.unit3, curTableData.unit4 };
-
+         
         int spawnCount = string.IsNullOrEmpty(curTableData.unit4) ? 3 : 4;
 
         ClearChildren();
@@ -65,6 +65,6 @@ public class UnionTableDetail : MonoBehaviour
 
     public void SetBtnText(int cost)
     {
-        unionBtnText.text = "합성(비용 : " + cost + ")";
+        unionBtnText.text = "합성(비용 : " + cost + " / " + StageManager.Instance.SoulStone + ")";
     }
 }
