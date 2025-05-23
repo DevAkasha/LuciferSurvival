@@ -23,4 +23,13 @@ public class AssetIndicator : MonoBehaviour
     {
         soulCoreTxt.text = value.ToString();
     }
+<<<<<<< Updated upstream
+=======
+
+    private void OnDestroy()
+    {
+        StageManager.Instance.soulStone.RemoveListener(RefreshSoulStone);
+        StageManager.Instance.soulCore.RemoveListener(RefreshSoulCore);
+    }
+>>>>>>> Stashed changes
 }
