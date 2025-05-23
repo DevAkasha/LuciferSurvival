@@ -6,8 +6,10 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    public RxVar<int> essenceOfRuin;
+    public RxVar<int> essenceOfRuin = new RxVar<int>(0);
     public List<StageModel> allStageList = new();// GameStageList 모든 스테이지 정보
+    public int stageNumber;
+
     public int EssenceOfRuin
     {
         get => essenceOfRuin.Value;

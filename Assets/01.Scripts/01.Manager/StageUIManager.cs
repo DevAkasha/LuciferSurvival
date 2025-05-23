@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class StageUIManager : Singleton<StageUIManager>
 {
+    protected override bool IsPersistent => false;
+    
     private UnitSlot[] unitSlotUIs = new UnitSlot[8];
 
     private EquipSlot[] equipSlotUIs = new EquipSlot[6];  // 동적 할당 가능하게 변경
@@ -40,6 +42,7 @@ public class StageUIManager : Singleton<StageUIManager>
     {
         for (int i = 0; i < unitSlotUIs.Length; i++)
         {
+            
             GameObject go = Instantiate(slotPrefab, unitManageUI.Bottom);
             UnitSlot slot = go.GetComponent<UnitSlot>();
 
@@ -154,7 +157,7 @@ public class StageUIManager : Singleton<StageUIManager>
 
     public void OnStageCleatWindow()
     {
-        var StageSlear = Instantiate(StageCleatWindow, canvas.transform);
+        Instantiate(StageCleatWindow, canvas.transform);
     }
     
     public void OnBossWarning()

@@ -5,14 +5,15 @@ using UnityEngine;
 
 public class UnitManager : Singleton<UnitManager>
 {
+    protected override bool IsPersistent => false;
     //보유중인 유닛어레이
-    public StackableUnitModel[] curUnitArray = new StackableUnitModel[8]; //@um
+    public StackableUnitModel[] curUnitArray = new StackableUnitModel[8];
 
     //장착중인 유닛어레이
-    public UnitModel[] equippedUnitArray = new UnitModel[6];//@um
+    public UnitModel[] equippedUnitArray = new UnitModel[6];
 
-    public RxVar<int> rerollCost = new RxVar<int>(3); //@um         //상점 리롤 비용(초기값 : 3)
-    public RxVar<int> shopLevel = new RxVar<int>(1); //@um        //상점 레벨(초기값 : 1)
+    public RxVar<int> rerollCost = new RxVar<int>(3);         //상점 리롤 비용(초기값 : 3)
+    public RxVar<int> shopLevel = new RxVar<int>(1);         //상점 레벨(초기값 : 1)
     public int RerollCost
     {
         get { return rerollCost.Value; }

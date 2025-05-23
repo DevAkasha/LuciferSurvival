@@ -14,6 +14,8 @@ public enum EnemyTypes
 
 public class WaveManager : Singleton<WaveManager>
 {
+    protected override bool IsPersistent => false;
+
     [SerializeField] private int killCount;
 
     public WaveModel curWave;

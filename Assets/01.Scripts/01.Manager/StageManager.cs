@@ -1,19 +1,21 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 public class StageManager : Singleton<StageManager>
 {
+    protected override bool IsPersistent => false;
+
     public StageModel thisStage;
-    public int stageNumber;
     public int waveRound;
 
     public RxVar<int> soulStone = new RxVar<int>(0); //게임 내 재화(초기값 : 0)
 
     private void Start()
     {
-        SetStage(0);//테스트 용
+        SetStage(GameManager.Instance.stageNumber);
+        ChangeToNight();
     }
 
     protected override void Awake()
