@@ -7,13 +7,19 @@ public abstract class PlayerController : MobileController<PlayerEntity, PlayerMo
     [SerializeField] private Animator animator;
     public Transform unitSlots;
     [SerializeField] private Transform[] unitTransforms;
-    
-    protected override void AtInit()
+    private void Awake()
     {
         PlayerManager.Instance.ResistPlayer(this);
+    }
+    protected override void AtInit()
+    {
         Entity.Model.State.OnEnter(PlayerState.Move, () => animator.Play("Move"));
         Entity.Model.State.OnEnter(PlayerState.Idle, () => animator.Play("Idle"));
-        Entity.Model.State.OnEnter(PlayerState.Death, () => animator.Play("Death"));
+        Entity.Model.State.OnEnter(PlayerState.Death, () => 
+        { 
+            animator.Play("Death");
+            OnDeath();
+        });
         Entity.Model.State.OnEnter(PlayerState.Stun, () => animator.Play("Stun"));
         Entity.Model.State.OnEnter(PlayerState.Roll, () => animator.Play("Roll"));
         Entity.Model.State.OnEnter(PlayerState.Attack, () => animator.Play("Attack"));
@@ -55,6 +61,7 @@ public abstract class PlayerController : MobileController<PlayerEntity, PlayerMo
             Destroy(unit.gameObject);
         }
     }
+
     public void SetDirectionUnitTransform()
     {
         foreach (var unity in unitTransforms)
@@ -70,5 +77,11 @@ public abstract class PlayerController : MobileController<PlayerEntity, PlayerMo
         {
             interactionModule.OnInteractInput(context);
         }
+    }
+
+    private void OnDeath()
+    {
+        StageManager.Instance.DeinitAllEnemy();
+        UnityTimer.ScheduleOnce(3f, StageManager.Instance.OnPlayerDeath);
     }
 }

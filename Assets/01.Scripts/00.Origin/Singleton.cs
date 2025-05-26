@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class Singleton<T> : MonoBehaviour,IRxOwner,IRxCaller where T : Singleton<T>
 {
     private static T instance;
+
     public static T Instance
     {
         get
@@ -11,19 +12,11 @@ public abstract class Singleton<T> : MonoBehaviour,IRxOwner,IRxCaller where T : 
             if (instance == null)
             {
                 instance = FindObjectOfType<T>();
-
-                if (instance == null)
-                {
-                    GameObject singleton = new GameObject(typeof(T).Name);
-                    instance = singleton.AddComponent<T>();
-                }
             }
             return instance;
-
         }
     }
-    public static bool IsInstance => instance != null;
-
+    public static bool IsInstance => instance != null; 
     protected virtual bool IsPersistent => true;
     protected virtual void Awake()
     {
@@ -40,6 +33,11 @@ public abstract class Singleton<T> : MonoBehaviour,IRxOwner,IRxCaller where T : 
         {
             Destroy(gameObject);
         }
+    }
+
+    protected virtual void OnDestroy()
+    {
+        Unload();    
     }
 
     public bool IsRxVarOwner => true;
@@ -63,11 +61,5 @@ public abstract class Singleton<T> : MonoBehaviour,IRxOwner,IRxCaller where T : 
         }
         trackedRxVars.Clear();
     }
-
-    private void OnDestroy()
-    {
-        Unload();
-    }
-
 }
 
