@@ -26,6 +26,7 @@ public class AssetIndicator : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (!StageManager.IsInstance) return;
         StageManager.Instance.soulStone.RemoveListener(RefreshSoulStone);
         StageManager.Instance.soulCore.RemoveListener(RefreshSoulCore);
     }

@@ -19,6 +19,11 @@ public class UnitSkillComponent : UnitPart, ISkillUser
     [SerializeField] private float detectionRange = 5f; // 적 감지 범위
     private LayerMask enemyLayer;
 
+    private eUnitGrade UnitGrade
+    {
+        get => Model.grade;
+    } 
+
     // 스킬 UI 데이터
     public (float cooldown, float remainingCooldown) SkillCooldownInfo
     {
@@ -58,7 +63,7 @@ public class UnitSkillComponent : UnitPart, ISkillUser
     private void InitializeSkill()
     {
         // 스킬 생성
-        skill = SkillFactory.CreateSkill(skillId);
+        skill = SkillFactory.CreateSkill(skillId, UnitGrade);
     }
 
     // 자동 스킬 사용 시도

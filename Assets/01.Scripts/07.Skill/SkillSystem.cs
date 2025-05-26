@@ -53,6 +53,10 @@ public abstract class Skill
     public float cooldown { get; protected set; }
     public float damage { get; protected set; }
 
+    public float criticalChance { get; protected set; } = 5f;
+
+    public float criticalRatio { get; protected set; } = 150f;
+
     public bool usePriorityTargeting { get; protected set; } = false;
     public EnemyType priorityType { get; protected set; } = EnemyType.standard;
 
@@ -97,18 +101,18 @@ public abstract class TargetedSkill : Skill, ITargetedSkill
 public static class SkillFactory
 {
     // 스킬 ID로 스킬 객체 생성
-    public static Skill CreateSkill(SkillId skillId)
+    public static Skill CreateSkill(SkillId skillId, eUnitGrade unitGrade)
     {
         return skillId switch
         {
-            SkillId.FleshGrinder => new FleshGrinderSkill(),
-            SkillId.CrushBreaker => new CrushBreakerSkill(),
-            SkillId.Hellfume => new HellfumeSkill(),
-            SkillId.SkyLance => new SkyLanceSkill(),
-            SkillId.OrbitOfRuin => new OrbitOfRuinSkill(),
-            SkillId.InfernalVolley => new InfernalVolleySkill(),
-            SkillId.Hellsnare => new HellsnareSkill(),
-            SkillId.MistOfMadness => new MistOfMadnessSkill(),
+            SkillId.FleshGrinder => new FleshGrinderSkill(unitGrade),
+            SkillId.CrushBreaker => new CrushBreakerSkill(unitGrade),
+            SkillId.Hellfume => new HellfumeSkill(unitGrade),
+            SkillId.SkyLance => new SkyLanceSkill(unitGrade),
+            SkillId.OrbitOfRuin => new OrbitOfRuinSkill(unitGrade),
+            SkillId.InfernalVolley => new InfernalVolleySkill(unitGrade),
+            SkillId.Hellsnare => new HellsnareSkill(unitGrade),
+            SkillId.MistOfMadness => new MistOfMadnessSkill(unitGrade),
             _ => throw new System.ArgumentException($"Unknown skill ID: {skillId}")
         };
     }

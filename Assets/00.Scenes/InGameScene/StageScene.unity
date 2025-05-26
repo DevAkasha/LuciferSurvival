@@ -2782,7 +2782,7 @@ GameObject:
   - component: {fileID: 1731358324}
   - component: {fileID: 1731358323}
   m_Layer: 0
-  m_Name: PlayerManage
+  m_Name: PlayerManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3261,6 +3261,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveRound: 0
+  angels: []
+  boss: {fileID: 0}
 --- !u!4 &1926934301
 Transform:
   m_ObjectHideFlags: 0
@@ -3542,6 +3544,8 @@ MonoBehaviour:
     type: 3}
   unitManageUI: {fileID: 0}
   StageCleatWindow: {fileID: 3303692191186795091, guid: 74b3d8da0107c5e498044b0d43f4dacd,
+    type: 3}
+  PlayerDeathWindow: {fileID: 4147624698582936819, guid: b39159c5345e07d478c27020e7f2fbaa,
     type: 3}
   BossWarningView: {fileID: 866590103162492861, guid: e9fbde94da196e540add8811a5dc90e0,
     type: 3}

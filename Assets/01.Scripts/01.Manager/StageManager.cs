@@ -13,18 +13,14 @@ public class StageManager : Singleton<StageManager>
     public RxVar<int> soulStone = new RxVar<int>(0); //게임 내 재화(초기값 : 0)
     public RxVar<int> soulCore = new RxVar<int>(0); //게임 내 재화(초기값 : 0)
 
+    public List<AngelController> angels = new(); //게임 내 재화(초기값 : 0)
+    public BossController? boss;
+
     private void Start()
     {
         SetStage(GameManager.Instance.stageNumber);
         ChangeToNight();
     }
-
-    protected override void Awake()
-    {
-        base.Awake();
-        SoulStone = 9; //테스트 코드인가요?
-    }
-
     public int SoulStone
     {
         get { return soulStone.Value; }
@@ -46,6 +42,12 @@ public class StageManager : Singleton<StageManager>
         }
         return false;
     }
+
+    public void Regist(AngelController angel) => angels.Add(angel); 
+    public void Regist(BossController boss) => this.boss = boss;
+    public void Unregist(AngelController angel) => angels.Remove(angel);
+    public void Unregist(BossController boss) => this.boss = null;
+
     public bool ReduceSoulCore(int amount)
     {
         if (soulCore.Value >= amount)
@@ -86,9 +88,6 @@ public class StageManager : Singleton<StageManager>
 
     public void ChangeToDay()// 낮으로 전환. 웨이브 시작
     {
-        if (TimeManager.Instance.currentTimeState != TimeState.Night)
-            return;
-
         Debug.Log($"{waveRound + 1}웨이브 시작");
         TimeManager.Instance.SetDay();
         WaveManager.Instance.GenerateWave();
@@ -107,6 +106,27 @@ public class StageManager : Singleton<StageManager>
             StageUIManager.Instance.OnStageCleatWindow();
             Debug.Log("스테이지 클리어!");
         }
+    }
+
+    public void OnPlayerDeath()
+    {
+        StageUIManager.Instance.OnPlayerDeathWindow();
+    }
+
+    public void DeinitAllEnemy()
+    {
+        boss?.Deinit();
+        if (angels.Count == 0) return;
+
+        foreach (var angel in angels)
+        {
+            angel.Deinit();
+        }
+    }
+    protected override void OnDestroy()
+    {
+        soulStone?.ClearRelation();
+        soulCore?.ClearRelation();
     }
 }
 #if UNITY_EDITOR 
