@@ -16,9 +16,15 @@ public class WaveManager : Singleton<WaveManager>
 {
     protected override bool IsPersistent => false;
 
-    [SerializeField] private int killCount;
+    private RxVar<int> killCount = new RxVar<int>();
 
     public WaveModel curWave;
+
+    public int KillCount
+    {
+        get => killCount.Value;
+        set => killCount.SetValue(value, this);
+    }
 
     private void Start()
     {
@@ -30,8 +36,8 @@ public class WaveManager : Singleton<WaveManager>
     public void SetWave(WaveModel waveData)
     {
         curWave = waveData;
-        
-        killCount = 0;
+
+        KillCount = 0;
     }
 
     public void GenerateWave()
@@ -63,9 +69,7 @@ public class WaveManager : Singleton<WaveManager>
 
     public void CheckKillCount()
     {
-        killCount++;
-
-        if(killCount >= CalculateEnemyCount())
+        if(KillCount >= CalculateEnemyCount())
         {
             Debug.Log("웨이브 종료");
             StageManager.Instance.OnWaveEnd();
@@ -76,7 +80,7 @@ public class WaveManager : Singleton<WaveManager>
     {
         int enemyCount = 0;
 
-        for (int i = 0; i < curWave.EnemyCount.Count; i++)
+        for (int i = 0; i < 3; i++)
         {
             if (curWave.EnemyCount[i] > 0)
             { 
@@ -85,6 +89,21 @@ public class WaveManager : Singleton<WaveManager>
         }
 
         return enemyCount;
+    }
+
+    public int CalculateAllCount()
+    {
+        int allCount = 0;
+
+        for (int i = 0; i < curWave.EnemyCount.Count; i++)
+        {
+            if (curWave.EnemyCount[i] > 0)
+            {
+                allCount += curWave.EnemyCount[i];
+            }
+        }
+
+        return allCount;
     }
 
     public EnemyTypes GetEnemyTypes(string rcode) //필요시 static 전환하면 좋음
@@ -99,5 +118,20 @@ public class WaveManager : Singleton<WaveManager>
             return EnemyTypes.Enemy;
 
         return EnemyTypes.Unknown;
+    }
+
+    //killCount 값 구독 낮 시작시 구독 필요
+    public void SetKillCountListener()
+    {
+        killCount.AddListener(V =>
+        {
+            TimeManager.Instance.SetInfoText(KillCount);
+        });
+    }
+
+    //killCount 값 구독 밤 시작시 구독 해제 필요
+    public void RemoveKillCountListener()
+    {
+        killCount.ClearRelation();
     }
 }

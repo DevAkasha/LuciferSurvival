@@ -89,8 +89,6 @@ public class StageManager : Singleton<StageManager>
         Debug.Log($"{waveRound + 1}웨이브 시작");
         TimeManager.Instance.SetDay();
         WaveManager.Instance.GenerateWave();
-
-        waveRound++;
     }
 
     public void OnWaveEnd()
@@ -99,6 +97,7 @@ public class StageManager : Singleton<StageManager>
         {
             ChangeToNight();
             Debug.Log("다음 웨이브 준비");
+            waveRound++;
         }
         else
         {

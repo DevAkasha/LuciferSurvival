@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 
 // 상태 enum
@@ -37,7 +38,7 @@ public class TimeManager : Singleton<TimeManager>
 
     [Header("Night Duration Settings")]
     [SerializeField] private bool enableNightTimer = true; // 밤->낮 타이머 활성화 여부
-    [SerializeField] private float defaultNightDuration = 30f; // 데이터가 없을 경우 사용할 기본값
+    [SerializeField] private float defaultNightDuration = 60f; // 데이터가 없을 경우 사용할 기본값
     private float nightDuration; // 실제 사용할 밤 지속 시간(초), 데이터테이블에서 가져옴
     private Coroutine transitionRoutine; // 전환 코루틴
 
@@ -47,7 +48,9 @@ public class TimeManager : Singleton<TimeManager>
     [SerializeField] private int currentWaveCount = 0;
     [SerializeField] private int maxWaveCount = 5; // 총 5번의 전투
 
-    private bool isNightTimerSet = false; // 타이머 관련 변수
+    [SerializeField] private TextMeshProUGUI infoText;
+    [SerializeField] private TextMeshProUGUI waveText;
+    private Coroutine nightRoutine;
 
     [Header("UI References")]
     [SerializeField] private BattleScreen battleScreen;
@@ -70,6 +73,7 @@ public class TimeManager : Singleton<TimeManager>
         if (currentTimeState != TimeState.Day)
         {
             currentTimeState = TimeState.Day;
+            WaveManager.Instance.SetKillCountListener();
             StartLightingTransition();
 
             if (battleScreen != null && battleScreen.gameObject.activeInHierarchy)
@@ -84,10 +88,18 @@ public class TimeManager : Singleton<TimeManager>
     {
         if (currentTimeState != TimeState.Night)
         {
+            SetWaveText();
             currentTimeState = TimeState.Night;
+            WaveManager.Instance.RemoveKillCountListener();
             StartLightingTransition();
             if (battleScreen != null && battleScreen.gameObject.activeInHierarchy)
                 battleScreen.UpdateBattleScreenState();
+
+            if (nightRoutine != null)
+                StopCoroutine(nightRoutine);
+
+            // 밤 시계 표시 코루틴 시작
+            nightRoutine = StartCoroutine(NightTimeProcess());
 
             // 밤으로 전환됐으므로 밤->낮 타이머 설정
             if (enableNightTimer)
@@ -99,20 +111,19 @@ public class TimeManager : Singleton<TimeManager>
 
     private void SetNightTimer()
     {
-        if (!isNightTimerSet && currentTimeState == TimeState.Night)
+        if (!enableNightTimer || currentTimeState != TimeState.Night)
+            return;
+
+        enableNightTimer = false;
+        float duration = WaveManager.Instance.curWave?.NightTime ?? defaultNightDuration;
+
+        this.DelayedCall(duration, () =>
         {
-            isNightTimerSet = true;
-            Debug.Log($"{WaveManager.Instance.curWave.NightTime}초 타이머 시작");
-            this.DelayedCall(WaveManager.Instance.curWave.NightTime, () =>
-            {
-                // 타이머가 완료되면 낮으로 전환
-                if (currentTimeState == TimeState.Night)
-                {
-                    StageManager.Instance.ChangeToDay();
-                }
-                isNightTimerSet = false;
-            });
-        }
+            if (currentTimeState == TimeState.Night)
+                StageManager.Instance.ChangeToDay();
+
+            enableNightTimer = true;
+        });
     }
 
     private void StartLightingTransition()
@@ -189,6 +200,47 @@ public class TimeManager : Singleton<TimeManager>
 
         RenderSettings.ambientIntensity = (currentTimeState == TimeState.Day) ? dayAmbientIntensity : nightAmbientIntensity;
         RenderSettings.reflectionIntensity = (currentTimeState == TimeState.Day) ? dayReflectionIntensity : nightReflectionIntensity;
+    }
+
+    public void SetInfoText(int value)
+    {
+        if (currentTimeState == TimeState.Day)
+        {
+            infoText.text = $"{value}/{WaveManager.Instance.CalculateAllCount()}";
+        }
+        else
+        {
+            int hh = value / 60;
+            int mm = value % 60;
+            infoText.text = $"{hh:D2}:{mm:D2}";
+        }
+    }
+
+    public void SetWaveText()
+    {
+        waveText.text = $"{StageManager.Instance.waveRound}/5";
+    }
+
+    private IEnumerator NightTimeProcess()
+    {
+        int totalMinutesInDay = 24 * 60;
+        float nightStartMinute = 19f * 60f;    // 19:00 → 1140분
+        float nightSpanMinutes = 12f * 60f;    // 12시간 → 720분
+
+        int steps = Mathf.CeilToInt(nightDuration);
+        float stepDuration = nightDuration / steps;
+
+        for (int i = 0; i <= steps; i++)
+        {
+            float t = (float)i / steps;
+
+            int minuteOfDay = (int)(((nightStartMinute + t * nightSpanMinutes)
+                                      % totalMinutesInDay));
+
+            SetInfoText(minuteOfDay);
+
+            yield return new WaitForSeconds(stepDuration);
+        }
     }
 }
 #if UNITY_EDITOR
