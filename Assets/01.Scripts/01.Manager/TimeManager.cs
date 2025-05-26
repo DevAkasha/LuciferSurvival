@@ -236,8 +236,9 @@ public class TimeManager : Singleton<TimeManager>
 
             int minuteOfDay = (int)(((nightStartMinute + t * nightSpanMinutes)
                                       % totalMinutesInDay));
-
-            SetInfoText(minuteOfDay);
+            
+            if (currentTimeState == TimeState.Night)
+                SetInfoText(minuteOfDay);
 
             yield return new WaitForSeconds(stepDuration);
         }
