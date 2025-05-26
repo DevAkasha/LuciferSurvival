@@ -77,6 +77,7 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
 
     public virtual void Move()
     {
+        if (IsDeath) return;
         moveDir.x = moveInput.x;
         moveDir.y = 0f;
         moveDir.z = moveInput.y;
