@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class NightSkipBtn : MonoBehaviour
 {
     [Header("UI Components")]
-    [SerializeField] private Button button;
+    [SerializeField] public Button button;
 
     public void ChangeDay()
     {
