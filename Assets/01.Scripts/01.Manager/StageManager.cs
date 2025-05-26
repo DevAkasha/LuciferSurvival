@@ -25,7 +25,7 @@ public class StageManager : Singleton<StageManager>
         SoulStone = 9; //테스트 코드인가요?
     }
 
-    public int SoulStone 
+    public int SoulStone
     {
         get { return soulStone.Value; }
         set { soulStone.SetValue(value, this); }
@@ -86,6 +86,9 @@ public class StageManager : Singleton<StageManager>
 
     public void ChangeToDay()// 낮으로 전환. 웨이브 시작
     {
+        if (TimeManager.Instance.currentTimeState != TimeState.Night)
+            return;
+
         Debug.Log($"{waveRound + 1}웨이브 시작");
         TimeManager.Instance.SetDay();
         WaveManager.Instance.GenerateWave();
