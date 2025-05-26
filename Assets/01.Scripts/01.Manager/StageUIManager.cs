@@ -30,6 +30,7 @@ public class StageUIManager : Singleton<StageUIManager>
     public HashSet<string> UnionFavoriteSet { get { return unionFavoriteSet; } }
 
     [SerializeField] private GameObject StageCleatWindow;
+    [SerializeField] private GameObject PlayerDeathWindow;
 
     [SerializeField] private GameObject BossWarningView;
 
@@ -159,7 +160,11 @@ public class StageUIManager : Singleton<StageUIManager>
     {
         Instantiate(StageCleatWindow, canvas.transform);
     }
-    
+    public void OnPlayerDeathWindow()
+    {
+        Instantiate(PlayerDeathWindow, canvas.transform);
+    }
+
     public void OnBossWarning()
     { 
         var StageSlear = Instantiate(BossWarningView, canvas.transform);

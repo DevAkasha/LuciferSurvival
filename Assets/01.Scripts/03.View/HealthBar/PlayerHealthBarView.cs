@@ -8,10 +8,10 @@ public class PlayerHealthBarView : MonoBehaviour
 {
     [SerializeField] private Image fill;
     private Action<float> hpListener;
-    private PlayerController player;
+    [SerializeField] private PlayerController player;
+
     private void Start()
     {
-        player = PlayerManager.Instance.Player;
         hpListener = v => fill.fillAmount = v;
         player.Entity.Model.NormalizedHP.AddListener(hpListener);
     }

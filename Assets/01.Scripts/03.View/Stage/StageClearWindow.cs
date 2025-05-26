@@ -30,13 +30,17 @@ public class StageClearWindow : MonoBehaviour
 
     public void ToLobby()
     {
+        Debug.Log("씬로드 로비 시작");
         SceneManager.LoadScene(SceneName.LobbyScene.ToString());
+        Debug.Log("씬로드 로비 완료");
     }
 
     public void Retry()
     {
+        Debug.Log("씬로드 재시작 시작");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Destroy(gameObject);
+        Debug.Log("씬로드 재시작 완료");
     }
     
     public void NextStage()

@@ -28,6 +28,8 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         set => Entity.Model.Flags.SetValue(PlayerStateFlag.Cast, value);
     }
 
+  
+
     protected override void AtInit()
     {
         animator = GetComponent<Animator>();
@@ -42,6 +44,8 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
         Entity.Model.State.OnEnter(PlayerState.Roll, () => animator.Play("Roll"));
         Entity.Model.State.OnEnter(PlayerState.Attack, () => animator.Play("Attack"));
         Entity.Model.State.OnEnter(PlayerState.Cast, () => animator.Play("Cast"));
+
+        StageManager.Instance.Regist(this);
 
         // BT 초기화 - 한 번만 구성
         InitializeBehaviorTree();
@@ -61,11 +65,17 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
                     new StayStillAction(Entity)
                 ),
 
-                // 2. 공격 대기 상태 체크
+                // 3. 공격 대기 상태 체크
                 new Sequence(
                     new Condition(() => WaitAttackTime),
                     new BehaviorAction(() =>
                     {
+                        if (player == null) // 여기서 체크
+                        {
+                            WaitAttackTime = false;
+                            return NodeStatus.Failure;
+                        }
+
                         if (attackTime)
                         {
                             if (IsInRange(Entity.Model.Range.Value))
@@ -79,15 +89,16 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
                     })
                 ),
 
-                // 3. 캐스팅 가능 상태 체크
+                // 4. 캐스팅 가능 상태 체크
                 new Sequence(
                     new Condition(() => IsCastable),
                     new SetFlagAction<PlayerStateFlag>(Entity.Model.Flags, PlayerStateFlag.Cast, true),
                     new StayStillAction(Entity)
                 ),
 
-                // 4. 공격 범위 내 체크
+                // 5. 공격 범위 내 체크
                 new Sequence(
+                    new Condition(() => player != null),
                     new IsEnemyInRangeCondition(Entity, player?.transform, Entity.Model.Range.Value),
                     new BehaviorAction(() =>
                     {
@@ -114,27 +125,31 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
                     })
                 ),
 
-                // 5. 플레이어를 향해 이동
+                // 6. 플레이어를 향해 이동
                 new Sequence(
                     new Condition(() => player != null),
                     new MoveToPlayerAction(Entity, player?.transform)
                 ),
 
-                // 6. 기본 상태
+                // 7. 기본 상태
                 new StayStillAction(Entity)
             )
         );
     }
+    public void Deinit() => AtDeinit();
 
-    private void Update()
-    {
-        Entity.TakeDamaged(1f);
-    }
     protected override void AtDeinit()
     {
         base.AtDeinit();
+        WaitAttackTime = false;
+        attackTime = false;
+        IsAttack = false;
+        player = null;
+
         behaviorCts?.Cancel();
         behaviorCts = null;
+
+        behaviorTree = null;
     }
 
     private async UniTaskVoid RunBehaviorLoop(CancellationToken token)
@@ -147,6 +162,9 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
             while (!token.IsCancellationRequested)
             {
                 if (this == null || !this.isActiveAndEnabled)
+                    break;
+
+                if (behaviorTree == null)
                     break;
 
                 // 캐싱된 BT 실행
@@ -176,9 +194,32 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
 
     public async void OnAttackAnimEvent(float animaitionTime)
     {
-        //애니메이션 이벤트 대신 animaitionTime만큼 대기
-        await UniTask.Delay(TimeSpan.FromSeconds(animaitionTime), DelayType.DeltaTime, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
-        attackTime = true;
+        try
+        {
+            // behaviorCts가 null이거나 이미 취소되었으면 바로 리턴
+            if (behaviorCts == null || behaviorCts.IsCancellationRequested)
+                return;
+
+            await UniTask.Delay(
+                TimeSpan.FromSeconds(animaitionTime),
+                DelayType.DeltaTime,
+                PlayerLoopTiming.Update,
+                behaviorCts.Token);
+
+            if (player != null && behaviorCts != null && !behaviorCts.IsCancellationRequested)
+            {
+                attackTime = true;
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // 취소는 정상 상황 - 아무것도 하지 않음
+        }
+        catch (System.Exception ex)
+        {
+            // 다른 예외는 로그만 출력
+            Debug.LogWarning($"OnAttackAnimEvent 예외: {ex.Message}");
+        }
     }
 
     public void LongRangeAttack()
