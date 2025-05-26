@@ -20,6 +20,7 @@ public class WaveManager : Singleton<WaveManager>
 
     public WaveModel curWave;
 
+    public List<int> spawnCount = new(); 
     public int KillCount
     {
         get => killCount.Value;
@@ -44,7 +45,7 @@ public class WaveManager : Singleton<WaveManager>
     {
         if (curWave == null)
             return;
-
+        spawnCount.Clear();
         for (int i = 0; i < curWave.EnemyData.Count; i++)
         {
             StartSpawnLoop(curWave.EnemyData[i], curWave.EnemySec[i], curWave.EnemyCount[i]).Forget();
@@ -54,12 +55,15 @@ public class WaveManager : Singleton<WaveManager>
 
     private async UniTaskVoid StartSpawnLoop(string rcode, float delay, int count)
     {
+        var idx = spawnCount.Count;
+        this.spawnCount.Add(count);
         for (int i = 0; i < count; i++)
         {
             if (rcode == null)
                 return;
 
             await UniTask.Delay(TimeSpan.FromSeconds(delay), DelayType.DeltaTime, PlayerLoopTiming.Update);
+            if (spawnCount.Count == 0 || spawnCount[idx] == 0) break;
             SpawnManager.Instance.EnemySpawn(rcode);
 
             if (GetEnemyTypes(rcode) == EnemyTypes.Boss)
