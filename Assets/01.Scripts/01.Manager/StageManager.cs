@@ -43,7 +43,7 @@ public class StageManager : Singleton<StageManager>
         return false;
     }
 
-    public void Regist(AngelController angel) => angels.Add(angel); 
+    public void Regist(AngelController angel) => angels.Add(angel);
     public void Regist(BossController boss) => this.boss = boss;
     public void Unregist(AngelController angel) => angels.Remove(angel);
     public void Unregist(BossController boss) => this.boss = null;
@@ -88,6 +88,9 @@ public class StageManager : Singleton<StageManager>
 
     public void ChangeToDay()// 낮으로 전환. 웨이브 시작
     {
+        if (TimeManager.Instance.currentTimeState != TimeState.Night)
+            return;
+
         Debug.Log($"{waveRound + 1}웨이브 시작");
         TimeManager.Instance.SetDay();
         WaveManager.Instance.GenerateWave();
