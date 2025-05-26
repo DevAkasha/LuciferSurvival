@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: Sparta
   productName: LuciferSurvival
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -908,7 +908,13 @@ PlayerSettings:
   XboxOneOverrideIdentityName: 
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    Build: 0
+    Game Performance: 0
+    Legacy Analytics: 0
+    Purchasing: 0
+    UDP: 0
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -928,11 +934,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 3fe9eec4-1239-4bd4-b7a6-c2c0faafc7f7
+  cloudProjectId: 21d3b421-14c5-4ef8-9192-a58d8b684826
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: LuciferSurvival
-  organizationId: hmy9025
+  organizationId: ryjmichael
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
