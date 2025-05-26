@@ -37,6 +37,8 @@ public class PlayerInteractionModule : PlayerPart
     {
         interactablesInRange.Clear();
 
+        if (TimeManager.Instance.currentTimeState == TimeState.Day) return;
+
         // 여러 레이어에서 상호작용 가능한 오브젝트 검색
         Collider[] colliders = Physics.OverlapSphere(transform.position, interactionRadius, interactableLayers);
 

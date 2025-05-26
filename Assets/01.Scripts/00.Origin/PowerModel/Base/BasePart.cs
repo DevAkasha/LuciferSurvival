@@ -7,11 +7,11 @@ public abstract class BasePart : WorldObject
     public void CallInit() => AtInit();
     public void CallDisable() => AtDisable(); 
     public void CallDestroy() => AtDestroy();
-
+    public void CallDeinit() => AtDeinit();
     protected virtual void AtInit() { }
     protected virtual void AtDisable() { }
     protected virtual void AtDestroy() { }
-
+    protected virtual void AtDeinit() { }
     public abstract void RegistEntity(object entity);
     public abstract void RegistModel(object model);
 

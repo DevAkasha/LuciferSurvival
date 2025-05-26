@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 
 public abstract class Controller : MonoBehaviour // 모든 컨트롤러의 기본 클래스 (MonoBehaviour 상속)
@@ -11,6 +12,7 @@ public abstract class Controller : MonoBehaviour // 모든 컨트롤러의 기�
     protected virtual void AtDestroy() { }
     protected virtual void AtDisable() { }
     protected virtual void AtInit() { }
+    protected virtual void AtDeinit() { }
 } 
 public abstract class MController : Controller, IModelOwner
 {
@@ -53,17 +55,14 @@ public abstract class BaseController<E, M> : MController, IRxCaller where E : Ba
     {
         if (isEnableLifecycle)
         {
-            Deinitialize();
+            Deinitialize();      
         }
         entity.CallDisable();
         AtDisable();
     }
     protected virtual void OnDestroy() 
     {
-        if (isEnableLifecycle)
-        {
-            Deinitialize();
-        }
+        Deinitialize(); 
         entity.CallDestroy();
         AtDestroy();
     }
@@ -80,6 +79,8 @@ public abstract class BaseController<E, M> : MController, IRxCaller where E : Ba
 
     private void Deinitialize()
     {
+        entity.CallDeinit();
+        AtDeinit();
         Model?.Unload(); 
         isInitialized = false;
     }
@@ -115,16 +116,14 @@ public abstract class BaseController<M> : MController, IRxCaller, IModelOwner<M>
     {
         if (isEnableLifecycle)
         {
-            Model?.Unload();
-            isInitialized = false;
+            Deinitialize();
         }
         AtDisable();
     }
 
     protected virtual void OnDestroy()
     {
-        Model?.Unload();
-        isInitialized = false;
+        Deinitialize();
         AtDestroy();
     }
 
@@ -135,6 +134,13 @@ public abstract class BaseController<M> : MController, IRxCaller, IModelOwner<M>
         SetupModel();
         AtInit();
         isInitialized = true;
+    }
+
+    private void Deinitialize()
+    {
+        AtDeinit();
+        Model?.Unload();
+        isInitialized = false;
     }
 }
 
@@ -166,8 +172,40 @@ public abstract class BaseController : Controller, IRxCaller, IRxOwner
         }
         trackedRxVars.Clear();
     }
+    protected virtual void Start()
+    {
+        Initialize();
+    }
+    protected virtual void OnEnable()
+    {
+        if (!isInitialized && isEnableLifecycle)
+            Initialize();
+    }
+    protected virtual void OnDisable()
+    {
+        if (isEnableLifecycle)
+            Deinitialize();
 
-    protected virtual void OnEnable() => AtInit();
-    protected virtual void OnDisable() => AtDisable();
-    protected virtual void OnDestroy() => AtDestroy();
+        AtDisable();
+    }
+
+    protected virtual void OnDestroy()
+    {
+        AtDestroy();
+        Deinitialize();
+    }
+
+
+    private void Initialize()
+    {
+        AtInit();
+        isInitialized = true;
+    }
+
+    private void Deinitialize()
+    {
+        AtDeinit();
+        Unload();
+        isInitialized = false;
+    }
 }
