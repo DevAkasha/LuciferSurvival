@@ -19,12 +19,13 @@ public class TileManager : Singleton<TileManager>
     [SerializeField] private List<Vector2Int> excludedCells;    // 제외할 셀 좌표 리스트
     [SerializeField] private List<GameObject> environmentTemplate; // 추후 사용, 환경 등 변화에 대한 리스트
 
-    [SerializeField] private float hexagonRadius = 7f;          // 6각형 타일의 반지름
-    [SerializeField] private float resourceMinDistance = 3.0f;  // 자원 간 최소 거리
+    [SerializeField] private float hexagonRadius = 5f;          // 6각형 타일의 반지름
+    [SerializeField] private float resourceMinDistance = 6.0f;  // 자원 간 최소 거리
 
     private Dictionary<Vector2Int, List<Vector3>> cellResources = new Dictionary<Vector2Int, List<Vector3>>();
 
     [SerializeField] private GameObject soulAltarPrefab; // 영혼의제단
+    [SerializeField] private CompassArrow compassArrow; // 나침반
 
     private void Start()
     {
@@ -74,13 +75,13 @@ public class TileManager : Singleton<TileManager>
                     // 최대 5번 시도
                     for (int attempt = 0; attempt < 5; attempt++)
                     {
-                        spawnPos = GetRandomPositionInCell(centerPos, 7);
+                        spawnPos = GetRandomPositionInCell(centerPos, hexagonRadius);
 
                         // 다른 자원과 겹치는지 확인
                         validPosition = true;
                         foreach (var pos in usedPositions)
                         {
-                            if (Vector3.Distance(spawnPos, pos) < 2.0f)
+                            if (Vector3.Distance(spawnPos, pos) < resourceMinDistance)
                             {
                                 validPosition = false;
                                 break;
@@ -147,7 +148,8 @@ public class TileManager : Singleton<TileManager>
 
         if (soulAltarPrefab != null)
         {
-            Instantiate(soulAltarPrefab, altarPos, Quaternion.identity, ResourceTileBlock);
+            GameObject go = Instantiate(soulAltarPrefab, altarPos, Quaternion.identity, ResourceTileBlock);
+            compassArrow.SetTarget(go.transform);
         }
     }
 

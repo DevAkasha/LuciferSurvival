@@ -6,14 +6,16 @@ using UnityEngine.AI;
 
 public class SpawnManager : Singleton<SpawnManager>
 {
+    protected override bool IsPersistent => false;
+
     [SerializeField] Camera mainCamera;
-    [SerializeField] Transform target;
+    [SerializeField] Transform player;
 
     public float SpawnRange = 30f;
 
     void Start()
     {
-        target = PlayerManager.Instance.Player.transform;
+        player = PlayerManager.Instance.Player.transform;
         mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 
@@ -29,7 +31,7 @@ public class SpawnManager : Singleton<SpawnManager>
             Debug.Log("카메라 없음");
             return Vector3.zero;
         }
-        if (target == null)
+        if (player == null)
         {
             Debug.Log("플레이어 없음");
             return Vector3.zero;
@@ -40,7 +42,7 @@ public class SpawnManager : Singleton<SpawnManager>
         for (int i = 0; i < 300; i++)
         {
             Vector2 randomXZ = Random.insideUnitCircle.normalized * Random.Range(SpawnRange * 0.5f, SpawnRange);//xz 평면 상의 원 그리기
-            Vector3 spawnCircle = new Vector3(randomXZ.x, 0f, randomXZ.y) + new Vector3(target.position.x, 0f, target.position.z);//원의 중심을 정하고 범위 지정
+            Vector3 spawnCircle = new Vector3(randomXZ.x, 0f, randomXZ.y) + new Vector3(player.position.x, 0f, player.position.z);//원의 중심을 정하고 범위 지정
 
             // NavMesh 위 확인
             if (NavMesh.SamplePosition(spawnCircle, out NavMeshHit hit, 2f, NavMesh.AllAreas))

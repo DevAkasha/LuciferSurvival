@@ -66,6 +66,8 @@ public class BossController : MobileController<BossEntity, BossModel>
         Entity.Model.State.OnEnter(BossState.Skill3, () => animator.Play("Skill3"));
         Entity.Model.State.OnEnter(BossState.Cast, () => animator.Play("Cast"));
 
+        StageManager.Instance.Regist(this);
+
         // BT 초기화 - 한 번만 구성
         InitializeBehaviorTree();
 
@@ -199,18 +201,11 @@ public class BossController : MobileController<BossEntity, BossModel>
         );
     }
 
-    private void Update()
-    {
-        Entity.TakeDamaged(1000f);
-    }
+    public void Deinit() => AtDeinit();
 
-    protected override void AtDisable()
+    protected override void AtDeinit()
     {
-        behaviorCts?.Cancel();
-    }
-
-    protected override void AtDestroy()
-    {
+        base.AtDeinit();
         behaviorCts?.Cancel();
         behaviorCts = null;
     }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -25,7 +25,7 @@ public class CooldownButton : MonoBehaviour
     }
 
 
-    private void HandleClick()
+    public void HandleClick()
     {
         if (isCooldown) return;
         onClick?.Invoke();

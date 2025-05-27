@@ -6,20 +6,20 @@ public class PoolManager : Singleton<PoolManager>
     [SerializeField] private List<ObjectPoolData> sheets;
     Dictionary<string, Queue<ObjectPoolBase>> pools = new Dictionary<string, Queue<ObjectPoolBase>>();
     public bool isInit = false;
+    private GameObject PoolParent;
 
     public void Init(string resourceType, bool clear = false)
     {
         if (clear)
+        {
             sheets.Clear();
-
-        SheetsInfo(resourceType);
-
-        var PoolParent = GameObject.Find("PoolParent");
+            pools.Clear();
+        }
+           
+        InitializePoolData(resourceType);
 
         if (PoolParent == null)
-        {
-            PoolParent = new GameObject("PoolParent");
-        }
+            PoolParent = GameObject.Find("PoolParent");
 
         foreach (var data in sheets)
         {
@@ -35,7 +35,7 @@ public class PoolManager : Singleton<PoolManager>
             data.parent.parent = PoolParent.transform;
 
             Queue<ObjectPoolBase> queue = new Queue<ObjectPoolBase>();
-            pools.Add(data.prefabName, queue);
+            pools.Add(data.prefabName, queue); 
             for (int i = 0; i < data.count; i++)
             {
                 var obj = Instantiate(data.prefab, data.parent);
@@ -147,7 +147,7 @@ public class PoolManager : Singleton<PoolManager>
         pools[item.name].Enqueue(item);
     }
 
-    public void SheetsInfo(string resourceType)
+    public void InitializePoolData(string resourceType)
     {
         //sheets.Clear();
 

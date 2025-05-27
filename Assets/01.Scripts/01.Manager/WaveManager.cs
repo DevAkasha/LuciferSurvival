@@ -14,43 +14,56 @@ public enum EnemyTypes
 
 public class WaveManager : Singleton<WaveManager>
 {
-    [SerializeField] private int killCount;
+    protected override bool IsPersistent => false;
 
-    public WaveModel WaveData;
+    private RxVar<int> killCount = new RxVar<int>();
+
+    public WaveModel curWave;
+
+    public List<int> spawnCount = new(); 
+    public int KillCount
+    {
+        get => killCount.Value;
+        set => killCount.SetValue(value, this);
+    }
 
     private void Start()
     {
         PoolManager.Instance.Init(ResourceType.Enemy, true);
         PoolManager.Instance.Init(ResourceType.Projectile);
-        GameManager.Instance.ExhangeToNight();
+        StageManager.Instance.ChangeToNight();
     }
+
     public void SetWave(WaveModel waveData)
     {
-        WaveData = waveData;
-        
-        killCount = 0;
+        curWave = waveData;
+
+        KillCount = 0;
     }
 
-    public void WaveGenerate()
+    public void GenerateWave()
     {
-        if (WaveData == null)
+        if (curWave == null)
             return;
-
-        for (int i = 0; i < WaveData.EnemyData.Count; i++)
+        spawnCount.Clear();
+        for (int i = 0; i < curWave.EnemyData.Count; i++)
         {
-            SpawnLoop(WaveData.EnemyData[i], WaveData.EnemySec[i], WaveData.EnemyCount[i]).Forget();
+            StartSpawnLoop(curWave.EnemyData[i], curWave.EnemySec[i], curWave.EnemyCount[i]).Forget();
         }
 
     }
 
-    private async UniTaskVoid SpawnLoop(string rcode, float delay, int count)
+    private async UniTaskVoid StartSpawnLoop(string rcode, float delay, int count)
     {
+        var idx = spawnCount.Count;
+        this.spawnCount.Add(count);
         for (int i = 0; i < count; i++)
         {
             if (rcode == null)
                 return;
 
             await UniTask.Delay(TimeSpan.FromSeconds(delay), DelayType.DeltaTime, PlayerLoopTiming.Update);
+            if (spawnCount.Count == 0 || spawnCount[idx] == 0) break;
             SpawnManager.Instance.EnemySpawn(rcode);
 
             if (GetEnemyTypes(rcode) == EnemyTypes.Boss)
@@ -58,33 +71,46 @@ public class WaveManager : Singleton<WaveManager>
         }
     }
 
-    public void KillCountCheck()
+    public void CheckKillCount()
     {
-        killCount++;
-
-        if(killCount >= EnemyCount())
+        if(KillCount >= CalculateEnemyCount())
         {
             Debug.Log("웨이브 종료");
-            GameManager.Instance.WaveTheEnd();
+            StageManager.Instance.OnWaveEnd();
         }
     }
 
-    public int EnemyCount()
+    private int CalculateEnemyCount()
     {
-        int CountArray = 0;
+        int enemyCount = 0;
 
-        for (int i = 0; i < WaveData.EnemyCount.Count; i++)
+        for (int i = 0; i < 3; i++)
         {
-            if (WaveData.EnemyCount[i] > 0)
+            if (curWave.EnemyCount[i] > 0)
             { 
-                CountArray += WaveData.EnemyCount[i]; 
+                enemyCount += curWave.EnemyCount[i]; 
             }
         }
 
-        return CountArray;
+        return enemyCount;
     }
 
-    public EnemyTypes GetEnemyTypes(string rcode)
+    public int CalculateAllCount()
+    {
+        int allCount = 0;
+
+        for (int i = 0; i < curWave.EnemyCount.Count; i++)
+        {
+            if (curWave.EnemyCount[i] > 0)
+            {
+                allCount += curWave.EnemyCount[i];
+            }
+        }
+
+        return allCount;
+    }
+
+    public EnemyTypes GetEnemyTypes(string rcode) //필요시 static 전환하면 좋음
     {
         if (string.IsNullOrEmpty(rcode))
             return EnemyTypes.Unknown;
@@ -96,5 +122,20 @@ public class WaveManager : Singleton<WaveManager>
             return EnemyTypes.Enemy;
 
         return EnemyTypes.Unknown;
+    }
+
+    //killCount 값 구독 낮 시작시 구독 필요
+    public void SetKillCountListener()
+    {
+        killCount.AddListener(V =>
+        {
+            TimeManager.Instance.SetInfoText(KillCount);
+        });
+    }
+
+    //killCount 값 구독 밤 시작시 구독 해제 필요
+    public void RemoveKillCountListener()
+    {
+        killCount.ClearRelation();
     }
 }

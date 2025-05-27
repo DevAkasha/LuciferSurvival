@@ -7,11 +7,10 @@ public class PlayerInteractionModule : PlayerPart
     [Header("상호작용 설정")]
     [SerializeField] private float interactionRadius = 3f;
     [SerializeField] private LayerMask interactableLayers; // 여러 레이어를 선택할 수 있는 LayerMask
-    [SerializeField] private KeyCode interactionKey = KeyCode.E;
     [SerializeField] private GameObject interactionPromptUI;
 
     private List<IInteractable> interactablesInRange = new List<IInteractable>();
-    private IInteractable currentFocusedInteractable;
+    public IInteractable currentFocusedInteractable;
 
     protected override void AtInit()
     {
@@ -25,17 +24,13 @@ public class PlayerInteractionModule : PlayerPart
     {
         DetectInteractables();
         UpdateFocus();
-
-        // 키보드 입력 검사
-        if (Input.GetKeyDown(interactionKey) && currentFocusedInteractable != null)
-        {
-            currentFocusedInteractable.Interact(Entity);
-        }
     }
 
     private void DetectInteractables()
     {
         interactablesInRange.Clear();
+
+        if (TimeManager.Instance.currentTimeState == TimeState.Day) return;
 
         // 여러 레이어에서 상호작용 가능한 오브젝트 검색
         Collider[] colliders = Physics.OverlapSphere(transform.position, interactionRadius, interactableLayers);

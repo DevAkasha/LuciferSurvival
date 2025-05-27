@@ -8,10 +8,15 @@ public class PlayerHealthBarView : MonoBehaviour
 {
     [SerializeField] private Image fill;
     private Action<float> hpListener;
-    private PlayerController player;
+    [SerializeField] private PlayerController player;
+
     private void Start()
     {
-        player = PlayerManager.Instance.Player;
+        PlayerManager.Instance.ResistPlayerHealthBar(this);
+    }
+    public void Init(PlayerController player)
+    {
+        this.player = player;
         hpListener = v => fill.fillAmount = v;
         player.Entity.Model.NormalizedHP.AddListener(hpListener);
     }
@@ -19,5 +24,7 @@ public class PlayerHealthBarView : MonoBehaviour
     private void OnDestroy()
     {
         player.Entity.Model.NormalizedHP.RemoveListener(hpListener);
+        player = null;
+        PlayerManager.Instance.healthBar = null;
     }
 }

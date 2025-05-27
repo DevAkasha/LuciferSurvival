@@ -20,7 +20,7 @@ public class UnitCodexDetail : UIBase
 
     public void SetUnitInfo(UnitDataSO data)
     {
-        //unitImage.sprite = data.thumbnail;
+        unitImage.sprite = data.thumbnail;
         unitInfoText.text = $"{data.displayName}\n공격력: {data.atk}\n공격 거리 : {(data.atkRange ? "근거리" : "원거리")}\n공격 쿨타임 : {data.atkCoolTime}";
     }
 

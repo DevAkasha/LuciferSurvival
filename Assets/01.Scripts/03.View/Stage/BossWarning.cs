@@ -17,7 +17,7 @@ public class BossWarning : MonoBehaviour
 
     private void GetBossName()
     {
-        bossWarningText.text = $"{GameManager.Instance.thisStage.Title} 등장";
+        bossWarningText.text = $"{StageManager.Instance.thisStage.Title} 등장";
     }
 
     private async void DestroyThis()

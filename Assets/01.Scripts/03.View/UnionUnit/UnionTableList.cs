@@ -29,7 +29,8 @@ public class UnionTableList : MonoBehaviour
             var table = unionTables[i];
             UnionCard card = Instantiate(unionCardPrefab, listTransform);
             card.SetUnionData(table.rcode);
-            card.SetCompletionRate(StageManager.Instance.CalculateCompletionRate(table));
+            card.SetCompletionRate(UnitManager.Instance.CalculateCompletionRate(table));
+            card.SetUnitImage(DataManager.Instance.GetData<UnitDataSO>(table.unitRcode).thumbnail);
         }
     }
 }

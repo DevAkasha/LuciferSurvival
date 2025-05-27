@@ -91,4 +91,5 @@ public class RewardManager : Singleton<RewardManager>
     {
         StageManager.Instance.SoulStone += amount;
     }
+
 }

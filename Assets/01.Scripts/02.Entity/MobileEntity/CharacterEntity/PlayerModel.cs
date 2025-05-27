@@ -42,7 +42,7 @@ public class PlayerModel: BaseModel
 
     public PlayerModel()
     {
-        MaxHealth = new(100f, nameof(MaxHealth), this);
+        MaxHealth = new(250f, nameof(MaxHealth), this);
         CurHealth = new(MaxHealth.Value, nameof(CurHealth), this);
         MoveSpeed = new(4f, nameof(MoveSpeed), this);
         NormalizedHP = new(1f, this);
