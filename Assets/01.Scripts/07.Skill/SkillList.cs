@@ -9,7 +9,7 @@ public class FleshGrinderSkill : Skill //데미지, 공격사이즈,
     private float slowDuration = 3f;
 
     private float[] atkArray = new float[5] {10f,30f,60f,120f,240f}; //7만 60*3 초당 180으로 7만
-    private float[] radiusArray = new float[5] { 2f, 2f, 3f, 3f, 4f };
+    private float[] radiusArray = new float[5] { 4f, 4f, 5f, 5f, 6f };
 
     public FleshGrinderSkill(eUnitGrade unitGrade)
     {
@@ -70,7 +70,7 @@ public class CrushBreakerSkill : Skill // 공격력, 공격범위,
     private float angleLimit = 0.5f; // cos(60도) ≈ 0.5, 즉 전방 120도 범위
 
     private float[] atkArray = new float[5] { 15f, 40f, 80f, 160f, 320f }; 
-    private float[] radiusArray = new float[5] { 2f, 2f, 3f, 4f, 5f };
+    private float[] radiusArray = new float[5] { 4f, 4f, 5f, 6f, 7f };
 
     public CrushBreakerSkill(eUnitGrade unitGrade)
     {
@@ -430,7 +430,7 @@ public class MistOfMadnessSkill : Skill //공격력 공격범위
     private float confusionDuration = 0.5f;
 
     private float[] atkArray = new float[5] { 10f, 30f, 60f, 120f, 240f };
-    private float[] radiusArray = new float[5] { 2f, 2f, 3f, 3f, 4f };
+    private float[] radiusArray = new float[5] { 3f, 4f, 4f, 5f, 6f };
 
     public MistOfMadnessSkill(eUnitGrade unitGrade)
     {
