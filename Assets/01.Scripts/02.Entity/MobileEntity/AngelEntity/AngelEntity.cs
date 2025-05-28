@@ -240,6 +240,9 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
 
     public void OnRelease()
     {
+        if (PlayerManager.Instance.Player.Entity.IsDeath)
+            return;
+
         WaveManager.Instance.KillCount++;
         WaveManager.Instance.CheckKillCount();
         StageManager.Instance.AddSoulCore(Model.RewardCount.Value);

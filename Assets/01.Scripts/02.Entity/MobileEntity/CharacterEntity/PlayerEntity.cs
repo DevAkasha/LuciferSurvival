@@ -18,6 +18,8 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
     protected Vector3 moveDir;
     protected Vector3 moveVel;
 
+    public bool DebugMode;
+
     protected override void SetupModel()
     {
         //if (rcode.Equals(string.Empty)) return; 나중에 데이터 로드할 때 사용
@@ -64,6 +66,9 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
 
     public override void TakeDamaged(float damage)
     {
+        if (DebugMode)
+            return;
+
         if (BarrierCount > 0)
         {
             BarrierCount--;

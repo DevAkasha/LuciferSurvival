@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: ac7e1ed438629cc40a4b3848c3412c8f, type: 2}
 --- !u!1 &2498768
 GameObject:
   m_ObjectHideFlags: 0
@@ -674,10 +674,20 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 6564937081725769909, guid: 67f61368aade54c44891d1f64130799f,
+        type: 3}
+      propertyPath: DebugMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7242157551745410787, guid: 67f61368aade54c44891d1f64130799f,
         type: 3}
       propertyPath: m_Name
       value: Lucifer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7868430529771463299, guid: 67f61368aade54c44891d1f64130799f,
+        type: 3}
+      propertyPath: DebugMode
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2944,7 +2954,7 @@ Transform:
   m_GameObject: {fileID: 1576382383}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

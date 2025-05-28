@@ -202,7 +202,7 @@ public class TimeManager : Singleton<TimeManager>
     {
         if (currentTimeState == TimeState.Day)
         {
-            infoText.text = $"{value}/{WaveManager.Instance.CalculateEnemyCount()}";
+            infoText.text = $"{value}/{WaveManager.Instance.CalculateAllCount()}";
         }
         else
         {
