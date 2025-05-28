@@ -42,7 +42,7 @@ public class SummonUnitUI : MonoBehaviour
 
     private void OnSoulStoneChanged(int value) => UpdateSoulStoneText(value);
     private void OnRerollCostChanged(int value) => UpdateRerollCostText(value);
-    private void OnShopLevelChanged(int value) => UpdateShopLevelUpCostText();
+    private void OnShopLevelChanged(int value) => UpdateShopLevelText(value);
     private void OnShopLevelUpCostChanged(int value) => UpdateShopLevelUpCostText();
 
     private int SoulStone 

@@ -114,6 +114,7 @@ public class StageManager : Singleton<StageManager>
     public void OnPlayerDeath()
     {
         StageUIManager.Instance.OnPlayerDeathWindow();
+        SummonTableUtil.InitUnitList();
     }
 
     public void DeinitAllEnemy()
