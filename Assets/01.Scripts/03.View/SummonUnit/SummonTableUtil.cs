@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -105,5 +104,14 @@ public static class SummonTableUtil
             return true;
         }
         return false;
+    }
+
+    public static void InitUnitList()
+    {
+        shopUnits.Clear();
+        for(int i = 0; i < purchaseList.Length; i++)
+        {
+            purchaseList[i] = false;
+        }
     }
 }
