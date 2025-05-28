@@ -65,9 +65,7 @@ public class TimeManager : Singleton<TimeManager>
         ApplyLightingInstant();
     }
 
-    /// <summary>
-    /// 낮 전환
-    /// </summary>
+    // 낮 전환
     public void SetDay()
     {
         if (currentTimeState != TimeState.Day)
@@ -81,9 +79,7 @@ public class TimeManager : Singleton<TimeManager>
         }
     }
 
-    /// <summary>
-    /// 밤 전환
-    /// </summary>
+    // 밤 전환
     public void SetNight()
     {
         if (currentTimeState != TimeState.Night)
@@ -206,7 +202,7 @@ public class TimeManager : Singleton<TimeManager>
     {
         if (currentTimeState == TimeState.Day)
         {
-            infoText.text = $"{value}/{WaveManager.Instance.CalculateAllCount()}";
+            infoText.text = $"{value}/{WaveManager.Instance.CalculateEnemyCount()}";
         }
         else
         {

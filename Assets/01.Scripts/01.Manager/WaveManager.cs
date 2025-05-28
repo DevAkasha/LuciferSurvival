@@ -73,14 +73,14 @@ public class WaveManager : Singleton<WaveManager>
 
     public void CheckKillCount()
     {
-        if(KillCount >= CalculateEnemyCount())
+        if(KillCount >= CalculateAllCount())
         {
             Debug.Log("웨이브 종료");
             StageManager.Instance.OnWaveEnd();
         }
     }
 
-    private int CalculateEnemyCount()
+    public int CalculateEnemyCount()
     {
         int enemyCount = 0;
 
