@@ -21,6 +21,9 @@ public class SpawnManager : Singleton<SpawnManager>
 
     public void EnemySpawn(string rcode)
     {
+        if (PlayerManager.Instance.Player.Entity.IsDeath)
+            return;
+
         var enemy = PoolManager.Instance.Spawn<ObjectPoolBase>(rcode, SpawnArea());
     }
 

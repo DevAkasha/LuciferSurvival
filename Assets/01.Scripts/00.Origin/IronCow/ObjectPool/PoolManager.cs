@@ -121,19 +121,19 @@ public class PoolManager : Singleton<PoolManager>
         return obj;
     }
 
-    public T SpawnAudioSource<T>() where T : ObjectPoolBase
+    public T SpawnAudioSource<T>(string audioName) where T : ObjectPoolBase
     {
-        if (pools["AudioSource"].Count == 0)
+        if (pools[audioName].Count == 0)
         {
-            var data = sheets.Find(obj => obj.prefabName == "AudioSource");
+            var data = sheets.Find(obj => obj.prefabName == audioName);
             for (int i = 0; i < data.count; i++)
             {
                 var obj = Instantiate(data.prefab, data.parent);
                 obj.name.Replace("(Clone)", "");
-                pools["AudioSource"].Enqueue(obj);
+                pools[audioName].Enqueue(obj);
             }
         }
-        var retObj = (T)pools["AudioSource"].Dequeue();
+        var retObj = (T)pools[audioName].Dequeue();
         retObj.SetActive(true);
         return retObj;
     }

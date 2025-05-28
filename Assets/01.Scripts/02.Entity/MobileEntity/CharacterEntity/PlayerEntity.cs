@@ -42,7 +42,7 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
         get => Model.Flags.GetValue(PlayerStateFlag.Move);
         set => Model.Flags.SetValue(PlayerStateFlag.Move, value);
     }
-    private bool IsDeath
+    public bool IsDeath
     {
         get => Model.Flags.GetValue(PlayerStateFlag.Death);
         set => Model.Flags.SetValue(PlayerStateFlag.Death, value);

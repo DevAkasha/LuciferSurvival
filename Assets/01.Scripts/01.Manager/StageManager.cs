@@ -20,6 +20,7 @@ public class StageManager : Singleton<StageManager>
     {
         SetStage(GameManager.Instance.stageNumber);
         ChangeToNight();
+        //SoulStone = 1000;
     }
     public int SoulStone
     {

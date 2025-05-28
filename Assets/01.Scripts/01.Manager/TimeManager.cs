@@ -88,7 +88,6 @@ public class TimeManager : Singleton<TimeManager>
     {
         if (currentTimeState != TimeState.Night)
         {
-            SetWaveText();
             currentTimeState = TimeState.Night;
             WaveManager.Instance.RemoveKillCountListener();
             StartLightingTransition();
@@ -100,6 +99,7 @@ public class TimeManager : Singleton<TimeManager>
 
             // 밤 시계 표시 코루틴 시작
             nightRoutine = StartCoroutine(NightTimeProcess());
+            SetWaveText();
 
             // 밤으로 전환됐으므로 밤->낮 타이머 설정
             if (enableNightTimer)
@@ -218,7 +218,7 @@ public class TimeManager : Singleton<TimeManager>
 
     public void SetWaveText()
     {
-        waveText.text = $"{StageManager.Instance.waveRound}/5";
+        waveText.text = $"{StageManager.Instance.waveRound + 1}/5";
     }
 
     private IEnumerator NightTimeProcess()
