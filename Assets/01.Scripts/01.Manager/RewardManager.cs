@@ -89,7 +89,9 @@ public class RewardManager : Singleton<RewardManager>
     /// <param name="amount"></param>
     private void GiveReward(int amount)
     {
-        StageManager.Instance.SoulStone += amount;
+        int currentSoulStone = StageManager.Instance.SoulStone;
+        int newAmount = currentSoulStone + amount;
+        StageManager.Instance.SoulStone = Mathf.Max(0, newAmount);
     }
 
 }
