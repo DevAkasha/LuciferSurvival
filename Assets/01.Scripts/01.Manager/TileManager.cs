@@ -10,7 +10,7 @@ public class TileManager : Singleton<TileManager>
     public Transform ResourceTileBlock;     // grid 하위의 오브젝트 (자원타일)
     public Transform lockTileBlock;         // grid 하위의 오브젝트 (잠금타일)
 
-    int gridCount = 15;     // 전체 크기
+    int gridCount = 36;     // 전체 크기
     public int EnviromentCode;
 
     [SerializeField] private GameObject lockTileObj;            // 잠금타일 프리펩
