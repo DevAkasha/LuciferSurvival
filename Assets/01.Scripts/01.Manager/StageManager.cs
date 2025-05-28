@@ -20,7 +20,8 @@ public class StageManager : Singleton<StageManager>
     {
         SetStage(GameManager.Instance.stageNumber);
         ChangeToNight();
-        //SoulStone = 1000;
+        SoulStone = 1000;
+        SoulCore = 1000;
     }
     public int SoulStone
     {
@@ -99,11 +100,11 @@ public class StageManager : Singleton<StageManager>
 
     public void OnWaveEnd()
     {
-        if (waveRound < thisStage.StageData.Count)
+        if (waveRound < thisStage.StageData.Count - 1)
         {
+            waveRound++;
             ChangeToNight();
             Debug.Log("다음 웨이브 준비");
-            waveRound++;
         }
         else
         {

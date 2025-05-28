@@ -84,7 +84,7 @@ public class WaveManager : Singleton<WaveManager>
     {
         int enemyCount = 0;
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < curWave.EnemyCount.Count - 1; i++)
         {
             if (curWave.EnemyCount[i] > 0)
             { 
