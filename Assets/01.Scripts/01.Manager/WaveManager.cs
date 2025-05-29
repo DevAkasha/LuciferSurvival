@@ -31,6 +31,7 @@ public class WaveManager : Singleton<WaveManager>
     {
         PoolManager.Instance.Init(ResourceType.Enemy, true);
         PoolManager.Instance.Init(ResourceType.Projectile);
+        PoolManager.Instance.Init(ResourceType.Audio);
         StageManager.Instance.ChangeToNight();
     }
 
