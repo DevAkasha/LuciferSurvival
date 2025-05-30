@@ -8,7 +8,7 @@ public class LobbyButton : MonoBehaviour
     [SerializeField] private GameObject OptionWindow;
     [SerializeField] private Transform canvas;
 
-    private void OnEnable()
+    private void Start()
     {
         AudioManager.Instance.SetBgm("LobbyBgm");
     }

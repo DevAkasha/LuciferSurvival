@@ -151,7 +151,7 @@ public class PoolManager : Singleton<PoolManager>
     {
         //sheets.Clear();
 
-        // Resources/Prefabs 폴더에서 모든 프리팹을 불러오기
+        // Resources/resourceType 폴더에서 모든 프리팹을 불러오기
         var prefabs = Resources.LoadAll<GameObject>(resourceType);
 
         foreach (var prefab in prefabs)
