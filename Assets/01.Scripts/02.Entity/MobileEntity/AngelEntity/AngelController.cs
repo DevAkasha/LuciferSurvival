@@ -182,11 +182,10 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
 
                 if (behaviorTree == null)
                     break;
-                float startTime = Time.time;
+             
                 // 캐싱된 BT 실행
                 behaviorTree.Update();
-                float executionTime = Time.time - startTime;
-                Debug.LogWarning($"BT Update 시간: {executionTime:F3}초");
+            
                 // 시간 간격으로 실행하여 CPU 사용량 감소
                 await UniTask.Delay(TimeSpan.FromSeconds(updateInterval), DelayType.DeltaTime, PlayerLoopTiming.Update, token);
             }
