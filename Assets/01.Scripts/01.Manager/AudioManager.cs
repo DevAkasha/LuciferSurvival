@@ -4,21 +4,35 @@ using UnityEngine;
 
 public class AudioManager : Singleton<AudioManager>
 {
-    private ObjectPoolBase AudioPrefab;
+    public List<AudioClip> BgmList;
+    private AudioSource bgmSource;
 
-    public void SetDayBgm()
+    private void Start()
     {
-        if (AudioPrefab != null)
-            PoolManager.Instance.Release(AudioPrefab);
-
-        AudioPrefab = PoolManager.Instance.SpawnAudioSource<ObjectPoolBase>("DayBgm");
+        bgmSource = GetComponent<AudioSource>();
     }
 
-    public void SetNightBgm()
+    public void SetBgm(string bgmName)
     {
-        if (AudioPrefab != null)
-            PoolManager.Instance.Release(AudioPrefab);
+        foreach (var bgm in BgmList)
+        {
+            if(bgm.name == bgmName)
+            {
+                bgmSource.clip = bgm;
+                break;
+            }
+        }
+    }
 
-        AudioPrefab = PoolManager.Instance.SpawnAudioSource<ObjectPoolBase>("NightBgm");
+    public void SetBGMVolume(float volume)
+    {
+        bgmSource.volume = volume;
+    }
+
+    public float GetBGMVolume() => bgmSource.volume;
+
+    public void SetEffectAudio(string effectName)
+    {
+        var effectAudio = PoolManager.Instance.SpawnAudioSource<AudioObject>(effectName);
     }
 }
