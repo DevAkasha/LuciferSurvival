@@ -2258,6 +2258,8 @@ MonoBehaviour:
   maxWaveCount: 5
   infoText: {fileID: 693540240}
   waveText: {fileID: 1833644003}
+  timeIndicator: {fileID: 917746557}
+  dayAndNightImage: {fileID: 1828453725}
   battleScreen: {fileID: 0}
 --- !u!4 &1101715689
 Transform:
@@ -2594,9 +2596,9 @@ RectTransform:
   - {fileID: 2498769}
   - {fileID: 1474383499}
   - {fileID: 2476426374819572572}
+  - {fileID: 1828453724}
   - {fileID: 917746558}
   - {fileID: 289740157}
-  - {fileID: 1828453724}
   - {fileID: 154345791}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3373,7 +3375,7 @@ GameObject:
   - component: {fileID: 1828453726}
   - component: {fileID: 1828453725}
   m_Layer: 5
-  m_Name: TimeUI
+  m_Name: DayAndNightUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3386,17 +3388,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1828453723}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1299108146}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 390}
-  m_SizeDelta: {x: 250, y: 250}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 360, y: 360}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1828453725
 MonoBehaviour:
