@@ -4,21 +4,51 @@ using UnityEngine;
 
 public class AudioManager : Singleton<AudioManager>
 {
-    private ObjectPoolBase AudioPrefab;
+    public List<AudioClip> BgmList;
+    [SerializeField] private AudioSource bgmSource;
 
-    public void SetDayBgm()
+    private void Start()
     {
-        if (AudioPrefab != null)
-            PoolManager.Instance.Release(AudioPrefab);
-
-        AudioPrefab = PoolManager.Instance.SpawnAudioSource<ObjectPoolBase>("DayBgm");
+        InitializeAudioData();
     }
 
-    public void SetNightBgm()
+    public void SetBgm(string bgmName)
     {
-        if (AudioPrefab != null)
-            PoolManager.Instance.Release(AudioPrefab);
+        foreach (var bgm in BgmList)
+        {
+            if (bgm.name == bgmName)
+            {
+                bgmSource.clip = bgm;
+                break;
+            }
+        }
 
-        AudioPrefab = PoolManager.Instance.SpawnAudioSource<ObjectPoolBase>("NightBgm");
+        bgmSource.Play();
+    }
+
+    public void SetBGMVolume(float volume)
+    {
+        bgmSource.volume = volume;
+    }
+
+    public float GetBGMVolume() => bgmSource.volume;
+
+    public void SetEffectAudio(string effectName, Transform transform)
+    {
+        var effectAudio = PoolManager.Instance.Spawn<AudioObject>(effectName, transform.position);
+        effectAudio.Init();
+    }
+
+    public void InitializeAudioData()
+    {
+        BgmList.Clear();
+
+        // Resources/resourceType 폴더에서 모든 프리팹을 불러오기
+        var audioClip = Resources.LoadAll<AudioClip>(ResourceType.Audio);
+
+        foreach (var bgm in audioClip)
+        {
+            BgmList.Add(bgm);
+        }
     }
 }

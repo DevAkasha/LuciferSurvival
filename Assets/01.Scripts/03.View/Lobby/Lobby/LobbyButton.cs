@@ -5,11 +5,27 @@ using UnityEngine;
 public class LobbyButton : MonoBehaviour
 {
     [SerializeField] private GameObject stageSelectWindow;
+    [SerializeField] private GameObject OptionWindow;
     [SerializeField] private Transform canvas;
+
+    private void Start()
+    {
+        StartCoroutine(SetDelay());
+    }
 
     public void OpenStageSelectWindow()
     {
         var StageSelectWindow = Instantiate(stageSelectWindow, canvas);
+    }
+    public void OpenOptionWindow()
+    {
+        var StageSelectWindow = Instantiate(OptionWindow, canvas);
+    }
+
+    IEnumerator SetDelay()
+    {
+        yield return null;
+        AudioManager.Instance.SetBgm("LobbyBgm");
     }
 
     public void QuitGame()
