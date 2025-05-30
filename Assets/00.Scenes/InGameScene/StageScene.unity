@@ -1057,6 +1057,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4103384285885614305, guid: 2b82f371e5c83bd4e829224059be1aa6,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1926934300}
+    - target: {fileID: 4103384285885614305, guid: 2b82f371e5c83bd4e829224059be1aa6,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeToDay
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103384285885614305, guid: 2b82f371e5c83bd4e829224059be1aa6,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: StageManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 5066226899797981272, guid: 2b82f371e5c83bd4e829224059be1aa6,
         type: 3}
       propertyPath: m_SizeDelta.x

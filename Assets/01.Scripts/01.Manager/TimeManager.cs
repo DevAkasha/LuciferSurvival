@@ -77,6 +77,11 @@ public class TimeManager : Singleton<TimeManager>
             WaveManager.Instance.SetKillCountListener();
             StartLightingTransition();
 
+            if (nightRoutine != null)
+                StopCoroutine(nightRoutine);
+
+            SetDayAndNight();
+
             if (battleScreen != null && battleScreen.gameObject.activeInHierarchy)
                 battleScreen.UpdateBattleScreenState();
         }
@@ -95,6 +100,8 @@ public class TimeManager : Singleton<TimeManager>
 
             if (nightRoutine != null)
                 StopCoroutine(nightRoutine);
+
+            SetDayAndNight();
 
             // 밤 시계 표시 코루틴 시작
             nightRoutine = StartCoroutine(NightTimeProcess());
@@ -234,22 +241,16 @@ public class TimeManager : Singleton<TimeManager>
         int steps = Mathf.CeilToInt(nightDuration);
         float stepDuration = nightDuration / steps;
 
-        // 1) 밤 UI로 전환 (시계 표시 숨기고 디스크 표시)
-        SetDayAndNight();
-
         for (int i = 0; i <= steps; i++)
         {
             float t = (float)i / steps;
 
-            // 3) 디스크 회전 (19시→7시 구간에 걸쳐 0°→180°)
+            // 디스크 회전 (19시→7시 구간에 걸쳐 0°→180°)
             float angle = Mathf.Lerp(0f, 180f, t);
             dayAndNightImage.rectTransform.localEulerAngles = new Vector3(0, 0, -angle + 90);
 
             yield return new WaitForSeconds(stepDuration);
         }
-
-        // 4) 밤 끝나면 낮 UI로 다시 스왑
-        SetDayAndNight();
     }
 }
 #if UNITY_EDITOR
