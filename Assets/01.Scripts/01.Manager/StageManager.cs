@@ -84,6 +84,7 @@ public class StageManager : Singleton<StageManager>
         if (waveRound < 0 || waveRound > thisStage.StageData.Count)
             waveRound = 0;
 
+        AudioManager.Instance.SetNightBgm();
         WaveManager.Instance.SetWave(thisStage.StageData[waveRound]);
         TimeManager.Instance.SetNight();
     }
@@ -94,6 +95,7 @@ public class StageManager : Singleton<StageManager>
             return;
 
         Debug.Log($"{waveRound + 1}웨이브 시작");
+        AudioManager.Instance.SetDayBgm();
         TimeManager.Instance.SetDay();
         WaveManager.Instance.GenerateWave();
     }

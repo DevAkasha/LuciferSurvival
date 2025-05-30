@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1917874102324866465}
   - component: {fileID: 5996669102106026107}
   - component: {fileID: 4660607537403213989}
+  - component: {fileID: 3583323540312700676}
   m_Layer: 10
   m_Name: SoulAltar
   m_TagString: Untagged
@@ -127,3 +128,19 @@ MonoBehaviour:
   manageUI: {fileID: 2727425071797321499, guid: 08635d314f842cf42a665bcbbe7f9817,
     type: 3}
   canvas: {fileID: 0}
+--- !u!208 &3583323540312700676
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7747054384080733629}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 1.011, y: 0.95400006, z: 1.011}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.2, z: 0}
+  m_TimeToStationary: 0.5

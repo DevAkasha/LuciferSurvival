@@ -413,7 +413,7 @@ Transform:
   m_GameObject: {fileID: 2032588825280539665}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -485,9 +485,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 1.5310755
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1.156568, z: 0}
 --- !u!54 &2836366610430239417
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -527,6 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eeca04890a81ac4b9bdda055b63a323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnableLifecycle: 1
   entity: {fileID: 0}
   animator: {fileID: 0}
   waitAttackTime: 0
@@ -546,7 +547,9 @@ MonoBehaviour:
   rcode: ENE0015
   navMesh: {fileID: 0}
   rigid: {fileID: 0}
+  outline: {fileID: 0}
   headPivot: {fileID: 3192113137848345909}
+  AttackCoolTime: 0
 --- !u!1 &2263644015467076145
 GameObject:
   m_ObjectHideFlags: 0
