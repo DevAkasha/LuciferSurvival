@@ -6,13 +6,15 @@ public class AudioObject : ObjectPoolBase
 {
     public AudioSource audioSource;
 
-    private void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
-
     public override void Init(params object[] param)
     {
-        throw new System.NotImplementedException();
+        //음향 크기 조절 추가 필요
+        StartCoroutine(Release());
+    }
+
+    IEnumerator Release()
+    {
+        yield return new WaitForSeconds(audioSource.clip.length);
+        PoolManager.Instance.Release(this);
     }
 }

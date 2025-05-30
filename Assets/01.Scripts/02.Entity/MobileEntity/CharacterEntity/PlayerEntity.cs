@@ -76,8 +76,13 @@ public abstract class PlayerEntity : MobileEntity<PlayerModel>
         }
 
         base.TakeDamaged(damage);
+        AudioManager.Instance.SetEffectAudio("GetHitPlayerAudio", transform);
+
         if (CurHealth < 0f) 
+        {
             IsDeath = true;
+            AudioManager.Instance.SetEffectAudio("GetDeathPlayerAudio", transform);
+        }
     }
 
     public virtual void Move()

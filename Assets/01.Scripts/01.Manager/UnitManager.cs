@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class UnitManager : Singleton<UnitManager>
 {
@@ -392,5 +393,22 @@ public class UnitManager : Singleton<UnitManager>
         StageUIManager.Instance.RefreshAllUnitSlots();
 
         return true;
+    }
+
+    public void UpgradeUnit(string rcode, int index)
+    {
+        if (!rcode.StartsWith("UNIT"))
+            return;
+
+        int unitCode = int.Parse(rcode.Replace("UNIT", ""));
+
+        if (unitCode > 30)
+            return;
+
+        string nextRcode = $"UNIT00{unitCode + 10}";
+        curUnitArray[index] = null;
+
+        UnitDataSO unitData = DataManager.Instance.GetData<UnitDataSO>(nextRcode);
+        AddUnit(new UnitModel(unitData));
     }
 }

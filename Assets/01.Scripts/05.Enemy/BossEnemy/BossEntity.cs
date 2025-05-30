@@ -102,6 +102,7 @@ public class BossEntity : MobileEntity<BossModel>, ISkillTarget
     public override void TakeDamaged(float damage)
     {
         base.TakeDamaged(damage);
+        AudioManager.Instance.SetEffectAudio("GetHitEnemyAudio", transform);
         if (CurHealth < 0f)
             IsDeath = true;
     }
