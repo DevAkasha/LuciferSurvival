@@ -13,6 +13,8 @@ public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler
     private GameObject countBackground;
     [SerializeField]
     private Image outline;
+    [SerializeField]
+    private GameObject unionButton;
 
     public static int draggingSlotIndex = -1;
     public static bool isDropComplete = false;
@@ -26,12 +28,13 @@ public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler
             iconImage.color = Color.white;
             iconImage.enabled = true;
             countText.text = stackableUnit.count.ToString();
+            ActiveUnionButton();
         }
         else
         {
             countBackground.SetActive(false);
             iconImage.sprite = null;
-            iconImage.color = new Color(1f,1f,1f,0f);
+            iconImage.color = new Color(1f, 1f, 1f, 0f);
             iconImage.enabled = false;
             countText.text = "";
         }
@@ -39,7 +42,7 @@ public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(UnitManager.Instance.curUnitArray[slotIndex] != null)
+        if (UnitManager.Instance.curUnitArray[slotIndex] != null)
         {
             ActiveSlot();
             StageUIManager.Instance.UnitInfo.SetUnitInfo(UnitManager.Instance.curUnitArray[slotIndex].unitModel);
@@ -122,13 +125,28 @@ public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler
         draggingSlotIndex = -1;
     }
 
+    private void ActiveUnionButton()
+    {
+        if (stackableUnit.count == 3 && (int)stackableUnit.unitModel.grade < 4)
+            unionButton.SetActive(true);
+        else
+            unionButton.SetActive(false);
+    }
+
+    public void OnUnitUpgrade()
+    {
+        unionButton.SetActive(false);
+        UnitManager.Instance.UpgradeUnit(stackableUnit.unitModel.rcode, slotIndex);
+        StageUIManager.Instance.RefreshAllUnitSlots();
+    }
+
     public void ActiveSlot()
     {
-        
+
     }
 
     public void InActiveSlot()
     {
-        
+
     }
 }
