@@ -5,12 +5,7 @@ using UnityEngine;
 public class AudioManager : Singleton<AudioManager>
 {
     public List<AudioClip> BgmList;
-    private AudioSource bgmSource;
-
-    private void Start()
-    {
-        bgmSource = GetComponent<AudioSource>();
-    }
+    [SerializeField] private AudioSource bgmSource;
 
     public void SetBgm(string bgmName)
     {
@@ -22,6 +17,8 @@ public class AudioManager : Singleton<AudioManager>
                 break;
             }
         }
+
+        bgmSource.Play();
     }
 
     public void SetBGMVolume(float volume)

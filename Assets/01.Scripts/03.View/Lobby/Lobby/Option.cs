@@ -15,4 +15,9 @@ public class Option : MonoBehaviour
         // 슬라이더 값이 바뀔 때마다 AudioManager에 바로 전달
         bgmSlider.onValueChanged.AddListener(AudioManager.Instance.SetBGMVolume);
     }
+
+    public void CloseOption()
+    {
+        Destroy(gameObject);
+    }
 }

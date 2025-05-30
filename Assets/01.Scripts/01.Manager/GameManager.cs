@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
