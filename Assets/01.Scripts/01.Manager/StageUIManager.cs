@@ -11,15 +11,13 @@ public class StageUIManager : Singleton<StageUIManager>
 
     private EquipSlot[] equipSlotUIs = new EquipSlot[6];  // 동적 할당 가능하게 변경
 
-    [SerializeField]
-    private Canvas canvas; // 드래그 프리뷰 위치 계산용 (캔버스 추가 필요)
+    [SerializeField] private Canvas canvas; // 드래그 프리뷰 위치 계산용 (캔버스 추가 필요)
 
     private Image activeDragPreview; // 현재 드래그 중인 프리뷰 아이콘
 
     public UnitInfo unitInfo;
 
-    [SerializeField]
-    private GameObject slotPrefab;
+    [SerializeField] private GameObject slotPrefab;
 
     public UnitManageUI unitManageUI;
 
@@ -160,6 +158,7 @@ public class StageUIManager : Singleton<StageUIManager>
     {
         Instantiate(StageCleatWindow, canvas.transform);
     }
+
     public void OnPlayerDeathWindow()
     {
         Instantiate(PlayerDeathWindow, canvas.transform);
