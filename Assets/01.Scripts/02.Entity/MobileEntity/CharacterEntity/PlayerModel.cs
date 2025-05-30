@@ -44,7 +44,7 @@ public class PlayerModel: BaseModel
     {
         MaxHealth = new(250f, nameof(MaxHealth), this);
         CurHealth = new(MaxHealth.Value, nameof(CurHealth), this);
-        MoveSpeed = new(5.5f, nameof(MoveSpeed), this);
+        MoveSpeed = new(4f, nameof(MoveSpeed), this);
         NormalizedHP = new(1f, this);
         
         Action<float> recalc = _ => NormalizedHP.SetValue(CurHealth.Value / MaxHealth.Value, this);
