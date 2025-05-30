@@ -94,7 +94,7 @@ public class UnitManager : Singleton<UnitManager>
         return false;
     }
 
-    //해당인덱스 유닛 제거
+    //인벤토리 내 해당인덱스 유닛 제거
     public void RemoveUnit(int slotIndex)
     {
         //슬롯 범위 체크(예외처리)
@@ -118,6 +118,25 @@ public class UnitManager : Singleton<UnitManager>
         }
 
         StageUIManager.Instance.RefreshUnitSlot(slotIndex);
+    }
+
+    //유닛 장착 인벤토리 내 해당인덱스 유닛 제거
+    public void RemoveEquippedUnit(int slotIndex)
+    {
+        //슬롯 범위 체크(예외처리)
+        if (slotIndex < 0 || slotIndex >= equippedUnitArray.Length)
+        {
+            return;
+        }
+
+        if (equippedUnitArray[slotIndex] == null)
+        {
+            return;
+        }
+
+        equippedUnitArray[slotIndex] = null;
+
+        StageUIManager.Instance.RefreshEquipSlot(slotIndex);
     }
 
     //장착 유닛 모델값 출력
@@ -230,7 +249,7 @@ public class UnitManager : Singleton<UnitManager>
     }
 
     // 인벤토리에서 rcode 유닛을 count만큼 소비
-    private bool ConsumeUnit(string rcode, int count)
+    private bool ConsumeInventory(string rcode, int count)
     {
         int remaining = count;
         for (int i = 0; i < curUnitArray.Length && remaining > 0; i++)
@@ -246,6 +265,21 @@ public class UnitManager : Singleton<UnitManager>
             }
         }
         return remaining == 0;
+    }
+
+    // 유닛 장착 인벤토리에서 rcode 유닛을 count만큼 소비
+    private bool ConsumeEquipment(string rcode)
+    {
+        for (int i = 0; i < equippedUnitArray.Length; i++)
+        {
+            var slot = equippedUnitArray[i];
+            if (slot != null && slot.rcode == rcode)
+            {
+                RemoveEquippedUnit(i);
+                return true;
+            }
+        }
+        return false;
     }
 
     //유닛을 조합하기 전 인벤토리 공간 체크
@@ -294,7 +328,14 @@ public class UnitManager : Singleton<UnitManager>
 
         foreach (var rcode in reqs)
         {
-            ConsumeUnit(rcode, 1);
+            if(ConsumeInventory(rcode, 1))
+            {
+                //인벤토리 소비시 해야될 행동
+            }
+            else if(ConsumeEquipment(rcode))
+            {
+                //유닛 장착 인벤토리 소비시 해야될 행동
+            }
         }
 
         AddUnit(new UnitModel(unitData));
