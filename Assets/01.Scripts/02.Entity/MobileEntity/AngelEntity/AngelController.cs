@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class AngelController : MobileController<AngelEntity, AngelModel>
 {
@@ -16,6 +17,7 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
 
     private bool IsDontAct => Entity.Model.Flags.AnyActive(PlayerStateFlag.Fall, PlayerStateFlag.Knockback, PlayerStateFlag.Stun, PlayerStateFlag.Death);
     private bool IsCastable => false;   //todo.캐스트 가능성 판단 추가해야 함
+    private bool IsConfuse => Entity.Model.Flags.GetValue(PlayerStateFlag.Confuse);
     private bool IsAttack
     {
         get => Entity.Model.Flags.GetValue(PlayerStateFlag.Attack);
@@ -64,7 +66,19 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
                     new Condition(() => IsDontAct),
                     new StayStillAction(Entity)
                 ),
+                // 2. 혼란 상태 체크
+                new Sequence(
+                    new Condition(() => IsConfuse && player != null),
+                    new BehaviorAction(() =>
+                    {
+                        WaitAttackTime = false;
+                        attackTime = false;
+                        IsAttack = false;
 
+                        Entity.MoveTo(player.transform.position);
+                        return NodeStatus.Success;
+                    })
+                ),
                 // 3. 공격 대기 상태 체크
                 new Sequence(
                     new Condition(() => WaitAttackTime),
@@ -80,6 +94,8 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
                         {
                             if (IsInRange(Entity.Model.Range.Value))
                                 Entity.OnAttack(player);
+
+                            UniTaskVoid uniTaskVoid = Entity.StartSkillCooldown();
                             WaitAttackTime = false;
                             attackTime = false;
                             IsAttack = false;
@@ -166,10 +182,11 @@ public class AngelController : MobileController<AngelEntity, AngelModel>
 
                 if (behaviorTree == null)
                     break;
-
+                float startTime = Time.time;
                 // 캐싱된 BT 실행
                 behaviorTree.Update();
-
+                float executionTime = Time.time - startTime;
+                Debug.LogWarning($"BT Update 시간: {executionTime:F3}초");
                 // 시간 간격으로 실행하여 CPU 사용량 감소
                 await UniTask.Delay(TimeSpan.FromSeconds(updateInterval), DelayType.DeltaTime, PlayerLoopTiming.Update, token);
             }

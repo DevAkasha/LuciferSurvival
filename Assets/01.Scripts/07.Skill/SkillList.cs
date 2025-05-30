@@ -39,7 +39,7 @@ public class FleshGrinderSkill : Skill //데미지, 공격사이즈,
                 Quaternion.identity);
 
             // 이펙트 크기 설정
-            effectObj.transform.localScale = new Vector3(radius, 1f, radius);
+            effectObj.transform.localScale = new Vector3(radius*0.7f, 1f, radius*0.7f);// 이펙트가 너무 넓어서 0.7보정
 
             // 일정 시간 후 제거
             GameObject.Destroy(effectObj, 2f);
@@ -427,7 +427,7 @@ public class HellsnareSkill : TargetedSkill //공격력
 public class MistOfMadnessSkill : Skill //공격력 공격범위
 {
     private float radius;
-    private float confusionDuration = 0.5f;
+    private float confusionDuration = 1f;
 
     private float[] atkArray = new float[5] { 10f, 30f, 60f, 120f, 240f };
     private float[] radiusArray = new float[5] { 4f, 4f, 4.5f, 5f, 5.5f };
@@ -475,6 +475,7 @@ public class MistOfMadnessSkill : Skill //공격력 공격범위
                 if (target != null)
                 {
                     ApplyStatusEffect(target, StatusEffectType.Confusion, confusionDuration);
+                    ApplyDamage(target, damage);
                 }
             }
         }

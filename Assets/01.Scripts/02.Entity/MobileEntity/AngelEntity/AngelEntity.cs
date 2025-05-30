@@ -1,13 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Unity.VisualScripting.Antlr3.Runtime;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEngine.EventSystems.EventTrigger;
 
 
 public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
@@ -29,7 +24,12 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
     private float Atk 
     { 
         get => Model.Atk.Value; 
-        set => Model.Atk.SetValue(value, this); 
+        set => Model.Atk.SetValue(value, this);
+    }
+    private float MoveSpeed
+    {
+        get => Model.MoveSpeed.Value;
+        set => Model.MoveSpeed.SetValue(value, this);
     }
     private bool IsStun 
     { 
@@ -89,7 +89,7 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
 
     public void StopMove()
     {
-        if (!navMesh.enabled)
+        if (!navMesh.enabled|| IsConfuse)
             return;
         IsMove = false;
         rigid.velocity = Vector3.zero;
@@ -107,17 +107,18 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
 
         float sqrDistToCurrentTarget = (navMesh.destination - target).sqrMagnitude;
 
-        if (sqrDistToCurrentTarget > 1.0f)
+        if (IsConfuse)
         {
-            navMesh.speed = Model.MoveSpeed.Value;
-
-            if (IsConfuse)
-            {
-                Vector3 directionToTarget = target - transform.position;
-                Vector3 reverseTarget = transform.position - directionToTarget;
-                target = reverseTarget;
-            }
-
+            Vector3 directionToTarget = target - transform.position;
+            Vector3 reverseTarget = transform.position - directionToTarget * 3f;
+            target = reverseTarget;
+            transform.LookAt(target);
+            navMesh.SetDestination(target);
+            navMesh.speed = MoveSpeed;    
+        }
+        else if (sqrDistToCurrentTarget > 1.0f)
+        {
+            navMesh.speed = MoveSpeed;
             navMesh.SetDestination(target);
         }
     }
@@ -171,8 +172,6 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
     public void OnAttack(PlayerController player)
     {
         player.Entity.TakeDamaged(Atk);
-
-        UniTaskVoid uniTaskVoid = StartSkillCooldown();
     }
 
     private void OnDeath(bool isDead)
@@ -194,9 +193,7 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
     public async void OnConfuse(float delayTime)
     {
         IsConfuse = true;
-
         await UniTask.Delay(TimeSpan.FromSeconds(delayTime), DelayType.DeltaTime, PlayerLoopTiming.Update, this.GetCancellationTokenOnDestroy());
-
         IsConfuse = false;
     }
 
@@ -212,7 +209,7 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
         IsKnockback = false;
     }
 
-    private async UniTaskVoid StartSkillCooldown()
+    public async UniTaskVoid StartSkillCooldown()
     {
         if (Model.CoolTime.Value < 0)
             return;
