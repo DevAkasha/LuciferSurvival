@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
+using static UnityEngine.Rendering.DebugUI;
 
 
 // 상태 enum
@@ -50,6 +51,8 @@ public class TimeManager : Singleton<TimeManager>
 
     [SerializeField] private TextMeshProUGUI infoText;
     [SerializeField] private TextMeshProUGUI waveText;
+    [SerializeField] private GameObject timeIndicator;
+    [SerializeField] private Image dayAndNightImage;
     private Coroutine nightRoutine;
 
     [Header("UI References")]
@@ -198,17 +201,22 @@ public class TimeManager : Singleton<TimeManager>
         RenderSettings.reflectionIntensity = (currentTimeState == TimeState.Day) ? dayReflectionIntensity : nightReflectionIntensity;
     }
 
-    public void SetInfoText(int value)
+    public void SetDayInfoText(int value)
+    {
+        infoText.text = $"{value}/{WaveManager.Instance.CalculateAllCount()}";
+    }
+
+    public void SetDayAndNight()
     {
         if (currentTimeState == TimeState.Day)
         {
-            infoText.text = $"{value}/{WaveManager.Instance.CalculateAllCount()}";
+            timeIndicator.SetActive(true);
+            dayAndNightImage.gameObject.SetActive(false);
         }
         else
         {
-            int hh = value / 60;
-            int mm = value % 60;
-            infoText.text = $"{hh:D2}:{mm:D2}";
+            timeIndicator.SetActive(false);
+            dayAndNightImage.gameObject.SetActive(true);
         }
     }
 
@@ -219,25 +227,29 @@ public class TimeManager : Singleton<TimeManager>
 
     private IEnumerator NightTimeProcess()
     {
-        int totalMinutesInDay = 24 * 60;
+        int totalMinutesInDay = 24 * 60;      // 하루 1440분
         float nightStartMinute = 19f * 60f;    // 19:00 → 1140분
         float nightSpanMinutes = 12f * 60f;    // 12시간 → 720분
 
         int steps = Mathf.CeilToInt(nightDuration);
         float stepDuration = nightDuration / steps;
 
+        // 1) 밤 UI로 전환 (시계 표시 숨기고 디스크 표시)
+        SetDayAndNight();
+
         for (int i = 0; i <= steps; i++)
         {
             float t = (float)i / steps;
 
-            int minuteOfDay = (int)(((nightStartMinute + t * nightSpanMinutes)
-                                      % totalMinutesInDay));
-            
-            if (currentTimeState == TimeState.Night)
-                SetInfoText(minuteOfDay);
+            // 3) 디스크 회전 (19시→7시 구간에 걸쳐 0°→180°)
+            float angle = Mathf.Lerp(0f, 180f, t);
+            dayAndNightImage.rectTransform.localEulerAngles = new Vector3(0, 0, -angle + 90);
 
             yield return new WaitForSeconds(stepDuration);
         }
+
+        // 4) 밤 끝나면 낮 UI로 다시 스왑
+        SetDayAndNight();
     }
 }
 #if UNITY_EDITOR

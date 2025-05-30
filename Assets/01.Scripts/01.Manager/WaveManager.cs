@@ -130,7 +130,7 @@ public class WaveManager : Singleton<WaveManager>
     {
         killCount.AddListener(V =>
         {
-            TimeManager.Instance.SetInfoText(KillCount);
+            TimeManager.Instance.SetDayInfoText(KillCount);
         });
     }
 
