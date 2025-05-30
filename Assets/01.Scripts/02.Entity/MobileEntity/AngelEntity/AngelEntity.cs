@@ -164,6 +164,7 @@ public class AngelEntity : MobileEntity<AngelModel>, ISkillTarget
     public override void TakeDamaged(float damage)
     {
         base.TakeDamaged(damage);
+        AudioManager.Instance.SetEffectAudio("GetHitEnemyAudio", transform);
         if(CurHealth<0f)
             IsDeath = true;
     }

@@ -33,9 +33,10 @@ public class AudioManager : Singleton<AudioManager>
 
     public float GetBGMVolume() => bgmSource.volume;
 
-    public void SetEffectAudio(string effectName)
+    public void SetEffectAudio(string effectName, Transform transform)
     {
-        var effectAudio = PoolManager.Instance.SpawnAudioSource<AudioObject>(effectName);
+        var effectAudio = PoolManager.Instance.Spawn<AudioObject>(effectName, transform.position);
+        effectAudio.Init();
     }
 
     public void InitializeAudioData()

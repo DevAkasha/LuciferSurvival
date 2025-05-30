@@ -121,7 +121,7 @@ public class PoolManager : Singleton<PoolManager>
         return obj;
     }
 
-    public T SpawnAudioSource<T>(string audioName) where T : ObjectPoolBase
+    public T SpawnAudioSource<T>(string audioName, Vector3 position) where T : ObjectPoolBase
     {
         if (pools[audioName].Count == 0)
         {
@@ -134,6 +134,7 @@ public class PoolManager : Singleton<PoolManager>
             }
         }
         var retObj = (T)pools[audioName].Dequeue();
+        retObj.transform.position = position;
         retObj.SetActive(true);
         return retObj;
     }

@@ -10,7 +10,7 @@ public class LobbyButton : MonoBehaviour
 
     private void Start()
     {
-        AudioManager.Instance.SetBgm("LobbyBgm");
+        StartCoroutine(SetDelay());
     }
 
     public void OpenStageSelectWindow()
@@ -20,6 +20,12 @@ public class LobbyButton : MonoBehaviour
     public void OpenOptionWindow()
     {
         var StageSelectWindow = Instantiate(OptionWindow, canvas);
+    }
+
+    IEnumerator SetDelay()
+    {
+        yield return null;
+        AudioManager.Instance.SetBgm("LobbyBgm");
     }
 
     public void QuitGame()
