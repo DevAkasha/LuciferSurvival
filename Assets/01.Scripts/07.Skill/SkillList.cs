@@ -9,7 +9,7 @@ public class FleshGrinderSkill : Skill //데미지, 공격사이즈,
     private float slowDuration = 3f;
 
     private float[] atkArray = new float[5] {10f,30f,60f,120f,240f}; //7만 60*3 초당 180으로 7만
-    private float[] radiusArray = new float[5] { 4f, 4f, 5f, 5f, 6f };
+    private float[] radiusArray = new float[5] { 4f, 4f, 4.5f, 5f, 5.5f };
 
     public FleshGrinderSkill(eUnitGrade unitGrade)
     {
@@ -70,7 +70,7 @@ public class CrushBreakerSkill : Skill // 공격력, 공격범위,
     private float angleLimit = 0.5f; // cos(60도) ≈ 0.5, 즉 전방 120도 범위
 
     private float[] atkArray = new float[5] { 15f, 40f, 80f, 160f, 320f }; 
-    private float[] radiusArray = new float[5] { 4f, 4f, 5f, 6f, 7f };
+    private float[] radiusArray = new float[5] { 4f, 4f, 5f, 5.5f, 6f };
 
     public CrushBreakerSkill(eUnitGrade unitGrade)
     {
@@ -144,7 +144,7 @@ public class HellfumeSkill : Skill // 공격력, 공격범위, 상하좌우,
     private Vector3[] groundPosArray = new Vector3[4];
 
     private float[] atkArray = new float[5] { 10f, 20f, 60f, 120f, 240f };
-    private float[] radiusArray = new float[5] { 2f, 2f, 3f, 4f, 5f };
+    private float[] radiusArray = new float[5] { 1f, 1.5f, 2f, 2f, 2.5f };
     private float[] durationArray = new float[5] { 2f, 2f, 3f, 3f, 4f };
     private int[] posCountArray = new int[5] { 1, 2, 2, 3, 4 };
 
@@ -212,7 +212,7 @@ public class SkyLanceSkill : TargetedSkill // 공격력, 카운트
     private int penetrationCount;
     private float airborneDuration = 2f;
 
-    private float[] atkArray = new float[5] { 10f, 30f, 60f, 120f, 240f };
+    private float[] atkArray = new float[5] { 20f, 50f, 120f, 240f, 480f };
     private int[] penetrationCountArray = new int[5] { 3, 4, 6, 8, 10 };
 
     public SkyLanceSkill(eUnitGrade unitGrade)
@@ -267,7 +267,7 @@ public class OrbitOfRuinSkill : TargetedSkill //공격력, 샷카운트
     private int shotCount;
     private float shotAngle = 20f;
 
-    private float[] atkArray = new float[5] { 10f, 30f, 60f, 120f, 240f };
+    private float[] atkArray = new float[5] { 20f, 50f, 120f, 240f, 480f };
     private int[] shotCountArray = new int[5] { 3, 4, 5, 6, 7 };
 
     public OrbitOfRuinSkill(eUnitGrade unitGrade)
@@ -330,7 +330,7 @@ public class InfernalVolleySkill : TargetedSkill //공격력, 샷카운트,
     private int shotCount = 10;
     private float fireInterval = 0.1f;
 
-    private float[] atkArray = new float[5] { 5f, 15f, 45f, 100f, 200f };
+    private float[] atkArray = new float[5] { 8f, 15f, 45f, 150f, 300f };
     private float[] cooldowntArray = new float[5] { 3f, 2f, 1.8f, 1.5f, 1.5f };
 
     public InfernalVolleySkill(eUnitGrade unitGrade)
@@ -376,7 +376,7 @@ public class HellsnareSkill : TargetedSkill //공격력
 {
     private float stunDuration = 0.5f;
 
-    private float[] atkArray = new float[5] { 15f, 50f, 100f, 200f, 450f };
+    private float[] atkArray = new float[5] { 20f, 50f, 120f, 240f, 480f };
 
     public HellsnareSkill(eUnitGrade unitGrade)
     {
@@ -430,7 +430,7 @@ public class MistOfMadnessSkill : Skill //공격력 공격범위
     private float confusionDuration = 0.5f;
 
     private float[] atkArray = new float[5] { 10f, 30f, 60f, 120f, 240f };
-    private float[] radiusArray = new float[5] { 3f, 4f, 4f, 5f, 6f };
+    private float[] radiusArray = new float[5] { 4f, 4f, 4.5f, 5f, 5.5f };
 
     public MistOfMadnessSkill(eUnitGrade unitGrade)
     {
