@@ -67,7 +67,8 @@ https://youtu.be/bNhzaPrOtWU
 
 ---
 
-![image.png](attachment:dcb12b2b-91fc-446c-9391-d7d685afbfc0:image.png)
+![image](https://github.com/user-attachments/assets/9c9ab6fb-fe89-4c0e-938e-e5ad5efba0a0)
+
 
 ## 사용된 기술 스택
 
@@ -144,4 +145,4 @@ https://youtu.be/bNhzaPrOtWU
 
 밤동안은 파밍할 수 있으며 시간이 지나면 낮으로 전환됩니다.
 
-파밍이나 유닛 배치가 끝났다면 밤 스킵 버튼을 통해 스킵이 가능합니
+파밍이나 유닛 배치가 끝났다면 밤 스킵 버튼을 통해 스킵이 가능합니다.
