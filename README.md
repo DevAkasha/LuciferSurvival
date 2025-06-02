@@ -15,7 +15,9 @@
 
 ---
 
-![image.png](attachment:c4a2f8fc-62ba-4dcd-9658-ef297d517d85:image.png)
+![LUCERTitle](https://github.com/user-attachments/assets/d9d85a73-007b-4fae-afa3-831c83b34793)
+
+
 
 - 프로젝트 이름 : LUCIFER SURVIVAL
 - 프로젝트 기간 : 2025.04.04 ~ 2025.06.02 (8주)
@@ -46,6 +48,7 @@ https://youtu.be/bNhzaPrOtWU
 
 
 ### 한명의 타락천사, 천상의 군단에 맞서다.
+
 
 🌗 **밤에는 파밍을, 낮에는 전투를**
 
