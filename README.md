@@ -41,7 +41,9 @@ https://github.com/DevAkasha/LuciferSurvival
 
 https://youtu.be/bNhzaPrOtWU
 
-![image.png](attachment:f792743c-44e9-4862-9972-ef2794e8aadf:image.png)
+![image](https://github.com/user-attachments/assets/ea165074-5138-4efb-be22-0fbffd1455f9)
+
+
 
 ### 한명의 타락천사, 천상의 군단에 맞서다.
 
@@ -86,11 +88,13 @@ https://youtu.be/bNhzaPrOtWU
 
 - 워크 프레임
 
-![image.png](attachment:54f7848c-9a38-4c5d-a1db-6eecaaa40a9a:image.png)
+![image](https://github.com/user-attachments/assets/b4522249-f3cb-48a7-afa1-d4d407b717e9)
+
 
 - 클래스 구조
 
-![image.png](attachment:d738e886-4b5a-4e2f-9fa7-c99b77fe351a:image.png)
+![image](https://github.com/user-attachments/assets/97e3a118-9a9c-40b0-ad8b-d89ed91fe5b0)
+
 
 ## 게임 플레이 방식
 
@@ -105,14 +109,16 @@ https://youtu.be/bNhzaPrOtWU
 
 - 로비
 
-![image.png](attachment:85d62076-0113-4103-b28f-ea800cab1a28:image.png)
+![image](https://github.com/user-attachments/assets/f6f6fe32-90a8-4934-bd99-8456587fc692)
+
 
 - 게임시작
     - 스테이지 선택
     
     게임시작 전 스테이지를 선택 가능합니다.
     
-    ![image.png](attachment:ca94d143-e2e3-4541-b3f7-0544be3b95a3:image.png)
+    ![image](https://github.com/user-attachments/assets/8911a144-9ebc-417c-9d0d-f9dff288e088)
+
     
 - 도감창
     
@@ -128,11 +134,13 @@ https://youtu.be/bNhzaPrOtWU
 
 게임 최초 진행 시 게임 조작에 대해 간단하게 안내해주는 튜토리얼이 실행됩니다
 
-![image.png](attachment:6c528d2f-2c4f-492c-a7f2-bb3bc0198bbf:image.png)
+![image](https://github.com/user-attachments/assets/e06bcefd-fd12-4fea-a697-3bfa98931d34)
+
 
 - 게임 씬
 
-![image.png](attachment:4aef9320-4560-4f73-8b05-7d33422b2d45:image.png)
+![image](https://github.com/user-attachments/assets/9a0b565a-db1d-4d5d-98b6-4a0c57f5f1a1)
+
 
 밤동안은 파밍할 수 있으며 시간이 지나면 낮으로 전환됩니다.
 
