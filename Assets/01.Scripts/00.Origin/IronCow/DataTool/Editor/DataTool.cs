@@ -86,7 +86,7 @@ public class DataTool : EditorWindow
                 if (texture == null)
                 {
                     field.SetValue(asset, AssetDatabase.LoadAssetAtPath(path, field.FieldType) as Sprite);
-                    asset.SetDirty();
+                    EditorUtility.SetDirty(asset);
                 }
             }
         }
@@ -116,7 +116,6 @@ public class DataTool : EditorWindow
                     bool opened = isOpened[key];
                     var style = new GUIStyle(UnityEngine.GUI.skin.button);
                     style.alignment = TextAnchor.MiddleLeft;
-                    //opened = GUILayout.Toggle(opened, new GUIContent((opened ? "▼ " : "▶ ") + sheet.className), style, GUILayout.Width(180));
                     opened = EditorGUILayout.Foldout(opened, sheet.className);
                     isOpened[key] = opened;
                     lastID = key;

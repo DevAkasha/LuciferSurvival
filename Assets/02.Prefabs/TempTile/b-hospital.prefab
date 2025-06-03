@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 2817428529874044483}
   - component: {fileID: 2298217593214193026}
   - component: {fileID: 560582320050194121}
-  m_Layer: 0
+  - component: {fileID: -5705263497955647558}
+  m_Layer: 9
   m_Name: b-hospital
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.17, y: 0, z: 0}
-  m_LocalScale: {x: 0.20999998, y: 0.18, z: 0.20999998}
+  m_LocalScale: {x: 0.18, y: 0.18, z: 0.20999998}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -126,7 +127,30 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 12.8, y: 10.150001, z: 7.3500004}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 10.150001, z: 0.05}
   m_TimeToStationary: 0.5
+--- !u!114 &-5705263497955647558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3154011194434551800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 364474d998575394bba76c1989339244, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInteractable: 1
+  targetRenderer: {fileID: 0}
+  outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  emissionColorProperty: _EmissionColor
+  emissionIntensity: 2
+  resourceRenderer: {fileID: 0}
+  grayTexture: {fileID: 0}
+  isGathered: 0
+  gatheredColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  focusColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  OrigenColor: []

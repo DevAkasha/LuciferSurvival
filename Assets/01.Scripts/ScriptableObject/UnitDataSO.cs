@@ -14,12 +14,13 @@ public enum eUnitGrade
 [CreateAssetMenu(fileName = "UnitDataSO", menuName = "ScriptableObjects/UnitDataSO")]
 public class UnitDataSO : BaseDataSO
 {
-    public int idx;
+    public string skillName;
     public float range;
     public float atk;
-    public float atkSpeed;
+    public float atkCoolTime;
     public float criticalDamage;
     public float criticalChance;
     public int cost;
     public eUnitGrade grade;
+    public bool atkRange;
 }

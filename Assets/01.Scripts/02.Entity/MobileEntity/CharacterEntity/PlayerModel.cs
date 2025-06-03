@@ -21,6 +21,9 @@ public enum PlayerStateFlag
     Move,
     Roll,       //플레이어 전용
     Attack,
+    Skill1,     //보스 전용
+    Skill2,
+    Skill3,
     Cast,
     Slow,       // FSM 대상 아님
     Confuse     // FSM 대상 아님
@@ -39,9 +42,9 @@ public class PlayerModel: BaseModel
 
     public PlayerModel()
     {
-        MaxHealth = new(100f, nameof(MaxHealth), this);
+        MaxHealth = new(250f, nameof(MaxHealth), this);
         CurHealth = new(MaxHealth.Value, nameof(CurHealth), this);
-        MoveSpeed = new(4f, nameof(MoveSpeed), this);
+        MoveSpeed = new(5.5f, nameof(MoveSpeed), this);
         NormalizedHP = new(1f, this);
         
         Action<float> recalc = _ => NormalizedHP.SetValue(CurHealth.Value / MaxHealth.Value, this);

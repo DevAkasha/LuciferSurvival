@@ -5,23 +5,30 @@ using UnityEngine.InputSystem;
 public abstract class PlayerController : MobileController<PlayerEntity, PlayerModel>
 {
     [SerializeField] private Animator animator;
-
+    public Transform unitSlots;
     [SerializeField] private Transform[] unitTransforms;
-    
-    protected override void OnInit()
+    [SerializeField] private PlayerInteractionModule interactionModule;
+
+    private void Awake()
+    {
+        interactionModule = GetComponentInChildren<PlayerInteractionModule>();
+    }
+    protected override void AtInit()
     {
         PlayerManager.Instance.ResistPlayer(this);
-    }
-    private void Start()
-    {
         Entity.Model.State.OnEnter(PlayerState.Move, () => animator.Play("Move"));
         Entity.Model.State.OnEnter(PlayerState.Idle, () => animator.Play("Idle"));
-        Entity.Model.State.OnEnter(PlayerState.Death, () => animator.Play("Death"));
+        Entity.Model.State.OnEnter(PlayerState.Death, () => 
+        { 
+            animator.Play("Death");
+            OnDeath();
+        });
         Entity.Model.State.OnEnter(PlayerState.Stun, () => animator.Play("Stun"));
         Entity.Model.State.OnEnter(PlayerState.Roll, () => animator.Play("Roll"));
         Entity.Model.State.OnEnter(PlayerState.Attack, () => animator.Play("Attack"));
         Entity.Model.State.OnEnter(PlayerState.Cast, () => animator.Play("Cast"));
     }
+
     public virtual void OnMove(CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
@@ -56,5 +63,29 @@ public abstract class PlayerController : MobileController<PlayerEntity, PlayerMo
         {
             Destroy(unit.gameObject);
         }
+    }
+
+    public void SetDirectionUnitTransform()
+    {
+        foreach (var unity in unitTransforms)
+        {
+            unity.transform.rotation = this.transform.rotation;
+        }
+    }
+
+    public void OnInteract()
+    {
+        interactionModule.currentFocusedInteractable?.Interact(Entity);
+    }
+
+    private void OnDeath()
+    {
+        StageManager.Instance.DeinitAllEnemy();
+        UnityTimer.ScheduleOnce(3f, StageManager.Instance.OnPlayerDeath);
+    }
+
+    protected override void AtDestroy()
+    {
+        PlayerManager.Instance.Player = null;
     }
 }

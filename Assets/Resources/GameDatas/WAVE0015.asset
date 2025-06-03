@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e93d000d9fbb9b0468b0379926d2a48d, type: 3}
+  m_Name: WAVE0015
+  m_EditorClassIdentifier: 
+  thumbnail: {fileID: 0}
+  idx: 600010
+  rcode: WAVE0015
+  displayName: 
+  description: 
+  Stage: 2
+  nightTime: 60
+  enemy1rcode: ENE0005
+  enemy1Count: 30
+  enemy1Sec: 1
+  enemy2rcode: ENE0009
+  enemy2Count: 80
+  enemy2Sec: 1
+  enemy3rcode: ENE0015
+  enemy3Count: 20
+  enemy3Sec: 2
+  enemy4rcode: ENE0016
+  enemy4Count: 10
+  enemy4Sec: 3
+  bossrcode: BOSS0002
+  bossCount: 1
+  bossDelaySec: 15

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Ricimi;
 using UnityEngine;
 
-public class UnitManageUI : MonoBehaviour
+public class UnitManageUI : UIBase
 {
     [SerializeField]
     private SummonUnitUI summonUnitUI;
@@ -20,4 +21,33 @@ public class UnitManageUI : MonoBehaviour
     public Transform Bottom { get { return bottom; } }
 
     public Transform EquipSlots { get { return equipSlots; } }
+
+    public override void HideDirect()
+    {
+        
+    }
+
+    public override void Opened(object[] param)
+    {
+        StageUIManager.Instance.unitManageUI = GetComponent<UnitManageUI>();
+        StageUIManager.Instance.unitInfo = GetComponent<UnitManageUI>().UnitInfo;
+        SummonUnitUI.InitUI();
+        StageUIManager.Instance.RegisterUnitSlots();
+        StageUIManager.Instance.RegisterEquipSlots();
+        StageUIManager.Instance.InitPreviewImage();
+        GameManager.Instance.PauseGame(0.2f);
+        summonUnitUI.InitShop();
+    }
+
+    public override void Closed(object[] param)
+    {
+        SummonUnitUI.OnPopupClose();
+        GameManager.Instance.PauseReleaseGame();
+    }
+
+    public void OnManageUIClose()
+    {
+        UIManager.Hide(this);
+    }
+
 }

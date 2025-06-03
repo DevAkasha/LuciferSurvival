@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dataScriptableObjectPath: {fileID: 102900000, guid: efc4b8e0029dcf04989d5373e89c6072,
     type: 3}
-  thumbnailPath: {fileID: 0}
+  thumbnailPath: {fileID: 102900000, guid: afb28f747c117fe4d8adaaeec760b283, type: 3}
   GSheetUrl: https://docs.google.com/spreadsheets/d/12fHdjZZQ7cL0xARX6AbQV_d08fnGQ6NqpUhi-ePcUbs/
   sheets:
   - className: UnitDataSO
@@ -33,7 +33,19 @@ MonoBehaviour:
     sheetId: 1480292564
     key: SPIRIT
     isUpdate: 1
-  - className: PlayerDataSO
-    sheetId: 668420686
-    key: PLAYER
+  - className: WaveDataSO
+    sheetId: 732631068
+    key: Wave
+    isUpdate: 1
+  - className: BossDataSO
+    sheetId: 858575742
+    key: Boss
+    isUpdate: 1
+  - className: StageDataSO
+    sheetId: 1265084096
+    key: Stage
+    isUpdate: 1
+  - className: FarmingDataSO
+    sheetId: 1987678726
+    key: Farming
     isUpdate: 1

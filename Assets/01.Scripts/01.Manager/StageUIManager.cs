@@ -5,23 +5,32 @@ using UnityEngine.UI;
 
 public class StageUIManager : Singleton<StageUIManager>
 {
+    protected override bool IsPersistent => false;
+    
     private UnitSlot[] unitSlotUIs = new UnitSlot[8];
 
     private EquipSlot[] equipSlotUIs = new EquipSlot[6];  // 동적 할당 가능하게 변경
 
-    [SerializeField]
-    private Canvas canvas; // 드래그 프리뷰 위치 계산용 (캔버스 추가 필요)
+    [SerializeField] private Canvas canvas; // 드래그 프리뷰 위치 계산용 (캔버스 추가 필요)
 
     private Image activeDragPreview; // 현재 드래그 중인 프리뷰 아이콘
 
     public UnitInfo unitInfo;
 
-    [SerializeField]
-    private GameObject slotPrefab;
+    [SerializeField] private GameObject slotPrefab;
 
     public UnitManageUI unitManageUI;
 
+    private HashSet<string> unionFavoriteSet = new HashSet<string>();
+
     public UnitInfo UnitInfo { get { return unitInfo; } }
+
+    public HashSet<string> UnionFavoriteSet { get { return unionFavoriteSet; } }
+
+    [SerializeField] private GameObject StageCleatWindow;
+    [SerializeField] private GameObject PlayerDeathWindow;
+
+    [SerializeField] private GameObject BossWarningView;
 
     protected override void Awake()
     {
@@ -32,6 +41,7 @@ public class StageUIManager : Singleton<StageUIManager>
     {
         for (int i = 0; i < unitSlotUIs.Length; i++)
         {
+            
             GameObject go = Instantiate(slotPrefab, unitManageUI.Bottom);
             UnitSlot slot = go.GetComponent<UnitSlot>();
 
@@ -46,7 +56,7 @@ public class StageUIManager : Singleton<StageUIManager>
 
         for (int i = 0; i < equipSlotUIs.Length; i++)
         {
-            equipSlotUIs[i].SetSlot(StageManager.Instance.GetEquippedUnit(i));
+            equipSlotUIs[i].SetSlot(UnitManager.Instance.GetEquippedUnit(i));
         }
         RefreshAllEquipSlots();
     }
@@ -69,7 +79,7 @@ public class StageUIManager : Singleton<StageUIManager>
 
     public void RefreshAllUnitSlots()
     {
-        UnitInventory[] unitSlots = StageManager.Instance.unitSlots;
+        StackableUnitModel[] unitSlots = UnitManager.Instance.curUnitArray;
 
         for (int i = 0; i < unitSlotUIs.Length; i++)
         {
@@ -82,7 +92,7 @@ public class StageUIManager : Singleton<StageUIManager>
 
     public void RefreshUnitSlot(int index)
     {
-        UnitInventory[] unitSlots = StageManager.Instance.unitSlots;
+        StackableUnitModel[] unitSlots = UnitManager.Instance.curUnitArray;
 
         if (index < 0 || index >= unitSlotUIs.Length)
             return;
@@ -132,7 +142,7 @@ public class StageUIManager : Singleton<StageUIManager>
         if (equipSlotUIs[index] == null)
             return;
 
-        UnitModel unit = StageManager.Instance.GetEquippedUnit(index);
+        UnitModel unit = UnitManager.Instance.GetEquippedUnit(index);
         equipSlots[index].SetSlot(unit);
     }
 
@@ -142,5 +152,25 @@ public class StageUIManager : Singleton<StageUIManager>
         {
             RefreshEquipSlot(i);
         }
+    }
+
+    public void OnStageCleatWindow()
+    {
+        Instantiate(StageCleatWindow, canvas.transform);
+    }
+
+    public void OnPlayerDeathWindow()
+    {
+        Instantiate(PlayerDeathWindow, canvas.transform);
+    }
+
+    public void OnBossWarning()
+    { 
+        var StageSlear = Instantiate(BossWarningView, canvas.transform);
+    }
+
+    public Transform GetCanvasTransform()
+    {
+        return canvas.transform;
     }
 }

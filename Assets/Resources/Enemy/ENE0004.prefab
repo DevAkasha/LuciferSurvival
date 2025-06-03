@@ -859,6 +859,7 @@ GameObject:
   - component: {fileID: 4872574939983505346}
   - component: {fileID: 8511701885518147381}
   - component: {fileID: 3285357570763394250}
+  - component: {fileID: 9191231084483019657}
   m_Layer: 7
   m_Name: ENE0004
   m_TagString: Untagged
@@ -917,10 +918,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eeca04890a81ac4b9bdda055b63a323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnableLifecycle: 1
   entity: {fileID: 0}
   animator: {fileID: 0}
   waitAttackTime: 0
-  attackTime: 0
+  attackTime: 1
+  projectile: {fileID: 0}
 --- !u!114 &319375102068088645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -936,7 +939,9 @@ MonoBehaviour:
   rcode: ENE0004
   navMesh: {fileID: 0}
   rigid: {fileID: 0}
+  outline: {fileID: 9191231084483019657}
   headPivot: {fileID: 683667960739212929}
+  AttackCoolTime: 0
 --- !u!54 &4872574939983505346
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1007,6 +1012,24 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &9191231084483019657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9011829727956015695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0.9946091, g: 0.12198024, b: 0.12198024, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &9120292340047281476
 GameObject:
   m_ObjectHideFlags: 0

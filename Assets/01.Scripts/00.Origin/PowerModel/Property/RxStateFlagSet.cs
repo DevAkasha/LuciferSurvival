@@ -175,13 +175,12 @@ public partial class RxStateFlagSet<TEnum> : RxBase where TEnum : Enum // 여러
         return $"RxStateFlagSet<{typeof(TEnum).Name}>: " + string.Join(", ", Snapshot()); // 현재 모든 플래그 상태를 (이름, 값) 튜플로 반환
     }
 }
-#if UNITY_EDITOR
 
+#if UNITY_EDITOR
 public interface IRxInspectable
 {
     void DrawDebugInspector();
 }
-
 public partial class RxStateFlagSet<TEnum> : IRxInspectable where TEnum : Enum
 {
     public void DrawDebugInspector()

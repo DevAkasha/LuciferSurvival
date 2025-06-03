@@ -6,12 +6,15 @@ using System;
 public class AngelModel : BaseModel
 {
     public int idx;
+    public EnemyType EnemyType;
 
     public RxModFloat Atk;
     public RxModFloat MoveSpeed;
     public RxModFloat MaxHealth;
     public RxModFloat CurHealth;
     public RxModFloat Range;
+    public RxModFloat CoolTime;
+    public RxModInt RewardCount;
 
     public RxVar<float> NormalizedHP;
 
@@ -21,10 +24,13 @@ public class AngelModel : BaseModel
     public AngelModel(EnemyDataSO enemyDataSO)
     {
         idx = enemyDataSO.idx;
+        EnemyType = enemyDataSO.enemyType;
 
         Atk = new(enemyDataSO.atk, nameof(Atk), this);
         MoveSpeed = new(enemyDataSO.moveSpeed, nameof(MoveSpeed), this);
         Range = new(enemyDataSO.atkRange, nameof(Range), this);
+        CoolTime = new(enemyDataSO.coolTime, nameof(CoolTime), this);
+        RewardCount = new(enemyDataSO.rewardCount, nameof(RewardCount), this);
 
         MaxHealth = new(enemyDataSO.health, nameof(MaxHealth), this);
         CurHealth = new(MaxHealth.Value, nameof(CurHealth), this);
@@ -75,6 +81,7 @@ public class AngelModel : BaseModel
         yield return MoveSpeed;
         yield return CurHealth;
         yield return Range;
+        yield return CoolTime;
         yield return MaxHealth;
     }
 }

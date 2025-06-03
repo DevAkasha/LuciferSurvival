@@ -10,19 +10,28 @@ public class TileManager : Singleton<TileManager>
     public Transform ResourceTileBlock;     // grid 하위의 오브젝트 (자원타일)
     public Transform lockTileBlock;         // grid 하위의 오브젝트 (잠금타일)
 
-    int gridCount = 15;     // 전체 크기
+    int gridCount = 36;     // 전체 크기
     public int EnviromentCode;
 
     [SerializeField] private GameObject lockTileObj;            // 잠금타일 프리펩
     [SerializeField] private List<GameObject> resourceTileObj;  // 자원타일 프리펩 리스트
     [SerializeField] private Grid grid;
     [SerializeField] private List<Vector2Int> excludedCells;    // 제외할 셀 좌표 리스트
-    [SerializeField] private List<GameObject> environmentTemplate;
+    [SerializeField] private List<GameObject> environmentTemplate; // 추후 사용, 환경 등 변화에 대한 리스트
+
+    [SerializeField] private float hexagonRadius = 5f;          // 6각형 타일의 반지름
+    [SerializeField] private float resourceMinDistance = 6.0f;  // 자원 간 최소 거리
+
+    private Dictionary<Vector2Int, List<Vector3>> cellResources = new Dictionary<Vector2Int, List<Vector3>>();
+
+    [SerializeField] private GameObject soulAltarPrefab; // 영혼의제단
+    [SerializeField] private CompassArrow compassArrow; // 나침반
 
     private void Start()
     {
         SetResourceTileMap();
         SetLockTileMap();
+        SetSoulAltar();
     }
 
     public void SetEnviroment()
@@ -66,13 +75,13 @@ public class TileManager : Singleton<TileManager>
                     // 최대 5번 시도
                     for (int attempt = 0; attempt < 5; attempt++)
                     {
-                        spawnPos = GetRandomPositionInCell(centerPos, 7);
+                        spawnPos = GetRandomPositionInCell(centerPos, hexagonRadius);
 
                         // 다른 자원과 겹치는지 확인
                         validPosition = true;
                         foreach (var pos in usedPositions)
                         {
-                            if (Vector3.Distance(spawnPos, pos) < 2.0f)
+                            if (Vector3.Distance(spawnPos, pos) < resourceMinDistance)
                             {
                                 validPosition = false;
                                 break;
@@ -91,35 +100,8 @@ public class TileManager : Singleton<TileManager>
                 }
             }
         }
-
-        //// 그리드 중심으로부터 범위를 계산
-        //int halfGrid = gridCount / 2;
-
-        //for (int x = -halfGrid; x <= halfGrid; x++)
-        //{
-        //    for (int y = -halfGrid; y <= halfGrid; y++)
-        //    {
-        //        int resourceCount = Random.Range(0, 3); // 0~2사이의 타일이 랜덤으로 생성
-
-        //        for (int i = 0; i < resourceCount; i++)
-        //        {
-        //            int resourceType = Random.Range(0, resourceTileObj.Count);
-
-        //            Vector3Int gridCell = new Vector3Int(x, y, 0);
-        //            Vector3 worldPos = grid.CellToWorld(gridCell); // 방의 중심좌표
-        //            Vector3 addjustedPos = new Vector3(worldPos.x, 0, worldPos.z);
-
-        //            Vector3 spawnPos = GetRandomPositionInCell(addjustedPos, 7);
-
-        //            Instantiate(resourceTileObj[resourceType], spawnPos, Quaternion.identity, ResourceTileBlock); // 프리팹을 adjustedPos월드위치에 생성
-        //        }
-        //    }
-        //}
     }
 
-    /// <summary>
-    /// 잠금타일
-    /// </summary>
     public void SetLockTileMap()
     {
         // 그리드 중심으로부터 범위를 계산
@@ -145,12 +127,7 @@ public class TileManager : Singleton<TileManager>
         }
     }
 
-    /// <summary>
-    /// 일정한 범위 내 랜덤한 위치 생성
-    /// </summary>
-    /// <param name="center"></param>
-    /// <param name="maxOffset"></param>
-    /// <returns></returns>
+    // 일정한 범위 내 랜덤한 위치 생성
     private Vector3 GetRandomPositionInCell(Vector3 center, float maxOffset)
     {
         // 원형 범위 안 랜덤 위치
@@ -159,10 +136,24 @@ public class TileManager : Singleton<TileManager>
         return new Vector3(center.x + offset2D.x, 0, center.z + offset2D.y);
     }
 
+    // 영혼의 제단 소환
+    public void SetSoulAltar()
+    {
+        int halfGrid = gridCount / 2;
 
-    /// <summary>
-    /// 자금타일 위치확인용 기즈모
-    /// </summary>
+        Vector2Int centerCell = new Vector2Int(halfGrid, halfGrid);
+        Vector3Int gridCell = new Vector3Int(0, 0, 0);
+        Vector3 worldPos = grid.CellToWorld(gridCell);
+        Vector3 altarPos = new Vector3(worldPos.x, 0f, worldPos.z + -1.5f);
+
+        if (soulAltarPrefab != null)
+        {
+            GameObject go = Instantiate(soulAltarPrefab, altarPos, Quaternion.identity, ResourceTileBlock);
+            compassArrow.SetTarget(go.transform);
+        }
+    }
+
+    // 위치확인용 기즈모
     private void OnDrawGizmosSelected()
     {
         int halfGrid = gridCount / 2;

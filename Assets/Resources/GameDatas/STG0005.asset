@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eefbd5945a4a53940bbbf5b38d8ce497, type: 3}
+  m_Name: STG0005
+  m_EditorClassIdentifier: 
+  thumbnail: {fileID: 0}
+  idx: 700005
+  rcode: STG0005
+  displayName: "\uC9C0\uD61C\uC758 \uAD50\uB9CC, \uB808\uC774\uC774\uC5D8"
+  description: "\uB808\uC774\uC774\uC5D8\uC740 \uBAA8\uB4E0 \uAC83\uC744 \uC544\uB294
+    \uCC9C\uC0AC\uC600\uB2E4. \uADF8\uB294 \uC778\uAC04\uC758 \uBAA8\uB4E0 \uBBF8\uB798\uB97C
+    \uC608\uCE21\uD558\uACE0, \uADF8\uB4E4\uC758 \uC120\uD0DD\uC744 \uB300\uC2E0\uD558\uBA70
+    \uC138\uC0C1\uC744 \uC644\uC804\uD558\uAC8C \uD558\uB824 \uD588\uB2E4.  \uADF8\uB7EC\uB098
+    \uC9C0\uD61C\uB294 \uACB8\uC190\uD558\uC9C0 \uC54A\uC558\uACE0, \uADF8\uB294
+    **\uBB34\uC9C0\uD55C \uC790\uB4E4\uC744 \uBC30\uCC99\uD558\uACE0 \uD30C\uAD34\uD558\uB824
+    \uB4E4\uC5C8\uB2E4.**  \uB8E8\uC2DC\uD37C\uB294 \uADF8\uB97C \uC870\uB871\uD55C\uB2E4.  
+    \"\uB108\uB294 \uC2E0\uC774 \uC544\uB0D0. \uBAA8\uB4E0 \uAC83\uC744 \uC544\uB294
+    \uAC74, \uBAA8\uB4E0 \uAC83\uC744 \uC8FD\uC774\uB294 \uAC70\uB2E4.\"    \uB808\uC774\uC774\uC5D8\uC740
+    \uCC2C\uCC2C\uD788 \uACE0\uAC1C\uB97C \uB044\uB355\uC774\uBA70 \uB9D0\uD55C\uB2E4.  
+    \"\uADF8\uB798\uC11C \uB108\uD76C\uB294 \uC2E4\uD328\uD55C\uB2E4. \uC120\uD0DD\uC740
+    \uC8C4\uB2E4. \uB098\uB294 \uC8C4\uB97C \uC5C6\uC564\uB2E4.\""
+  wave1: WAVE0041
+  wave2: WAVE0042
+  wave3: WAVE0043
+  wave4: WAVE0044
+  wave5: WAVE0045
+  enemyType1: "\uAE30\uBCF8\uD615"
+  enemyType2: "\uB7EC\uC2DC\uD615"
+  enemyType3: "\uD0F1\uCEE4\uD615"
+  reward1: essenceOfRuin
+  reward1Count: 5

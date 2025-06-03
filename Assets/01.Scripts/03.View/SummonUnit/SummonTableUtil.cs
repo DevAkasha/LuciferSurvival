@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +5,8 @@ public static class SummonTableUtil
 {
     private static Dictionary<int, List<UnitDataSO>> unitDict = new Dictionary<int, List<UnitDataSO>>();
     private static Dictionary<int, SummonTableSO> summonTableDict = new Dictionary<int, SummonTableSO>();
-    private static List<UnitDataSO> shopUnits { get; } = new List<UnitDataSO>();
+    public static List<UnitDataSO> shopUnits { get; } = new List<UnitDataSO>();
+    public static bool[] purchaseList = new bool[5];
 
     private static Dictionary<int, List<UnitDataSO>> GetUnitDict()
     {
@@ -37,9 +37,12 @@ public static class SummonTableUtil
         return summonTableDict;
     }
 
-    public static List<UnitDataSO> RerollShop(int shopLevel, int summonCount)
+    public static List<UnitDataSO> RerollShop(int shopLevel, int summonCount, bool isReroll = false)
     {
+        if (!isReroll && shopUnits.Count != 0) 
+            return shopUnits;
         shopUnits.Clear();
+        System.Array.Clear(purchaseList, 0, purchaseList.Length);
 
         // 확률표 가져오기
         int[] tierChances = GetSummonTableDict()[shopLevel].summonRate;
@@ -86,19 +89,29 @@ public static class SummonTableUtil
 
     public static SummonTableSO GetSummonTable(int shopLevel)
     {
-        if (summonTableDict[shopLevel] != null)
+        SummonTableSO outValue = null;
+        if (GetSummonTableDict().TryGetValue(shopLevel, out outValue))
         {
-            return summonTableDict[shopLevel];
+            return outValue;
         }
         return null;
     }
 
     public static bool CanLevelUp(int level)
     {
-        if (GetSummonTableDict()[level + 1] != null)
+        if (GetSummonTable(level) != null)
         {
             return true;
         }
         return false;
+    }
+
+    public static void InitUnitList()
+    {
+        shopUnits.Clear();
+        for(int i = 0; i < purchaseList.Length; i++)
+        {
+            purchaseList[i] = false;
+        }
     }
 }

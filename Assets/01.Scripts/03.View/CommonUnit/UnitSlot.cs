@@ -13,25 +13,28 @@ public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler
     private GameObject countBackground;
     [SerializeField]
     private Image outline;
+    [SerializeField]
+    private GameObject unionButton;
 
     public static int draggingSlotIndex = -1;
     public static bool isDropComplete = false;
 
     protected override void UpdateSlotUI()
     {
-        if (unitInventory != null)
+        if (stackableUnit != null)
         {
             countBackground.SetActive(true);
-            iconImage.sprite = unitInventory.unitModel.thumbnail;
+            iconImage.sprite = stackableUnit.unitModel.thumbnail;
             iconImage.color = Color.white;
             iconImage.enabled = true;
-            countText.text = unitInventory.count.ToString();
+            countText.text = stackableUnit.count.ToString();
+            ActiveUnionButton();
         }
         else
         {
             countBackground.SetActive(false);
             iconImage.sprite = null;
-            iconImage.color = new Color(1f,1f,1f,0f);
+            iconImage.color = new Color(1f, 1f, 1f, 0f);
             iconImage.enabled = false;
             countText.text = "";
         }
@@ -39,10 +42,10 @@ public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(StageManager.Instance.unitSlots[slotIndex] != null)
+        if (UnitManager.Instance.curUnitArray[slotIndex] != null)
         {
             ActiveSlot();
-            StageUIManager.Instance.UnitInfo.SetUnitInfo(StageManager.Instance.unitSlots[slotIndex].unitModel);
+            StageUIManager.Instance.UnitInfo.SetUnitInfo(UnitManager.Instance.curUnitArray[slotIndex].unitModel);
         }
     }
 
@@ -53,12 +56,12 @@ public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (unitInventory == null)
+        if (stackableUnit == null)
             return;
 
         draggingSlotIndex = slotIndex;
 
-        StageUIManager.Instance.ShowDragPreview(unitInventory.unitModel.thumbnail);
+        StageUIManager.Instance.ShowDragPreview(stackableUnit.unitModel.thumbnail);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -69,7 +72,7 @@ public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler
     public void OnEndDrag(PointerEventData eventData)               //그 이외에 드래그가 끝나면 처리해야될 것들(드래그 실패)
     {
         //테두리 비활성화 처리 필요
-        if (unitInventory == null)
+        if (stackableUnit == null)
             return;
 
         if (!isDropComplete)
@@ -94,23 +97,23 @@ public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler
             return;
         }
 
-        var draggedUnitInventory = StageManager.Instance.unitSlots[draggingSlotIndex];
-        var targetUnitInventory = StageManager.Instance.unitSlots[slotIndex];
+        var draggedStackableModel = UnitManager.Instance.curUnitArray[draggingSlotIndex];
+        var targetStackableModel = UnitManager.Instance.curUnitArray[slotIndex];
 
-        if (draggedUnitInventory == null)
+        if (draggedStackableModel == null)
         {
             return;
         }
 
-        if (targetUnitInventory == null)
+        if (targetStackableModel == null)
         {
-            StageManager.Instance.unitSlots[slotIndex] = draggedUnitInventory;
-            StageManager.Instance.unitSlots[draggingSlotIndex] = null;
+            UnitManager.Instance.curUnitArray[slotIndex] = draggedStackableModel;
+            UnitManager.Instance.curUnitArray[draggingSlotIndex] = null;
         }
         else
         {
-            StageManager.Instance.unitSlots[draggingSlotIndex] = targetUnitInventory;
-            StageManager.Instance.unitSlots[slotIndex] = draggedUnitInventory;
+            UnitManager.Instance.curUnitArray[draggingSlotIndex] = targetStackableModel;
+            UnitManager.Instance.curUnitArray[slotIndex] = draggedStackableModel;
         }
 
         StageUIManager.Instance.RefreshUnitSlot(draggingSlotIndex);
@@ -122,13 +125,28 @@ public class UnitSlot : UnitSlotBase, IPointerClickHandler, IPointerEnterHandler
         draggingSlotIndex = -1;
     }
 
+    private void ActiveUnionButton()
+    {
+        if (stackableUnit.count == 3 && (int)stackableUnit.unitModel.grade < 4)
+            unionButton.SetActive(true);
+        else
+            unionButton.SetActive(false);
+    }
+
+    public void OnUnitUpgrade()
+    {
+        unionButton.SetActive(false);
+        UnitManager.Instance.UpgradeUnit(stackableUnit.unitModel.rcode, slotIndex);
+        StageUIManager.Instance.RefreshAllUnitSlots();
+    }
+
     public void ActiveSlot()
     {
-        
+
     }
 
     public void InActiveSlot()
     {
-        
+
     }
 }

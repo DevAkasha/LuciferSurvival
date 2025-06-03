@@ -12,13 +12,11 @@ public class EnemyGenerate : MonoBehaviour
     [SerializeField] Transform target;
 
     public float SpawnRange = 30f;
-    public int Wave = 1;
 
     private void Start()
     {
         target = PlayerManager.Instance.Player.transform;
-        mainCamera = PlayerManager.Instance.Player.GetComponentInChildren<Camera>();
-        PoolManager.Instance.Init();
+        //PoolManager.Instance.Init();
     }
     public void EnemySet()
     {
@@ -53,7 +51,7 @@ public class EnemyGenerate : MonoBehaviour
 
                 //카메라 시야 밖 여부 확인
                 Bounds bounds = new Bounds(navPos + Vector3.up * 1f, Vector3.one);
-                if (!GeometryUtility.TestPlanesAABB(frustumPlanes, bounds))
+                if (GeometryUtility.TestPlanesAABB(frustumPlanes, bounds))
                 {
                     return navPos;
                 }
@@ -65,27 +63,11 @@ public class EnemyGenerate : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        if (target == null)
-            return;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(target.position, SpawnRange);
-    }
-
-}
-[CustomEditor(typeof(EnemyGenerate))]
-public class EnemySpawn : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        if (EditorApplication.isPlaying)
+        if (target != null)
         {
-            if (GUILayout.Button("적 생성"))
-            {
-                ((EnemyGenerate)target).EnemySet();
-            }
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(target.position, SpawnRange);
         }
     }
+
 }

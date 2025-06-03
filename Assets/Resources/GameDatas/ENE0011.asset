@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: ENE0011
   m_EditorClassIdentifier: 
   thumbnail: {fileID: 0}
-  rcode: ENE0011
-  displayName: "\uBC40"
-  description: 
   idx: 100011
-  atk: 20
-  moveSpeed: 1.2
-  health: 50000
-  atkRange: 1
-  atkSpeed: 0.5
-  atkRecovery: 1
+  rcode: ENE0011
+  displayName: "\uD558\uC580 \uBAA8\uB798\uC2DC\uACC4"
+  description: 
+  enemyType: 0
+  atk: 30
+  moveSpeed: 1.5
+  health: 1500
+  atkRange: 3
+  coolTime: 2
+  rewardCount: 1

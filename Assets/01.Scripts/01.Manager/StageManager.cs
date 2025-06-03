@@ -1,173 +1,158 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class StageManager : Singleton<StageManager>
 {
-    //유닛 인벤토리
-    public UnitInventory[] unitSlots = new UnitInventory[8];
-    //유닛 장착 슬롯
-    public UnitModel[] equippedUnits = new UnitModel[6];
+    protected override bool IsPersistent => false;
 
-    public SummonUnitUI summonUnitUI;
+    public StageModel thisStage;
+    public int waveRound;
 
-    private RxVar<int> soulStone = new RxVar<int>(0);           //게임 내 재화(초기값 : 0)
-    private RxVar<int> rerollCost = new RxVar<int>(3);           //상점 리롤 비용(초기값 : 3)
-    private RxVar<int> shopLevel = new RxVar<int>(1);           //상점 레벨(초기값 : 1)
+    public RxVar<int> soulStone = new RxVar<int>(0); //게임 내 재화(초기값 : 0)
+    public RxVar<int> soulCore = new RxVar<int>(0); //게임 내 재화(초기값 : 0)
 
-    protected override void Awake()
+    public List<AngelController> angels = new(); //게임 내 재화(초기값 : 0)
+    public BossController? boss;
+
+    private void Start()
     {
-        base.Awake();
-        ClearAllSlots();
-
-        //테스트용 코드
-        unitSlots[0] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0001")));
-        unitSlots[1] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0002")));
-        unitSlots[2] = new UnitInventory(new UnitModel(DataManager.Instance.GetData<UnitDataSO>("UNIT0003")));
-        unitSlots[0].count = 3;
-        unitSlots[1].count = 3;
-        unitSlots[2].count = 3;
-        SoulStone = 100;
+        SetStage(GameManager.Instance.stageNumber);
+        ChangeToNight();
+        //SoulStone = 1000;
+        //SoulCore = 1000;
     }
-
-    public int SoulStone {
+    public int SoulStone
+    {
         get { return soulStone.Value; }
         set { soulStone.SetValue(value, this); }
     }
 
-    public int RerollCost
+    public int SoulCore
     {
-        get { return rerollCost.Value; }
-        set { rerollCost.SetValue(value, this); }
+        get { return soulCore.Value; }
+        set { soulCore.SetValue(value, this); }
     }
 
-    public int ShopLevel
+    public bool ReduceSoulStone(int amount)
     {
-        get { return shopLevel.Value; }
-        set { shopLevel.SetValue(value, this); }
-    }
-
-    //초기화
-    public void Init()
-    {
-        //반응형 이벤트 구독
-        soulStone.AddListener(v => summonUnitUI.UpdateSoulStoneText(v));
-        rerollCost.AddListener(v => summonUnitUI.UpdateRerollCostText(v));
-        shopLevel.AddListener(v => summonUnitUI.UpdateShopLevelUpCostText(v));
-        shopLevel.AddListener(v => summonUnitUI.UpdateShopLevelText(v));
-
-        //슬롯 UI 초기화
-        StageUIManager.Instance.RefreshAllUnitSlots();
-        StageUIManager.Instance.RefreshAllEquipSlots();
-    }
-
-    public void OnPopupClose()
-    {
-        soulStone.ClearRelation();
-        rerollCost.ClearRelation();
-        shopLevel.ClearRelation();
-        shopLevel.ClearRelation();
-    }
-
-    public bool UseSoulStone(int cost)
-    {
-        if (soulStone.Value >= cost)
+        if (soulStone.Value >= amount)
         {
-            SoulStone -= cost;
+            SoulStone -= amount;
             return true;
         }
         return false;
     }
 
-    //유닛 인벤토리 초기화
-    public void InitializeInventory(UnitModel[] initialUnits)
-    {
-        ClearAllSlots();
+    public void Regist(AngelController angel) => angels.Add(angel);
+    public void Regist(BossController boss) => this.boss = boss;
+    public void Unregist(AngelController angel) => angels.Remove(angel);
+    public void Unregist(BossController boss) => this.boss = null;
 
-        foreach (UnitModel unit in initialUnits)
+    public bool ReduceSoulCore(int amount)
+    {
+        if (soulCore.Value >= amount)
         {
-            AddUnit(unit);
+            SoulCore -= amount;
+            return true;
         }
+        return false;
     }
 
-    //인벤토리에 유닛 추가
-    public void AddUnit(UnitModel unit)
+    public void AddSoulCore(int amount)
     {
-        for (int i = 0; i < unitSlots.Length; i++)
-        {
-            UnitInventory item = unitSlots[i];
-            if (item != null && item.unitModel.rcode == unit.rcode && item.count < 3)
-            {
-                item.AddCount();
-                return;
-            }
-        }
-
-        for (int i = 0; i < unitSlots.Length; i++)
-        {
-            if (unitSlots[i] == null)
-            {
-                unitSlots[i] = new UnitInventory(unit);
-                return;
-            }
-        }
+        SoulCore += amount;
+        Debug.Log($"영혹핵 {amount}개 획득");
     }
 
-    //해당 슬롯 유닛 제거
-    public void RemoveUnit(int slotIndex)
-    {   
-        //슬롯 범위 체크(예외처리)
-        if (slotIndex < 0 || slotIndex >= unitSlots.Length)
-        {
+    public void SetStage(int stageIndex)
+    {
+        if (0 > stageIndex || stageIndex > GameManager.Instance.allStageList.Count)
             return;
-        }
 
-        UnitInventory item = unitSlots[slotIndex];
+        waveRound = 0;
+        thisStage = GameManager.Instance.allStageList[stageIndex];
+        Debug.Log($"스테이지{stageIndex + 1} 준비");
+    }
 
-        if (item == null)
-        {
+    public void ChangeToNight()// 밤으로 전환, 다음 라운드로 Data 변경
+    {
+        if (thisStage == null)
             return;
-        }
 
-        item.RemoveCount();
+        if (waveRound < 0 || waveRound > thisStage.StageData.Count)
+            waveRound = 0;
 
-        if (item.count <= 0)
-        {
-            unitSlots[slotIndex] = null;
-        }
-
-        StageUIManager.Instance.RefreshUnitSlot(slotIndex);
+        AudioManager.Instance.SetBgm("NightBgm");
+        WaveManager.Instance.SetWave(thisStage.StageData[waveRound]);
+        TimeManager.Instance.SetNight();
     }
 
-    //장착 유닛 모델값 출력
-    public UnitModel GetEquippedUnit(int index)
+    public void ChangeToDay()// 낮으로 전환. 웨이브 시작
     {
-        if (index < 0 || index >= equippedUnits.Length) return null;
-        return equippedUnits[index];
+        if (TimeManager.Instance.currentTimeState != TimeState.Night)
+            return;
+
+        Debug.Log($"{waveRound + 1}웨이브 시작");
+        AudioManager.Instance.SetBgm("DayBgm");
+        TimeManager.Instance.SetDay();
+        WaveManager.Instance.GenerateWave();
     }
 
-    //모든 슬롯 초기화
-    public void ClearAllSlots()
+    public void OnWaveEnd()
     {
-        for (int i = 0; i < unitSlots.Length; i++)
+        if (waveRound < thisStage.StageData.Count - 1)
         {
-            unitSlots[i] = null;
+            waveRound++;
+            ChangeToNight();
+            Debug.Log("다음 웨이브 준비");
+        }
+        else
+        {
+            StageUIManager.Instance.OnStageCleatWindow();
+            Debug.Log("스테이지 클리어!");
         }
     }
 
-    //테스트용 유닛 출력 장치
-    public void PrintInventory()
+    public void OnPlayerDeath()
     {
-        for (int i = 0; i < unitSlots.Length; i++)
+        StageUIManager.Instance.OnPlayerDeathWindow();
+        SummonTableUtil.InitUnitList();
+    }
+
+    public void DeinitAllEnemy()
+    {
+        boss?.Deinit();
+        if (angels.Count == 0) return;
+
+        foreach (var angel in angels)
         {
-            UnitInventory item = unitSlots[i];
-            if (item == null)
+            angel.Deinit();
+        }
+    }
+    protected override void OnDestroy()
+    {
+        soulStone?.ClearRelation();
+        soulCore?.ClearRelation();
+    }
+}
+#if UNITY_EDITOR 
+[CustomEditor(typeof(StageManager))]
+public class StageEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        if (EditorApplication.isPlaying)
+        {
+            if (GUILayout.Button("전투 시작"))
             {
-                Debug.Log($"슬롯 {i}: (비어있음)");
-                continue;
+                StageManager.Instance.ChangeToDay();
             }
 
-            Debug.Log($"슬롯 {i}: {item.unitModel.displayName}({item.count}개)");
         }
     }
 }
+#endif

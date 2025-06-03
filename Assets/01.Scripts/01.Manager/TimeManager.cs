@@ -2,6 +2,9 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
+using static UnityEngine.Rendering.DebugUI;
+
 
 // 상태 enum
 public enum TimeState
@@ -14,11 +17,11 @@ public class TimeManager : Singleton<TimeManager>
 {
     protected override bool IsPersistent => false;
 
-    [SerializeField] private TimeState currentTimeState; // 현재 상태
+    [SerializeField] public TimeState currentTimeState; // 현재 상태
 
     [Header("Sun")]
     public Light sun; // 태양
-    //public Color dayLightColor; // 태양 밝기, 쓸모없으면 나중에 제외
+    //public Color dayLightColor; // 태양 밝기
     public float dayLightIntensity = 1.0f; // 빛의 세기
 
     [Header("Moon")]
@@ -28,100 +31,105 @@ public class TimeManager : Singleton<TimeManager>
 
     public float dayAmbientIntensity = 1.0f; // 낮 주변광, RenderSettings.ambientIntensity에 반영
     public float nightAmbientIntensity = 0.4f; // 밤 주변광
-    public float dayReflectionIntensity = 1.0f; // 낮 반사광 ?
-    public float nightReflectionIntensity = 0.4f; // 밤 반사광 ?
+    public float dayReflectionIntensity = 1.0f; // 낮 반사광
+    public float nightReflectionIntensity = 0.4f; // 밤 반사광
 
     [Header("Transition Settings")]
     public float transitionDuration = 2.0f; // 상태 전환에 걸리는 시간
 
-    [Header("Battle Screen Settings")]
-    public Image battleScreen;
-    public float battleScreenBlinkInterval = 0.5f; // 깜빡임 간격
-    public float battleScreenMinAlpha = 0.2f; // 최소 투명도
-    public float battleScreenMaxAlpha = 0.3f; // 최대 투명도
-
+    [Header("Night Duration Settings")]
+    [SerializeField] private bool enableNightTimer = true; // 밤->낮 타이머 활성화 여부
+    [SerializeField] private float defaultNightDuration = 60f; // 데이터가 없을 경우 사용할 기본값
+    private float nightDuration; // 실제 사용할 밤 지속 시간(초), 데이터테이블에서 가져옴
     private Coroutine transitionRoutine; // 전환 코루틴
-    private Coroutine battleScreenRoutine; // 배틀스크린 깜빡임 코루틴
+
+    // 스테이지와 웨이브 추적 변수 추가
+    [Header("Wave Tracking")]
+    [SerializeField] private int currentStage = 1;
+    [SerializeField] private int currentWaveCount = 0;
+    [SerializeField] private int maxWaveCount = 5; // 총 5번의 전투
+
+    [SerializeField] private TextMeshProUGUI infoText;
+    [SerializeField] private TextMeshProUGUI waveText;
+    [SerializeField] private GameObject timeIndicator;
+    [SerializeField] private Image dayAndNightImage;
+    private Coroutine nightRoutine;
+
+    [Header("UI References")]
+    [SerializeField] private BattleScreen battleScreen;
 
     private void Start()
     {
+        // 초기값 설정
+        nightDuration = defaultNightDuration;
+
         // 시작 초기값은 밤
-        currentTimeState = TimeState.Night;
+        currentTimeState = TimeState.Day;
         ApplyLightingInstant();
-
-        // 배틀스크린 초기화
-        if (battleScreen != null)
-        {
-            battleScreen.color = Color.clear;
-        }
     }
 
-    private void OnEnable()
-    {
-        // 씬이 활성화될 때 배틀스크린 상태 확인
-        UpdateBattleScreenState();
-    }
-
-    private void OnDisable()
-    {
-        // 씬이 비활성화될 때 코루틴 정리
-        if (battleScreenRoutine != null)
-        {
-            StopCoroutine(battleScreenRoutine);
-            battleScreenRoutine = null;
-        }
-    }
-
-    /// <summary>
-    /// 낮 전환
-    /// </summary>
+    // 낮 전환
     public void SetDay()
     {
         if (currentTimeState != TimeState.Day)
         {
             currentTimeState = TimeState.Day;
+            WaveManager.Instance.SetKillCountListener();
             StartLightingTransition();
 
-            UpdateBattleScreenState();
+            if (nightRoutine != null)
+                StopCoroutine(nightRoutine);
+
+            SetDayAndNight();
+
+            if (battleScreen != null && battleScreen.gameObject.activeInHierarchy)
+                battleScreen.UpdateBattleScreenState();
         }
     }
 
-    /// <summary>
-    /// 밤 전환
-    /// </summary>
+    // 밤 전환
     public void SetNight()
     {
         if (currentTimeState != TimeState.Night)
         {
             currentTimeState = TimeState.Night;
+            WaveManager.Instance.RemoveKillCountListener();
             StartLightingTransition();
+            if (battleScreen != null && battleScreen.gameObject.activeInHierarchy)
+                battleScreen.UpdateBattleScreenState();
 
-            UpdateBattleScreenState();
+            if (nightRoutine != null)
+                StopCoroutine(nightRoutine);
+
+            SetDayAndNight();
+
+            // 밤 시계 표시 코루틴 시작
+            nightRoutine = StartCoroutine(NightTimeProcess());
+            SetWaveText();
+
+            // 밤으로 전환됐으므로 밤->낮 타이머 설정
+            if (enableNightTimer)
+            {
+                SetNightTimer();
+            }
         }
     }
 
-    private void UpdateBattleScreenState()
+    private void SetNightTimer()
     {
-        if (battleScreen == null) return;
+        if (!enableNightTimer || currentTimeState != TimeState.Night)
+            return;
 
-        // 이미 실행 중인 코루틴이 있으면 중지
-        if (battleScreenRoutine != null)
-        {
-            StopCoroutine(battleScreenRoutine);
-            battleScreenRoutine = null;
-            battleScreen.color = Color.clear; // 투명하게 초기화
-        }
+        enableNightTimer = false;
+        float duration = WaveManager.Instance.curWave?.NightTime ?? defaultNightDuration;
 
-        // 낮 상태일 때만 깜빡임 시작
-        if (currentTimeState == TimeState.Day)
+        this.DelayedCall(duration, () =>
         {
-            battleScreen.gameObject.SetActive(true);
-            battleScreenRoutine = StartCoroutine(ShowBattleScreen());
-        }
-        else
-        {
-            battleScreen.gameObject.SetActive(false); // 밤엔 비활성화
-        }
+            if (currentTimeState == TimeState.Night)
+                StageManager.Instance.ChangeToDay();
+
+            enableNightTimer = true;
+        });
     }
 
     private void StartLightingTransition()
@@ -200,39 +208,52 @@ public class TimeManager : Singleton<TimeManager>
         RenderSettings.reflectionIntensity = (currentTimeState == TimeState.Day) ? dayReflectionIntensity : nightReflectionIntensity;
     }
 
-    // 배틀스크린 깜빡임 효과
-    private IEnumerator ShowBattleScreen()
+    public void SetDayInfoText(int value)
     {
-        float alpha = battleScreenMinAlpha;
-        float direction = 1f; // 1이면 증가, -1이면 감소
+        infoText.text = $"{value}/{WaveManager.Instance.CalculateAllCount()}";
+    }
 
-        Color baseColor = new Color(1f, 0f, 0f);
-
-        while (currentTimeState == TimeState.Day)
+    public void SetDayAndNight()
+    {
+        if (currentTimeState == TimeState.Day)
         {
-            // 알파값 증가 또는 감소
-            alpha += direction * Time.deltaTime * 0.2f; // 속도 조절 (0.2는 조정 가능)
-
-            // 방향 반전 조건
-            if (alpha >= battleScreenMaxAlpha)
-            {
-                alpha = battleScreenMaxAlpha;
-                direction = -1f;
-            }
-            else if (alpha <= battleScreenMinAlpha)
-            {
-                alpha = battleScreenMinAlpha;
-                direction = 1f;
-            }
-
-            battleScreen.color = new Color(baseColor.r, baseColor.g, baseColor.b, alpha);
-            yield return null; // 매 프레임 갱신
+            timeIndicator.SetActive(true);
+            dayAndNightImage.gameObject.SetActive(false);
         }
+        else
+        {
+            timeIndicator.SetActive(false);
+            dayAndNightImage.gameObject.SetActive(true);
+        }
+    }
 
-        battleScreen.color = Color.clear;
+    public void SetWaveText()
+    {
+        waveText.text = $"{StageManager.Instance.waveRound + 1}/5";
+    }
+
+    private IEnumerator NightTimeProcess()
+    {
+        int totalMinutesInDay = 24 * 60;      // 하루 1440분
+        float nightStartMinute = 19f * 60f;    // 19:00 → 1140분
+        float nightSpanMinutes = 12f * 60f;    // 12시간 → 720분
+
+        int steps = Mathf.CeilToInt(nightDuration);
+        float stepDuration = nightDuration / steps;
+
+        for (int i = 0; i <= steps; i++)
+        {
+            float t = (float)i / steps;
+
+            // 디스크 회전 (19시→7시 구간에 걸쳐 0°→180°)
+            float angle = Mathf.Lerp(0f, 180f, t);
+            dayAndNightImage.rectTransform.localEulerAngles = new Vector3(0, 0, -angle + 90);
+
+            yield return new WaitForSeconds(stepDuration);
+        }
     }
 }
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(TimeManager))]
 public class TimeChanger : Editor
 {
@@ -254,3 +275,4 @@ public class TimeChanger : Editor
         }
     }
 }
+#endif
