@@ -1,10 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
-
-public abstract class Controller : MonoBehaviour // 모든 컨트롤러의 기본 클래스 (MonoBehaviour 상속)
+// 모든 컨트롤러의 기본 클래스 (MonoBehaviour 상속)
+public abstract class Controller : MonoBehaviour
 {
     protected bool isInitialized;
     [SerializeField] protected bool isEnableLifecycle = true;
@@ -19,9 +17,9 @@ public abstract class MController : Controller, IModelOwner
     public abstract BaseModel GetBaseModel();
 }
 
-public abstract class BaseController<E, M> : MController, IRxCaller where E : BaseEntity<M> where M : BaseModel // Entity와 Model을 연결하는 제네릭 컨트롤러
+// Entity와 Model을 연결하는 제네릭 컨트롤러
+public abstract class BaseController<E, M> : MController, IRxCaller where E : BaseEntity<M> where M : BaseModel 
 {
-    
     bool IRxCaller.IsLogicalCaller => true;
     bool IRxCaller.IsMultiRolesCaller => false;
     bool IRxCaller.IsFunctionalCaller => false;
@@ -84,9 +82,9 @@ public abstract class BaseController<E, M> : MController, IRxCaller where E : Ba
         Model?.Unload(); 
         isInitialized = false;
     }
-
 }
 
+// Model을 연결하는 제네릭 컨트롤러
 public abstract class BaseController<M> : MController, IRxCaller, IModelOwner<M> where M : BaseModel
 {
     public M Model { get; set; }
@@ -144,6 +142,7 @@ public abstract class BaseController<M> : MController, IRxCaller, IModelOwner<M>
     }
 }
 
+//통합 컨트롤러
 public abstract class BaseController : Controller, IRxCaller, IRxOwner
 {
     public bool IsLogicalCaller => true;

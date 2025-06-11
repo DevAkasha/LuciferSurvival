@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : Singleton<GameManager> //매니저 구현체를 관리하는 코드 추가
 {
     public RxVar<int> essenceOfRuin = new RxVar<int>(0);
     public List<StageModel> allStageList = new();// GameStageList 모든 스테이지 정보
