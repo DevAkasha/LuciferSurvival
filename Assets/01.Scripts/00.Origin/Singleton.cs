@@ -16,8 +16,10 @@ public abstract class Singleton<T> : MonoBehaviour,IRxOwner,IRxCaller where T : 
             return instance;
         }
     }
-    public static bool IsInstance => instance != null; 
+    public static bool IsInstance => instance != null;
+    
     protected virtual bool IsPersistent => true;
+
     protected virtual void Awake()
     {
         if (instance == null || instance == this)

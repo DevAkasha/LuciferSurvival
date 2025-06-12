@@ -2,7 +2,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
+
 
 public class AngelController : MobileController<AngelEntity, AngelModel>
 {
