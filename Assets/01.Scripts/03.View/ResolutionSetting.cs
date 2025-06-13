@@ -17,36 +17,76 @@ public class ResolutionSetting : MonoBehaviour
     {
         InitUI();
     }
-
+    
     void InitUI()
     {
-        for (int i = 0; i < Screen.resolutions.Length; i++)
+        resolutions.Clear();
+        HashSet<string> addedResolutions = new HashSet<string>();
+
+        foreach (var res in Screen.resolutions)
         {
-            if (Screen.resolutions[i].refreshRateRatio.value == 60)
+            string resString = res.width + "x" + res.height;
+
+            if (!addedResolutions.Contains(resString))
             {
-                resolutions.Add(Screen.resolutions[i]);
+                resolutions.Add(res);
+                addedResolutions.Add(resString);
             }
         }
+
         resolutionDropDown.options.Clear();
 
         int optionNum = 0;
-        foreach (Resolution item in resolutions)
+        for (int i = 0; i < resolutions.Count; i++)
         {
-            TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData();
-            option.text = item.width + "x" + item.height + " " + item.refreshRateRatio.value + "hz"; // 너비, 높이, 주사율
+            var option = new TMP_Dropdown.OptionData();
+            option.text = resolutions[i].width + "x" + resolutions[i].height;
             resolutionDropDown.options.Add(option);
 
-            if (item.width == Screen.width && item.height == Screen.height)
+            if (resolutions[i].width == Screen.width && resolutions[i].height == Screen.height)
+            {
                 resolutionDropDown.value = optionNum;
-            optionNum++;
+            }
 
-            Debug.Log(item.width + "x" + item.height + " ");
+            optionNum++;
         }
 
         resolutionDropDown.RefreshShownValue();
 
-        fullScreenBtn.isOn = Screen.fullScreenMode.Equals(FullScreenMode.FullScreenWindow) ? true : false; 
+        // 현재 모드가 풀스크린인지 확인해서 토글에 반영
+        fullScreenBtn.isOn = Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
     }
+
+
+    // void InitUI()
+    // {
+    //     for (int i = 0; i < Screen.resolutions.Length; i++)
+    //     {
+    //         if (Screen.resolutions[i].refreshRateRatio.value == 60)
+    //         {
+    //             resolutions.Add(Screen.resolutions[i]);
+    //         }
+    //     }
+    //     resolutionDropDown.options.Clear();
+    //
+    //     int optionNum = 0;
+    //     foreach (Resolution item in resolutions)
+    //     {
+    //         TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData();
+    //         option.text = item.width + "x" + item.height + " " + item.refreshRateRatio.value + "hz"; // 너비, 높이, 주사율
+    //         resolutionDropDown.options.Add(option);
+    //
+    //         if (item.width == Screen.width && item.height == Screen.height)
+    //             resolutionDropDown.value = optionNum;
+    //         optionNum++;
+    //
+    //         Debug.Log(item.width + "x" + item.height + " ");
+    //     }
+    //
+    //     resolutionDropDown.RefreshShownValue();
+    //
+    //     fullScreenBtn.isOn = Screen.fullScreenMode.Equals(FullScreenMode.FullScreenWindow) ? true : false; 
+    // }
 
     public void DropboxOptionChange(int x)
     {
@@ -55,7 +95,9 @@ public class ResolutionSetting : MonoBehaviour
 
     public void FullScreenBtn(bool isFull)
     {
-        fullScreenMode = isFull ? FullScreenMode.FullScreenWindow : FullScreenMode.FullScreenWindow;
+        fullScreenMode = isFull ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
+        
+        // fullScreenMode = isFull ? FullScreenMode.FullScreenWindow : FullScreenMode.FullScreenWindow;
     }
 
     public void CheckBtnClick()
