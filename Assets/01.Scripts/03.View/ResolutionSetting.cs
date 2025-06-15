@@ -7,26 +7,41 @@ using UnityEngine.UI;
 
 public class ResolutionSetting : MonoBehaviour
 {
-    FullScreenMode fullScreenMode;
+    [Header("Resolution UI")]
     public TMP_Dropdown resolutionDropDown;
     public Toggle fullScreenBtn;
-    List<Resolution> resolutions = new List<Resolution>();
-    int resolutionNum; 
+    
+    //private FullScreenMode fullScreenMode = FullScreenMode.FullScreenWindow; // 기본값
+    private FullScreenMode fullScreenMode;
+    private List<Resolution> resolutions = new List<Resolution>();
+    private int resolutionNum; 
+    
+    private readonly List<Vector2Int> customResolutions = new List<Vector2Int>
+    {
+        new Vector2Int(1920, 1080),
+        new Vector2Int(1600, 900),
+        new Vector2Int(1280, 720),
+        new Vector2Int(1024, 576)
+    };
 
     void Start()
     {
-        InitUI();
+        InitUI(); 
+        AddListeners();
     }
     
+    /// <summary>
+    /// 해상도 드롭다운 및 토글 초기화
+    /// </summary>
     void InitUI()
     {
         resolutions.Clear();
         HashSet<string> addedResolutions = new HashSet<string>();
-
+        
+        // 현재 모니터에서 지원하는 해상도를 가져옴
         foreach (var res in Screen.resolutions)
         {
             string resString = res.width + "x" + res.height;
-
             if (!addedResolutions.Contains(resString))
             {
                 resolutions.Add(res);
@@ -36,72 +51,65 @@ public class ResolutionSetting : MonoBehaviour
 
         resolutionDropDown.options.Clear();
 
-        int optionNum = 0;
         for (int i = 0; i < resolutions.Count; i++)
         {
-            var option = new TMP_Dropdown.OptionData();
-            option.text = resolutions[i].width + "x" + resolutions[i].height;
+            var res = resolutions[i];
+            var option = new TMP_Dropdown.OptionData($"{res.width}x{res.height}");
             resolutionDropDown.options.Add(option);
 
-            if (resolutions[i].width == Screen.width && resolutions[i].height == Screen.height)
+            if (res.width == Screen.width && res.height == Screen.height)
             {
-                resolutionDropDown.value = optionNum;
+                resolutionDropDown.value = i;
+                resolutionNum = i;
             }
-
-            optionNum++;
         }
-
         resolutionDropDown.RefreshShownValue();
 
-        // 현재 모드가 풀스크린인지 확인해서 토글에 반영
-        fullScreenBtn.isOn = Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
+        // 현재 모드가 전체화면인지 확인해서 토글에 반영
+        fullScreenBtn.isOn = Screen.fullScreen;
+        fullScreenMode = Screen.fullScreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
+        // fullScreenBtn.isOn = Screen.fullScreenMode == FullScreenMode.FullScreenWindow;
+        // fullScreenMode = Screen.fullScreenMode;
+    }
+    
+    /// <summary>
+    /// UI 이벤트 리스너 연결
+    /// </summary>
+    void AddListeners()
+    {
+        resolutionDropDown.onValueChanged.AddListener(DropboxOptionChange);
+        fullScreenBtn.onValueChanged.AddListener(FullScreenBtn);
     }
 
-
-    // void InitUI()
-    // {
-    //     for (int i = 0; i < Screen.resolutions.Length; i++)
-    //     {
-    //         if (Screen.resolutions[i].refreshRateRatio.value == 60)
-    //         {
-    //             resolutions.Add(Screen.resolutions[i]);
-    //         }
-    //     }
-    //     resolutionDropDown.options.Clear();
-    //
-    //     int optionNum = 0;
-    //     foreach (Resolution item in resolutions)
-    //     {
-    //         TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData();
-    //         option.text = item.width + "x" + item.height + " " + item.refreshRateRatio.value + "hz"; // 너비, 높이, 주사율
-    //         resolutionDropDown.options.Add(option);
-    //
-    //         if (item.width == Screen.width && item.height == Screen.height)
-    //             resolutionDropDown.value = optionNum;
-    //         optionNum++;
-    //
-    //         Debug.Log(item.width + "x" + item.height + " ");
-    //     }
-    //
-    //     resolutionDropDown.RefreshShownValue();
-    //
-    //     fullScreenBtn.isOn = Screen.fullScreenMode.Equals(FullScreenMode.FullScreenWindow) ? true : false; 
-    // }
-
+    /// <summary>
+    /// 드롭다운 변경 시 인덱스 저장
+    /// </summary>
+    /// <param name="x"></param>
     public void DropboxOptionChange(int x)
     {
         resolutionNum = x;
+        Debug.Log($"해상도 선택: {resolutions[x].width}x{resolutions[x].height}");
     }
 
+    /// <summary>
+    /// 전체화면 설정값 변경
+    /// </summary>
+    /// <param name="isFull"></param>
     public void FullScreenBtn(bool isFull)
     {
         fullScreenMode = isFull ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
-        
-        // fullScreenMode = isFull ? FullScreenMode.FullScreenWindow : FullScreenMode.FullScreenWindow;
+        Debug.Log($"전체화면 모드 변경됨: {fullScreenMode}");
     }
 
+    
+    // 적용 버튼 클릭 시 해상도 및 전체화면 적용
     public void CheckBtnClick()
     {
-        Screen.SetResolution(resolutions[resolutionNum].width, resolutions[resolutionNum].height,fullScreenMode);
+        var selectedRes = resolutions[resolutionNum];
+        Screen.SetResolution(selectedRes.width, selectedRes.height, fullScreenMode);
+        Debug.Log($"해상도 적용됨: {selectedRes.width}x{selectedRes.height}, 모드: {fullScreenMode}");
+        
+        // InitUI(); // 해상도 바뀐 후 상태 다시 반영
+        
     }
 }
