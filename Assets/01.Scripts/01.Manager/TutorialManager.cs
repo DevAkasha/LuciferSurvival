@@ -4,16 +4,16 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ResetPlayerPrefs : MonoBehaviour
-{
-    // 임시로 초기화용, window 들어가셔서 초기화 버튼 누르시면 다시 뜹니다
-    [MenuItem("Window/PlayerPrefs 초기화")]
-    private static void ResetPrefs()
-    {
-        PlayerPrefs.DeleteAll();
-        Debug.Log("PlayerPrefs has been reset.");
-    }
-}
+// public class ResetPlayerPrefs : MonoBehaviour
+// {
+//     // 임시로 초기화용, window 들어가셔서 초기화 버튼 누르시면 다시 뜹니다
+//     [MenuItem("Window/PlayerPrefs 초기화")]
+//     private static void ResetPrefs()
+//     {
+//         PlayerPrefs.DeleteAll();
+//         Debug.Log("PlayerPrefs has been reset.");
+//     }
+// }
 
 public class TutorialManager : Singleton<TutorialManager>
 {
