@@ -27,6 +27,7 @@
 - 컨셉 : #3D #캐주얼한 그래픽 #서브컬쳐 #오컬트
 - 플랫폼 : 크로스플렛폼 (PC)
 - 멤버 : 류영재, 허민영, 박성주, 임지환, 류은지
+- 시연영상 링크 : https://youtu.be/bNhzaPrOtWU
 
 | 류영재 | 허민영 | 박성주 | 임지환 | 류은지 |
 | --- | --- | --- | --- | --- |
@@ -41,7 +42,6 @@ https://github.com/DevAkasha/LuciferSurvival
 
 ---
 
-https://youtu.be/bNhzaPrOtWU
 
 ![image](https://github.com/user-attachments/assets/ea165074-5138-4efb-be22-0fbffd1455f9)
 
